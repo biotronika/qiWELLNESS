@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <grid version="3">
+    <saveoptions create="False" position="False" content="True"/>
+    <content>
+      <cells cellcount="28">
+        <cell1 column="0" row="0" text="Point"/>
+        <cell2 column="0" row="1" text="H1"/>
+        <cell3 column="0" row="2" text="H2"/>
+        <cell4 column="0" row="3" text="H3"/>
+        <cell5 column="0" row="4" text="H4"/>
+        <cell6 column="0" row="5" text="H5"/>
+        <cell7 column="0" row="6" text="H6"/>
+        <cell8 column="0" row="7" text="F1"/>
+        <cell9 column="0" row="8" text="F2"/>
+        <cell10 column="0" row="9" text="F3"/>
+        <cell11 column="0" row="10" text="F4"/>
+        <cell12 column="0" row="11" text="F5"/>
+        <cell13 column="0" row="12" text="F6"/>
+        <cell14 column="1" row="0" text="Description"/>
+        <cell15 column="1" row="1" text="Lung"/>
+        <cell16 column="1" row="2" text="Heart Constrictor"/>
+        <cell17 column="1" row="3" text="Heart"/>
+        <cell18 column="1" row="4" text="Small Intestine"/>
+        <cell19 column="1" row="5" text="Triple Heater"/>
+        <cell20 column="1" row="6" text="Large Intestine"/>
+        <cell21 column="1" row="7" text="Spleen Pancreas"/>
+        <cell22 column="1" row="8" text="Liver"/>
+        <cell23 column="1" row="9" text="Kidney"/>
+        <cell24 column="1" row="10" text="Bladder"/>
+        <cell25 column="1" row="11" text="Gall Bladder"/>
+        <cell26 column="1" row="12" text="Stomach"/>
+        <cell27 column="2" row="0" text="Left"/>
+        <cell28 column="3" row="0" text="Right"/>
+      </cells>
+    </content>
+  </grid>
+</CONFIG>

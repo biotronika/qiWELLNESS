@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <grid version="3">
+    <saveoptions create="False" position="False" content="True"/>
+    <content>
+      <cells cellcount="31">
+        <cell1 column="0" row="1" text="Name"/>
+        <cell2 column="0" row="2" text="Meridian"/>
+        <cell3 column="0" row="3" text="Stim"/>
+        <cell4 column="0" row="4" text="Sed"/>
+        <cell5 column="1" row="0" text="LU 9"/>
+        <cell6 column="1" row="2" text="Lung"/>
+        <cell7 column="2" row="0" text="PC 7"/>
+        <cell8 column="2" row="2" text="Pericardium"/>
+        <cell9 column="3" row="0" text="HT 7"/>
+        <cell10 column="3" row="2" text="Heart"/>
+        <cell11 column="4" row="0" text="LI 5"/>
+        <cell12 column="4" row="1" text="Yangxi"/>
+        <cell13 column="4" row="2" text="Large Intestine"/>
+        <cell14 column="5" row="0" text="TE 4"/>
+        <cell15 column="5" row="1" text="Yangchi"/>
+        <cell16 column="5" row="2" text="Triple Energizer"/>
+        <cell17 column="6" row="0" text="SI 4"/>
+        <cell18 column="6" row="1" text="Wangu"/>
+        <cell19 column="6" row="2" text="Small Intestine"/>
+        <cell20 column="7" row="0" text="SP 3"/>
+        <cell21 column="7" row="2" text="Spleen"/>
+        <cell22 column="8" row="0" text="LV3"/>
+        <cell23 column="8" row="2" text="Liver"/>
+        <cell24 column="9" row="0" text="KD 3"/>
+        <cell25 column="9" row="2" text="Kidney"/>
+        <cell26 column="10" row="0" text="BL 65"/>
+        <cell27 column="10" row="2" text="Bladder"/>
+        <cell28 column="11" row="0" text="GB 40"/>
+        <cell29 column="11" row="2" text="Gallbladder"/>
+        <cell30 column="12" row="0" text="ST 42"/>
+        <cell31 column="12" row="2" text="Stomach"/>
+      </cells>
+    </content>
+  </grid>
+</CONFIG>
