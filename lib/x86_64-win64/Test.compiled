@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CONFIG>
-  <Compiler Value="C:\lazarus\fpc\3.0.4\bin\x86_64-win64\fpc.exe" Date="1313017496"/>
-  <Params Value=" -MObjFPC -Scghi -O1 -g -gl -WG -l -vewnhibq -Fi\\dom.czoba.com\DavWWWRoot\biotronika\Programy\miniVOLL\qiDIAG\lib\x86_64-win64 -FuC:\lazarus\components\tachart\lib\x86_64-win64\win32 -FuC:\lazarus\components\ideintf\units\x86_64-win64\win32 -FuC:\lazarus\components\synedit\units\x86_64-win64\win32 -FuC:\lazarus\components\lazcontrols\lib\x86_64-win64\win32 -FuC:\lazarus\lcl\units\x86_64-win64\win32 -FuC:\lazarus\lcl\units\x86_64-win64 -FuC:\lazarus\components\lazutils\lib\x86_64-win64 -FuC:\Users\kczoba\Documents\Lazarus\LazGitPkg\lib\x86_64-win64 -FuC:\lazarus\packager\units\x86_64-win64 -Fu\\dom.czoba.com\DavWWWRoot\biotronika\Programy\miniVOLL\qiDIAG\ -FU\\dom.czoba.com\DavWWWRoot\biotronika\Programy\miniVOLL\qiDIAG\lib\x86_64-win64\ -FE\\dom.czoba.com\DavWWWRoot\biotronika\Programy\miniVOLL\qiDIAG\ -o\\dom.czoba.com\DavWWWRoot\biotronika\Programy\miniVOLL\qiDIAG\Test.exe -dLCL -dLCLwin32 Test.lpr"/>
-</CONFIG>
