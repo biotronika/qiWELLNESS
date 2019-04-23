@@ -180,6 +180,7 @@ begin
 
   if cboxSeries.Items.Count<FSeriesCount then begin
     if FCurrentPointName='' then begin
+       FCurrentPointName:='New '+cboxSeries.Items.Count;
        repeat
              s := InputBox('Active Point', 'Name of active point?', FCurrentPointName);
        until s <> '';
@@ -194,11 +195,14 @@ begin
     with seriesArray[i] do begin
        SeriesColor:=clGray;
        LinePen.Color:=clGray;
-       LinePen.Style:=psDash;
+       LinePen.Style:=ChartComboBox1.PenStyle;
        LinePen.Width:=3;
        ListSource.CopyFrom(chartMainCurrentLineSeries.Source);
        Title:=s;
     end;
+
+    chartMainCurrentLineSeries.Clear;
+
     if chartIndex<>-1 then begin
 
 //TODO: Calculate current equivalent  - check!
@@ -223,7 +227,7 @@ procedure TForm1.cboxSeriesChange(Sender: TObject);
 var i:integer;
 begin
    for i:=1 to High(seriesArray) do begin
-       seriesArray[i].LinePen.Style:=psDash;
+       //seriesArray[i].LinePen.Style:=psDash;
        if seriesArray[i].Title ='' then
           seriesArray[i].SeriesColor:=clWhite
        else
@@ -232,7 +236,7 @@ begin
 
    if cboxSeries.ItemIndex>0 then
       with seriesArray[cboxSeries.ItemIndex] do begin
-           LinePen.Style:=psSolid;
+           //LinePen.Style:=psSolid;
            SeriesColor:=clBlue;
       end;
 
@@ -240,7 +244,7 @@ end;
 
 procedure TForm1.ChartComboBox1Change(Sender: TObject);
 begin
-  mySeries.LinePen.Style:=ChartComboBox1.Style;
+
 end;
 
 
@@ -285,20 +289,35 @@ procedure TForm1.serialRxData(Sender: TObject);
 var s: string;
 
 begin
-  //Read data from serial port
-  step:=step+1;
+//Read data from serial port
   s:= serial.ReadData;
 
-  //ss:=IntToStr(step) + ': ' + s;
   memoConsole.Lines.Add(s);
 
-  if (s=':start') or (s= ':button') then begin
+  if (s= ':btn') and (step>0) then begin
+    // Save series
+
+    Form1.btnSaveAs.SetFocus;
+    Form1.btnSaveAsClick (Sender);
     mySeries.Clear;
     mySeries.AddXY( 0,0 );
     step:=0;
-  end else begin
+
+  end else if (s=':start') then begin
+    // Clear series
+
+    mySeries.Clear;
+    mySeries.AddXY( 0,0 );
+    step:=0;
+
+  end else if (s<>':btn') then begin
+    // Add to existing series new point
+
     mySeries.AddXY( step * MINIVOLL_READ_VALUE_PERIOD ,StrToIntDef(s,0)/10.0  );
+    step:=step+1;
+
   end;
+
 
 end;
 

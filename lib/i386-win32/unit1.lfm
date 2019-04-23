@@ -2,10 +2,10 @@ object Form1: TForm1
   Left = 413
   Height = 661
   Top = 175
-  Width = 1273
+  Width = 1259
   Caption = 'qiWELLNESS'
   ClientHeight = 661
-  ClientWidth = 1273
+  ClientWidth = 1259
   DefaultMonitor = dmMainForm
   OnCreate = FormCreate
   Position = poScreenCenter
@@ -14,16 +14,16 @@ object Form1: TForm1
     Left = 0
     Height = 661
     Top = 0
-    Width = 624
+    Width = 610
     Align = alClient
     ClientHeight = 661
-    ClientWidth = 624
+    ClientWidth = 610
     TabOrder = 0
     object chartMain: TChart
-      Left = 1
+      Left = 90
       Height = 460
       Top = 177
-      Width = 533
+      Width = 519
       AxisList = <      
         item
           Marks.LabelBrush.Style = bsClear
@@ -66,14 +66,14 @@ object Form1: TForm1
       Left = 1
       Height = 40
       Top = 137
-      Width = 622
+      Width = 608
       Align = alTop
       ClientHeight = 40
-      ClientWidth = 622
+      ClientWidth = 608
       TabOrder = 1
       object btnConnect: TButton
-        Left = 16
-        Height = 24
+        Left = 472
+        Height = 25
         Top = 8
         Width = 78
         Caption = 'Connect'
@@ -81,16 +81,16 @@ object Form1: TForm1
         TabOrder = 0
       end
       object btnDeleteAll: TButton
-        Left = 520
+        Left = 275
         Height = 25
         Top = 8
         Width = 75
-        Caption = 'btnDeleteAll'
+        Caption = 'Delete all'
         OnClick = btnDeleteAllClick
         TabOrder = 1
       end
       object btnReset: TButton
-        Left = 98
+        Left = 554
         Height = 25
         Top = 8
         Width = 40
@@ -99,10 +99,10 @@ object Form1: TForm1
         TabOrder = 2
       end
       object cboxSeries: TComboBox
-        Left = 240
+        Left = 8
         Height = 23
-        Top = 11
-        Width = 104
+        Top = 9
+        Width = 96
         ItemHeight = 15
         ItemIndex = 0
         Items.Strings = (
@@ -113,20 +113,20 @@ object Form1: TForm1
         Text = 'Working'
       end
       object btnSaveAs: TButton
-        Left = 360
+        Left = 115
         Height = 25
         Top = 8
         Width = 75
-        Caption = 'btnSaveAs'
+        Caption = 'Save'
         OnClick = btnSaveAsClick
         TabOrder = 4
       end
       object btnDelete: TButton
-        Left = 440
+        Left = 195
         Height = 25
-        Top = 9
+        Top = 8
         Width = 75
-        Caption = 'btnDelete'
+        Caption = 'Delete'
         OnClick = btnDeleteClick
         TabOrder = 5
       end
@@ -135,16 +135,16 @@ object Form1: TForm1
       Left = 1
       Height = 136
       Top = 1
-      Width = 622
+      Width = 608
       Align = alTop
       ClientHeight = 136
-      ClientWidth = 622
+      ClientWidth = 608
       TabOrder = 2
       object Image4: TImage
         Left = 1
         Height = 134
         Top = 1
-        Width = 620
+        Width = 606
         Align = alClient
         Picture.Data = {
           1754506F727461626C654E6574776F726B477261706869635C34000089504E47
@@ -574,20 +574,32 @@ object Form1: TForm1
       Left = 1
       Height = 23
       Top = 637
-      Width = 622
+      Width = 608
       Panels = <>
     end
     object ChartLegendPanel1: TChartLegendPanel
-      Left = 534
+      Left = 1
       Height = 460
       Top = 177
       Width = 89
       Chart = chartMain
-      Align = alRight
+      Align = alLeft
+    end
+    object ChartComboBox1: TChartComboBox
+      Left = 121
+      Height = 22
+      Top = 188
+      Width = 137
+      PenPattern = '1|1'
+      PointerStyle = psNone
+      ItemHeight = 16
+      ItemIndex = 0
+      TabOrder = 5
+      OnChange = ChartComboBox1Change
     end
   end
   object panelRight: TPanel
-    Left = 624
+    Left = 610
     Height = 661
     Top = 0
     Width = 649
@@ -601,18 +613,7 @@ object Form1: TForm1
       Top = 625
       Width = 647
       Align = alBottom
-      ClientHeight = 35
-      ClientWidth = 647
       TabOrder = 0
-      object Button1: TButton
-        Left = 312
-        Height = 25
-        Top = 0
-        Width = 75
-        Caption = 'Button1'
-        OnClick = Button1Click
-        TabOrder = 0
-      end
     end
     object pageRight: TPageControl
       Left = 1
@@ -625,13 +626,13 @@ object Form1: TForm1
       TabOrder = 1
       object tabConsole: TTabSheet
         Caption = 'Console'
-        ClientHeight = 597
-        ClientWidth = 416
+        ClientHeight = 596
+        ClientWidth = 639
         object memoConsole: TMemo
           Left = 0
-          Height = 597
+          Height = 596
           Top = 0
-          Width = 416
+          Width = 639
           Align = alClient
           Color = clBlack
           Font.CharSet = EASTEUROPE_CHARSET
@@ -680,7 +681,6 @@ object Form1: TForm1
           TitleFont.Pitch = fpVariable
           TitleFont.Quality = fqDraft
           TitleFont.Style = [fsBold]
-          OnColRowDeleted = gridRyodorakuColRowDeleted
           OnSelectCell = gridRyodorakuSelectCell
           ColWidths = (
             42
@@ -698,10 +698,10 @@ object Form1: TForm1
             51
           )
           Cells = (
-            56
+            64
             0
             1
-            'Name'
+            'Point name'
             0
             2
             'Meridian'
@@ -715,6 +715,9 @@ object Form1: TForm1
             0
             'LU 9'
             1
+            1
+            'Taiyuan'
+            1
             2
             'Lung'
             1
@@ -727,6 +730,9 @@ object Form1: TForm1
             0
             'PC 7'
             2
+            1
+            'Daling'
+            2
             2
             'Pericardium'
             2
@@ -738,6 +744,9 @@ object Form1: TForm1
             3
             0
             'HT 7'
+            3
+            1
+            #10'Shenmen'
             3
             2
             'Heart'
@@ -797,7 +806,7 @@ object Form1: TForm1
             'SP 3'
             7
             1
-            ' '
+            'Taibai'
             7
             2
             'Spleen'
@@ -811,6 +820,9 @@ object Form1: TForm1
             0
             'LV3'
             8
+            1
+            'Taichong'
+            8
             2
             'Liver'
             8
@@ -822,6 +834,9 @@ object Form1: TForm1
             9
             0
             'KD 3'
+            9
+            1
+            'Taixi'
             9
             2
             'Kidney'
@@ -835,6 +850,9 @@ object Form1: TForm1
             0
             'BL 65'
             10
+            1
+            'Shugu'
+            10
             2
             'Bladder'
             10
@@ -847,6 +865,9 @@ object Form1: TForm1
             0
             'GB 40'
             11
+            1
+            'Qiuxu'
+            11
             2
             'Gallbladder'
             11
@@ -858,6 +879,9 @@ object Form1: TForm1
             12
             0
             'ST 42'
+            12
+            1
+            'Chongyang'
             12
             2
             'Stomach'
@@ -874,9 +898,9 @@ object Form1: TForm1
           Height = 456
           Top = 0
           Width = 639
-          ActivePage = Hand
+          ActivePage = TabSheet3
           Align = alTop
-          TabIndex = 0
+          TabIndex = 2
           TabOrder = 1
           TabPosition = tpBottom
           object Hand: TTabSheet
@@ -3339,13 +3363,28 @@ object Form1: TForm1
             Width = 117
             AutoSize = False
             Caption = 'Right'
-            OnChange = rbRyodorakuRightChange
             TabOrder = 1
           end
         end
       end
       object tabEAV: TTabSheet
         Caption = 'EAV'
+        ClientHeight = 596
+        ClientWidth = 639
+        object TabControl1: TTabControl
+          Left = 0
+          Height = 384
+          Top = 0
+          Width = 639
+          TabPosition = tpBottom
+          TabIndex = 0
+          Tabs.Strings = (
+            'New Tab'
+            'New Tab1'
+          )
+          Align = alTop
+          TabOrder = 0
+        end
       end
       object tabVegatest: TTabSheet
         Caption = 'Vegatest'
@@ -6759,8 +6798,8 @@ object Form1: TForm1
     RcvLineCRLF = True
     OnRxData = serialRxData
     OnStatus = serialStatus
-    left = 536
-    top = 208
+    left = 472
+    top = 192
   end
   object ryodorakuSource: TListChartSource
     DataPoints.Strings = (
@@ -6789,7 +6828,7 @@ object Form1: TForm1
       '23|0|?|'
       '24|0|?|'
     )
-    left = 864
-    top = 168
+    left = 536
+    top = 192
   end
 end
