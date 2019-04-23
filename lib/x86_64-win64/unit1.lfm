@@ -589,13 +589,12 @@ object Form1: TForm1
       Left = 8
       Height = 24
       Top = 216
-      Width = 80
+      Width = 100
       PenPattern = '1|1'
       PointerStyle = psNone
       ItemHeight = 16
       ItemIndex = 0
       TabOrder = 5
-      OnChange = ChartComboBox1Change
     end
   end
   object panelRight: TPanel
