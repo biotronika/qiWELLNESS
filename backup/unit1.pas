@@ -19,6 +19,7 @@ type
     btnReset: TButton;
     btnSaveAs: TButton;
     btnDelete: TButton;
+    btnNewGroup: TButton;
     Chart1: TChart;
     ChartComboBox1: TChartComboBox;
     chartRyodorakuSeries: TBarSeries;
@@ -26,12 +27,14 @@ type
     chartMain: TChart;
     chartMainCurrentLineSeries: TLineSeries;
     cboxSeries: TComboBox;
+    CheckListBox1: TCheckListBox;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
     Image4: TImage;
     Image5: TImage;
     Image6: TImage;
+    Panel5: TPanel;
     ryodorakuSource: TListChartSource;
     memoConsole: TMemo;
     PageControl1: TPageControl;
@@ -51,6 +54,7 @@ type
     gridRyodoraku: TStringGrid;
     tabConsole: TTabSheet;
     TabControl1: TTabControl;
+    TabControl2: TTabControl;
     tabRyodoraku: TTabSheet;
     tabEAV: TTabSheet;
     tabElectropunture: TTabSheet;
@@ -61,8 +65,10 @@ type
     TabSheet3: TTabSheet;
     TabSheet4: TTabSheet;
     tabVegatest: TTabSheet;
+    treeviewSelector: TTreeView;
     procedure btnDeleteAllClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
+    procedure btnNewGroupClick(Sender: TObject);
     procedure btnResetClick(Sender: TObject);
     procedure btnConnectClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
@@ -74,6 +80,7 @@ type
     procedure serialRxData(Sender: TObject);
     procedure serialStatus(Sender: TObject; Reason: THookSerialReason;
     const Value: string);
+    procedure TabControl2Change(Sender: TObject);
 
   private
     const  FSeriesCount =30;
@@ -145,6 +152,11 @@ begin
 
 end;
 
+procedure TForm1.btnNewGroupClick(Sender: TObject);
+begin
+  treeviewSelector.Items.A;
+end;
+
 procedure TForm1.btnResetClick(Sender: TObject);
 begin
   memoConsole.Lines.Clear;
@@ -180,7 +192,7 @@ begin
 
   if cboxSeries.Items.Count<FSeriesCount then begin
     if FCurrentPointName='' then begin
-       FCurrentPointName:='New '+cboxSeries.Items.Count;
+       FCurrentPointName:='New '+ IntToStr(cboxSeries.Items.Count);
        repeat
              s := InputBox('Active Point', 'Name of active point?', FCurrentPointName);
        until s <> '';
@@ -325,6 +337,11 @@ procedure TForm1.serialStatus(Sender: TObject; Reason: THookSerialReason;
   const Value: string);
 begin
   statusBar.SimpleText:='Serial status: '+Value;
+end;
+
+procedure TForm1.TabControl2Change(Sender: TObject);
+begin
+
 end;
 
 

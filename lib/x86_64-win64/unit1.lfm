@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 413
+  Left = 361
   Height = 661
-  Top = 175
+  Top = 158
   Width = 1259
   Caption = 'qiWELLNESS'
   ClientHeight = 661
@@ -586,15 +586,16 @@ object Form1: TForm1
       Align = alLeft
     end
     object ChartComboBox1: TChartComboBox
-      Left = 8
-      Height = 24
-      Top = 216
-      Width = 100
+      Left = 121
+      Height = 22
+      Top = 188
+      Width = 137
       PenPattern = '1|1'
       PointerStyle = psNone
       ItemHeight = 16
       ItemIndex = 0
       TabOrder = 5
+      OnChange = ChartComboBox1Change
     end
   end
   object panelRight: TPanel
@@ -619,9 +620,9 @@ object Form1: TForm1
       Height = 624
       Top = 1
       Width = 647
-      ActivePage = tabRyodoraku
+      ActivePage = tabVegatest
       Align = alClient
-      TabIndex = 1
+      TabIndex = 3
       TabOrder = 1
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -3387,6 +3388,52 @@ object Form1: TForm1
       end
       object tabVegatest: TTabSheet
         Caption = 'Vegatest'
+        ClientHeight = 596
+        ClientWidth = 639
+        object TabControl2: TTabControl
+          Left = 0
+          Height = 512
+          Top = 0
+          Width = 639
+          OnChange = TabControl2Change
+          TabPosition = tpBottom
+          TabIndex = 0
+          Tabs.Strings = (
+            'Selectror'
+          )
+          Align = alTop
+          TabOrder = 0
+          object CheckListBox1: TCheckListBox
+            Left = 400
+            Height = 487
+            Top = 2
+            Width = 237
+            Align = alRight
+            Items.Strings = (
+              'Option 1'
+              'Option 2'
+              'Option 3'
+            )
+            ItemHeight = 17
+            TabOrder = 1
+            Data = {
+              03000000000000
+            }
+          end
+          object TreeView1: TTreeView
+            Left = 2
+            Height = 487
+            Top = 2
+            Width = 398
+            Align = alClient
+            TabOrder = 2
+            Items.Data = {
+              F9FFFFFF020001000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF010000000000
+              000001070000004E6F736F646573FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
+              000000000000001300000048656C69636F6261637465722D70796C6F7269
+            }
+          end
+        end
       end
       object tabElectropunture: TTabSheet
         Caption = 'Electropunture'
