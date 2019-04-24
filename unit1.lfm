@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 361
+  Left = 442
   Height = 661
-  Top = 158
+  Top = 243
   Width = 1259
   Caption = 'qiWELLNESS'
   ClientHeight = 661
@@ -620,9 +620,9 @@ object Form1: TForm1
       Height = 624
       Top = 1
       Width = 647
-      ActivePage = tabVegatest
+      ActivePage = tabRyodoraku
       Align = alClient
-      TabIndex = 3
+      TabIndex = 1
       TabOrder = 1
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -3299,7 +3299,7 @@ object Form1: TForm1
                   Intervals.NiceSteps = '5|10'
                   Marks.LabelBrush.Style = bsClear
                   Minors = <>
-                  Range.Max = 200
+                  Range.Max = 160
                   Range.UseMax = True
                   Range.UseMin = True
                   Title.LabelFont.Orientation = 900
@@ -3325,6 +3325,11 @@ object Form1: TForm1
               object chartRyodorakuSeries: TBarSeries
                 BarBrush.Color = clRed
                 Source = ryodorakuSource
+              end
+              object Chart1LineSeries1: TLineSeries
+                LinePen.Color = clGreen
+                LinePen.Width = 3
+                Source = ListChartSource1
               end
             end
             object Panel4: TPanel
@@ -6896,5 +6901,13 @@ object Form1: TForm1
     )
     left = 536
     top = 192
+  end
+  object ListChartSource1: TListChartSource
+    DataPoints.Strings = (
+      '1|65|$00FF00|'
+      '24|65|$00FF00|'
+    )
+    left = 536
+    top = 259
   end
 end

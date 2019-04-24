@@ -21,6 +21,7 @@ type
     btnDelete: TButton;
     btnNewGroup: TButton;
     Chart1: TChart;
+    Chart1LineSeries1: TLineSeries;
     ChartComboBox1: TChartComboBox;
     chartRyodorakuSeries: TBarSeries;
     ChartLegendPanel1: TChartLegendPanel;
@@ -34,6 +35,7 @@ type
     Image4: TImage;
     Image5: TImage;
     Image6: TImage;
+    ListChartSource1: TListChartSource;
     Panel5: TPanel;
     ryodorakuSource: TListChartSource;
     memoConsole: TMemo;
@@ -154,7 +156,7 @@ end;
 
 procedure TForm1.btnNewGroupClick(Sender: TObject);
 begin
-  treeviewSelector.Items.A;
+  //treeviewSelector.Items.A;
 end;
 
 procedure TForm1.btnResetClick(Sender: TObject);

@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 413
+  Left = 442
   Height = 661
-  Top = 175
+  Top = 243
   Width = 1259
   Caption = 'qiWELLNESS'
   ClientHeight = 661
@@ -3299,7 +3299,7 @@ object Form1: TForm1
                   Intervals.NiceSteps = '5|10'
                   Marks.LabelBrush.Style = bsClear
                   Minors = <>
-                  Range.Max = 200
+                  Range.Max = 160
                   Range.UseMax = True
                   Range.UseMin = True
                   Title.LabelFont.Orientation = 900
@@ -3325,6 +3325,11 @@ object Form1: TForm1
               object chartRyodorakuSeries: TBarSeries
                 BarBrush.Color = clRed
                 Source = ryodorakuSource
+              end
+              object Chart1LineSeries1: TLineSeries
+                LinePen.Color = clGreen
+                LinePen.Width = 3
+                Source = ListChartSource1
               end
             end
             object Panel4: TPanel
@@ -3388,6 +3393,72 @@ object Form1: TForm1
       end
       object tabVegatest: TTabSheet
         Caption = 'Vegatest'
+        ClientHeight = 596
+        ClientWidth = 639
+        object TabControl2: TTabControl
+          Left = 0
+          Height = 512
+          Top = 0
+          Width = 639
+          OnChange = TabControl2Change
+          TabPosition = tpBottom
+          TabIndex = 0
+          Tabs.Strings = (
+            'Selectror'
+          )
+          Align = alTop
+          TabOrder = 0
+          object CheckListBox1: TCheckListBox
+            Left = 400
+            Height = 446
+            Top = 2
+            Width = 237
+            Align = alRight
+            Items.Strings = (
+              'Option 1'
+              'Option 2'
+              'Option 3'
+            )
+            ItemHeight = 17
+            TabOrder = 1
+            Data = {
+              03000000000000
+            }
+          end
+          object treeviewSelector: TTreeView
+            Left = 2
+            Height = 446
+            Top = 2
+            Width = 398
+            Align = alClient
+            TabOrder = 2
+            Items.Data = {
+              F9FFFFFF020001000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF010000000000
+              000001070000004E6F736F646573FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
+              000000000000001300000048656C69636F6261637465722D70796C6F7269
+            }
+          end
+          object Panel5: TPanel
+            Left = 2
+            Height = 41
+            Top = 448
+            Width = 635
+            Align = alBottom
+            Caption = 'Panel5'
+            ClientHeight = 41
+            ClientWidth = 635
+            TabOrder = 3
+            object btnNewGroup: TButton
+              Left = 8
+              Height = 25
+              Top = 8
+              Width = 75
+              Caption = 'btnNewGroup'
+              OnClick = btnNewGroupClick
+              TabOrder = 0
+            end
+          end
+        end
       end
       object tabElectropunture: TTabSheet
         Caption = 'Electropunture'
@@ -6830,5 +6901,13 @@ object Form1: TForm1
     )
     left = 536
     top = 192
+  end
+  object ListChartSource1: TListChartSource
+    DataPoints.Strings = (
+      '1|65|$00FF00|'
+      '24|65|$00FF00|'
+    )
+    left = 536
+    top = 259
   end
 end
