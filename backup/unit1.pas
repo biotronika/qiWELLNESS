@@ -19,7 +19,10 @@ type
     btnReset: TButton;
     btnSaveAs: TButton;
     btnDelete: TButton;
-    btnNewGroup: TButton;
+    btnVegatestDelete: TButton;
+    btnVegatestNew: TButton;
+    btnVegatestNewGroup: TButton;
+    btnVegatestSave: TButton;
     Chart1: TChart;
     Chart1LineSeries1: TLineSeries;
     ChartComboBox1: TChartComboBox;
@@ -28,7 +31,7 @@ type
     chartMain: TChart;
     chartMainCurrentLineSeries: TLineSeries;
     cboxSeries: TComboBox;
-    CheckListBox1: TCheckListBox;
+    cbVegatestOn: TCheckBox;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -36,7 +39,8 @@ type
     Image5: TImage;
     Image6: TImage;
     ListChartSource1: TListChartSource;
-    Panel5: TPanel;
+    Panel6: TPanel;
+    Panel7: TPanel;
     ryodorakuSource: TListChartSource;
     memoConsole: TMemo;
     PageControl1: TPageControl;
@@ -56,7 +60,6 @@ type
     gridRyodoraku: TStringGrid;
     tabConsole: TTabSheet;
     TabControl1: TTabControl;
-    TabControl2: TTabControl;
     tabRyodoraku: TTabSheet;
     tabEAV: TTabSheet;
     tabElectropunture: TTabSheet;
@@ -70,19 +73,24 @@ type
     treeviewSelector: TTreeView;
     procedure btnDeleteAllClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
-    procedure btnNewGroupClick(Sender: TObject);
+    procedure btnVegatestDeleteClick(Sender: TObject);
+    procedure btnVegatestNewClick(Sender: TObject);
+    procedure btnVegatestNewGroupClick(Sender: TObject);
     procedure btnResetClick(Sender: TObject);
     procedure btnConnectClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
+    procedure btnVegatestSaveClick(Sender: TObject);
     procedure cboxSeriesChange(Sender: TObject);
     procedure ChartComboBox1Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
+    procedure pageRightChange(Sender: TObject);
     procedure serialRxData(Sender: TObject);
     procedure serialStatus(Sender: TObject; Reason: THookSerialReason;
     const Value: string);
-    procedure TabControl2Change(Sender: TObject);
+    procedure tabVegatestShow(Sender: TObject);
 
   private
     const  FSeriesCount =30;
@@ -154,9 +162,46 @@ begin
 
 end;
 
-procedure TForm1.btnNewGroupClick(Sender: TObject);
+procedure TForm1.btnVegatestDeleteClick(Sender: TObject);
+
+    //Procedure to recursively delete nodes
+    procedure DeleteNode(Node:TTreeNode);
+    begin
+         while Node.HasChildren do
+               DeleteNode(node.GetLastChild);
+         treeviewSelector.Items.Delete(Node) ;
+    end;
+
 begin
-  //treeviewSelector.Items.A;
+     if treeviewSelector.Selected = nil then  exit;
+
+     //If selected node has child nodes, first ask for confirmation
+     if treeviewSelector.Selected.HasChildren then
+        if messagedlg( 'Delete selected group and all children?',mtConfirmation, [mbYes,mbNo],0 ) <> mrYes then
+           exit;
+        DeleteNode(treeviewSelector.Selected);
+end;
+
+procedure TForm1.btnVegatestNewClick(Sender: TObject);
+var
+  i: integer;
+  s: string;
+begin
+  // Set up a simple text for each new node - Node1 , Node2 etc
+  i := treeviewSelector.Items.Count;
+  s := 'New ' + inttostr(i);
+  //Add a new node to the currently selected node
+  if treeviewSelector.Selected <> nil then begin
+    treeviewSelector.Items.AddChild(treeviewSelector.Selected ,s);
+    treeviewSelector.Selected.Expand(true);
+  end;
+
+end;
+
+
+procedure TForm1.btnVegatestNewGroupClick(Sender: TObject);
+begin
+  treeviewSelector.Items.Add(nil,'New group');
 end;
 
 procedure TForm1.btnResetClick(Sender: TObject);
@@ -236,6 +281,13 @@ begin
   end;
 end;
 
+procedure TForm1.btnVegatestSaveClick(Sender: TObject);
+begin
+  //Showmessage();
+  treeviewSelector.SaveToFile(ExtractFilePath(Application.ExeName)+'selector.txt');
+  //ExtractFilePath(Application.ExeName)
+end;
+
 
 procedure TForm1.cboxSeriesChange(Sender: TObject);
 var i:integer;
@@ -278,6 +330,14 @@ begin
 
 end;
 
+procedure TForm1.FormShow(Sender: TObject);
+var s: string;
+begin
+  s:= ExtractFilePath(Application.ExeName)+'selector.txt';
+  if FileExists(s)then
+     treeviewSelector.LoadFromFile(s);
+end;
+
 
 procedure TForm1.gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
   var CanSelect: Boolean);
@@ -296,6 +356,11 @@ begin
         FRyodorakuChart+=1;
      end;
   end;
+
+end;
+
+procedure TForm1.pageRightChange(Sender: TObject);
+begin
 
 end;
 
@@ -341,9 +406,17 @@ begin
   statusBar.SimpleText:='Serial status: '+Value;
 end;
 
-procedure TForm1.TabControl2Change(Sender: TObject);
-begin
 
+procedure TForm1.tabVegatestShow(Sender: TObject);
+begin
+  cbVegatestOn.Checked:=true;
+  //TODO: send to miniVOLL commmand: vegatest
+  if serial.Active then begin
+    cbVegatestOn.Checked:=true;
+    serial.WriteData('vegatest'#13#10);
+  end else begin
+    cbVegatestOn.Checked:=false;
+  end;
 end;
 
 

@@ -1,0 +1,12 @@
+Nosodes
+	helicobacter pylori
+Acne
+	tuberculinum
+	bacillinum
+	psorinum
+Arthritis
+	streptococcinum
+	staphylococcinum
+	apis mellifica
+	variolinum
+	vaccinium
