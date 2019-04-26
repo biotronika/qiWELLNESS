@@ -11,9 +11,9 @@ uses
 
 type
 
-  { TForm1 }
+  { TfrmMain }
 
-  TForm1 = class(TForm)
+  TfrmMain = class(TForm)
     btnDeleteAll: TButton;
     btnConnect: TButton;
     btnReset: TButton;
@@ -23,21 +23,29 @@ type
     btnVegatestNew: TButton;
     btnVegatestNewGroup: TButton;
     btnVegatestSave: TButton;
+    cboxSeries: TComboBox;
+    cbRyodorakuOn: TCheckBox;
+    cbEAVOn: TCheckBox;
+    cbVegatestOn: TCheckBox;
     Chart1: TChart;
     Chart1LineSeries1: TLineSeries;
     ChartComboBox1: TChartComboBox;
-    chartRyodorakuSeries: TBarSeries;
     ChartLegendPanel1: TChartLegendPanel;
+    chartRyodorakuSeries: TBarSeries;
     chartMain: TChart;
     chartMainCurrentLineSeries: TLineSeries;
-    cboxSeries: TComboBox;
-    cbVegatestOn: TCheckBox;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
     Image4: TImage;
     Image5: TImage;
     Image6: TImage;
+    Panel1: TPanel;
+    Panel10: TPanel;
+    Panel11: TPanel;
+    Panel5: TPanel;
+    Panel8: TPanel;
+    Panel9: TPanel;
     ryodorakuNormalSource: TListChartSource;
     Panel6: TPanel;
     Panel7: TPanel;
@@ -46,7 +54,6 @@ type
     PageControl1: TPageControl;
     PageControl2: TPageControl;
     pageRight: TPageControl;
-    Panel1: TPanel;
     Panel3: TPanel;
     Panel4: TPanel;
     panelButtons: TPanel;
@@ -86,14 +93,17 @@ type
     procedure FormShow(Sender: TObject);
     procedure gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
-    procedure pageRightChange(Sender: TObject);
     procedure serialRxData(Sender: TObject);
     procedure serialStatus(Sender: TObject; Reason: THookSerialReason;
     const Value: string);
+    procedure tabEAVShow(Sender: TObject);
+
+    procedure tabRyodorakuShow(Sender: TObject);
     procedure tabVegatestShow(Sender: TObject);
+    procedure treeviewSelectorSelectionChanged(Sender: TObject);
 
   private
-    const  FSeriesCount =30;
+    const  MAX_SERIES_NUMBER =30;
            RYODORAKU_NORMAL_MIN = 75;
            RYODORAKU_NORMAL_MAX = 100;
            RYODORAKU_FACTOR = 1.54;
@@ -104,24 +114,24 @@ type
      FRyodorakuChart : integer;
      step : Cardinal;
      mySeries : TLineSeries;
-     seriesArray : array[1..FSeriesCount] of TLineSeries; //No dynamic array of all used series
+     seriesArray : array[1..MAX_SERIES_NUMBER] of TLineSeries; //No dynamic array of all used series
 
   public
 
   end;
 
 var
-  Form1: TForm1;
+  frmMain: TfrmMain;
 
 implementation
 uses Unit2;
 
 {$R *.lfm}
 
-{ TForm1 }
+{ TfrmMain }
 
 
-procedure TForm1.btnDeleteAllClick(Sender: TObject);
+procedure TfrmMain.btnDeleteAllClick(Sender: TObject);
 var i : integer;
 begin
    for i:=1 to High(seriesArray) do begin
@@ -134,7 +144,7 @@ begin
    chartMainCurrentLineSeries.Clear;
 end;
 
-procedure TForm1.btnDeleteClick(Sender: TObject);
+procedure TfrmMain.btnDeleteClick(Sender: TObject);
 var i,a : integer;
 begin
 
@@ -162,7 +172,7 @@ begin
 
 end;
 
-procedure TForm1.btnVegatestDeleteClick(Sender: TObject);
+procedure TfrmMain.btnVegatestDeleteClick(Sender: TObject);
 
     //Procedure to recursively delete nodes
     procedure DeleteNode(Node:TTreeNode);
@@ -182,7 +192,7 @@ begin
         DeleteNode(treeviewSelector.Selected);
 end;
 
-procedure TForm1.btnVegatestNewClick(Sender: TObject);
+procedure TfrmMain.btnVegatestNewClick(Sender: TObject);
 var
   i: integer;
   s: string;
@@ -199,12 +209,12 @@ begin
 end;
 
 
-procedure TForm1.btnVegatestNewGroupClick(Sender: TObject);
+procedure TfrmMain.btnVegatestNewGroupClick(Sender: TObject);
 begin
   treeviewSelector.Items.Add(nil,'New group');
 end;
 
-procedure TForm1.btnResetClick(Sender: TObject);
+procedure TfrmMain.btnResetClick(Sender: TObject);
 begin
   memoConsole.Lines.Clear;
 
@@ -219,7 +229,7 @@ begin
 
 end;
 
-procedure TForm1.btnConnectClick(Sender: TObject);
+procedure TfrmMain.btnConnectClick(Sender: TObject);
 begin
 
   serial.ShowSetupDialog;
@@ -229,7 +239,7 @@ begin
   step:=0;
 end;
 
-procedure TForm1.btnSaveAsClick(Sender: TObject);
+procedure TfrmMain.btnSaveAsClick(Sender: TObject);
 var s : string;
     i : integer;
     d : Double;
@@ -237,51 +247,70 @@ var s : string;
 begin
   chartIndex:=-1;
 
-  if cboxSeries.Items.Count<FSeriesCount then begin
-    if FCurrentPointName='' then begin
-       FCurrentPointName:='New '+ IntToStr(cboxSeries.Items.Count);
-       repeat
-             s := InputBox('Active Point', 'Name of active point?', FCurrentPointName);
-       until s <> '';
-    end else begin
-       s:=FCurrentPointName;
-       chartIndex := FRyodorakuChart;
-    end;
-    FCurrentPointName:='';
+  //Check numbers of seriers on chart
+  if cboxSeries.Items.Count>MAX_SERIES_NUMBER then exit;
 
-    i:= cboxSeries.Items.Add(s);
+  //Check if is set series name
+  if FCurrentPointName='' then begin
 
-    with seriesArray[i] do begin
-       SeriesColor:=clGray;
-       LinePen.Color:=clGray;
-       LinePen.Style:=ChartComboBox1.PenStyle;
-       LinePen.Width:=3;
-       ListSource.CopyFrom(chartMainCurrentLineSeries.Source);
-       Title:=s;
-    end;
+     //Auto name series
+     FCurrentPointName := 'New ' + IntToStr(cboxSeries.Items.Count);
+     repeat
+           s := InputBox('Active Point', 'Write name of chart.', FCurrentPointName);
+     until s <> '';
 
-    chartMainCurrentLineSeries.Clear;
+  end else begin
 
-    if chartIndex<>-1 then begin
+     s:=FCurrentPointName;
+
+     if cbRyodorakuOn.Checked then begin
+        chartIndex := FRyodorakuChart;
+     end;
+
+  end;
+
+  FCurrentPointName:='';
+
+
+  i:= cboxSeries.Items.Add(s);
+
+  with seriesArray[i] do begin
+     SeriesColor:=clGray;
+     LinePen.Color:=clGray;
+     LinePen.Style:=ChartComboBox1.PenStyle;
+     LinePen.Width:=3;
+     ListSource.CopyFrom(chartMainCurrentLineSeries.Source);
+     Title:=s;
+  end;
+
+  chartMainCurrentLineSeries.Clear;
+
+  if (chartIndex<>-1) and (cbRyodorakuOn.Checked) then begin
 
 //TODO: Calculate current equivalent  - check!
-      d:= seriesArray[i].MaxYValue * RYODORAKU_FACTOR;
+    d:= seriesArray[i].MaxYValue * RYODORAKU_FACTOR;
 
-      ryodorakuSource.SetYValue(chartIndex,d);
-      if d<RYODORAKU_NORMAL_MIN then begin
-         ryodorakuSource.SetColor(chartIndex,$800000);  //navy
-      end else if d>RYODORAKU_NORMAL_MAX then begin
-         ryodorakuSource.SetColor(chartIndex,$0000FF);  //red
-      end else begin
-         ryodorakuSource.SetColor(chartIndex,$008000);  //green
-      end;
+    ryodorakuSource.SetYValue(chartIndex,d);
+
+    if d<RYODORAKU_NORMAL_MIN then begin
+
+       ryodorakuSource.SetColor(chartIndex,$800000);  //navy
+
+    end else if d>RYODORAKU_NORMAL_MAX then begin
+
+       ryodorakuSource.SetColor(chartIndex,$0000FF);  //red
+
+    end else begin
+
+       ryodorakuSource.SetColor(chartIndex,$008000);  //green
 
     end;
 
   end;
+
 end;
 
-procedure TForm1.btnVegatestSaveClick(Sender: TObject);
+procedure TfrmMain.btnVegatestSaveClick(Sender: TObject);
 begin
   //Showmessage();
   treeviewSelector.SaveToFile(ExtractFilePath(Application.ExeName)+'selector.txt');
@@ -289,7 +318,7 @@ begin
 end;
 
 
-procedure TForm1.cboxSeriesChange(Sender: TObject);
+procedure TfrmMain.cboxSeriesChange(Sender: TObject);
 var i:integer;
 begin
    for i:=1 to High(seriesArray) do begin
@@ -308,18 +337,18 @@ begin
 
 end;
 
-procedure TForm1.ChartComboBox1Change(Sender: TObject);
+procedure TfrmMain.ChartComboBox1Change(Sender: TObject);
 begin
 
 end;
 
 
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TfrmMain.FormCreate(Sender: TObject);
 var i : integer;
 begin
 
-  for i:=1 to FSeriesCount do begin;
+  for i:=1 to MAX_SERIES_NUMBER do begin;
     seriesArray[i] := TLineSeries.Create(Self);
     chartMain.AddSeries(seriesArray[i]);
     seriesArray[i].SeriesColor:=clWhite;
@@ -330,7 +359,7 @@ begin
 
 end;
 
-procedure TForm1.FormShow(Sender: TObject);
+procedure TfrmMain.FormShow(Sender: TObject);
 var s: string;
 begin
   s:= ExtractFilePath(Application.ExeName)+'selector.txt';
@@ -339,7 +368,7 @@ begin
 end;
 
 
-procedure TForm1.gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
+procedure TfrmMain.gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
   var CanSelect: Boolean);
 begin
   if gridRyodoraku.Cells[aCol,0]<>'' then begin
@@ -359,12 +388,9 @@ begin
 
 end;
 
-procedure TForm1.pageRightChange(Sender: TObject);
-begin
 
-end;
 
-procedure TForm1.serialRxData(Sender: TObject);
+procedure TfrmMain.serialRxData(Sender: TObject);
 var s: string;
 
 begin
@@ -376,8 +402,8 @@ begin
   if (s= ':btn') and (step>0) then begin
     // Save series
 
-    Form1.btnSaveAs.SetFocus;
-    Form1.btnSaveAsClick (Sender);
+    frmMain.btnSaveAs.SetFocus;
+    frmMain.btnSaveAsClick (Sender);
     mySeries.Clear;
     mySeries.AddXY( 0,0 );
     step:=0;
@@ -400,23 +426,40 @@ begin
 
 end;
 
-procedure TForm1.serialStatus(Sender: TObject; Reason: THookSerialReason;
+procedure TfrmMain.serialStatus(Sender: TObject; Reason: THookSerialReason;
   const Value: string);
 begin
   statusBar.SimpleText:='Serial status: '+Value;
 end;
 
-
-procedure TForm1.tabVegatestShow(Sender: TObject);
+procedure TfrmMain.tabEAVShow(Sender: TObject);
 begin
-  cbVegatestOn.Checked:=true;
-  //TODO: send to miniVOLL commmand: vegatest
-  if serial.Active then begin
-    cbVegatestOn.Checked:=true;
+  cbEAVOn.Checked:=frmMain.tabEAV.Visible;
+end;
+
+
+procedure TfrmMain.tabRyodorakuShow(Sender: TObject);
+begin
+  cbRyodorakuOn.Checked:=frmMain.tabRyodoraku.Visible;
+end;
+
+
+procedure TfrmMain.tabVegatestShow(Sender: TObject);
+begin
+
+  cbVegatestOn.Checked:=frmMain.tabVegatest.Visible;
+  //Ssend to miniVOLL commmand: vegatest
+  if (serial.Active) and (cbVegatestOn.Checked) then begin
+
     serial.WriteData('vegatest'#13#10);
-  end else begin
-    cbVegatestOn.Checked:=false;
+
   end;
+end;
+
+procedure TfrmMain.treeviewSelectorSelectionChanged(Sender: TObject);
+begin
+  FCurrentPointName:=treeviewSelector.Selected.Text;
+
 end;
 
 
