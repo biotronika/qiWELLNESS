@@ -4,13 +4,13 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="18">
+    <Units Count="19">
       <Unit0>
         <Filename Value="qiWELLNESS.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
         <CursorPos X="35"/>
-        <UsageCount Value="182"/>
+        <UsageCount Value="184"/>
+        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="unit1.pas"/>
@@ -20,16 +20,18 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="300"/>
-        <CursorPos X="39" Y="328"/>
-        <UsageCount Value="182"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="444"/>
+        <CursorPos X="15" Y="450"/>
+        <UsageCount Value="184"/>
         <Bookmarks Count="4">
-          <Item0 X="12" Y="418" ID="3"/>
-          <Item1 Y="465" ID="4"/>
-          <Item2 X="12" Y="295" ID="2"/>
-          <Item3 X="28" Y="315" ID="1"/>
+          <Item0 X="12" Y="440" ID="3"/>
+          <Item1 Y="488" ID="4"/>
+          <Item2 X="12" Y="317" ID="2"/>
+          <Item3 X="28" Y="337" ID="1"/>
         </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="unit2.pas"/>
@@ -40,7 +42,7 @@
         <UnitName Value="Unit2"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="56" Y="9"/>
-        <UsageCount Value="182"/>
+        <UsageCount Value="184"/>
       </Unit2>
       <Unit3>
         <Filename Value="Comm.pas"/>
@@ -152,11 +154,52 @@
         <CursorPos Y="500"/>
         <UsageCount Value="8"/>
       </Unit17>
+      <Unit18>
+        <Filename Value="..\downloader\unit1.pas"/>
+        <ComponentName Value="frmMain"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Unit1"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="193"/>
+        <CursorPos Y="197"/>
+        <UsageCount Value="10"/>
+      </Unit18>
     </Units>
-    <General>
-      <ActiveWindowIndexAtStart Value="-1"/>
-    </General>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="8" HistoryIndex="7">
+      <Position1>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="328" Column="39" TopLine="300"/>
+      </Position1>
+      <Position2>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="237" Column="7" TopLine="250"/>
+      </Position2>
+      <Position3>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="445" Column="5" TopLine="314"/>
+      </Position3>
+      <Position4>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="446" Column="5" TopLine="412"/>
+      </Position4>
+      <Position5>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="445" Column="5" TopLine="411"/>
+      </Position5>
+      <Position6>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="236" TopLine="251"/>
+      </Position6>
+      <Position7>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="469" Column="69" TopLine="439"/>
+      </Position7>
+      <Position8>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="271" Column="3" TopLine="310"/>
+      </Position8>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes Count="0" ActiveMode=""/>

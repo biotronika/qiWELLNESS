@@ -231,11 +231,33 @@ begin
 end;
 
 procedure TfrmMain.btnConnectClick(Sender: TObject);
+var f : textFile;
+    s: string;
 begin
+      s:=ExtractFilePath(Application.ExeName)+'\qiWELLNESS.port';
 
-  serial.ShowSetupDialog;
-  serial.Open;
-  if serial.Active then  statusBar.SimpleText:='Serial port: '+ serial.Device+' is open.';
+      AssignFile(f,s);
+      {$I-}
+      Reset(f);
+      {$I+}
+      if IOResult=0 then  begin
+         readln(f,s);
+         serial.Device:=s;
+      //CloseFile(f);
+      end;
+
+      serial.ShowSetupDialog;
+      serial.Open;
+
+        if serial.Active then  begin
+           Rewrite(f);
+           {$I-}
+           Writeln(f,serial.Device);
+           {$I+}
+           statusBar.SimpleText:='Serial port: '+ serial.Device+' is open.';
+
+        end;
+       CloseFile(f);
 
   step:=0;
 end;
@@ -317,15 +339,15 @@ begin
 
         if ryodorakuPoint[i]< d-15 then begin
 
-           ryodorakuSource.SetColor(chartIndex,$800000);  //navy
+           ryodorakuSource.SetColor(i,$800000);  //navy
 
         end else if ryodorakuPoint[i]> d+15 then begin
 
-            ryodorakuSource.SetColor(chartIndex,$0000FF);  //red
+            ryodorakuSource.SetColor(i,$0000FF);  //red
 
         end else begin
 
-            ryodorakuSource.SetColor(chartIndex,$008000);  //green
+            ryodorakuSource.SetColor(i,$008000);  //green
 
         end;
     end;
@@ -420,11 +442,12 @@ var s: string;
 
 begin
 //Read data from serial port
-  s:= serial.ReadData;
+  //sleep(2);
+  s:= trim(serial.ReadData);
 
   memoConsole.Lines.Add(s);
 
-  if (s= ':btn') and (step>0) then begin
+  if (s= ':save') and (step>0) then begin
     // Save series
 
     frmMain.btnSaveAs.SetFocus;
@@ -476,7 +499,7 @@ begin
   //Ssend to miniVOLL commmand: vegatest
   if (serial.Active) and (cbVegatestOn.Checked) then begin
 
-    serial.WriteData('vegatest'#13#10);
+    //serial.WriteData('vegatest'#13#10);
 
   end;
 end;

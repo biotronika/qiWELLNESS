@@ -652,17 +652,17 @@ object frmMain: TfrmMain
       Height = 659
       Top = 1
       Width = 647
-      ActivePage = tabRyodoraku
+      ActivePage = tabConsole
       Align = alClient
-      TabIndex = 1
+      TabIndex = 0
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
-        ClientHeight = 596
+        ClientHeight = 631
         ClientWidth = 639
         object memoConsole: TMemo
           Left = 0
-          Height = 596
+          Height = 631
           Top = 0
           Width = 639
           Align = alClient
@@ -972,18 +972,18 @@ object frmMain: TfrmMain
           Height = 432
           Top = 0
           Width = 639
-          ActivePage = TabSheet3
+          ActivePage = Hand
           Align = alTop
-          TabIndex = 2
+          TabIndex = 0
           TabOrder = 1
           TabPosition = tpBottom
           object Hand: TTabSheet
             Caption = 'Hand'
-            ClientHeight = 428
+            ClientHeight = 404
             ClientWidth = 631
             object Image3: TImage
               Left = 0
-              Height = 428
+              Height = 404
               Top = 0
               Width = 631
               Align = alClient
@@ -2137,11 +2137,11 @@ object frmMain: TfrmMain
           end
           object TabSheet4: TTabSheet
             Caption = 'Foot'
-            ClientHeight = 428
+            ClientHeight = 404
             ClientWidth = 631
             object Image5: TImage
               Left = 0
-              Height = 428
+              Height = 404
               Top = 0
               Width = 631
               Align = alClient
@@ -7008,7 +7008,7 @@ object frmMain: TfrmMain
     Parity = pNone
     FlowControl = fcNone
     StopBits = sbOne
-    Device = 'COM12'
+    Device = 'COM1'
     RcvLineCRLF = True
     OnRxData = serialRxData
     OnStatus = serialStatus
