@@ -21,14 +21,14 @@
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="324"/>
-        <CursorPos Y="332"/>
+        <TopLine Value="300"/>
+        <CursorPos X="39" Y="328"/>
         <UsageCount Value="156"/>
         <Bookmarks Count="4">
           <Item0 X="12" Y="418" ID="3"/>
           <Item1 Y="465" ID="4"/>
-          <Item2 X="5" Y="332" ID="1"/>
-          <Item3 X="12" Y="295" ID="2"/>
+          <Item2 X="12" Y="295" ID="2"/>
+          <Item3 X="28" Y="315" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

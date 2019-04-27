@@ -972,18 +972,18 @@ object frmMain: TfrmMain
           Height = 432
           Top = 0
           Width = 639
-          ActivePage = Hand
+          ActivePage = TabSheet3
           Align = alTop
-          TabIndex = 0
+          TabIndex = 2
           TabOrder = 1
           TabPosition = tpBottom
           object Hand: TTabSheet
             Caption = 'Hand'
-            ClientHeight = 404
+            ClientHeight = 428
             ClientWidth = 631
             object Image3: TImage
               Left = 0
-              Height = 404
+              Height = 428
               Top = 0
               Width = 631
               Align = alClient
@@ -2137,11 +2137,11 @@ object frmMain: TfrmMain
           end
           object TabSheet4: TTabSheet
             Caption = 'Foot'
-            ClientHeight = 404
+            ClientHeight = 428
             ClientWidth = 631
             object Image5: TImage
               Left = 0
-              Height = 404
+              Height = 428
               Top = 0
               Width = 631
               Align = alClient
