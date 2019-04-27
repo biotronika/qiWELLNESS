@@ -1,13 +1,14 @@
-object Form1: TForm1
-  Left = 442
+object frmMain: TfrmMain
+  Left = 375
   Height = 661
-  Top = 243
+  Top = 145
   Width = 1259
   Caption = 'qiWELLNESS'
   ClientHeight = 661
   ClientWidth = 1259
   DefaultMonitor = dmMainForm
   OnCreate = FormCreate
+  OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.0.0.4'
   object Panel2: TPanel
@@ -20,10 +21,10 @@ object Form1: TForm1
     ClientWidth = 610
     TabOrder = 0
     object chartMain: TChart
-      Left = 90
+      Left = 1
       Height = 460
       Top = 177
-      Width = 519
+      Width = 454
       AxisList = <      
         item
           Marks.LabelBrush.Style = bsClear
@@ -50,12 +51,13 @@ object Form1: TForm1
       Foot.Font.Color = clBlue
       Title.Brush.Color = clBtnFace
       Title.Font.Color = clBlue
+      Title.Frame.Visible = True
       Title.Text.Strings = (
         'TAChart'
       )
       Align = alClient
       object chartMainCurrentLineSeries: TLineSeries
-        Title = 'Working'
+        Title = 'Working                    '
         AxisIndexX = 1
         AxisIndexY = 0
         LinePen.Color = clRed
@@ -68,11 +70,12 @@ object Form1: TForm1
       Top = 137
       Width = 608
       Align = alTop
+      BevelOuter = bvNone
       ClientHeight = 40
       ClientWidth = 608
       TabOrder = 1
       object btnConnect: TButton
-        Left = 472
+        Left = 27
         Height = 25
         Top = 8
         Width = 78
@@ -81,7 +84,7 @@ object Form1: TForm1
         TabOrder = 0
       end
       object btnDeleteAll: TButton
-        Left = 275
+        Left = 378
         Height = 25
         Top = 8
         Width = 75
@@ -90,7 +93,7 @@ object Form1: TForm1
         TabOrder = 1
       end
       object btnReset: TButton
-        Left = 554
+        Left = 109
         Height = 25
         Top = 8
         Width = 40
@@ -98,37 +101,49 @@ object Form1: TForm1
         OnClick = btnResetClick
         TabOrder = 2
       end
-      object cboxSeries: TComboBox
-        Left = 8
-        Height = 23
-        Top = 9
-        Width = 96
-        ItemHeight = 15
-        ItemIndex = 0
-        Items.Strings = (
-          'Working'
-        )
-        OnChange = cboxSeriesChange
-        TabOrder = 3
-        Text = 'Working'
-      end
       object btnSaveAs: TButton
-        Left = 115
+        Left = 218
         Height = 25
         Top = 8
         Width = 75
         Caption = 'Save'
         OnClick = btnSaveAsClick
-        TabOrder = 4
+        TabOrder = 3
       end
       object btnDelete: TButton
-        Left = 195
+        Left = 298
         Height = 25
         Top = 8
         Width = 75
         Caption = 'Delete'
         OnClick = btnDeleteClick
+        TabOrder = 4
+      end
+      object Panel11: TPanel
+        Left = 454
+        Height = 40
+        Top = 0
+        Width = 154
+        Align = alRight
+        BevelOuter = bvNone
+        Caption = 'Panel11'
+        ClientHeight = 40
+        ClientWidth = 154
         TabOrder = 5
+        object cboxSeries: TComboBox
+          Left = 10
+          Height = 23
+          Top = 8
+          Width = 137
+          ItemHeight = 15
+          ItemIndex = 0
+          Items.Strings = (
+            'Working'
+          )
+          OnChange = cboxSeriesChange
+          TabOrder = 0
+          Text = 'Working'
+        end
       end
     end
     object panelLogo: TPanel
@@ -137,14 +152,15 @@ object Form1: TForm1
       Top = 1
       Width = 608
       Align = alTop
+      BevelOuter = bvNone
       ClientHeight = 136
       ClientWidth = 608
       TabOrder = 2
       object Image4: TImage
-        Left = 1
-        Height = 134
-        Top = 1
-        Width = 606
+        Left = 0
+        Height = 136
+        Top = 0
+        Width = 608
         Align = alClient
         Picture.Data = {
           1754506F727461626C654E6574776F726B477261706869635C34000089504E47
@@ -577,25 +593,49 @@ object Form1: TForm1
       Width = 608
       Panels = <>
     end
-    object ChartLegendPanel1: TChartLegendPanel
-      Left = 1
+    object Panel5: TPanel
+      Left = 455
       Height = 460
       Top = 177
-      Width = 89
-      Chart = chartMain
-      Align = alLeft
-    end
-    object ChartComboBox1: TChartComboBox
-      Left = 121
-      Height = 22
-      Top = 188
-      Width = 137
-      PenPattern = '1|1'
-      PointerStyle = psNone
-      ItemHeight = 16
-      ItemIndex = 0
-      TabOrder = 5
-      OnChange = ChartComboBox1Change
+      Width = 154
+      Align = alRight
+      BevelOuter = bvNone
+      ClientHeight = 460
+      ClientWidth = 154
+      TabOrder = 4
+      object Panel8: TPanel
+        Left = 0
+        Height = 31
+        Top = 429
+        Width = 154
+        Align = alBottom
+        BevelOuter = bvNone
+        ClientHeight = 31
+        ClientWidth = 154
+        TabOrder = 0
+        object ChartComboBox1: TChartComboBox
+          Left = 10
+          Height = 22
+          Top = 3
+          Width = 137
+          PenPattern = '1|1'
+          PointerStyle = psNone
+          ItemHeight = 16
+          ItemIndex = 0
+          TabOrder = 0
+          OnChange = ChartComboBox1Change
+        end
+      end
+      object ChartLegendPanel1: TChartLegendPanel
+        Left = 3
+        Height = 429
+        Top = 0
+        Width = 148
+        Chart = chartMain
+        Align = alClient
+        BorderSpacing.Left = 3
+        BorderSpacing.Right = 3
+      end
     end
   end
   object panelRight: TPanel
@@ -607,23 +647,15 @@ object Form1: TForm1
     ClientHeight = 661
     ClientWidth = 649
     TabOrder = 1
-    object Panel1: TPanel
-      Left = 1
-      Height = 35
-      Top = 625
-      Width = 647
-      Align = alBottom
-      TabOrder = 0
-    end
     object pageRight: TPageControl
       Left = 1
-      Height = 624
+      Height = 659
       Top = 1
       Width = 647
       ActivePage = tabRyodoraku
       Align = alClient
       TabIndex = 1
-      TabOrder = 1
+      TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
         ClientHeight = 596
@@ -650,12 +682,14 @@ object Form1: TForm1
       end
       object tabRyodoraku: TTabSheet
         Caption = 'Ryodoraku'
-        ClientHeight = 596
+        ClientHeight = 631
         ClientWidth = 639
+        OnHide = tabRyodorakuShow
+        OnShow = tabRyodorakuShow
         object gridRyodoraku: TStringGrid
           Left = 0
-          Height = 116
-          Top = 480
+          Height = 136
+          Top = 456
           Width = 639
           Align = alClient
           AutoAdvance = aaDown
@@ -671,6 +705,7 @@ object Form1: TForm1
           Font.Style = [fsBold]
           Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goSmoothScroll]
           ParentFont = False
+          RowCount = 6
           ScrollBars = ssNone
           TabAdvance = aaDown
           TabOrder = 0
@@ -698,7 +733,7 @@ object Form1: TForm1
             51
           )
           Cells = (
-            64
+            77
             0
             1
             'Point name'
@@ -711,6 +746,9 @@ object Form1: TForm1
             0
             4
             'Sed.'
+            0
+            5
+            'Balan.'
             1
             0
             'LU 9'
@@ -726,6 +764,9 @@ object Form1: TForm1
             1
             4
             'LU 5'
+            1
+            5
+            'LU 7'
             2
             0
             'PC 7'
@@ -741,6 +782,9 @@ object Form1: TForm1
             2
             4
             'PC 7'
+            2
+            5
+            'PC 6'
             3
             0
             'HT 7'
@@ -756,6 +800,9 @@ object Form1: TForm1
             3
             4
             'HT 7'
+            3
+            5
+            'HT 5'
             4
             0
             'SI 4'
@@ -771,6 +818,9 @@ object Form1: TForm1
             4
             4
             'SI 8'
+            4
+            5
+            'SI 7'
             5
             0
             'TE 4'
@@ -785,7 +835,10 @@ object Form1: TForm1
             'TE 3'
             5
             4
-            'TH 10'
+            'TE 10'
+            5
+            5
+            'TE 5'
             6
             0
             'LI 5'
@@ -801,6 +854,9 @@ object Form1: TForm1
             6
             4
             'LI 2'
+            6
+            5
+            'LI 6'
             7
             0
             'SP 3'
@@ -816,6 +872,9 @@ object Form1: TForm1
             7
             4
             'SP 5'
+            7
+            5
+            'SP 4'
             8
             0
             'LV3'
@@ -831,6 +890,9 @@ object Form1: TForm1
             8
             4
             'LV 2'
+            8
+            5
+            'LV 5'
             9
             0
             'KD 3'
@@ -846,6 +908,9 @@ object Form1: TForm1
             9
             4
             'KD 1'
+            9
+            5
+            'KD 4'
             10
             0
             'BL 65'
@@ -861,6 +926,9 @@ object Form1: TForm1
             10
             4
             'BL 65'
+            10
+            5
+            'BL58'
             11
             0
             'GB 40'
@@ -876,6 +944,9 @@ object Form1: TForm1
             11
             4
             'GB 38'
+            11
+            5
+            'GB 37'
             12
             0
             'ST 42'
@@ -891,11 +962,14 @@ object Form1: TForm1
             12
             4
             'ST 45'
+            12
+            5
+            'ST 40'
           )
         end
         object PageControl2: TPageControl
           Left = 0
-          Height = 456
+          Height = 432
           Top = 0
           Width = 639
           ActivePage = TabSheet3
@@ -3200,12 +3274,12 @@ object Form1: TForm1
           end
           object TabSheet3: TTabSheet
             Caption = 'Chart'
-            ClientHeight = 428
+            ClientHeight = 404
             ClientWidth = 631
             object Image6: TImage
               Left = 0
               Height = 22
-              Top = 406
+              Top = 382
               Width = 631
               Align = alBottom
               Picture.Data = {
@@ -3291,7 +3365,7 @@ object Form1: TForm1
             end
             object Chart1: TChart
               Left = 10
-              Height = 406
+              Height = 382
               Top = 0
               Width = 621
               AxisList = <              
@@ -3326,15 +3400,16 @@ object Form1: TForm1
                 BarBrush.Color = clRed
                 Source = ryodorakuSource
               end
-              object Chart1LineSeries1: TLineSeries
-                LinePen.Color = clGreen
-                LinePen.Width = 3
-                Source = ListChartSource1
+              object chartRyodorakuNormal: TLineSeries
+                LinePen.Color = 8454016
+                LinePen.EndCap = pecSquare
+                LinePen.Width = 65
+                Source = ryodorakuNormalSource
               end
             end
             object Panel4: TPanel
               Left = 0
-              Height = 406
+              Height = 382
               Top = 0
               Width = 10
               Align = alLeft
@@ -3345,9 +3420,10 @@ object Form1: TForm1
         object Panel3: TPanel
           Left = 0
           Height = 24
-          Top = 456
+          Top = 432
           Width = 639
           Align = alTop
+          BevelOuter = bvNone
           ClientHeight = 24
           ClientWidth = 639
           TabOrder = 2
@@ -3371,11 +3447,32 @@ object Form1: TForm1
             TabOrder = 1
           end
         end
+        object Panel1: TPanel
+          Left = 0
+          Height = 39
+          Top = 592
+          Width = 639
+          Align = alBottom
+          BevelOuter = bvNone
+          ClientHeight = 39
+          ClientWidth = 639
+          TabOrder = 3
+          object cbRyodorakuOn: TCheckBox
+            Left = 40
+            Height = 19
+            Top = 8
+            Width = 119
+            Caption = 'Turn ryodoraku on'
+            TabOrder = 0
+          end
+        end
       end
       object tabEAV: TTabSheet
         Caption = 'EAV'
-        ClientHeight = 596
+        ClientHeight = 631
         ClientWidth = 639
+        OnHide = tabEAVShow
+        OnShow = tabEAVShow
         object TabControl1: TTabControl
           Left = 0
           Height = 384
@@ -3390,73 +3487,119 @@ object Form1: TForm1
           Align = alTop
           TabOrder = 0
         end
+        object Panel9: TPanel
+          Left = 0
+          Height = 39
+          Top = 592
+          Width = 639
+          Align = alBottom
+          BevelOuter = bvNone
+          ClientHeight = 39
+          ClientWidth = 639
+          TabOrder = 1
+          object cbEAVOn: TCheckBox
+            Left = 40
+            Height = 19
+            Top = 8
+            Width = 86
+            Caption = 'Turn EAV on'
+            TabOrder = 0
+          end
+        end
       end
       object tabVegatest: TTabSheet
         Caption = 'Vegatest'
-        ClientHeight = 596
+        ClientHeight = 631
         ClientWidth = 639
-        object TabControl2: TTabControl
+        OnShow = tabVegatestShow
+        object Panel6: TPanel
           Left = 0
-          Height = 512
+          Height = 592
           Top = 0
           Width = 639
-          OnChange = TabControl2Change
-          TabPosition = tpBottom
-          TabIndex = 0
-          Tabs.Strings = (
-            'Selectror'
-          )
-          Align = alTop
+          Align = alClient
+          ClientHeight = 592
+          ClientWidth = 639
           TabOrder = 0
-          object CheckListBox1: TCheckListBox
-            Left = 400
-            Height = 446
-            Top = 2
-            Width = 237
+          object Panel7: TPanel
+            Left = 520
+            Height = 590
+            Top = 1
+            Width = 118
             Align = alRight
-            Items.Strings = (
-              'Option 1'
-              'Option 2'
-              'Option 3'
-            )
-            ItemHeight = 17
-            TabOrder = 1
-            Data = {
-              03000000000000
-            }
+            BevelOuter = bvNone
+            ClientHeight = 590
+            ClientWidth = 118
+            TabOrder = 0
+            object btnVegatestNewGroup: TButton
+              Left = 21
+              Height = 25
+              Top = 16
+              Width = 75
+              Caption = 'New group'
+              OnClick = btnVegatestNewGroupClick
+              TabOrder = 0
+            end
+            object btnVegatestNew: TButton
+              Left = 21
+              Height = 25
+              Top = 56
+              Width = 75
+              Caption = 'New'
+              OnClick = btnVegatestNewClick
+              TabOrder = 1
+            end
+            object btnVegatestDelete: TButton
+              Left = 21
+              Height = 25
+              Top = 120
+              Width = 75
+              Caption = 'Delete'
+              OnClick = btnVegatestDeleteClick
+              TabOrder = 2
+            end
+            object btnVegatestSave: TButton
+              Left = 21
+              Height = 25
+              Top = 200
+              Width = 75
+              Caption = 'Save list'
+              OnClick = btnVegatestSaveClick
+              TabOrder = 3
+            end
           end
           object treeviewSelector: TTreeView
-            Left = 2
-            Height = 446
-            Top = 2
-            Width = 398
+            Left = 1
+            Height = 590
+            Top = 1
+            Width = 519
             Align = alClient
-            TabOrder = 2
+            TabOrder = 1
+            OnSelectionChanged = treeviewSelectorSelectionChanged
             Items.Data = {
               F9FFFFFF020001000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF010000000000
               000001070000004E6F736F646573FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
-              000000000000001300000048656C69636F6261637465722D70796C6F7269
+              000000000000001300000068656C69636F6261637465722070796C6F7269
             }
           end
-          object Panel5: TPanel
-            Left = 2
-            Height = 41
-            Top = 448
-            Width = 635
-            Align = alBottom
-            Caption = 'Panel5'
-            ClientHeight = 41
-            ClientWidth = 635
-            TabOrder = 3
-            object btnNewGroup: TButton
-              Left = 8
-              Height = 25
-              Top = 8
-              Width = 75
-              Caption = 'btnNewGroup'
-              OnClick = btnNewGroupClick
-              TabOrder = 0
-            end
+        end
+        object Panel10: TPanel
+          Left = 0
+          Height = 39
+          Top = 592
+          Width = 639
+          Align = alBottom
+          BevelOuter = bvNone
+          ClientHeight = 39
+          ClientWidth = 639
+          TabOrder = 1
+          object cbVegatestOn: TCheckBox
+            Left = 39
+            Height = 19
+            Top = 9
+            Width = 109
+            Caption = 'Turn vegatest on'
+            TabOrder = 0
           end
         end
       end
@@ -3465,13 +3608,13 @@ object Form1: TForm1
       end
       object tabAuriculotherapy: TTabSheet
         Caption = 'Auriculotherapy'
-        ClientHeight = 597
-        ClientWidth = 416
+        ClientHeight = 596
+        ClientWidth = 639
         object PageControl1: TPageControl
           Left = 0
           Height = 448
           Top = 0
-          Width = 416
+          Width = 639
           ActivePage = TabSheet1
           Align = alTop
           TabIndex = 0
@@ -3480,12 +3623,12 @@ object Form1: TForm1
           object TabSheet1: TTabSheet
             Caption = 'Ear'
             ClientHeight = 420
-            ClientWidth = 408
+            ClientWidth = 631
             object Image1: TImage
               Left = 0
               Height = 420
               Top = 0
-              Width = 408
+              Width = 631
               Align = alClient
               Center = True
               Picture.Data = {
@@ -6869,19 +7012,19 @@ object Form1: TForm1
     RcvLineCRLF = True
     OnRxData = serialRxData
     OnStatus = serialStatus
-    left = 472
-    top = 192
+    left = 552
+    top = 56
   end
   object ryodorakuSource: TListChartSource
     DataPoints.Strings = (
-      '1|0|?|'
-      '2|0|?|'
-      '3|0|?|'
-      '4|0|?|'
-      '5|0|?|'
-      '6|0|?|'
-      '7|0|?|'
-      '8|0|?|'
+      '1|0|$FF8000|'
+      '2|0|$FF8000|'
+      '3|0|$808040|'
+      '4|0|$808040|'
+      '5|0|$FF8000|'
+      '6|0|$FF8000|'
+      '7|0|$808040|'
+      '8|0|$808040|'
       '9|0|?|'
       '10|0|?|'
       '11|0|?|'
@@ -6899,15 +7042,15 @@ object Form1: TForm1
       '23|0|?|'
       '24|0|?|'
     )
-    left = 536
-    top = 192
+    left = 448
+    top = 16
   end
-  object ListChartSource1: TListChartSource
+  object ryodorakuNormalSource: TListChartSource
     DataPoints.Strings = (
-      '1|65|$00FF00|'
-      '24|65|$00FF00|'
+      '1|50|$00FF00|'
+      '25|50|$00FF00|'
     )
-    left = 536
-    top = 259
+    left = 448
+    top = 72
   end
 end

@@ -28,7 +28,7 @@ type
     cbEAVOn: TCheckBox;
     cbVegatestOn: TCheckBox;
     Chart1: TChart;
-    Chart1LineSeries1: TLineSeries;
+    chartRyodorakuNormal: TLineSeries;
     ChartComboBox1: TChartComboBox;
     ChartLegendPanel1: TChartLegendPanel;
     chartRyodorakuSeries: TBarSeries;
@@ -117,6 +117,7 @@ type
      seriesArray : array[1..MAX_SERIES_NUMBER] of TLineSeries; //No dynamic array of all used series
 
   public
+     ryodorakuPoint : array[0..23] of Double;
 
   end;
 
@@ -241,7 +242,7 @@ end;
 
 procedure TfrmMain.btnSaveAsClick(Sender: TObject);
 var s : string;
-    i : integer;
+    i,j : integer;
     d : Double;
     chartIndex: integer;
 begin
@@ -290,21 +291,45 @@ begin
 //TODO: Calculate current equivalent  - check!
     d:= seriesArray[i].MaxYValue * RYODORAKU_FACTOR;
 
+    //Save value
+    ryodorakuPoint[chartIndex]:= d;
     ryodorakuSource.SetYValue(chartIndex,d);
 
-    if d<RYODORAKU_NORMAL_MIN then begin
-
-       ryodorakuSource.SetColor(chartIndex,$800000);  //navy
-
-    end else if d>RYODORAKU_NORMAL_MAX then begin
-
-       ryodorakuSource.SetColor(chartIndex,$0000FF);  //red
-
-    end else begin
-
-       ryodorakuSource.SetColor(chartIndex,$008000);  //green
-
+    //Calculate normal value  (+/- 15[uA])
+    d:=0;
+    j:=0;
+    for i:= 0 to 23 do begin
+         if ryodorakuPoint[i]>0 then begin
+           d:=d+ryodorakuPoint[i];
+           j:=j+1;
+         end;
     end;
+
+    //Set normal line on ryododraku chart
+    if j>0 then begin
+      d := round(d/j);
+      ryodorakuNormalSource.SetYValue(0,d);
+      ryodorakuNormalSource.SetYValue(1,d);
+    end;
+
+    //Set color of ryodoraku charts
+    for i:= 0 to 23 do begin
+
+        if ryodorakuPoint[i]< d-15 then begin
+
+           ryodorakuSource.SetColor(chartIndex,$800000);  //navy
+
+        end else if ryodorakuPoint[i]> d+15 then begin
+
+            ryodorakuSource.SetColor(chartIndex,$0000FF);  //red
+
+        end else begin
+
+            ryodorakuSource.SetColor(chartIndex,$008000);  //green
+
+        end;
+    end;
+
 
   end;
 
@@ -448,7 +473,7 @@ procedure TfrmMain.tabVegatestShow(Sender: TObject);
 begin
 
   cbVegatestOn.Checked:=frmMain.tabVegatest.Visible;
-  //TODO: send to miniVOLL commmand: vegatest
+  //Ssend to miniVOLL commmand: vegatest
   if (serial.Active) and (cbVegatestOn.Checked) then begin
 
     serial.WriteData('vegatest'#13#10);

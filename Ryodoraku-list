@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <grid version="3">
+    <saveoptions create="False" position="False" content="True"/>
+    <content>
+      <cells cellcount="64">
+        <cell1 column="0" row="1" text="Point name"/>
+        <cell2 column="0" row="2" text="Meridian"/>
+        <cell3 column="0" row="3" text="Stim."/>
+        <cell4 column="0" row="4" text="Sed."/>
+        <cell5 column="1" row="0" text="LU 9"/>
+        <cell6 column="1" row="1" text="Taiyuan"/>
+        <cell7 column="1" row="2" text="Lung"/>
+        <cell8 column="1" row="3" text="LU 9"/>
+        <cell9 column="1" row="4" text="LU 5"/>
+        <cell10 column="2" row="0" text="PC 7"/>
+        <cell11 column="2" row="1" text="Daling"/>
+        <cell12 column="2" row="2" text="Pericardium"/>
+        <cell13 column="2" row="3" text="PC 9"/>
+        <cell14 column="2" row="4" text="PC 7"/>
+        <cell15 column="3" row="0" text="HT 7"/>
+        <cell16 column="3" row="1" text="
+Shenmen"/>
+        <cell17 column="3" row="2" text="Heart"/>
+        <cell18 column="3" row="3" text="HT 9"/>
+        <cell19 column="3" row="4" text="HT 7"/>
+        <cell20 column="4" row="0" text="SI 4"/>
+        <cell21 column="4" row="1" text="Wangu"/>
+        <cell22 column="4" row="2" text="Small Intestine"/>
+        <cell23 column="4" row="3" text="SI 3"/>
+        <cell24 column="4" row="4" text="SI 8"/>
+        <cell25 column="5" row="0" text="TE 4"/>
+        <cell26 column="5" row="1" text="Yangchi"/>
+        <cell27 column="5" row="2" text="Triple Energizer"/>
+        <cell28 column="5" row="3" text="TE 3"/>
+        <cell29 column="5" row="4" text="TH 10"/>
+        <cell30 column="6" row="0" text="LI 5"/>
+        <cell31 column="6" row="1" text="Yangxi"/>
+        <cell32 column="6" row="2" text="Large Intestine"/>
+        <cell33 column="6" row="3" text="LI 11"/>
+        <cell34 column="6" row="4" text="LI 2"/>
+        <cell35 column="7" row="0" text="SP 3"/>
+        <cell36 column="7" row="1" text="Taibai"/>
+        <cell37 column="7" row="2" text="Spleen"/>
+        <cell38 column="7" row="3" text="SP 2"/>
+        <cell39 column="7" row="4" text="SP 5"/>
+        <cell40 column="8" row="0" text="LV3"/>
+        <cell41 column="8" row="1" text="Taichong"/>
+        <cell42 column="8" row="2" text="Liver"/>
+        <cell43 column="8" row="3" text="LV 8"/>
+        <cell44 column="8" row="4" text="LV 2"/>
+        <cell45 column="9" row="0" text="KD 3"/>
+        <cell46 column="9" row="1" text="Taixi"/>
+        <cell47 column="9" row="2" text="Kidney"/>
+        <cell48 column="9" row="3" text="KD 7"/>
+        <cell49 column="9" row="4" text="KD 1"/>
+        <cell50 column="10" row="0" text="BL 65"/>
+        <cell51 column="10" row="1" text="Shugu"/>
+        <cell52 column="10" row="2" text="Bladder"/>
+        <cell53 column="10" row="3" text="BL 67"/>
+        <cell54 column="10" row="4" text="BL 65"/>
+        <cell55 column="11" row="0" text="GB 40"/>
+        <cell56 column="11" row="1" text="Qiuxu"/>
+        <cell57 column="11" row="2" text="Gallbladder"/>
+        <cell58 column="11" row="3" text="GB 43"/>
+        <cell59 column="11" row="4" text="GB 38"/>
+        <cell60 column="12" row="0" text="ST 42"/>
+        <cell61 column="12" row="1" text="Chongyang"/>
+        <cell62 column="12" row="2" text="Stomach"/>
+        <cell63 column="12" row="3" text="ST 41"/>
+        <cell64 column="12" row="4" text="ST 45"/>
+      </cells>
+    </content>
+  </grid>
+</CONFIG>
