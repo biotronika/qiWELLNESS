@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
   ComCtrls, CheckLst, Grids, ColorBox, LazSerial, TAGraph, TASeries,
-  TALegendPanel, TASources, TAChartCombos, LazSynaSer;
+  TALegendPanel, TASources, TAChartCombos, LazSynaSer, Types;
 
 type
 
@@ -23,6 +23,7 @@ type
     btnVegatestNew: TButton;
     btnVegatestNewGroup: TButton;
     btnVegatestSave: TButton;
+    btnConsoleExecute: TButton;
     cboxSeries: TComboBox;
     cbRyodorakuOn: TCheckBox;
     cbEAVOn: TCheckBox;
@@ -34,15 +35,18 @@ type
     chartRyodorakuSeries: TBarSeries;
     chartMain: TChart;
     chartMainCurrentLineSeries: TLineSeries;
+    edtConsoleCommand: TEdit;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
     Image4: TImage;
     Image5: TImage;
     Image6: TImage;
+    Label1: TLabel;
     Panel1: TPanel;
     Panel10: TPanel;
     Panel11: TPanel;
+    Panel12: TPanel;
     Panel5: TPanel;
     Panel8: TPanel;
     Panel9: TPanel;
@@ -78,6 +82,7 @@ type
     TabSheet4: TTabSheet;
     tabVegatest: TTabSheet;
     treeviewSelector: TTreeView;
+    procedure btnConsoleExecuteClick(Sender: TObject);
     procedure btnDeleteAllClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure btnVegatestDeleteClick(Sender: TObject);
@@ -88,11 +93,16 @@ type
     procedure btnSaveAsClick(Sender: TObject);
     procedure btnVegatestSaveClick(Sender: TObject);
     procedure cboxSeriesChange(Sender: TObject);
-    procedure ChartComboBox1Change(Sender: TObject);
+
+
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure gridRyodorakuAfterSelection(Sender: TObject; aCol, aRow: Integer);
+    procedure gridRyodorakuDrawCell(Sender: TObject; aCol, aRow: Integer;
+      aRect: TRect; aState: TGridDrawState);
     procedure gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
+
     procedure serialRxData(Sender: TObject);
     procedure serialStatus(Sender: TObject; Reason: THookSerialReason;
     const Value: string);
@@ -103,18 +113,20 @@ type
     procedure treeviewSelectorSelectionChanged(Sender: TObject);
 
   private
-    const  MAX_SERIES_NUMBER =30;
-           RYODORAKU_NORMAL_MIN = 75;
-           RYODORAKU_NORMAL_MAX = 100;
-           RYODORAKU_FACTOR = 1.54;
-           MINIVOLL_READ_VALUE_PERIOD = 0.05; //seconds
+    const
+      MAX_SERIES_NUMBER =30;
+      //RYODORAKU_NORMAL_MIN = 75;
+      //RYODORAKU_NORMAL_MAX = 100;
+      RYODORAKU_FACTOR = 1.54;
+      MINIVOLL_READ_VALUE_PERIOD = 0.05; //seconds
 
     var
-     FCurrentPointName : string;
-     FRyodorakuChart : integer;
-     step : Cardinal;
-     mySeries : TLineSeries;
-     seriesArray : array[1..MAX_SERIES_NUMBER] of TLineSeries; //No dynamic array of all used series
+      FCurrentPointName : string;
+      FRyodorakuChart : integer;
+      fReadBuffer : string;
+      step : Cardinal;
+      mySeries : TLineSeries;
+      seriesArray : array[1..MAX_SERIES_NUMBER] of TLineSeries; //No dynamic array of all used series
 
   public
      ryodorakuPoint : array[0..23] of Double;
@@ -145,11 +157,20 @@ begin
    chartMainCurrentLineSeries.Clear;
 end;
 
+procedure TfrmMain.btnConsoleExecuteClick(Sender: TObject);
+begin
+    if (serial.Active) then begin
+
+    serial.WriteData(edtConsoleCommand.Text+#13#10);
+
+  end;
+end;
+
 procedure TfrmMain.btnDeleteClick(Sender: TObject);
 var i,a : integer;
 begin
 
-  if cboxSeries.Items.Count>0 then  begin
+  if cboxSeries.Items.Count>1 then  begin
     i:= cboxSeries.ItemIndex;
 
     for a:=i to cboxSeries.Items.Count-1 do begin
@@ -249,15 +270,15 @@ begin
       serial.ShowSetupDialog;
       serial.Open;
 
-        if serial.Active then  begin
+      if serial.Active then  begin
            Rewrite(f);
            {$I-}
            Writeln(f,serial.Device);
            {$I+}
            statusBar.SimpleText:='Serial port: '+ serial.Device+' is open.';
 
-        end;
-       CloseFile(f);
+      end;
+      CloseFile(f);
 
   step:=0;
 end;
@@ -384,11 +405,6 @@ begin
 
 end;
 
-procedure TfrmMain.ChartComboBox1Change(Sender: TObject);
-begin
-
-end;
-
 
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -414,6 +430,26 @@ begin
      treeviewSelector.LoadFromFile(s);
 end;
 
+procedure TfrmMain.gridRyodorakuAfterSelection(Sender: TObject; aCol,
+  aRow: Integer);
+begin
+
+end;
+
+procedure TfrmMain.gridRyodorakuDrawCell(Sender: TObject; aCol, aRow: Integer;
+  aRect: TRect; aState: TGridDrawState);
+begin
+
+  if (ACol = 0) and (ARow = 0) then
+    with TStringGrid(Sender) do begin
+      //Paint the background
+      Canvas.Brush.Color := clBtnFace;
+      Canvas.FillRect(aRect);
+      Canvas.TextOut(aRect.Left+2,aRect.Top+2,Cells[ACol, ARow]);
+    end;
+
+end;
+
 
 procedure TfrmMain.gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
   var CanSelect: Boolean);
@@ -436,40 +472,57 @@ begin
 end;
 
 
-
 procedure TfrmMain.serialRxData(Sender: TObject);
-var s: string;
+var s,ss : string;
+    i: integer;
 
 begin
 //Read data from serial port
-  //sleep(2);
-  s:= trim(serial.ReadData);
+  //sleep (100);
 
-  memoConsole.Lines.Add(s);
+  s:= serial.ReadData;
 
-  if (s= ':btn') and (step>0) then begin
-    // Save series
+  for i:=1 to Length(s) do
+     if (s[i]= #10)  then begin
+       //if (s[i-1]<> #13) then ss := ss + #13#10 else ss:=ss+#10;
+       memoConsole.Lines.Add(trim(fReadBuffer));
+       ss:=trim(fReadBuffer);
 
-    frmMain.btnSaveAs.SetFocus;
-    frmMain.btnSaveAsClick (Sender);
-    mySeries.Clear;
-    mySeries.AddXY( 0,0 );
-    step:=0;
+        if (ss= ':btn') and (step>0) then begin
+          // Save series
 
-  end else if (s=':start') then begin
-    // Clear series
+          frmMain.btnSaveAs.SetFocus;
+          frmMain.btnSaveAsClick (Sender);
+          mySeries.Clear;
+          mySeries.AddXY( 0,0 );
+          step:=0;
 
-    mySeries.Clear;
-    mySeries.AddXY( 0,0 );
-    step:=0;
+        end else if (ss=':start') then begin
+          // Clear series
 
-  end else if (s<>':btn') then begin
-    // Add to existing series new point
+          mySeries.Clear;
+          mySeries.AddXY( 0,0 );
+          step:=0;
 
-    mySeries.AddXY( step * MINIVOLL_READ_VALUE_PERIOD ,StrToIntDef(s,0)/10.0  );
-    step:=step+1;
+        end else if (ss<>':btn') then begin
+          // Add to existing series new point
 
-  end;
+          mySeries.AddXY( step * MINIVOLL_READ_VALUE_PERIOD ,StrToIntDef(ss,0)/10.0  );
+          step:=step+1;
+
+        end;
+
+
+
+       fReadBuffer:='';
+     end else
+       fReadBuffer:=fReadBuffer+s[i];
+
+
+  //s:= trim(serial.ReadData);
+
+  //memoConsole.Lines.Add(s);
+
 
 
 end;
@@ -499,7 +552,7 @@ begin
   //Ssend to miniVOLL commmand: vegatest
   if (serial.Active) and (cbVegatestOn.Checked) then begin
 
-    //serial.WriteData('vegatest'#13#10);
+    serial.WriteData('vegatest'#13#10);
 
   end;
 end;
