@@ -712,6 +712,7 @@ object frmMain: TfrmMain
             Height = 23
             Top = 16
             Width = 183
+            OnChange = edtConsoleCommandChange
             OnKeyDown = edtConsoleCommandKeyDown
             TabOrder = 0
           end
@@ -7066,7 +7067,6 @@ object frmMain: TfrmMain
     Device = 'COM1'
     RcvLineCRLF = False
     OnRxData = serialRxData
-    OnStatus = serialStatus
     left = 552
     top = 56
   end

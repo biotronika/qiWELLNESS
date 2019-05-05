@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
   ComCtrls, CheckLst, Grids, ColorBox, LazSerial, TAGraph, TASeries,
-  TALegendPanel, TASources, TAChartCombos, LazSynaSer, Types, LCLType;
+  TALegendPanel, TASources, TAChartCombos, (*LazSynaSer,*) Types , LCLType;
 
 type
 
@@ -95,6 +95,7 @@ type
     procedure btnSaveAsClick(Sender: TObject);
     procedure btnVegatestSaveClick(Sender: TObject);
     procedure cboxSeriesChange(Sender: TObject);
+    procedure edtConsoleCommandChange(Sender: TObject);
     procedure edtConsoleCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -106,8 +107,8 @@ type
       var CanSelect: Boolean);
 
     procedure serialRxData(Sender: TObject);
-    procedure serialStatus(Sender: TObject; Reason: THookSerialReason;
-    const Value: string);
+    //procedure serialStatus(Sender: TObject; Reason: THookSerialReason;
+    //const Value: string);
     procedure tabEAVShow(Sender: TObject);
 
     procedure tabRyodorakuShow(Sender: TObject);
@@ -416,6 +417,11 @@ begin
 
 end;
 
+procedure TfrmMain.edtConsoleCommandChange(Sender: TObject);
+begin
+
+end;
+
 procedure TfrmMain.edtConsoleCommandKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -546,11 +552,6 @@ begin
 
 end;
 
-procedure TfrmMain.serialStatus(Sender: TObject; Reason: THookSerialReason;
-  const Value: string);
-begin
-  statusBar.SimpleText:='Serial status: '+Value;
-end;
 
 procedure TfrmMain.tabEAVShow(Sender: TObject);
 begin
