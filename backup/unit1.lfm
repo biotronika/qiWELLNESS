@@ -79,10 +79,10 @@ object frmMain: TfrmMain
       ClientWidth = 608
       TabOrder = 1
       object btnConnect: TButton
-        Left = 27
+        Left = 16
         Height = 25
         Top = 8
-        Width = 78
+        Width = 70
         Caption = 'Connect'
         OnClick = btnConnectClick
         TabOrder = 0
@@ -97,16 +97,16 @@ object frmMain: TfrmMain
         TabOrder = 1
       end
       object btnReset: TButton
-        Left = 109
+        Left = 88
         Height = 25
         Top = 8
-        Width = 40
+        Width = 48
         Caption = 'Reset'
         OnClick = btnResetClick
         TabOrder = 2
       end
       object btnSaveAs: TButton
-        Left = 192
+        Left = 199
         Height = 25
         Top = 8
         Width = 101
@@ -115,7 +115,7 @@ object frmMain: TfrmMain
         TabOrder = 3
       end
       object btnDelete: TButton
-        Left = 298
+        Left = 301
         Height = 25
         Top = 8
         Width = 75
@@ -148,6 +148,15 @@ object frmMain: TfrmMain
           TabOrder = 0
           Text = 'Working'
         end
+      end
+      object btnClose: TButton
+        Left = 138
+        Height = 25
+        Top = 8
+        Width = 46
+        Caption = 'Close'
+        OnClick = btnCloseClick
+        TabOrder = 6
       end
     end
     object panelLogo: TPanel
@@ -676,6 +685,12 @@ object frmMain: TfrmMain
           Font.Name = 'Courier'
           Font.Pitch = fpFixed
           Font.Quality = fqDraft
+          Lines.Strings = (
+            'TIP: Click Connect and choose right COM port.'
+            '     If your device is not on the list of COM ports,'
+            '     it could mean that, you have to install Arduino driver.'
+            ''
+          )
           ParentFont = False
           ReadOnly = True
           ScrollBars = ssVertical
@@ -697,6 +712,7 @@ object frmMain: TfrmMain
             Height = 23
             Top = 16
             Width = 183
+            OnKeyDown = edtConsoleCommandKeyDown
             TabOrder = 0
           end
           object Label1: TLabel

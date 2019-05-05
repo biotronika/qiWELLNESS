@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
   ComCtrls, CheckLst, Grids, ColorBox, LazSerial, TAGraph, TASeries,
-  TALegendPanel, TASources, TAChartCombos, LazSynaSer, Types;
+  TALegendPanel, TASources, TAChartCombos, LazSynaSer, Types, LCLType;
 
 type
 
@@ -24,6 +24,7 @@ type
     btnVegatestNewGroup: TButton;
     btnVegatestSave: TButton;
     btnConsoleExecute: TButton;
+    btnClose: TButton;
     cboxSeries: TComboBox;
     cbRyodorakuOn: TCheckBox;
     cbEAVOn: TCheckBox;
@@ -85,6 +86,7 @@ type
     procedure btnConsoleExecuteClick(Sender: TObject);
     procedure btnDeleteAllClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
+    procedure btnCloseClick(Sender: TObject);
     procedure btnVegatestDeleteClick(Sender: TObject);
     procedure btnVegatestNewClick(Sender: TObject);
     procedure btnVegatestNewGroupClick(Sender: TObject);
@@ -93,8 +95,8 @@ type
     procedure btnSaveAsClick(Sender: TObject);
     procedure btnVegatestSaveClick(Sender: TObject);
     procedure cboxSeriesChange(Sender: TObject);
-
-
+    procedure edtConsoleCommandKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure gridRyodorakuAfterSelection(Sender: TObject; aCol, aRow: Integer);
@@ -194,6 +196,14 @@ begin
 
 end;
 
+procedure TfrmMain.btnCloseClick(Sender: TObject);
+begin
+  if serial.Active then begin
+    serial.Close;
+    statusBar.SimpleText:='Serial connection was closed';
+  end;
+end;
+
 procedure TfrmMain.btnVegatestDeleteClick(Sender: TObject);
 
     //Procedure to recursively delete nodes
@@ -280,7 +290,7 @@ begin
       end;
       CloseFile(f);
 
-  step:=0;
+  step := 1;
 end;
 
 procedure TfrmMain.btnSaveAsClick(Sender: TObject);
@@ -405,6 +415,14 @@ begin
 
 end;
 
+procedure TfrmMain.edtConsoleCommandKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_RETURN then begin
+    frmMain.btnConsoleExecuteClick(Sender);
+  end;
+end;
+
 
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -494,17 +512,17 @@ begin
           frmMain.btnSaveAs.SetFocus;
           frmMain.btnSaveAsClick (Sender);
           mySeries.Clear;
-          mySeries.AddXY( 0,0 );
-          step:=0;
+          mySeries.AddXY( 0.03,0 );
+          step:=1;
 
         end else if (ss=':start') then begin
           // Clear series
 
           mySeries.Clear;
-          mySeries.AddXY( 0,0 );
-          step:=0;
+          mySeries.AddXY( 0.03,0 );
+          step:=1;
 
-        end else if (ss<>':btn') then begin
+        end else if (ss<>':btn') and (StrToIntDef(ss,0)<>0) then begin
           // Add to existing series new point
 
           mySeries.AddXY( step * MINIVOLL_READ_VALUE_PERIOD ,StrToIntDef(ss,0)/10.0  );
