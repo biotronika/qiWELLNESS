@@ -3661,6 +3661,388 @@ object frmMain: TfrmMain
       end
       object tabElectropunture: TTabSheet
         Caption = 'Electropunture'
+        ClientHeight = 631
+        ClientWidth = 639
+        object Panel13: TPanel
+          Left = 0
+          Height = 168
+          Top = 0
+          Width = 639
+          Align = alTop
+          BevelOuter = bvNone
+          ClientHeight = 168
+          ClientWidth = 639
+          TabOrder = 0
+          object RadioGroup1: TRadioGroup
+            Left = 344
+            Height = 88
+            Top = 72
+            Width = 152
+            AutoFill = True
+            Caption = 'Active electrode'
+            ChildSizing.LeftRightSpacing = 6
+            ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+            ChildSizing.EnlargeVertical = crsHomogenousChildResize
+            ChildSizing.ShrinkHorizontal = crsScaleChilds
+            ChildSizing.ShrinkVertical = crsScaleChilds
+            ChildSizing.Layout = cclLeftToRightThenTopToBottom
+            ChildSizing.ControlsPerLine = 1
+            ClientHeight = 68
+            ClientWidth = 148
+            TabOrder = 0
+            object RadioButton1: TRadioButton
+              Left = 6
+              Height = 34
+              Top = 0
+              Width = 136
+              Caption = 'Negative (-)'
+              Checked = True
+              TabOrder = 1
+              TabStop = True
+            end
+            object RadioButton2: TRadioButton
+              Left = 6
+              Height = 34
+              Top = 34
+              Width = 136
+              Caption = 'Positive (+)'
+              TabOrder = 0
+            end
+          end
+          object RadioGroup2: TRadioGroup
+            Left = 1
+            Height = 88
+            Top = 72
+            Width = 111
+            AutoFill = True
+            Caption = 'Current'
+            ChildSizing.LeftRightSpacing = 6
+            ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+            ChildSizing.EnlargeVertical = crsHomogenousChildResize
+            ChildSizing.ShrinkHorizontal = crsScaleChilds
+            ChildSizing.ShrinkVertical = crsScaleChilds
+            ChildSizing.Layout = cclLeftToRightThenTopToBottom
+            ChildSizing.ControlsPerLine = 1
+            ClientHeight = 68
+            ClientWidth = 107
+            TabOrder = 1
+            object RadioButton3: TRadioButton
+              Left = 6
+              Height = 34
+              Top = 0
+              Width = 95
+              Caption = 'Direct (DC)'
+              TabOrder = 0
+            end
+            object RadioButton4: TRadioButton
+              Left = 6
+              Height = 34
+              Top = 34
+              Width = 95
+              Caption = 'Pulse'
+              Checked = True
+              TabOrder = 1
+              TabStop = True
+            end
+          end
+          object GroupBox1: TGroupBox
+            Left = 120
+            Height = 88
+            Top = 72
+            Width = 216
+            Caption = 'Pulse parameters'
+            ClientHeight = 68
+            ClientWidth = 212
+            TabOrder = 2
+            object Label2: TLabel
+              Left = 8
+              Height = 15
+              Top = 4
+              Width = 55
+              Caption = 'Frequency'
+              ParentColor = False
+            end
+            object Label3: TLabel
+              Left = 8
+              Height = 15
+              Top = 35
+              Width = 55
+              Caption = 'Duty cycle'
+              ParentColor = False
+            end
+            object Edit1: TEdit
+              Left = 80
+              Height = 23
+              Top = 32
+              Width = 64
+              Alignment = taRightJustify
+              TabOrder = 0
+              Text = '1.0'
+            end
+            object Label6: TLabel
+              Left = 158
+              Height = 15
+              Top = 4
+              Width = 14
+              Caption = 'Hz'
+              ParentColor = False
+            end
+            object Label7: TLabel
+              Left = 162
+              Height = 15
+              Top = 35
+              Width = 10
+              Caption = '%'
+              ParentColor = False
+            end
+            object Edit3: TEdit
+              Left = 80
+              Height = 23
+              Top = 0
+              Width = 64
+              Alignment = taRightJustify
+              TabOrder = 1
+              Text = '7.8'
+            end
+          end
+          object GroupBox2: TGroupBox
+            Left = 501
+            Height = 88
+            Top = 72
+            Width = 137
+            Caption = 'Change direction'
+            ClientHeight = 68
+            ClientWidth = 133
+            TabOrder = 3
+            object CheckBox1: TCheckBox
+              Left = 11
+              Height = 19
+              Top = 4
+              Width = 53
+              Caption = 'Active'
+              TabOrder = 0
+            end
+            object Label4: TLabel
+              Left = 11
+              Height = 15
+              Top = 35
+              Width = 28
+              Caption = 'Every'
+              ParentColor = False
+            end
+            object Edit2: TEdit
+              Left = 43
+              Height = 23
+              Top = 32
+              Width = 37
+              Alignment = taRightJustify
+              TabOrder = 1
+              Text = '5'
+            end
+            object Label5: TLabel
+              Left = 86
+              Height = 15
+              Top = 35
+              Width = 20
+              Caption = 'sek.'
+              ParentColor = False
+            end
+          end
+          object RadioGroup3: TRadioGroup
+            Left = 0
+            Height = 64
+            Top = 0
+            Width = 639
+            Align = alTop
+            AutoFill = True
+            Caption = 'Profil'
+            ChildSizing.LeftRightSpacing = 6
+            ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+            ChildSizing.EnlargeVertical = crsHomogenousChildResize
+            ChildSizing.ShrinkHorizontal = crsScaleChilds
+            ChildSizing.ShrinkVertical = crsScaleChilds
+            ChildSizing.Layout = cclTopToBottomThenLeftToRight
+            ChildSizing.ControlsPerLine = 1
+            ClientHeight = 44
+            ClientWidth = 635
+            ColumnLayout = clVerticalThenHorizontal
+            TabOrder = 4
+            object RadioButton5: TRadioButton
+              Left = 6
+              Height = 44
+              Top = 0
+              Width = 59
+              Caption = 'Users'
+              TabOrder = 0
+            end
+            object RadioButton6: TRadioButton
+              Left = 65
+              Height = 44
+              Top = 0
+              Width = 82
+              AutoSize = False
+              Caption = 'Common'
+              TabOrder = 1
+            end
+            object RadioButton7: TRadioButton
+              Left = 147
+              Height = 44
+              Top = 0
+              Width = 131
+              Caption = 'Stimulation (Pulse)'
+              TabOrder = 2
+            end
+            object RadioButton8: TRadioButton
+              Left = 278
+              Height = 44
+              Top = 0
+              Width = 108
+              Caption = 'Sedimentation'
+              TabOrder = 3
+            end
+            object RadioButton9: TRadioButton
+              Left = 386
+              Height = 44
+              Top = 0
+              Width = 52
+              Caption = 'DC-'
+              TabOrder = 4
+            end
+            object RadioButton10: TRadioButton
+              Left = 438
+              Height = 44
+              Top = 0
+              Width = 55
+              Caption = 'DC+'
+              TabOrder = 5
+            end
+            object RadioButton11: TRadioButton
+              Left = 493
+              Height = 44
+              Top = 0
+              Width = 136
+              Caption = 'DC change direction'
+              TabOrder = 6
+            end
+          end
+        end
+        object Panel14: TPanel
+          Left = 0
+          Height = 248
+          Top = 168
+          Width = 639
+          Align = alTop
+          ClientHeight = 248
+          ClientWidth = 639
+          TabOrder = 1
+          object ProgressBar1: TProgressBar
+            Left = 89
+            Height = 20
+            Top = 207
+            Width = 456
+            Max = 120
+            Position = 75
+            Smooth = True
+            TabOrder = 0
+            BarShowText = True
+          end
+          object Label11: TLabel
+            Left = 89
+            Height = 15
+            Top = 192
+            Width = 47
+            Caption = 'Time left'
+            ParentColor = False
+          end
+          object Chart2: TChart
+            Left = 1
+            Height = 87
+            Top = 1
+            Width = 637
+            AxisList = <            
+              item
+                Visible = False
+                Marks.LabelBrush.Style = bsClear
+                Minors = <>
+                Title.LabelFont.Orientation = 900
+                Title.Caption = 'RMS Current'
+                Title.LabelBrush.Style = bsClear
+              end            
+              item
+                Alignment = calTop
+                Marks.LabelBrush.Style = bsClear
+                Minors = <>
+                Range.Max = 500
+                Range.UseMax = True
+                Range.UseMin = True
+                Title.Visible = True
+                Title.Caption = 'RMS Current [uA]'
+                Title.LabelBrush.Style = bsClear
+              end>
+            Foot.Brush.Color = clBtnFace
+            Foot.Font.Color = clBlue
+            Margins.Left = 0
+            Margins.Top = 3
+            Margins.Right = 0
+            Margins.Bottom = 2
+            Title.Brush.Color = clBtnFace
+            Title.Font.Color = clBlue
+            Title.Text.Strings = (
+              'TAChart'
+            )
+            Align = alTop
+            object Chart2BarSeries1: TBarSeries
+              AxisIndexX = 0
+              AxisIndexY = 1
+              BarBrush.Color = clRed
+              Source = ListChartSource1
+            end
+          end
+          object Chart3: TChart
+            Left = 1
+            Height = 87
+            Top = 88
+            Width = 637
+            AxisList = <            
+              item
+                Visible = False
+                Marks.LabelBrush.Style = bsClear
+                Minors = <>
+                Title.LabelFont.Orientation = 900
+                Title.Caption = 'RMS Current'
+                Title.LabelBrush.Style = bsClear
+              end            
+              item
+                Alignment = calTop
+                Marks.LabelBrush.Style = bsClear
+                Minors = <>
+                Range.Max = 10
+                Range.UseMax = True
+                Range.UseMin = True
+                Title.Visible = True
+                Title.Caption = 'Current in impulse [mA]'
+                Title.LabelBrush.Style = bsClear
+              end>
+            Foot.Brush.Color = clBtnFace
+            Foot.Font.Color = clBlue
+            Margins.Left = 0
+            Margins.Top = 3
+            Margins.Right = 0
+            Margins.Bottom = 2
+            Title.Brush.Color = clBtnFace
+            Title.Font.Color = clBlue
+            Title.Text.Strings = (
+              'TAChart'
+            )
+            Align = alTop
+            object Chart2BarSeries2: TBarSeries
+              AxisIndexX = 0
+              AxisIndexY = 1
+              BarBrush.Color = clRed
+              Source = ListChartSource2
+            end
+          end
+        end
       end
       object tabAuriculotherapy: TTabSheet
         Caption = 'Auriculotherapy'
@@ -7107,5 +7489,19 @@ object frmMain: TfrmMain
     )
     left = 448
     top = 72
+  end
+  object ListChartSource1: TListChartSource
+    DataPoints.Strings = (
+      '0|205|$00FF00|RMS'
+    )
+    left = 768
+    top = 144
+  end
+  object ListChartSource2: TListChartSource
+    DataPoints.Strings = (
+      '0|2.2999999999999998|$FF8000|'
+    )
+    left = 672
+    top = 224
   end
 end

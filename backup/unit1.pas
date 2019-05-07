@@ -30,13 +30,23 @@ type
     cbEAVOn: TCheckBox;
     cbVegatestOn: TCheckBox;
     Chart1: TChart;
+    Chart2: TChart;
+    Chart2BarSeries1: TBarSeries;
+    Chart2BarSeries2: TBarSeries;
+    Chart3: TChart;
     chartRyodorakuNormal: TLineSeries;
     ChartComboBox1: TChartComboBox;
     ChartLegendPanel1: TChartLegendPanel;
     chartRyodorakuSeries: TBarSeries;
     chartMain: TChart;
     chartMainCurrentLineSeries: TLineSeries;
+    CheckBox1: TCheckBox;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit3: TEdit;
     edtConsoleCommand: TEdit;
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -44,13 +54,39 @@ type
     Image5: TImage;
     Image6: TImage;
     Label1: TLabel;
+    Label11: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    ListChartSource1: TListChartSource;
+    ListChartSource2: TListChartSource;
     Panel1: TPanel;
     Panel10: TPanel;
     Panel11: TPanel;
     Panel12: TPanel;
+    Panel13: TPanel;
+    Panel14: TPanel;
     Panel5: TPanel;
     Panel8: TPanel;
     Panel9: TPanel;
+    ProgressBar1: TProgressBar;
+    RadioButton1: TRadioButton;
+    RadioButton10: TRadioButton;
+    RadioButton11: TRadioButton;
+    RadioButton2: TRadioButton;
+    RadioButton3: TRadioButton;
+    RadioButton4: TRadioButton;
+    RadioButton5: TRadioButton;
+    RadioButton6: TRadioButton;
+    RadioButton7: TRadioButton;
+    RadioButton8: TRadioButton;
+    RadioButton9: TRadioButton;
+    RadioGroup1: TRadioGroup;
+    RadioGroup2: TRadioGroup;
+    RadioGroup3: TRadioGroup;
     ryodorakuNormalSource: TListChartSource;
     Panel6: TPanel;
     Panel7: TPanel;
@@ -552,11 +588,6 @@ begin
 
 end;
 
-procedure TfrmMain.serialStatus(Sender: TObject; Reason: THookSerialReason;
-  const Value: string);
-begin
-  statusBar.SimpleText:='Serial status: '+Value;
-end;
 
 procedure TfrmMain.tabEAVShow(Sender: TObject);
 begin
