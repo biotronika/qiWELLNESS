@@ -40,10 +40,10 @@ type
     chartRyodorakuSeries: TBarSeries;
     chartMain: TChart;
     chartMainCurrentLineSeries: TLineSeries;
-    CheckBox1: TCheckBox;
-    Edit1: TEdit;
-    Edit2: TEdit;
-    Edit3: TEdit;
+    cboxChangeDirections: TCheckBox;
+    edtDutyCycle: TEdit;
+    edtSeconds: TEdit;
+    edtFreq: TEdit;
     edtConsoleCommand: TEdit;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
@@ -73,17 +73,17 @@ type
     Panel8: TPanel;
     Panel9: TPanel;
     ProgressBar1: TProgressBar;
-    RadioButton1: TRadioButton;
-    RadioButton10: TRadioButton;
-    RadioButton11: TRadioButton;
-    RadioButton2: TRadioButton;
-    RadioButton3: TRadioButton;
-    RadioButton4: TRadioButton;
-    RadioButton5: TRadioButton;
-    RadioButton6: TRadioButton;
-    RadioButton7: TRadioButton;
-    RadioButton8: TRadioButton;
-    RadioButton9: TRadioButton;
+    rbNegativeElectrode: TRadioButton;
+    rbDCpositive: TRadioButton;
+    rbDCchangeDirections: TRadioButton;
+    rbPositiveElectrode: TRadioButton;
+    rbDirect: TRadioButton;
+    rbPulse: TRadioButton;
+    rbUsers: TRadioButton;
+    rbCommon: TRadioButton;
+    rbStimulation: TRadioButton;
+    rbsedation: TRadioButton;
+    rbDCnegative: TRadioButton;
     RadioGroup1: TRadioGroup;
     RadioGroup2: TRadioGroup;
     RadioGroup3: TRadioGroup;
@@ -118,6 +118,7 @@ type
     TabSheet3: TTabSheet;
     TabSheet4: TTabSheet;
     tabVegatest: TTabSheet;
+    timerChangeDirection: TTimer;
     treeviewSelector: TTreeView;
     procedure btnConsoleExecuteClick(Sender: TObject);
     procedure btnDeleteAllClick(Sender: TObject);
@@ -130,17 +131,21 @@ type
     procedure btnConnectClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
     procedure btnVegatestSaveClick(Sender: TObject);
+    procedure cboxChangeDirectionsChange(Sender: TObject);
     procedure cboxSeriesChange(Sender: TObject);
-    procedure edtConsoleCommandChange(Sender: TObject);
+
     procedure edtConsoleCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure edtFreqChange(Sender: TObject);
+    procedure edtSecondsChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure gridRyodorakuAfterSelection(Sender: TObject; aCol, aRow: Integer);
+
     procedure gridRyodorakuDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
     procedure gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
+
 
     procedure serialRxData(Sender: TObject);
     //procedure serialStatus(Sender: TObject; Reason: THookSerialReason;
@@ -149,6 +154,7 @@ type
 
     procedure tabRyodorakuShow(Sender: TObject);
     procedure tabVegatestShow(Sender: TObject);
+    procedure timerChangeDirectionTimer(Sender: TObject);
     procedure treeviewSelectorSelectionChanged(Sender: TObject);
 
   private
@@ -433,6 +439,11 @@ begin
   //ExtractFilePath(Application.ExeName)
 end;
 
+procedure TfrmMain.cboxChangeDirectionsChange(Sender: TObject);
+begin
+  timerChangeDirection.Enabled:=cboxChangeDirections.Checked;
+end;
+
 
 procedure TfrmMain.cboxSeriesChange(Sender: TObject);
 var i:integer;
@@ -453,10 +464,6 @@ begin
 
 end;
 
-procedure TfrmMain.edtConsoleCommandChange(Sender: TObject);
-begin
-
-end;
 
 procedure TfrmMain.edtConsoleCommandKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
@@ -464,6 +471,35 @@ begin
   if Key = VK_RETURN then begin
     frmMain.btnConsoleExecuteClick(Sender);
   end;
+end;
+
+procedure TfrmMain.edtFreqChange(Sender: TObject);
+begin
+  if serial.Active then begin
+
+    //Type of current (pulse or DC)
+    if rbPulse.Checked then
+      serial.WriteData('freq '+ IntToStr(trunc(StrToFloatDef(edtFreq.Text,10)*100)) +' '+edtDutyCycle.Text+#13#10)
+    else
+      serial.WriteData('freq 100 100'#13#10);   //DC current
+
+    sleep(200);
+
+    //Polarization of electrode
+    if rbNegativeElectrode.Checked then
+      serial.WriteData('chp 0'#13#10)
+    else
+       serial.WriteData('chp 1'#13#10);
+
+  end;
+
+end;
+
+procedure TfrmMain.edtSecondsChange(Sender: TObject);
+var i : integer;
+begin
+  i := StrToIntDef(edtSeconds.Text,0);
+  if i>=2 then timerChangeDirection.Interval:=i*1000;
 end;
 
 
@@ -491,11 +527,7 @@ begin
      treeviewSelector.LoadFromFile(s);
 end;
 
-procedure TfrmMain.gridRyodorakuAfterSelection(Sender: TObject; aCol,
-  aRow: Integer);
-begin
 
-end;
 
 procedure TfrmMain.gridRyodorakuDrawCell(Sender: TObject; aCol, aRow: Integer;
   aRect: TRect; aState: TGridDrawState);
@@ -531,6 +563,8 @@ begin
   end;
 
 end;
+
+
 
 
 procedure TfrmMain.serialRxData(Sender: TObject);
@@ -611,6 +645,25 @@ begin
     serial.WriteData('vegatest'#13#10);
 
   end;
+end;
+
+procedure TfrmMain.timerChangeDirectionTimer(Sender: TObject);
+begin
+  if rbNegativeElectrode.Checked then begin
+
+    rbNegativeElectrode.Checked := false;
+    rbPositiveElectrode.Checked := true;
+
+  end else begin
+
+      rbNegativeElectrode.Checked := true;
+      rbPositiveElectrode.Checked := false;
+
+  end;
+  //rbNegativeElectrode.Checked := not rbNegativeElectrode.Checked;
+  //rbPositiveElectrode.Checked := not rbPositiveElectrode.Checked;
+  //ShowMessage('aa');
+
 end;
 
 procedure TfrmMain.treeviewSelectorSelectionChanged(Sender: TObject);
