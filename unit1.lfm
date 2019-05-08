@@ -7444,6 +7444,47 @@ object frmMain: TfrmMain
           end
         end
       end
+      object TabSheet5: TTabSheet
+        Caption = 'Literature'
+        ClientHeight = 631
+        ClientWidth = 639
+        object GroupBox3: TGroupBox
+          Left = 0
+          Height = 56
+          Top = 0
+          Width = 639
+          Align = alTop
+          Caption = 'Ryodoraku'
+          ClientHeight = 36
+          ClientWidth = 635
+          TabOrder = 0
+          object Label8: TLabel
+            Left = 16
+            Height = 15
+            Top = 0
+            Width = 219
+            Caption = 'A Guide for Application of Ryodoraku.pdf'
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clNavy
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Font.Style = [fsUnderline]
+            ParentColor = False
+            ParentFont = False
+            OnClick = Label8Click
+          end
+          object Label9: TLabel
+            Left = 248
+            Height = 15
+            Top = 0
+            Width = 276
+            Caption = 'by Yoshio NAKATANI MD,PhD, Tetsuo OISO MD,PhD'
+            ParentColor = False
+          end
+        end
+      end
     end
   end
   object serial: TLazSerial

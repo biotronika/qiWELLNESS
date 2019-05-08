@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
   ComCtrls, CheckLst, Grids, ColorBox, LazSerial, TAGraph, TASeries,
-  TALegendPanel, TASources, TAChartCombos, (*LazSynaSer,*) Types , LCLType;
+  TALegendPanel, TASources, TAChartCombos,  Types , LCLType,  lclintf;
 
 type
 
@@ -47,6 +47,7 @@ type
     edtConsoleCommand: TEdit;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -61,6 +62,8 @@ type
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
     ListChartSource1: TListChartSource;
     ListChartSource2: TListChartSource;
     Panel1: TPanel;
@@ -117,6 +120,7 @@ type
     Hand: TTabSheet;
     TabSheet3: TTabSheet;
     TabSheet4: TTabSheet;
+    TabSheet5: TTabSheet;
     tabVegatest: TTabSheet;
     timerChangeDirection: TTimer;
     treeviewSelector: TTreeView;
@@ -145,6 +149,7 @@ type
       aRect: TRect; aState: TGridDrawState);
     procedure gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
+    procedure Label8Click(Sender: TObject);
 
 
     procedure serialRxData(Sender: TObject);
@@ -562,6 +567,11 @@ begin
      end;
   end;
 
+end;
+
+procedure TfrmMain.Label8Click(Sender: TObject);
+begin
+  OpenURL('http://iarms.org/journal/rmst_v1_1_20.pdf');
 end;
 
 
