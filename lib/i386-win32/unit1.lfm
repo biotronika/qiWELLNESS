@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 429
+  Left = 344
   Height = 661
-  Top = 139
+  Top = 171
   Width = 1259
   Caption = 'qiWELLNESS'
   ClientHeight = 661
@@ -598,6 +598,24 @@ object frmMain: TfrmMain
           49D2FF03A0FF668850E346A20000000049454E44AE426082
         }
       end
+      object Label8: TLabel
+        Cursor = crHandPoint
+        Left = 504
+        Height = 17
+        Top = 108
+        Width = 86
+        Caption = 'See literature...'
+        Font.CharSet = EASTEUROPE_CHARSET
+        Font.Color = clNavy
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsUnderline]
+        ParentColor = False
+        ParentFont = False
+        OnClick = Label8Click
+      end
     end
     object statusBar: TStatusBar
       Left = 1
@@ -1026,9 +1044,9 @@ object frmMain: TfrmMain
           Height = 432
           Top = 0
           Width = 639
-          ActivePage = Hand
+          ActivePage = TabSheet3
           Align = alTop
-          TabIndex = 0
+          TabIndex = 2
           TabOrder = 1
           TabPosition = tpBottom
           object Hand: TTabSheet
@@ -3330,98 +3348,11 @@ object frmMain: TfrmMain
             Caption = 'Chart'
             ClientHeight = 404
             ClientWidth = 631
-            object Image6: TImage
+            object chartRyodoraku: TChart
               Left = 0
-              Height = 22
-              Top = 382
-              Width = 631
-              Align = alBottom
-              Picture.Data = {
-                1754506F727461626C654E6574776F726B47726170686963A109000089504E47
-                0D0A1A0A0000000D49484452000002740000001708060000008296D212000000
-                017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048
-                597300000EC200000EC20115284A800000093649444154785EED9CBB76AB4A0C
-                4095FB2D9022CB5F808B53DB6952B94D874BBB49E7325D1ABB8C3BB7A9D21C68
-                4F8AF80BBC5204FEC5571A666080E16107F370B4EF625D1B1C9046D248F3E0DC
-                1C116018866118866106CB7FF2FFBDE4E3E3437E1A1E43965D31741DD87FDAE7
-                1AFC9E60DFEF07D7A287E29AF4B9065DAECD1EBD2EE8188661188661986AB8A0
-                63188661188619385CD0310CC3300CC30C1C2EE8188661188661060E17740CC3
-                300CC330036760055D089BF10D8C37A1FC2E093730BE1943EAB4E99C02AFCDF1
-                3E3737788CE7E09B7ED3383ECCE979F131867946B87033479993EB1B5F5E9084
-                9BB1F6F7EA40F9E5F5CB636E7F21D7788357A3EB7919F198A7A5EC4C17DDF674
-                08B923FC397ECFC89927B263CE072F4C79BB667DAB4ABE3675288859A4ACBD73
-                FEA1D9A9330A7DA73AB623B02DE69A5ED4F7C82B97276B0719AB86764DECD2A5
-                BC45446D1DBB8DE8E7955E522725AF90196D51D8C1F7413F83EFC442646D564C
-                E8EBB923D1A38B3812B2A4E204E5110F2DD3B508435F15E239757FBC778DE639
-                0D639C1B7C4B1DA54AE4E5F7D126B1AD1A96FF17CED06103DB4B38CC02088200
-                BCD116A68FED250B67ED89E706DE08B64B3B76681F3B167B798091BCEEAD01DE
-                BED352598B5DF4B7F2583B78D27D804974B90758B0D849F9500107FF5B7BF2FB
-                6B5ACA4E74A1CE9F6C3F9236A0E7CE6EE5C57A849B67D8CACF6D52A75D5D750E
-                8FDDC29267F374A5C329045F7B5228D627D82DD0BB3AA486EF14C576420070B7
-                82E0788463E0818B56985667B40B61C1FD0C836EFF455269F8F08ECEE13E905F
-                F5495E1398641F97B0473FF9D4FC3DB6031EDE0C603BB50B8AA2FEE8A762D773
-                F728EF8985251650F6F40033BC07FDB3B241F014F7A36DC711159024CB68A69E
-                E9C17A04F02DAF13A7E89AEFABC8E6D3280E8F94BF0FB0B41B2CC40BE3BC7E6E
-                D3C9CBEFC3F7D70C56EADE7875D960FDF1FB0A3AFF1D9BD0851576009665C1E4
-                098DB37F83BF6D5574608BE75A932751C41CA86843277ADEEED1D13FE1753189
-                E4C2826795AB352299C5017FE16D8F4EF574D112E874947CB6FC6E2B79B3C8F3
-                6DEA127C01B632AC3000D5B317D4DEF272256827CC1FE050F1D936AAAD4ADB55
-                9ECB9DD7E852871371EE64AC88439EEC8A5ABE6388ED1493E46FAC093C60A2C3
-                1FB53698CC622D56A28879D7B3A1EC1F453DD73379B3849B4758EE5DF0720935
-                F19BC9E2130234C67EF96248FA7DD24FCAFBE0CAEF75C102E7192D86B9633189
-                BC91EEA3D35A1C89BE259DC72C6CD7C5EB2BA4C797357535F555FE0BDADC8119
-                E60ABC0BE6EF199656191FFE0965712EBF57E73689B1AFA5F658C044DD7B856D
-                901B549DCFAF2BE8C2EF83FCA4B387AFA65AF40CC2BF6FB077D690AE67D05965
-                809AF05F6864BACA04CA30694D97C9834860D37809E014A2D98091B7031CF40F
-                94A1E8100285E97E69C7CB12ED6C8B28E147BE63208C66C29CD97D7142B83858
-                C4603ED96AD9D08FA6E7F04A865EC8ABF1AD8A87D7BCAC19ACFB1A49BF17FA85
-                C5ED5F44180D86E15B2DB9EACBFDEDC691C863F160A08A2A5DCD7D5594BF4770
-                AB8C64DDE237D3E0E94C1A8BF37A7DAD6803E70E8720CDF0EB0A3A15DCCFE8F4
-                61884EF5424ED83EA11A69DC9FD37DE8CB22ED137710F2B0B1633D9F367599C0
-                AB5A5AB14FEBE0C46C00648BEE7EB19D2A9B98F78E0E4187086D7943D9ABC56D
-                1166EAFB4E696CFBF3C846F6140EAE57BA34DE06629664FB2E67AF0CB1D83379
-                15DB250E027383E00264D237D213FDA2D8B561BAA5958A13D2BB9851DAC3011E
-                6047CBADA9E5FE0EE2482B4EC45E4CD11F697B1E913ABA96F655A902C886BB46
-                571BCECF113A75FA5A5A9EA6367057CD2D83FFBE25576B013B0F3B31747ADB7E
-                84F7BB191AAF3D543144FB0CDCF5EEAC59A9685DBEEE48A879F43D2A74786203
-                DC79B4AE8B8501FBA9ED99A9B3FF82F6A82C47E07D76BC8FAB82640F9DC1AF06
-                A2438C5ADE207B89658936B7451450E13BB5627BF22AF73979303B4CC1EEFA65
-                0F39232166AF52CBAD92BEC92B713DB4C17E098F75769487DF58F014D013FDE2
-                D8C5826C8979A98E5A09347888960573CBFD1DC6D1E49574A2584953A9EB497D
-                5500B44DB051CEC9113A95F287F813DA330FB00E3EA1640BDEC95C4741274660
-                9965533172D1A666352C0CE24F0CE2E3111BF3F62BDF895D10550C8967CB1EDF
-                BAC5F123764E2F35BD26DAE8DAE5CB10FA9E0CEB47D3C59DE94241BBA3CDADD5
-                FB2FC4B43805B6186DDA4013922279F724B9252436C9321C1D064081EF9862BB
-                08B1B7A8E1FD33E7A1965D37B089A6E78CB1D81F791568031C98930F57BDC750
-                6729B07BFD64EC8A027B0F6F75AB2EFB0EFD50E702054E4DC4EA572A8F914EF2
-                638A725DCBFA2A10B952B39128D6CF5DE9AAE0841CA153D5D7FA731BA6072CF8
-                B0983B6742A78C81167481582E8D0EFA2E3BA529BD024CE77C983F63A31AD7A6
-                D5DFC9DF4DB7D811276F055D9EA8184A214755DB69F48ABD900DAB7CF33F7DD0
-                ED726BB3B4AC8BBFC136F563FBFBA2A377E0AEA2228D469AEAF084AD44F2EEFA
-                CDCB1CCAAFF1906714DDEB908DD9327CD8909DE8631CCB33B8449F5D9B5ABE63
-                886D1DBCC746ADDFA05EB499BDC9FD33F5C8DB215A765DC2321B8BBD90B7041C
-                98D3624BFE4DC944475FCE8418F7DAF54A3F6913314B0A304ACD4494C48E750F
-                33670F4BACA2C4F50DFDBD2A705A8E236B015413A7F3D8BB617634B996D7B5A2
-                AF9233CACF422FB965AA499DCECC113AA5F287F402A403EBDD13FA996C073C1A
-                E3D863FEFDFB273F29822336CE91C48E0F678D67090FAF39F179C755E7B37847
-                F439F93BE7E8AECDBFFA2979D9A3E73A85CF0B8E9E9BC84FB2AD3D794927581F
-                1DBA7619B15314B57F5687608D72C77690D491F3C2BAE4E4A7E7E9FEE3B8A967
-                63723862CF2FBF15616E83A6C9B7BDC4D866BA4FCBA3548FCBE9704ACC16B737
-                C572F2FBE258BE1CA7F94E556C4B84EDD27A791752EC143B24FEE3E2278D16E5
-                2D22AF47246BEC364A467122AFA383762A94B903FD8AF44964C69C140B516633
-                1DBC47FC3BFA7B791ACF5F328EF2BA1098C7D66E41BB96E95A84A1AF42BBC5FA
-                96D9B706A7C5B944F84DDDBC9591DF73937BC74733399074B9A10F78D35EF2F1
-                F1017FFEFC91DF86C59065570C5D07F69FF6B906BF27D8F7FBC1B5E8A1B8267D
-                AE41976BB3C7EF7B29826118866118E6CAE0828E611886611866E07041C7300C
-                C3300C3370B8A063188661188619385CD0310CC3300CC30C9C1B7AD5557E6618
-                86611886610607C0FFC85416BE8F9E6EB00000000049454E44AE426082
-              }
-            end
-            object Chart1: TChart
-              Left = 10
-              Height = 382
+              Height = 404
               Top = 0
-              Width = 621
+              Width = 631
               AxisList = <              
                 item
                   Intervals.NiceSteps = '5|10'
@@ -3434,25 +3365,52 @@ object frmMain: TfrmMain
                   Title.LabelBrush.Style = bsClear
                 end              
                 item
-                  Visible = False
+                  Grid.Visible = False
+                  TickLength = 0
                   Alignment = calBottom
-                  Marks.Visible = False
+                  Marks.Format = '%2:s'
                   Marks.LabelBrush.Style = bsClear
-                  Minors = <>
+                  Marks.Source = ryodorakuLeftSource
+                  Marks.Style = smsLabel
+                  Minors = <                  
+                    item
+                      Intervals.Count = 1
+                      Intervals.MinLength = 5
+                      Intervals.Options = [aipUseCount, aipUseMinLength]
+                      TickLength = 4
+                      Marks.LabelBrush.Style = bsClear
+                    end>
+                  Range.Max = 11
+                  Range.UseMax = True
+                  Range.UseMin = True
+                  Title.Visible = True
                   Title.LabelBrush.Style = bsClear
                 end>
               BackColor = clWhite
               Foot.Brush.Color = clBtnFace
               Foot.Font.Color = clBlue
+              Margins.Left = 5
+              Margins.Top = 5
+              Margins.Right = 5
+              Margins.Bottom = 0
+              MarginsExternal.Left = 17
               Title.Brush.Color = clBtnFace
               Title.Font.Color = clBlue
               Title.Text.Strings = (
                 'TAChart'
               )
               Align = alClient
-              object chartRyodorakuSeries: TBarSeries
-                BarBrush.Color = clRed
-                Source = ryodorakuSource
+              object chartRyodorakuLeftSeries: TBarSeries
+                BarBrush.Color = clSilver
+                BarOffsetPercent = -19
+                BarWidthPercent = 35
+                Source = ryodorakuLeftSource
+              end
+              object chartRyodorakuRightSeries: TBarSeries
+                BarBrush.Color = clGray
+                BarOffsetPercent = 20
+                BarWidthPercent = 35
+                Source = ryodorakuRightSource
               end
               object chartRyodorakuNormal: TLineSeries
                 LinePen.Color = 8454016
@@ -3460,14 +3418,6 @@ object frmMain: TfrmMain
                 LinePen.Width = 65
                 Source = ryodorakuNormalSource
               end
-            end
-            object Panel4: TPanel
-              Left = 0
-              Height = 382
-              Top = 0
-              Width = 10
-              Align = alLeft
-              TabOrder = 1
             end
           end
         end
@@ -3527,6 +3477,7 @@ object frmMain: TfrmMain
         ClientWidth = 639
         OnHide = tabEAVShow
         OnShow = tabEAVShow
+        TabVisible = False
         object TabControl1: TTabControl
           Left = 0
           Height = 384
@@ -4055,6 +4006,7 @@ object frmMain: TfrmMain
         Caption = 'Auriculotherapy'
         ClientHeight = 631
         ClientWidth = 639
+        TabVisible = False
         object PageControl1: TPageControl
           Left = 0
           Height = 448
@@ -7444,47 +7396,6 @@ object frmMain: TfrmMain
           end
         end
       end
-      object TabSheet5: TTabSheet
-        Caption = 'Literature'
-        ClientHeight = 631
-        ClientWidth = 639
-        object GroupBox3: TGroupBox
-          Left = 0
-          Height = 56
-          Top = 0
-          Width = 639
-          Align = alTop
-          Caption = 'Ryodoraku'
-          ClientHeight = 36
-          ClientWidth = 635
-          TabOrder = 0
-          object Label8: TLabel
-            Left = 16
-            Height = 15
-            Top = 0
-            Width = 219
-            Caption = 'A Guide for Application of Ryodoraku.pdf'
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Color = clNavy
-            Font.Height = -12
-            Font.Name = 'Segoe UI'
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            Font.Style = [fsUnderline]
-            ParentColor = False
-            ParentFont = False
-            OnClick = Label8Click
-          end
-          object Label9: TLabel
-            Left = 248
-            Height = 15
-            Top = 0
-            Width = 276
-            Caption = 'by Yoshio NAKATANI MD,PhD, Tetsuo OISO MD,PhD'
-            ParentColor = False
-          end
-        end
-      end
     end
   end
   object serial: TLazSerial
@@ -7500,40 +7411,10 @@ object frmMain: TfrmMain
     left = 552
     top = 56
   end
-  object ryodorakuSource: TListChartSource
-    DataPoints.Strings = (
-      '1|0|$FF8000|'
-      '2|0|$FF8000|'
-      '3|0|$808040|'
-      '4|0|$808040|'
-      '5|0|$FF8000|'
-      '6|0|$FF8000|'
-      '7|0|$808040|'
-      '8|0|$808040|'
-      '9|0|?|'
-      '10|0|?|'
-      '11|0|?|'
-      '12|0|?|'
-      '13|0|?|'
-      '14|0|?|'
-      '15|0|?|'
-      '16|0|?|'
-      '17|0|?|'
-      '18|0|?|'
-      '19|0|?|'
-      '20|0|?|'
-      '21|0|?|'
-      '22|0|?|'
-      '23|0|?|'
-      '24|0|?|'
-    )
-    left = 448
-    top = 16
-  end
   object ryodorakuNormalSource: TListChartSource
     DataPoints.Strings = (
-      '1|50|$00FF00|'
-      '25|50|$00FF00|'
+      '0|50|$00FF00|'
+      '11|50|$00FF00|'
     )
     left = 448
     top = 72
@@ -7556,7 +7437,43 @@ object frmMain: TfrmMain
     Enabled = False
     Interval = 5000
     OnTimer = timerChangeDirectionTimer
-    left = 1208
-    top = 160
+    left = 320
+    top = 16
+  end
+  object ryodorakuLeftSource: TListChartSource
+    DataPoints.Strings = (
+      '0|40|?|LU'
+      '1|120|?|PC'
+      '2|160|?|HT'
+      '3|145|?|SI'
+      '4|120|?|TE'
+      '5|145|?|LI'
+      '6|90|?|SP'
+      '7|65|?|LV'
+      '8|80|?|KD'
+      '9|67|?|BL'
+      '10|90|?|GB'
+      '11|110|?|ST'
+    )
+    left = 152
+    top = 72
+  end
+  object ryodorakuRightSource: TListChartSource
+    DataPoints.Strings = (
+      '0|70|?|LU'
+      '1|120|?|PC'
+      '2|160|?|HT'
+      '3|145|?|SI'
+      '4|120|?|TE'
+      '5|145|?|LI'
+      '6|90|?|SP'
+      '7|45|?|LV'
+      '8|87|?|KD'
+      '9|90|?|BL'
+      '10|110|?|GB'
+      '11|120|?|ST'
+    )
+    left = 272
+    top = 72
   end
 end

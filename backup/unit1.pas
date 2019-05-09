@@ -29,7 +29,8 @@ type
     cbRyodorakuOn: TCheckBox;
     cbEAVOn: TCheckBox;
     cbVegatestOn: TCheckBox;
-    Chart1: TChart;
+    chartRyodoraku: TChart;
+    chartRyodorakuRightSeries: TBarSeries;
     Chart2: TChart;
     Chart2BarSeries1: TBarSeries;
     Chart2BarSeries2: TBarSeries;
@@ -37,7 +38,7 @@ type
     chartRyodorakuNormal: TLineSeries;
     ChartComboBox1: TChartComboBox;
     ChartLegendPanel1: TChartLegendPanel;
-    chartRyodorakuSeries: TBarSeries;
+    chartRyodorakuLeftSeries: TBarSeries;
     chartMain: TChart;
     chartMainCurrentLineSeries: TLineSeries;
     cboxChangeDirections: TCheckBox;
@@ -47,13 +48,11 @@ type
     edtConsoleCommand: TEdit;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
-    GroupBox3: TGroupBox;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
     Image4: TImage;
     Image5: TImage;
-    Image6: TImage;
     Label1: TLabel;
     Label11: TLabel;
     Label2: TLabel;
@@ -63,9 +62,9 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
-    Label9: TLabel;
     ListChartSource1: TListChartSource;
     ListChartSource2: TListChartSource;
+    ryodorakuLeftSource: TListChartSource;
     Panel1: TPanel;
     Panel10: TPanel;
     Panel11: TPanel;
@@ -90,16 +89,15 @@ type
     RadioGroup1: TRadioGroup;
     RadioGroup2: TRadioGroup;
     RadioGroup3: TRadioGroup;
+    ryodorakuRightSource: TListChartSource;
     ryodorakuNormalSource: TListChartSource;
     Panel6: TPanel;
     Panel7: TPanel;
-    ryodorakuSource: TListChartSource;
     memoConsole: TMemo;
     PageControl1: TPageControl;
     PageControl2: TPageControl;
     pageRight: TPageControl;
     Panel3: TPanel;
-    Panel4: TPanel;
     panelButtons: TPanel;
     panelLogo: TPanel;
     panelRight: TPanel;
@@ -120,7 +118,6 @@ type
     Hand: TTabSheet;
     TabSheet3: TTabSheet;
     TabSheet4: TTabSheet;
-    TabSheet5: TTabSheet;
     tabVegatest: TTabSheet;
     timerChangeDirection: TTimer;
     treeviewSelector: TTreeView;
@@ -149,6 +146,7 @@ type
       aRect: TRect; aState: TGridDrawState);
     procedure gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
+
     procedure Label8Click(Sender: TObject);
 
 
@@ -179,7 +177,7 @@ type
       seriesArray : array[1..MAX_SERIES_NUMBER] of TLineSeries; //No dynamic array of all used series
 
   public
-     ryodorakuPoint : array[0..23] of Double;
+     ryodorakuPoint : array[0..11,0..1] of Double; //[0..23]
 
   end;
 
@@ -344,11 +342,13 @@ end;
 
 procedure TfrmMain.btnSaveAsClick(Sender: TObject);
 var s : string;
-    i,j : integer;
-    d : Double;
+    i,j,count : integer;
+    sum,d : Double;
     chartIndex: integer;
+    rightChartIndex : integer;
 begin
-  chartIndex:=-1;
+  chartIndex      := -1;
+  rightChartIndex := -1;
 
   //Check numbers of seriers on chart
   if cboxSeries.Items.Count>MAX_SERIES_NUMBER then exit;
@@ -367,7 +367,9 @@ begin
      s:=FCurrentPointName;
 
      if cbRyodorakuOn.Checked then begin
-        chartIndex := FRyodorakuChart;
+        //chartIndex := FRyodorakuChart;
+       chartIndex := FRyodorakuChart div 2;
+       rightChartIndex :=  FRyodorakuChart mod 2;
      end;
 
   end;
@@ -394,43 +396,70 @@ begin
     d:= seriesArray[i].MaxYValue * RYODORAKU_FACTOR;
 
     //Save value
-    ryodorakuPoint[chartIndex]:= d;
-    ryodorakuSource.SetYValue(chartIndex,d);
+    ryodorakuPoint[chartIndex,rightChartIndex]:= d;
+    if rightChartIndex=0 then
+      ryodorakuLeftSource.SetYValue(chartIndex,d)
+    else
+      ryodorakuRightSource.SetYValue(chartIndex,d);
+
+
 
     //Calculate normal value  (+/- 15[uA])
-    d:=0;
-    j:=0;
-    for i:= 0 to 23 do begin
-         if ryodorakuPoint[i]>0 then begin
-           d:=d+ryodorakuPoint[i];
-           j:=j+1;
+
+    sum:=0;
+    count:=0;
+
+    for i:= 0 to 11 do
+       for j:= 0 to 1 do begin
+
+         if ryodorakuPoint[i,j]>0 then begin
+
+           sum := sum + ryodorakuPoint[i,j];
+           count := count+1;
+
          end;
-    end;
+
+       end;
+
 
     //Set normal line on ryododraku chart
-    if j>0 then begin
-      d := round(d/j);
-      ryodorakuNormalSource.SetYValue(0,d);
-      ryodorakuNormalSource.SetYValue(1,d);
+
+    if count>0 then begin
+      sum := round(sum/count);
+      ryodorakuNormalSource.SetYValue(0,sum);
+      ryodorakuNormalSource.SetYValue(1,sum);
     end;
 
+
     //Set color of ryodoraku charts
-    for i:= 0 to 23 do begin
 
-        if ryodorakuPoint[i]< d-15 then begin
+    for i:= 0 to 11 do
+      for j:=0 to 1 do begin
 
-           ryodorakuSource.SetColor(i,$800000);  //navy
+        if ryodorakuPoint[i,j]< sum-15 then begin
 
-        end else if ryodorakuPoint[i]> d+15 then begin
+           if j=0 then
+             ryodorakuLeftSource.SetColor(i,$800000)  //navy
+           else
+             ryodorakuRightSource.SetColor(i,$800000);
 
-            ryodorakuSource.SetColor(i,$0000FF);  //red
+        end else if ryodorakuPoint[i,j]> sum+15 then begin
+
+           if j=0 then
+             ryodorakuLeftSource.SetColor(i,$0000FF)  //red
+           else
+             ryodorakuRightSource.SetColor(i,$0000FF);
 
         end else begin
 
-            ryodorakuSource.SetColor(i,$008000);  //green
+          if j=0 then
+            ryodorakuLeftSource.SetColor(i,$008000)  //green
+          else
+            ryodorakuRightSource.SetColor(i,$008000);
 
         end;
-    end;
+      end;
+
 
 
   end;
@@ -526,10 +555,15 @@ end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
 var s: string;
+    i : integer;
 begin
   s:= ExtractFilePath(Application.ExeName)+'selector.txt';
   if FileExists(s)then
      treeviewSelector.LoadFromFile(s);
+  for i:= 0 to 11 do begin
+      chartRyodorakuLeftSeries.SetYValue(i,0);
+      chartRyodorakuRightSeries.SetYValue(i,0); //do not use Clear method
+  end;
 end;
 
 
@@ -569,9 +603,10 @@ begin
 
 end;
 
+
 procedure TfrmMain.Label8Click(Sender: TObject);
 begin
-  OpenURL('http://iarms.org/journal/rmst_v1_1_20.pdf');
+  OpenUrl('https://biotronics.eu/literature');
 end;
 
 
