@@ -61,6 +61,10 @@
 __history/
 __recovery/
 *.~*
+backup/
+lib/
+.gitignore
+.gitattributes
 
 # Castalia statistics file (since XE7 Castalia is distributed with Delphi)
 *.stat
