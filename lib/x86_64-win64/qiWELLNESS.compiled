@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CONFIG>
-  <Compiler Value="C:\lazarus\fpc\3.0.4\bin\x86_64-win64\fpc.exe" Date="1313017496"/>
-  <Params Value=" -MObjFPC -Scghi -O1 -g -gl -WG -l -vewnhibq -FiC:\lazarus\workspace\qiWELLNESS\lib\x86_64-win64 -FuC:\lazarus\components\tachart\lib\x86_64-win64\win32 -FuC:\lazarus\components\ideintf\units\x86_64-win64\win32 -FuC:\lazarus\components\synedit\units\x86_64-win64\win32 -FuC:\Users\kczoba\AppData\Local\lazarus\onlinepackagemanager\packages\LazSerial\lib\x86_64-win64 -FuC:\lazarus\components\lazcontrols\lib\x86_64-win64\win32 -FuC:\lazarus\lcl\units\x86_64-win64\win32 -FuC:\lazarus\lcl\units\x86_64-win64 -FuC:\lazarus\components\lazutils\lib\x86_64-win64 -FuC:\lazarus\packager\units\x86_64-win64 -FuC:\lazarus\workspace\qiWELLNESS\ -FUC:\lazarus\workspace\qiWELLNESS\lib\x86_64-win64\ -FEC:\lazarus\workspace\qiWELLNESS\ -oC:\lazarus\workspace\qiWELLNESS\qiWELLNESS.exe -dUseCThreads -dLCL -dLCLwin32 qiWELLNESS.lpr"/>
-</CONFIG>
