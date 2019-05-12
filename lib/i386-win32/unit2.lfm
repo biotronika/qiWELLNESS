@@ -60,7 +60,6 @@ object Form2: TForm2
     Height = 115
     Top = 354
     Width = 727
-    Chart = Form1.chartMain
     Align = alClient
   end
   object ListChartSource1: TListChartSource

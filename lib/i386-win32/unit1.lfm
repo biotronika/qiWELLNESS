@@ -686,6 +686,7 @@ object frmMain: TfrmMain
       Align = alClient
       TabIndex = 0
       TabOrder = 0
+      OnChange = pageRightChange
       object tabConsole: TTabSheet
         Caption = 'Console'
         ClientHeight = 631
@@ -3612,6 +3613,7 @@ object frmMain: TfrmMain
         Caption = 'Electropunture'
         ClientHeight = 631
         ClientWidth = 639
+        OnShow = tabElectropuntureShow
         object Panel13: TPanel
           Left = 0
           Height = 168
@@ -3730,7 +3732,7 @@ object frmMain: TfrmMain
               Alignment = taRightJustify
               OnChange = edtFreqChange
               TabOrder = 0
-              Text = '1.0'
+              Text = '5.0'
             end
             object Label6: TLabel
               Left = 158
@@ -3887,17 +3889,17 @@ object frmMain: TfrmMain
         end
         object Panel14: TPanel
           Left = 0
-          Height = 208
+          Height = 200
           Top = 168
           Width = 639
           Align = alTop
-          ClientHeight = 208
+          ClientHeight = 200
           ClientWidth = 639
           TabOrder = 1
-          object ProgressBar1: TProgressBar
+          object pbarTimer: TProgressBar
             Left = 88
             Height = 20
-            Top = 167
+            Top = 159
             Width = 456
             Max = 120
             Smooth = True
@@ -3907,14 +3909,14 @@ object frmMain: TfrmMain
           object Label11: TLabel
             Left = 88
             Height = 15
-            Top = 152
+            Top = 144
             Width = 47
             Caption = 'Time left'
             ParentColor = False
           end
-          object Chart2: TChart
+          object chartRMS: TChart
             Left = 1
-            Height = 71
+            Height = 63
             Top = 1
             Width = 637
             AxisList = <            
@@ -3949,17 +3951,17 @@ object frmMain: TfrmMain
               'TAChart'
             )
             Align = alTop
-            object Chart2BarSeries1: TBarSeries
+            object chartRMSBarSeries1: TBarSeries
               AxisIndexX = 0
               AxisIndexY = 1
               BarBrush.Color = clRed
-              Source = ListChartSource1
+              Source = chartSourceRMS
             end
           end
-          object Chart3: TChart
+          object chartCurrent: TChart
             Left = 1
-            Height = 72
-            Top = 72
+            Height = 64
+            Top = 64
             Width = 637
             AxisList = <            
               item
@@ -3993,12 +3995,31 @@ object frmMain: TfrmMain
               'TAChart'
             )
             Align = alTop
-            object Chart2BarSeries2: TBarSeries
+            object chartSeriesCurrent: TBarSeries
               AxisIndexX = 0
               AxisIndexY = 1
               BarBrush.Color = clRed
-              Source = ListChartSource2
+              Source = chartSourceCurrent
             end
+          end
+        end
+        object Panel4: TPanel
+          Left = 0
+          Height = 39
+          Top = 592
+          Width = 639
+          Align = alBottom
+          ClientHeight = 39
+          ClientWidth = 639
+          TabOrder = 2
+          object cbElectropunctueOn: TCheckBox
+            Left = 40
+            Height = 19
+            Top = 8
+            Width = 152
+            Caption = 'Turn on electropuncture '
+            OnChange = cbElectropunctueOnChange
+            TabOrder = 0
           end
         end
       end
@@ -7419,19 +7440,19 @@ object frmMain: TfrmMain
     left = 448
     top = 72
   end
-  object ListChartSource1: TListChartSource
+  object chartSourceRMS: TListChartSource
     DataPoints.Strings = (
       '0|205|$00FF00|RMS'
     )
-    left = 568
-    top = 240
+    left = 472
+    top = 224
   end
-  object ListChartSource2: TListChartSource
+  object chartSourceCurrent: TListChartSource
     DataPoints.Strings = (
       '0|2.2999999999999998|$FF8000|'
     )
-    left = 568
-    top = 328
+    left = 472
+    top = 280
   end
   object timerChangeDirection: TTimer
     Enabled = False
@@ -7475,5 +7496,12 @@ object frmMain: TfrmMain
     )
     left = 272
     top = 72
+  end
+  object timerCurrent: TTimer
+    Enabled = False
+    Interval = 200
+    OnTimer = timerCurrentTimer
+    left = 560
+    top = 224
   end
 end

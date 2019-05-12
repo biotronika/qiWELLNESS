@@ -28,13 +28,14 @@ type
     cboxSeries: TComboBox;
     cbRyodorakuOn: TCheckBox;
     cbEAVOn: TCheckBox;
+    cbElectropunctueOn: TCheckBox;
     cbVegatestOn: TCheckBox;
     chartRyodoraku: TChart;
     chartRyodorakuRightSeries: TBarSeries;
-    Chart2: TChart;
-    Chart2BarSeries1: TBarSeries;
-    Chart2BarSeries2: TBarSeries;
-    Chart3: TChart;
+    chartRMS: TChart;
+    chartRMSBarSeries1: TBarSeries;
+    chartSeriesCurrent: TBarSeries;
+    chartCurrent: TChart;
     chartRyodorakuNormal: TLineSeries;
     ChartComboBox1: TChartComboBox;
     ChartLegendPanel1: TChartLegendPanel;
@@ -62,8 +63,9 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
-    ListChartSource1: TListChartSource;
-    ListChartSource2: TListChartSource;
+    chartSourceRMS: TListChartSource;
+    chartSourceCurrent: TListChartSource;
+    Panel4: TPanel;
     ryodorakuLeftSource: TListChartSource;
     Panel1: TPanel;
     Panel10: TPanel;
@@ -74,7 +76,7 @@ type
     Panel5: TPanel;
     Panel8: TPanel;
     Panel9: TPanel;
-    ProgressBar1: TProgressBar;
+    pbarTimer: TProgressBar;
     rbNegativeElectrode: TRadioButton;
     rbDCpositive: TRadioButton;
     rbDCchangeDirections: TRadioButton;
@@ -119,6 +121,7 @@ type
     TabSheet3: TTabSheet;
     TabSheet4: TTabSheet;
     tabVegatest: TTabSheet;
+    timerCurrent: TTimer;
     timerChangeDirection: TTimer;
     treeviewSelector: TTreeView;
     procedure btnConsoleExecuteClick(Sender: TObject);
@@ -132,6 +135,7 @@ type
     procedure btnConnectClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
     procedure btnVegatestSaveClick(Sender: TObject);
+    procedure cbElectropunctueOnChange(Sender: TObject);
     procedure cboxChangeDirectionsChange(Sender: TObject);
     procedure cboxSeriesChange(Sender: TObject);
 
@@ -141,23 +145,21 @@ type
     procedure edtSecondsChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-
     procedure gridRyodorakuDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
     procedure gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
-
     procedure Label8Click(Sender: TObject);
-
-
+    procedure pageRightChange(Sender: TObject);
     procedure serialRxData(Sender: TObject);
     //procedure serialStatus(Sender: TObject; Reason: THookSerialReason;
     //const Value: string);
     procedure tabEAVShow(Sender: TObject);
-
+    procedure tabElectropuntureShow(Sender: TObject);
     procedure tabRyodorakuShow(Sender: TObject);
     procedure tabVegatestShow(Sender: TObject);
     procedure timerChangeDirectionTimer(Sender: TObject);
+    procedure timerCurrentTimer(Sender: TObject);
     procedure treeviewSelectorSelectionChanged(Sender: TObject);
 
   private
@@ -185,7 +187,7 @@ var
   frmMain: TfrmMain;
 
 implementation
-uses Unit2;
+
 
 {$R *.lfm}
 
@@ -203,6 +205,7 @@ begin
        seriesArray[i].Title:='';
    end;
    chartMainCurrentLineSeries.Clear;
+   step:=0;
 end;
 
 procedure TfrmMain.btnConsoleExecuteClick(Sender: TObject);
@@ -237,7 +240,8 @@ begin
 
 
   end else begin
-      ShowMessage('Can not delete working chart');
+      step:=0;
+      //ShowMessage('Can not delete working chart');
   end;
 
 end;
@@ -473,6 +477,20 @@ begin
   //ExtractFilePath(Application.ExeName)
 end;
 
+procedure TfrmMain.cbElectropunctueOnChange(Sender: TObject);
+var b : boolean;
+begin
+  b := cbElectropunctueOn.Checked;
+  timerCurrent.Enabled:=b;
+  if b then begin
+    //chartMain.LeftAxis.Range.Max:=1000;
+    frmMain.edtFreqChange(Sender);
+
+  end else begin
+    chartMain.LeftAxis.Range.Max:=100;
+  end;
+end;
+
 procedure TfrmMain.cboxChangeDirectionsChange(Sender: TObject);
 begin
   timerChangeDirection.Enabled:=cboxChangeDirections.Checked;
@@ -541,7 +559,7 @@ end;
 procedure TfrmMain.FormCreate(Sender: TObject);
 var i : integer;
 begin
-
+  DefaultFormatSettings.DecimalSeparator:='.';
   for i:=1 to MAX_SERIES_NUMBER do begin;
     seriesArray[i] := TLineSeries.Create(Self);
     chartMain.AddSeries(seriesArray[i]);
@@ -557,13 +575,21 @@ procedure TfrmMain.FormShow(Sender: TObject);
 var s: string;
     i : integer;
 begin
+
+  //Load user veagtest selector
   s:= ExtractFilePath(Application.ExeName)+'selector.txt';
   if FileExists(s)then
      treeviewSelector.LoadFromFile(s);
+
+  //Clear Ryodoraku chart
   for i:= 0 to 11 do begin
       chartRyodorakuLeftSeries.SetYValue(i,0);
       chartRyodorakuRightSeries.SetYValue(i,0); //do not use Clear method
   end;
+
+  //Clear all electropuncture current charts
+  chartSourceCurrent.SetYValue(0,0);
+  chartSourceRMS.SetYValue(0,0);
 end;
 
 
@@ -609,12 +635,17 @@ begin
   OpenUrl('https://biotronics.eu/literature');
 end;
 
+procedure TfrmMain.pageRightChange(Sender: TObject);
+begin
+
+end;
+
 
 
 
 procedure TfrmMain.serialRxData(Sender: TObject);
 var s,ss : string;
-    i: integer;
+    i,j: integer;
 
 begin
 //Read data from serial port
@@ -647,7 +678,33 @@ begin
         end else if (ss<>':btn') and (StrToIntDef(ss,0)<>0) then begin
           // Add to existing series new point
 
-          mySeries.AddXY( step * MINIVOLL_READ_VALUE_PERIOD ,StrToIntDef(ss,0)/10.0  );
+          if cbElectropunctueOn.Checked then begin
+
+            j:= StrToIntDef(ss,0);
+            if j>3 then begin
+               chartMain.LeftAxis.Range.Max:=500;
+               chartMain.BottomAxis.Range.Max:=30;
+
+
+               mySeries.AddXY( step * 0.1 ,j*StrToFloatDef(edtDutyCycle.Text,0)/100);
+               mySeries.SeriesColor:= clGreen;
+
+               chartSourceCurrent.SetYValue(0,j/1000);
+
+               chartSourceRMS.SetYValue(0,j*StrToFloatDef(edtDutyCycle.Text,0)/100); //StrToFloatDef(edtDutyCycle.Text,0)/100);
+               pbarTimer.Position:=Round(step/10);
+
+            end;
+
+          end else begin
+            chartMain.BottomAxis.Range.Max:=7;
+            chartMain.LeftAxis.Range.Max:=100;
+
+            mySeries.AddXY( step * MINIVOLL_READ_VALUE_PERIOD ,StrToIntDef(ss,0)/10.0  );
+            mySeries.SeriesColor:= clRed;
+
+          end;
+
           step:=step+1;
 
         end;
@@ -671,12 +728,33 @@ end;
 procedure TfrmMain.tabEAVShow(Sender: TObject);
 begin
   cbEAVOn.Checked:=frmMain.tabEAV.Visible;
+
+  if (serial.Active) and (cbEAVOn.Checked) then begin
+
+    serial.WriteData('eav'#13#10);
+
+  end;
+end;
+
+
+procedure TfrmMain.tabElectropuntureShow(Sender: TObject);
+begin
+
+  cbElectropunctueOn.Checked:=frmMain.tabVegatest.Visible;
+
+  if (serial.Active) and (cbElectropunctueOn.Checked) then
+    serial.WriteData('eap'#13#10);
+
 end;
 
 
 procedure TfrmMain.tabRyodorakuShow(Sender: TObject);
 begin
+
   cbRyodorakuOn.Checked:=frmMain.tabRyodoraku.Visible;
+
+  if (serial.Active) and (cbRyodorakuOn.Checked) then
+    serial.WriteData('eav'#13#10); //Ryodoraku is measured with the same parameter as EAV
 end;
 
 
@@ -684,12 +762,11 @@ procedure TfrmMain.tabVegatestShow(Sender: TObject);
 begin
 
   cbVegatestOn.Checked:=frmMain.tabVegatest.Visible;
-  //Ssend to miniVOLL commmand: vegatest
-  if (serial.Active) and (cbVegatestOn.Checked) then begin
 
+  //Send to miniVOLL commmand: vegatest
+  if (serial.Active) and (cbVegatestOn.Checked) then
     serial.WriteData('vegatest'#13#10);
 
-  end;
 end;
 
 procedure TfrmMain.timerChangeDirectionTimer(Sender: TObject);
@@ -709,6 +786,13 @@ begin
   //rbPositiveElectrode.Checked := not rbPositiveElectrode.Checked;
   //ShowMessage('aa');
 
+end;
+
+procedure TfrmMain.timerCurrentTimer(Sender: TObject);
+begin
+  if serial.Active then begin
+    serial.WriteData('curr'#13#10);
+  end;
 end;
 
 procedure TfrmMain.treeviewSelectorSelectionChanged(Sender: TObject);
