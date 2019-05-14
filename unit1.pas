@@ -25,6 +25,11 @@ type
     btnVegatestSave: TButton;
     btnConsoleExecute: TButton;
     btnClose: TButton;
+    btnEapSave: TButton;
+    btnEapLoad: TButton;
+    btnEapLoadFromWebside: TButton;
+    ButtonRyodorakuAnalize: TButton;
+    ButtonRyodorakuSendToEAP: TButton;
     cboxSeries: TComboBox;
     cbRyodorakuOn: TCheckBox;
     cbEAVOn: TCheckBox;
@@ -49,7 +54,6 @@ type
     edtConsoleCommand: TEdit;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
-    Image1: TImage;
     Image2: TImage;
     Image3: TImage;
     Image4: TImage;
@@ -65,6 +69,7 @@ type
     Label8: TLabel;
     chartSourceRMS: TListChartSource;
     chartSourceCurrent: TListChartSource;
+    OpenDialog: TOpenDialog;
     Panel4: TPanel;
     ryodorakuLeftSource: TListChartSource;
     Panel1: TPanel;
@@ -86,7 +91,7 @@ type
     rbUsers: TRadioButton;
     rbCommon: TRadioButton;
     rbStimulation: TRadioButton;
-    rbsedation: TRadioButton;
+    rbSedation: TRadioButton;
     rbDCnegative: TRadioButton;
     RadioGroup1: TRadioGroup;
     RadioGroup2: TRadioGroup;
@@ -105,17 +110,18 @@ type
     panelRight: TPanel;
     rbRyodorakuLeft: TRadioButton;
     rbRyodorakuRight: TRadioButton;
+    SaveDialog: TSaveDialog;
     serial: TLazSerial;
     Panel2: TPanel;
     statusBar: TStatusBar;
     gridRyodoraku: TStringGrid;
+    StringGridEAPTherapy: TStringGrid;
     tabConsole: TTabSheet;
     TabControl1: TTabControl;
     tabRyodoraku: TTabSheet;
     tabEAV: TTabSheet;
     tabElectropunture: TTabSheet;
     tabAuriculotherapy: TTabSheet;
-    TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     Hand: TTabSheet;
     TabSheet3: TTabSheet;
@@ -128,6 +134,8 @@ type
     procedure btnDeleteAllClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
+    procedure btnEapLoadClick(Sender: TObject);
+    procedure btnEapSaveClick(Sender: TObject);
     procedure btnVegatestDeleteClick(Sender: TObject);
     procedure btnVegatestNewClick(Sender: TObject);
     procedure btnVegatestNewGroupClick(Sender: TObject);
@@ -149,8 +157,10 @@ type
       aRect: TRect; aState: TGridDrawState);
     procedure gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
+    procedure Image2Click(Sender: TObject);
     procedure Label8Click(Sender: TObject);
-    procedure pageRightChange(Sender: TObject);
+    procedure rbCommonChange(Sender: TObject);
+
     procedure serialRxData(Sender: TObject);
     //procedure serialStatus(Sender: TObject; Reason: THookSerialReason;
     //const Value: string);
@@ -252,6 +262,18 @@ begin
     serial.Close;
     statusBar.SimpleText:='Serial connection was closed';
   end;
+end;
+
+procedure TfrmMain.btnEapLoadClick(Sender: TObject);
+begin
+  if OpenDialog.Execute then
+    StringGridEAPTherapy.LoadFromCSVFile(OpenDialog.FileName);
+end;
+
+procedure TfrmMain.btnEapSaveClick(Sender: TObject);
+begin
+  if SaveDialog.Execute then;
+     StringGridEAPTherapy.SaveToCSVFile(SaveDialog.FileName);
 end;
 
 procedure TfrmMain.btnVegatestDeleteClick(Sender: TObject);
@@ -629,16 +651,78 @@ begin
 
 end;
 
+procedure TfrmMain.Image2Click(Sender: TObject);
+begin
+
+end;
+
 
 procedure TfrmMain.Label8Click(Sender: TObject);
 begin
   OpenUrl('https://biotronics.eu/literature');
 end;
 
-procedure TfrmMain.pageRightChange(Sender: TObject);
+procedure TfrmMain.rbCommonChange(Sender: TObject);
 begin
+  if rbUsers.Checked then begin
+    RadioGroup1.Enabled:=true;
+    RadioGroup2.Enabled:=true;
+    GroupBox1.Enabled:=true;
+    GroupBox2.Enabled:=true;
 
+  end else begin
+    RadioGroup1.Enabled:=false;
+    RadioGroup2.Enabled:=false;
+    GroupBox1.Enabled:=false;
+    GroupBox2.Enabled:=false;
+
+    if rbCommon.Checked then begin;
+      rbPulse.Checked:=true;
+      edtFreq.Text:='10.00';
+      edtDutyCycle.Text:='5.0';
+      rbNegativeElectrode.Checked:=true;
+      cboxChangeDirections.Checked:=false;
+
+    end else if rbStimulation.Checked then begin
+      rbPulse.Checked:=true;
+      edtFreq.Text:='10.00';
+      edtDutyCycle.Text:='5.0';
+      rbNegativeElectrode.Checked:=true;
+      cboxChangeDirections.Checked:=true;
+      edtSeconds.Text:='5';
+
+    end else if rbSedation.Checked then begin
+      rbPulse.Checked:=true;
+      //rbDirect.Checked:=true;
+      edtFreq.Text:='100.00';
+      edtDutyCycle.Text:='1.0';
+      rbNegativeElectrode.Checked:=true;
+      RadioGroup1.Enabled:=true;
+      cboxChangeDirections.Checked:=false;
+      //edtSeconds.Text:='5';
+    end else if rbDCnegative.Checked then begin
+      //rbPulse.Checked:=true;
+      rbDirect.Checked:=true;
+      rbNegativeElectrode.Checked:=true;
+      cboxChangeDirections.Checked:=false;
+      //edtSeconds.Text:='5';
+    end else if rbDCpositive.Checked then begin
+      //rbPulse.Checked:=true;
+      rbDirect.Checked:=true;
+      rbPositiveElectrode.Checked:=true;
+      cboxChangeDirections.Checked:=false;
+      //edtSeconds.Text:='5';
+    end else if rbDCchangeDirections.Checked then begin
+      //rbPulse.Checked:=true;
+      rbDirect.Checked:=true;
+      rbNegativeElectrode.Checked:=true;
+      cboxChangeDirections.Checked:=true;
+      GroupBox2.Enabled:=true;;
+      edtSeconds.Text:='5';
+    end;
+  end;
 end;
+
 
 
 
@@ -740,7 +824,7 @@ end;
 procedure TfrmMain.tabElectropuntureShow(Sender: TObject);
 begin
 
-  cbElectropunctueOn.Checked:=frmMain.tabVegatest.Visible;
+  cbElectropunctueOn.Checked:=frmMain.tabElectropunture.Visible;
 
   if (serial.Active) and (cbElectropunctueOn.Checked) then
     serial.WriteData('eap'#13#10);
