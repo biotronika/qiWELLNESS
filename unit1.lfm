@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 273
+  Left = 408
   Height = 661
-  Top = 150
+  Top = 181
   Width = 1259
   Caption = 'qiWELLNESS'
   ClientHeight = 661
@@ -682,9 +682,9 @@ object frmMain: TfrmMain
       Height = 659
       Top = 1
       Width = 647
-      ActivePage = tabEAV
+      ActivePage = tabElectropunture
       Align = alClient
-      TabIndex = 2
+      TabIndex = 4
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -3502,7 +3502,7 @@ object frmMain: TfrmMain
           Top = 0
           Width = 639
           TabPosition = tpBottom
-          TabIndex = 0
+          TabIndex = 1
           Tabs.Strings = (
             'New Tab'
             'New Tab1'
@@ -3741,18 +3741,8 @@ object frmMain: TfrmMain
               Caption = 'Duty cycle'
               ParentColor = False
             end
-            object edtDutyCycle: TEdit
-              Left = 80
-              Height = 23
-              Top = 32
-              Width = 64
-              Alignment = taRightJustify
-              OnChange = edtFreqChange
-              TabOrder = 0
-              Text = '5.0'
-            end
             object Label6: TLabel
-              Left = 158
+              Left = 152
               Height = 15
               Top = 4
               Width = 14
@@ -3760,22 +3750,35 @@ object frmMain: TfrmMain
               ParentColor = False
             end
             object Label7: TLabel
-              Left = 162
+              Left = 152
               Height = 15
               Top = 35
-              Width = 10
-              Caption = '%'
+              Width = 59
+              Caption = '% (0.1-100)'
               ParentColor = False
             end
-            object edtFreq: TEdit
+            object edtDutyCycle: TFloatSpinEdit
+              Left = 80
+              Height = 23
+              Top = 32
+              Width = 64
+              Alignment = taRightJustify
+              DecimalPlaces = 1
+              MinValue = 0
+              OnChange = edtFreqChange
+              TabOrder = 0
+              Value = 5
+            end
+            object edtFreq: TFloatSpinEdit
               Left = 80
               Height = 23
               Top = 0
               Width = 64
               Alignment = taRightJustify
+              MinValue = 0
               OnChange = edtFreqChange
               TabOrder = 1
-              Text = '7.83'
+              Value = 10
             end
           end
           object GroupBox2: TGroupBox
@@ -3924,8 +3927,18 @@ object frmMain: TfrmMain
             Height = 17
             Top = 154
             Width = 621
-            Max = 120
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Max = 30
+            ParentColor = False
+            ParentFont = False
+            Position = 1
             Smooth = True
+            Step = 1
             TabOrder = 0
             BarShowText = True
           end
@@ -4091,6 +4104,7 @@ object frmMain: TfrmMain
           TitleFont.Pitch = fpVariable
           TitleFont.Quality = fqDraft
           TitleFont.Style = [fsBold]
+          OnSelectCell = StringGridEAPTherapySelectCell
           ColWidths = (
             82
             90
@@ -6046,13 +6060,6 @@ object frmMain: TfrmMain
     )
     left = 272
     top = 72
-  end
-  object timerCurrent: TTimer
-    Enabled = False
-    Interval = 200
-    OnTimer = timerCurrentTimer
-    left = 560
-    top = 224
   end
   object SaveDialog: TSaveDialog
     FileName = 'therapy'

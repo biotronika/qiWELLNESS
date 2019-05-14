@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
   ComCtrls, CheckLst, Grids, ColorBox, LazSerial, TAGraph, TASeries,
-  TALegendPanel, TASources, TAChartCombos,  Types , LCLType,  lclintf;
+  TALegendPanel, TASources, TAChartCombos,  Types , LCLType,  lclintf, Spin;
 
 type
 
@@ -48,9 +48,9 @@ type
     chartMain: TChart;
     chartMainCurrentLineSeries: TLineSeries;
     cboxChangeDirections: TCheckBox;
-    edtDutyCycle: TEdit;
+    edtDutyCycle: TFloatSpinEdit;
+    edtFreq: TFloatSpinEdit;
     edtSeconds: TEdit;
-    edtFreq: TEdit;
     edtConsoleCommand: TEdit;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
@@ -127,7 +127,6 @@ type
     TabSheet3: TTabSheet;
     TabSheet4: TTabSheet;
     tabVegatest: TTabSheet;
-    timerCurrent: TTimer;
     timerChangeDirection: TTimer;
     treeviewSelector: TTreeView;
     procedure btnConsoleExecuteClick(Sender: TObject);
@@ -162,6 +161,8 @@ type
     procedure rbCommonChange(Sender: TObject);
 
     procedure serialRxData(Sender: TObject);
+    procedure StringGridEAPTherapySelectCell(Sender: TObject; aCol,
+      aRow: Integer; var CanSelect: Boolean);
     //procedure serialStatus(Sender: TObject; Reason: THookSerialReason;
     //const Value: string);
     procedure tabEAVShow(Sender: TObject);
@@ -169,7 +170,6 @@ type
     procedure tabRyodorakuShow(Sender: TObject);
     procedure tabVegatestShow(Sender: TObject);
     procedure timerChangeDirectionTimer(Sender: TObject);
-    procedure timerCurrentTimer(Sender: TObject);
     procedure treeviewSelectorSelectionChanged(Sender: TObject);
 
   private
@@ -178,15 +178,20 @@ type
       //RYODORAKU_NORMAL_MIN = 75;
       //RYODORAKU_NORMAL_MAX = 100;
       RYODORAKU_FACTOR = 1.54;
-      MINIVOLL_READ_VALUE_PERIOD = 0.05; //seconds
+      // MINIVOLL_READ_VALUE_PERIOD = 0.05; //seconds
+      EAP_PROGRESS_GRID_COL = 4;
+
 
     var
       FCurrentPointName : string;
       FRyodorakuChart : integer;
       fReadBuffer : string;
-      step : Cardinal;
+      //step : Cardinal;
+      startTime : Double;
       mySeries : TLineSeries;
       seriesArray : array[1..MAX_SERIES_NUMBER] of TLineSeries; //No dynamic array of all used series
+      EAPProgressGridRow : integer;
+      EAPProgressTime : Double;
 
   public
      ryodorakuPoint : array[0..11,0..1] of Double; //[0..23]
@@ -215,7 +220,7 @@ begin
        seriesArray[i].Title:='';
    end;
    chartMainCurrentLineSeries.Clear;
-   step:=0;
+   //step:=0;
 end;
 
 procedure TfrmMain.btnConsoleExecuteClick(Sender: TObject);
@@ -250,7 +255,7 @@ begin
 
 
   end else begin
-      step:=0;
+      //step:=0;
       //ShowMessage('Can not delete working chart');
   end;
 
@@ -363,7 +368,7 @@ begin
       end;
       CloseFile(f);
 
-  step := 1;
+  //step := 1;
 end;
 
 procedure TfrmMain.btnSaveAsClick(Sender: TObject);
@@ -503,7 +508,7 @@ procedure TfrmMain.cbElectropunctueOnChange(Sender: TObject);
 var b : boolean;
 begin
   b := cbElectropunctueOn.Checked;
-  timerCurrent.Enabled:=b;
+  //timerCurrent.Enabled:=b;
   if b then begin
     //chartMain.LeftAxis.Range.Max:=1000;
     frmMain.edtFreqChange(Sender);
@@ -582,6 +587,7 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 var i : integer;
 begin
   DefaultFormatSettings.DecimalSeparator:='.';
+
   for i:=1 to MAX_SERIES_NUMBER do begin;
     seriesArray[i] := TLineSeries.Create(Self);
     chartMain.AddSeries(seriesArray[i]);
@@ -590,6 +596,9 @@ begin
   end;
 
   mySeries:=chartMainCurrentLineSeries;
+
+  startTime := 0;
+  EAPProgressGridRow := 0;
 
 end;
 
@@ -730,69 +739,95 @@ end;
 procedure TfrmMain.serialRxData(Sender: TObject);
 var s,ss : string;
     i,j: integer;
+    myTime : Double;
 
 begin
-//Read data from serial port
-  //sleep (100);
 
   s:= serial.ReadData;
 
   for i:=1 to Length(s) do
      if (s[i]= #10)  then begin
-       //if (s[i-1]<> #13) then ss := ss + #13#10 else ss:=ss+#10;
+
        memoConsole.Lines.Add(trim(fReadBuffer));
        ss:=trim(fReadBuffer);
 
-        if (ss= ':btn') and (step>0) then begin
+        if (ss= ':btn' ) then begin //TODO: check
           // Save series
 
           frmMain.btnSaveAs.SetFocus;
           frmMain.btnSaveAsClick (Sender);
           mySeries.Clear;
-          mySeries.AddXY( 0.03,0 );
-          step:=1;
+          mySeries.AddXY( 0.0,0 );
+          startTime:=Now();
+          //step:=1;
 
-        end else if (ss=':start') then begin
+        end else if (ss=':vstart') then begin
           // Clear series
 
           mySeries.Clear;
+          chartMain.BottomAxis.Range.Max:=7;  // 7 sec.
+          chartMain.LeftAxis.Range.Max:=100;  // 100%
+          mySeries.SeriesColor:= clRed;
+          startTime:=Now();
+
+
           mySeries.AddXY( 0.03,0 );
-          step:=1;
 
-        end else if (ss<>':btn') and (StrToIntDef(ss,0)<>0) then begin
-          // Add to existing series new point
+          //step:=1;
 
-          if cbElectropunctueOn.Checked then begin
+        end else if (ss=':cstart') then begin
+          // Clear series
 
-            j:= StrToIntDef(ss,0);
-            if j>3 then begin
-               chartMain.LeftAxis.Range.Max:=500;
-               chartMain.BottomAxis.Range.Max:=30;
+          mySeries.Clear;
+          chartMain.LeftAxis.Range.Max:=500;  // 500uA
+          chartMain.BottomAxis.Range.Max:=30; // 30sec. or more
+          mySeries.SeriesColor:= clGreen;
+
+          pbarTimer.Max:=30;
+          pbarTimer.Position:=0;
+          pbarTimer.Color:=clGreen;
+
+          startTime:=Now();
+
+          mySeries.AddXY( 0.03,0 );
+
+          //step:=1;
+
+        end else if copy(ss,1,2)= ':c' then begin
+        // Add to eap current series new point
+           ss:=copy(ss,3,Length(ss));
+           myTime:= (Now()- startTime)*(24*60*60);
+
+           //Rescale chart to 2 minutes
+           if myTime >= 30 then begin
+              chartMain.BottomAxis.Range.Max:=120;
+              pbarTimer.Max:=120;
+              pbarTimer.Color:=clYellow;
+           end;
+
+           j:= StrToIntDef(ss,0);
+
+           mySeries.AddXY( myTime ,j*StrToFloatDef(edtDutyCycle.Text,0)/100);
+
+           chartSourceCurrent.SetYValue(0,j/1000);
+           chartSourceRMS.SetYValue(0,j*StrToFloatDef(edtDutyCycle.Text,0)/100); //StrToFloatDef(edtDutyCycle.Text,0)/100);
+           pbarTimer.Position:= Round(myTime);
+
+           //Set EAP therapy progress of the point
+           if EAPProgressGridRow > 0 then begin
+             //EAPProgressGridRow;
+             StringGridEAPTherapy.Cells[EAP_PROGRESS_GRID_COL,EAPProgressGridRow]:= StringOfChar(char('|'),Trunc( myTime/3));
+
+           end;
 
 
-               mySeries.AddXY( step * 0.1 ,j*StrToFloatDef(edtDutyCycle.Text,0)/100);
-               mySeries.SeriesColor:= clGreen;
+        end else  if copy(ss,1,2)= ':v' then begin
+            ss:=copy(ss,3,Length(ss));
+            myTime:= (Now()- startTime)*(24*60*60);
 
-               chartSourceCurrent.SetYValue(0,j/1000);
-
-               chartSourceRMS.SetYValue(0,j*StrToFloatDef(edtDutyCycle.Text,0)/100); //StrToFloatDef(edtDutyCycle.Text,0)/100);
-               pbarTimer.Position:=Round(step/10);
-
-            end;
-
-          end else begin
-            chartMain.BottomAxis.Range.Max:=7;
-            chartMain.LeftAxis.Range.Max:=100;
-
-            mySeries.AddXY( step * MINIVOLL_READ_VALUE_PERIOD ,StrToIntDef(ss,0)/10.0  );
-            mySeries.SeriesColor:= clRed;
-
-          end;
-
-          step:=step+1;
+            mySeries.AddXY( myTime ,StrToIntDef(ss,0)/10.0  );
 
         end;
-
 
 
        fReadBuffer:='';
@@ -800,12 +835,12 @@ begin
        fReadBuffer:=fReadBuffer+s[i];
 
 
-  //s:= trim(serial.ReadData);
+end;
 
-  //memoConsole.Lines.Add(s);
-
-
-
+procedure TfrmMain.StringGridEAPTherapySelectCell(Sender: TObject; aCol,
+  aRow: Integer; var CanSelect: Boolean);
+begin
+  EAPProgressGridRow := aRow;
 end;
 
 
@@ -866,18 +901,10 @@ begin
       rbPositiveElectrode.Checked := false;
 
   end;
-  //rbNegativeElectrode.Checked := not rbNegativeElectrode.Checked;
-  //rbPositiveElectrode.Checked := not rbPositiveElectrode.Checked;
-  //ShowMessage('aa');
 
 end;
 
-procedure TfrmMain.timerCurrentTimer(Sender: TObject);
-begin
-  if serial.Active then begin
-    serial.WriteData('curr'#13#10);
-  end;
-end;
+
 
 procedure TfrmMain.treeviewSelectorSelectionChanged(Sender: TObject);
 begin
