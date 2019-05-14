@@ -682,9 +682,9 @@ object frmMain: TfrmMain
       Height = 659
       Top = 1
       Width = 647
-      ActivePage = tabAuriculotherapy
+      ActivePage = tabEAV
       Align = alClient
-      TabIndex = 5
+      TabIndex = 2
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
