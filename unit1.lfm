@@ -3502,7 +3502,7 @@ object frmMain: TfrmMain
           Top = 0
           Width = 639
           TabPosition = tpBottom
-          TabIndex = 1
+          TabIndex = 0
           Tabs.Strings = (
             'New Tab'
             'New Tab1'
@@ -3922,7 +3922,7 @@ object frmMain: TfrmMain
           ClientHeight = 192
           ClientWidth = 639
           TabOrder = 1
-          object pbarTimer: TProgressBar
+          object ProgressBarTime: TProgressBar
             Left = 8
             Height = 17
             Top = 154
@@ -3936,13 +3936,13 @@ object frmMain: TfrmMain
             Max = 30
             ParentColor = False
             ParentFont = False
-            Position = 1
+            Position = 2
             Smooth = True
             Step = 1
             TabOrder = 0
             BarShowText = True
           end
-          object Label11: TLabel
+          object LabelTime: TLabel
             Left = 8
             Height = 15
             Top = 136
@@ -4092,7 +4092,7 @@ object frmMain: TfrmMain
           Top = 360
           Width = 639
           Align = alClient
-          ColCount = 6
+          ColCount = 7
           FixedCols = 0
           Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goAutoAddRows, goRowSelect, goRelaxedRowSelect, goSmoothScroll, goRowHighlight]
           ScrollBars = ssVertical
@@ -4107,14 +4107,15 @@ object frmMain: TfrmMain
           OnSelectCell = StringGridEAPTherapySelectCell
           ColWidths = (
             82
-            90
-            111
-            64
-            180
+            121
             85
+            61
+            64
+            163
+            40
           )
           Cells = (
-            27
+            29
             0
             0
             'Point(s)'
@@ -4126,10 +4127,10 @@ object frmMain: TfrmMain
             'ST 36 (R)'
             0
             3
-            'GRT 26'
+            'GV 26'
             0
             4
-            'GRP 24'
+            'CV 24'
             1
             0
             'Meridian'
@@ -4139,6 +4140,12 @@ object frmMain: TfrmMain
             1
             2
             'Stomach'
+            1
+            3
+            'Governing Vessel'
+            1
+            4
+            'Conception Vessel'
             2
             0
             'Profile'
@@ -4171,31 +4178,31 @@ object frmMain: TfrmMain
             '120'
             4
             0
-            'Progress'
+            'Elapsed [s]'
             4
             1
-            '||||||||||'
+            '15'
             4
             3
-            '|||||||||||||||||||||||||||||||||'
-            4
-            4
-            '|||||||||'
+            '120'
             5
             0
-            'Done'
+            'Progress'
             5
             1
-            '100%'
-            5
-            2
-            '0%'
+            '|||||'
             5
             3
+            '||||||||||||||||||||||||||||||||||||||||'
+            6
+            0
+            'Done'
+            6
+            1
+            '50%'
+            6
+            3
             '100%'
-            5
-            4
-            '25%'
           )
         end
       end
@@ -6013,7 +6020,7 @@ object frmMain: TfrmMain
   end
   object chartSourceCurrent: TListChartSource
     DataPoints.Strings = (
-      '0|2.2999999999999998|$FF8000|'
+      '0|2.3|$FF8000|'
     )
     left = 472
     top = 280

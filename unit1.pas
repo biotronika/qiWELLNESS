@@ -59,7 +59,7 @@ type
     Image4: TImage;
     Image5: TImage;
     Label1: TLabel;
-    Label11: TLabel;
+    LabelTime: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
@@ -81,7 +81,7 @@ type
     Panel5: TPanel;
     Panel8: TPanel;
     Panel9: TPanel;
-    pbarTimer: TProgressBar;
+    ProgressBarTime: TProgressBar;
     rbNegativeElectrode: TRadioButton;
     rbDCpositive: TRadioButton;
     rbDCchangeDirections: TRadioButton;
@@ -174,12 +174,16 @@ type
 
   private
     const
-      MAX_SERIES_NUMBER =30;
+      MAX_SERIES_NUMBER = 30;
+      MAX_EAP_POINTS_NUMBER = 30;
       //RYODORAKU_NORMAL_MIN = 75;
       //RYODORAKU_NORMAL_MAX = 100;
       RYODORAKU_FACTOR = 1.54;
       // MINIVOLL_READ_VALUE_PERIOD = 0.05; //seconds
-      EAP_PROGRESS_GRID_COL = 4;
+
+      EAP_ELAPSED_GRID_COL = 4;
+      EAP_PROGRESS_GRID_COL = 5;
+      EAP_PRECENTAGE_GRID_COL = 6;
 
 
     var
@@ -190,8 +194,11 @@ type
       startTime : Double;
       mySeries : TLineSeries;
       seriesArray : array[1..MAX_SERIES_NUMBER] of TLineSeries; //No dynamic array of all used series
+      //EAPDoneTimeArray : array[1..MAX_EAP_POINTS_NUMBER] of Double;
       EAPProgressGridRow : integer;
       EAPProgressTime : Double;
+
+      procedure ClearEAP;
 
   public
      ryodorakuPoint : array[0..11,0..1] of Double; //[0..23]
@@ -618,11 +625,29 @@ begin
       chartRyodorakuRightSeries.SetYValue(i,0); //do not use Clear method
   end;
 
+  ClearEAP;
+
+end;
+
+procedure TfrmMain.ClearEAP;
+var i: integer;
+begin
+  //Clear all EAP counters
+  // EAP_ELAPSED_GRID_COL = 4;
+  // EAP_PROGRESS_GRID_COL = 5;
+  // EAP_PRECENTAGE_GRID_COL = 6;
+  for i:= 1 to StringGridEAPTherapy.RowCount-1 do begin
+
+      StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,i]:='';
+      StringGridEAPTherapy.Cells[EAP_PROGRESS_GRID_COL,i]:='';
+      StringGridEAPTherapy.Cells[EAP_PRECENTAGE_GRID_COL,i]:='0%';
+  end;
+
   //Clear all electropuncture current charts
   chartSourceCurrent.SetYValue(0,0);
   chartSourceRMS.SetYValue(0,0);
+  ProgressBarTime.Position:=0;
 end;
-
 
 
 procedure TfrmMain.gridRyodorakuDrawCell(Sender: TObject; aCol, aRow: Integer;
@@ -783,15 +808,19 @@ begin
           chartMain.BottomAxis.Range.Max:=30; // 30sec. or more
           mySeries.SeriesColor:= clGreen;
 
-          pbarTimer.Max:=30;
-          pbarTimer.Position:=0;
-          pbarTimer.Color:=clGreen;
+          ProgressBarTime.Max:=30;
+          ProgressBarTime.Position:=0;
+          ProgressBarTime.Color:=clGreen;
+
+          //EAPDoneTimeArray[EAPProgressGridRow]:= EAPDoneTimeArray[EAPProgressGridRow]+myTime;
 
           startTime:=Now();
 
           mySeries.AddXY( 0.03,0 );
 
-          //step:=1;
+        end else if ss=':stop' then begin
+           myTime:= (Now()- startTime)*(24*60*60);
+           StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow]:=IntToStr(Round(myTime));
 
         end else if copy(ss,1,2)= ':c' then begin
         // Add to eap current series new point
@@ -801,8 +830,8 @@ begin
            //Rescale chart to 2 minutes
            if myTime >= 30 then begin
               chartMain.BottomAxis.Range.Max:=120;
-              pbarTimer.Max:=120;
-              pbarTimer.Color:=clYellow;
+              ProgressBarTime.Max:=120;
+              ProgressBarTime.Color:=clYellow;
            end;
 
            j:= StrToIntDef(ss,0);
@@ -811,12 +840,13 @@ begin
 
            chartSourceCurrent.SetYValue(0,j/1000);
            chartSourceRMS.SetYValue(0,j*StrToFloatDef(edtDutyCycle.Text,0)/100); //StrToFloatDef(edtDutyCycle.Text,0)/100);
-           pbarTimer.Position:= Round(myTime);
+           ProgressBarTime.Position:= Round(myTime);
 
            //Set EAP therapy progress of the point
            if EAPProgressGridRow > 0 then begin
              //EAPProgressGridRow;
-             StringGridEAPTherapy.Cells[EAP_PROGRESS_GRID_COL,EAPProgressGridRow]:= StringOfChar(char('|'),Trunc( myTime/3));
+             StringGridEAPTherapy.Cells[EAP_PROGRESS_GRID_COL,EAPProgressGridRow]:= StringOfChar(char('|'),Trunc(myTime/3));
+             //TODO progress EAPDoneTimeArray[EAPProgressGridRow]
 
            end;
 
