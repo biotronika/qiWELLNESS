@@ -16,9 +16,9 @@ type
   TfrmMain = class(TForm)
     btnDeleteAll: TButton;
     btnConnect: TButton;
-    btnReset: TButton;
     btnSaveAs: TButton;
     btnDelete: TButton;
+    ButtonSaveReport: TButton;
     btnVegatestDelete: TButton;
     btnVegatestNew: TButton;
     btnVegatestNewGroup: TButton;
@@ -111,6 +111,7 @@ type
     rbRyodorakuLeft: TRadioButton;
     rbRyodorakuRight: TRadioButton;
     SaveDialog: TSaveDialog;
+    SaveDialogForm: TSaveDialog;
     serial: TLazSerial;
     Panel2: TPanel;
     statusBar: TStatusBar;
@@ -142,6 +143,7 @@ type
     procedure btnConnectClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
     procedure btnVegatestSaveClick(Sender: TObject);
+    procedure ButtonSaveReportClick(Sender: TObject);
     procedure cbElectropunctueOnChange(Sender: TObject);
     procedure cboxChangeDirectionsChange(Sender: TObject);
     procedure cboxSeriesChange(Sender: TObject);
@@ -181,6 +183,7 @@ type
       RYODORAKU_FACTOR = 1.54;
       // MINIVOLL_READ_VALUE_PERIOD = 0.05; //seconds
 
+      EAP_TIME_GRID_COL = 3;
       EAP_ELAPSED_GRID_COL = 4;
       EAP_PROGRESS_GRID_COL = 5;
       EAP_PRECENTAGE_GRID_COL = 6;
@@ -511,6 +514,27 @@ begin
   //ExtractFilePath(Application.ExeName)
 end;
 
+procedure TfrmMain.ButtonSaveReportClick(Sender: TObject);
+var
+  imgWindow: TBitmap;
+
+begin
+  statusBar.SimpleText:=FormatDateTime('yyyy-MM-DD hh:nn',Now());
+
+  if SaveDialogForm.Execute then begin
+
+    imgWindow := TBitmap.Create;
+    try
+      imgWindow := frmMain.GetFormImage;
+      imgWindow.SaveToFile(SaveDialogForm.FileName);
+    finally
+      imgWindow.Free;
+    end;
+
+  end;
+
+end;
+
 procedure TfrmMain.cbElectropunctueOnChange(Sender: TObject);
 var b : boolean;
 begin
@@ -633,6 +657,7 @@ procedure TfrmMain.ClearEAP;
 var i: integer;
 begin
   //Clear all EAP counters
+  // EAP_TIME_GRID_COL = 3;
   // EAP_ELAPSED_GRID_COL = 4;
   // EAP_PROGRESS_GRID_COL = 5;
   // EAP_PRECENTAGE_GRID_COL = 6;
@@ -640,7 +665,7 @@ begin
 
       StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,i]:='';
       StringGridEAPTherapy.Cells[EAP_PROGRESS_GRID_COL,i]:='';
-      StringGridEAPTherapy.Cells[EAP_PRECENTAGE_GRID_COL,i]:='0%';
+      //StringGridEAPTherapy.Cells[EAP_PRECENTAGE_GRID_COL,i]:='0%';
   end;
 
   //Clear all electropuncture current charts
@@ -763,7 +788,7 @@ end;
 
 procedure TfrmMain.serialRxData(Sender: TObject);
 var s,ss : string;
-    i,j: integer;
+    i,j,l: integer;
     myTime : Double;
 
 begin
@@ -793,7 +818,7 @@ begin
           chartMain.BottomAxis.Range.Max:=7;  // 7 sec.
           chartMain.LeftAxis.Range.Max:=100;  // 100%
           mySeries.SeriesColor:= $000080FF;
-          startTime:=Now();
+          startTime:=Now()-0.03/(24*60*60);
 
 
           mySeries.AddXY( 0.03,0 );
@@ -805,7 +830,7 @@ begin
           chartMain.BottomAxis.Range.Max:=7;  // 7 sec.
           chartMain.LeftAxis.Range.Max:=100;  // 100%
           mySeries.SeriesColor:= clRed;
-          startTime:=Now();
+          startTime:=Now()-0.03/(24*60*60);
 
 
           mySeries.AddXY( 0.03,0 );
@@ -819,19 +844,27 @@ begin
           chartMain.BottomAxis.Range.Max:=30; // 30sec. or more
           mySeries.SeriesColor:= clGreen;
 
-          ProgressBarTime.Max:=30;
-          ProgressBarTime.Position:=0;
-          ProgressBarTime.Color:=clGreen;
+          ProgressBarTime.Max:=StrToIntDef(StringGridEAPTherapy.Cells[EAP_TIME_GRID_COL,EAPProgressGridRow],0);
+          ProgressBarTime.Position := StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0);
+          //ProgressBarTime.Color:=clGreen;
 
-          //EAPDoneTimeArray[EAPProgressGridRow]:= EAPDoneTimeArray[EAPProgressGridRow]+myTime;
 
-          startTime:=Now();
+          startTime:=Now()-0.03/(24*60*60);
 
           mySeries.AddXY( 0.03,0 );
 
         end else if ss=':stop' then begin
+// :stop
            myTime:= (Now()- startTime)*(24*60*60);
-           StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow]:=IntToStr(Round(myTime));
+
+           StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow]:=
+             IntToStr(
+               StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0)+
+               Round(myTime)
+             );
+
+           chartSourceCurrent.SetYValue(0,0);
+           chartSourceRMS.SetYValue(0,0);
 
         end else if copy(ss,1,2)= ':c' then begin
         // Add to eap current series new point
@@ -850,14 +883,21 @@ begin
            mySeries.AddXY( myTime ,j*StrToFloatDef(edtDutyCycle.Text,0)/100);
 
            chartSourceCurrent.SetYValue(0,j/1000);
-           chartSourceRMS.SetYValue(0,j*StrToFloatDef(edtDutyCycle.Text,0)/100); //StrToFloatDef(edtDutyCycle.Text,0)/100);
-           ProgressBarTime.Position:= Round(myTime);
+           chartSourceRMS.SetYValue(0,j*StrToFloatDef(edtDutyCycle.Text,0)/100);
+
+
+             l:= StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0)+
+             Round(myTime);
+           ProgressBarTime.Position:= l;
+           //if l > 30 then ProgressBarTime.Max:=120 else ProgressBarTime.Max:=30;
+//TODO           StringGridEAPTherapy.Cells[EAP_PRECENTAGE_GRID_COL,EAPProgressGridRow]:= IntToStr(l)+'%';
 
            //Set EAP therapy progress of the point
            if EAPProgressGridRow > 0 then begin
-             //EAPProgressGridRow;
-             StringGridEAPTherapy.Cells[EAP_PROGRESS_GRID_COL,EAPProgressGridRow]:= StringOfChar(char('|'),Trunc(myTime/3));
-             //TODO progress EAPDoneTimeArray[EAPProgressGridRow]
+
+             StringGridEAPTherapy.Cells[EAP_PROGRESS_GRID_COL,EAPProgressGridRow]:= StringOfChar(char('|'),
+               Trunc(StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0)+myTime/3));
+
 
            end;
 
@@ -925,7 +965,7 @@ begin
 
   //Send to miniVOLL commmand: vegatest
   if (serial.Active) and (cbVegatestOn.Checked) then
-    serial.WriteData('vegatest'#13#10);
+    serial.WriteData('veg'#13#10);
 
 end;
 
