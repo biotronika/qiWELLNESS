@@ -682,9 +682,9 @@ object frmMain: TfrmMain
       Height = 659
       Top = 1
       Width = 647
-      ActivePage = tabElectropunture
+      ActivePage = tabConsole
       Align = alClient
-      TabIndex = 4
+      TabIndex = 0
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -6020,7 +6020,7 @@ object frmMain: TfrmMain
   end
   object chartSourceCurrent: TListChartSource
     DataPoints.Strings = (
-      '0|2.3|$FF8000|'
+      '0|2.2999999999999998|$FF8000|'
     )
     left = 472
     top = 280

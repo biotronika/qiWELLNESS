@@ -792,13 +792,24 @@ begin
           mySeries.Clear;
           chartMain.BottomAxis.Range.Max:=7;  // 7 sec.
           chartMain.LeftAxis.Range.Max:=100;  // 100%
+          mySeries.SeriesColor:= $000080FF;
+          startTime:=Now();
+
+
+          mySeries.AddXY( 0.03,0 );
+
+         end else if (ss=':estart') then begin
+          // Clear series
+
+          mySeries.Clear;
+          chartMain.BottomAxis.Range.Max:=7;  // 7 sec.
+          chartMain.LeftAxis.Range.Max:=100;  // 100%
           mySeries.SeriesColor:= clRed;
           startTime:=Now();
 
 
           mySeries.AddXY( 0.03,0 );
 
-          //step:=1;
 
         end else if (ss=':cstart') then begin
           // Clear series
@@ -851,7 +862,7 @@ begin
            end;
 
 
-        end else  if copy(ss,1,2)= ':v' then begin
+        end else  if( copy(ss,1,2)= ':v') or (copy(ss,1,2)= ':e') then begin // Veagtest and  EAV have the same scale
             ss:=copy(ss,3,Length(ss));
             myTime:= (Now()- startTime)*(24*60*60);
 
