@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 701
+  Left = 389
   Height = 661
-  Top = 197
+  Top = 126
   Width = 1259
   Caption = 'qiWELLNESS'
   ClientHeight = 661
@@ -157,6 +157,7 @@ object frmMain: TfrmMain
         Caption = 'Save report'
         OnClick = ButtonSaveReportClick
         TabOrder = 6
+        Visible = False
       end
     end
     object panelLogo: TPanel
@@ -682,9 +683,9 @@ object frmMain: TfrmMain
       Height = 659
       Top = 1
       Width = 647
-      ActivePage = tabElectropunture
+      ActivePage = tabConsole
       Align = alClient
-      TabIndex = 4
+      TabIndex = 0
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -3600,9 +3601,10 @@ object frmMain: TfrmMain
             TabOrder = 1
             OnSelectionChanged = treeviewSelectorSelectionChanged
             Items.Data = {
-              F9FFFFFF020001000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF010000000000
-              000001070000004E6F736F646573FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
-              000000000000001300000068656C69636F6261637465722070796C6F7269
+              F9FFFFFF020002000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
+              00000005000000436C656172FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF01000000
+              0000000001070000004E6F736F646573FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              0000000000000000001300000068656C69636F6261637465722070796C6F7269
             }
           end
         end
@@ -5986,6 +5988,7 @@ object frmMain: TfrmMain
     Parity = pNone
     FlowControl = fcNone
     StopBits = sbOne
+    Device = 'COM1'
     RcvLineCRLF = False
     OnRxData = serialRxData
     left = 552

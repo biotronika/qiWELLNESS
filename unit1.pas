@@ -431,10 +431,16 @@ begin
 
   chartMainCurrentLineSeries.Clear;
 
+//RYODORAKU
   if (chartIndex<>-1) and (cbRyodorakuOn.Checked) then begin
 
 //TODO: Calculate current equivalent  - check!
-    d:= seriesArray[i].MaxYValue * RYODORAKU_FACTOR;
+    if seriesArray[i].Count > 50 then
+       d:= seriesArray[i].GetYValue(40) (*MaxYValue*) * RYODORAKU_FACTOR    //Get sample at 0.8sec.
+    else  begin
+        ShowMessage('Take a longer sample! Minimum is 1 second.');
+        Exit;
+    end;
 
     //Save value
     ryodorakuPoint[chartIndex,rightChartIndex]:= d;
@@ -516,19 +522,21 @@ end;
 
 procedure TfrmMain.ButtonSaveReportClick(Sender: TObject);
 var
-  imgWindow: TBitmap;
+  bmp: TBitmap;
 
 begin
   statusBar.SimpleText:=FormatDateTime('yyyy-MM-DD hh:nn',Now());
 
   if SaveDialogForm.Execute then begin
 
-    imgWindow := TBitmap.Create;
+    bmp := TBitmap.Create;
     try
-      imgWindow := frmMain.GetFormImage;
-      imgWindow.SaveToFile(SaveDialogForm.FileName);
+      //Application.ProcessMessages;
+      bmp.Canvas.Changed;
+      bmp := frmMain.GetFormImage;
+      bmp.SaveToFile(SaveDialogForm.FileName);
     finally
-      imgWindow.Free;
+      bmp.Free;
     end;
 
   end;
