@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, LazSerialPort, tachartlazaruspkg, Unit1;
+  Forms, LazSerialPort, tachartlazaruspkg, Unit1, unitVegatestSelector;
 
 {$R *.res}
 
@@ -16,6 +16,7 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TFormVegatestSelector, FormVegatestSelector);
   Application.Run;
 end.
 

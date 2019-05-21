@@ -18,11 +18,8 @@ type
     btnConnect: TButton;
     btnSaveAs: TButton;
     btnDelete: TButton;
+    ButtonVegatestEdit: TButton;
     ButtonSaveReport: TButton;
-    btnVegatestDelete: TButton;
-    btnVegatestNew: TButton;
-    btnVegatestNewGroup: TButton;
-    btnVegatestSave: TButton;
     btnConsoleExecute: TButton;
     btnClose: TButton;
     btnEapSave: TButton;
@@ -129,21 +126,22 @@ type
     TabSheet4: TTabSheet;
     tabVegatest: TTabSheet;
     timerChangeDirection: TTimer;
-    treeviewSelector: TTreeView;
+    TreeViewSelector: TTreeView;
     procedure btnConsoleExecuteClick(Sender: TObject);
     procedure btnDeleteAllClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnEapLoadClick(Sender: TObject);
     procedure btnEapSaveClick(Sender: TObject);
-    procedure btnVegatestDeleteClick(Sender: TObject);
-    procedure btnVegatestNewClick(Sender: TObject);
-    procedure btnVegatestNewGroupClick(Sender: TObject);
+    //procedure btnVegatestDeleteClick(Sender: TObject);
+    //procedure btnVegatestNewClick(Sender: TObject);
+    //procedure btnVegatestNewGroupClick(Sender: TObject);
     procedure btnResetClick(Sender: TObject);
     procedure btnConnectClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
-    procedure btnVegatestSaveClick(Sender: TObject);
+    //procedure btnVegatestSaveClick(Sender: TObject);
     procedure ButtonSaveReportClick(Sender: TObject);
+    procedure ButtonVegatestEditClick(Sender: TObject);
     procedure cbElectropunctueOnChange(Sender: TObject);
     procedure cboxChangeDirectionsChange(Sender: TObject);
     procedure cboxSeriesChange(Sender: TObject);
@@ -172,7 +170,8 @@ type
     procedure tabRyodorakuShow(Sender: TObject);
     procedure tabVegatestShow(Sender: TObject);
     procedure timerChangeDirectionTimer(Sender: TObject);
-    procedure treeviewSelectorSelectionChanged(Sender: TObject);
+    procedure TreeViewSelectorSelectionChanged(Sender: TObject);
+    procedure SelectorLoad();
 
   private
     const
@@ -212,6 +211,8 @@ var
   frmMain: TfrmMain;
 
 implementation
+
+uses unitVegatestSelector;
 
 
 {$R *.lfm}
@@ -291,47 +292,10 @@ begin
      StringGridEAPTherapy.SaveToCSVFile(SaveDialog.FileName);
 end;
 
-procedure TfrmMain.btnVegatestDeleteClick(Sender: TObject);
-
-    //Procedure to recursively delete nodes
-    procedure DeleteNode(Node:TTreeNode);
-    begin
-         while Node.HasChildren do
-               DeleteNode(node.GetLastChild);
-         treeviewSelector.Items.Delete(Node) ;
-    end;
-
-begin
-     if treeviewSelector.Selected = nil then  exit;
-
-     //If selected node has child nodes, first ask for confirmation
-     if treeviewSelector.Selected.HasChildren then
-        if messagedlg( 'Delete selected group and all children?',mtConfirmation, [mbYes,mbNo],0 ) <> mrYes then
-           exit;
-        DeleteNode(treeviewSelector.Selected);
-end;
-
-procedure TfrmMain.btnVegatestNewClick(Sender: TObject);
-var
-  i: integer;
-  s: string;
-begin
-  // Set up a simple text for each new node - Node1 , Node2 etc
-  i := treeviewSelector.Items.Count;
-  s := 'New ' + inttostr(i);
-  //Add a new node to the currently selected node
-  if treeviewSelector.Selected <> nil then begin
-    treeviewSelector.Items.AddChild(treeviewSelector.Selected ,s);
-    treeviewSelector.Selected.Expand(true);
-  end;
-
-end;
 
 
-procedure TfrmMain.btnVegatestNewGroupClick(Sender: TObject);
-begin
-  treeviewSelector.Items.Add(nil,'New group');
-end;
+
+
 
 procedure TfrmMain.btnResetClick(Sender: TObject);
 begin
@@ -513,12 +477,7 @@ begin
 
 end;
 
-procedure TfrmMain.btnVegatestSaveClick(Sender: TObject);
-begin
-  //Showmessage();
-  treeviewSelector.SaveToFile(ExtractFilePath(Application.ExeName)+'selector.txt');
-  //ExtractFilePath(Application.ExeName)
-end;
+
 
 procedure TfrmMain.ButtonSaveReportClick(Sender: TObject);
 var
@@ -541,6 +500,11 @@ begin
 
   end;
 
+end;
+
+procedure TfrmMain.ButtonVegatestEditClick(Sender: TObject);
+begin
+  FormVegatestSelector.ShowModal;
 end;
 
 procedure TfrmMain.cbElectropunctueOnChange(Sender: TObject);
@@ -641,15 +605,23 @@ begin
 
 end;
 
-procedure TfrmMain.FormShow(Sender: TObject);
+procedure TfrmMain.SelectorLoad();
 var s: string;
+begin
+   //Load user veagtest selector
+  s:= ExtractFilePath(Application.ExeName)+'qiWELLNESS.sel';
+  if FileExists(s)then
+     TreeViewSelector.LoadFromFile(s);
+
+end;
+
+procedure TfrmMain.FormShow(Sender: TObject);
+var
     i : integer;
 begin
 
   //Load user veagtest selector
-  s:= ExtractFilePath(Application.ExeName)+'selector.txt';
-  if FileExists(s)then
-     treeviewSelector.LoadFromFile(s);
+  SelectorLoad();
 
   //Clear Ryodoraku chart
   for i:= 0 to 11 do begin
@@ -995,9 +967,9 @@ end;
 
 
 
-procedure TfrmMain.treeviewSelectorSelectionChanged(Sender: TObject);
+procedure TfrmMain.TreeViewSelectorSelectionChanged(Sender: TObject);
 begin
-  FCurrentPointName:=treeviewSelector.Selected.Text;
+  FCurrentPointName:=TreeViewSelector.Selected.Text;
 
 end;
 

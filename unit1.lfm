@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 389
+  Left = 53
   Height = 661
-  Top = 126
+  Top = 283
   Width = 1259
   Caption = 'qiWELLNESS'
   ClientHeight = 661
@@ -683,9 +683,9 @@ object frmMain: TfrmMain
       Height = 659
       Top = 1
       Width = 647
-      ActivePage = tabConsole
+      ActivePage = tabVegatest
       Align = alClient
-      TabIndex = 0
+      TabIndex = 3
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -3555,51 +3555,27 @@ object frmMain: TfrmMain
             ClientHeight = 590
             ClientWidth = 118
             TabOrder = 0
-            object btnVegatestNewGroup: TButton
+            object ButtonVegatestEdit: TButton
               Left = 21
               Height = 25
-              Top = 16
+              Top = 256
               Width = 75
-              Caption = 'New group'
-              OnClick = btnVegatestNewGroupClick
+              Caption = 'Edit'
+              OnClick = ButtonVegatestEditClick
               TabOrder = 0
             end
-            object btnVegatestNew: TButton
-              Left = 21
-              Height = 25
-              Top = 56
-              Width = 75
-              Caption = 'New'
-              OnClick = btnVegatestNewClick
-              TabOrder = 1
-            end
-            object btnVegatestDelete: TButton
-              Left = 21
-              Height = 25
-              Top = 120
-              Width = 75
-              Caption = 'Delete'
-              OnClick = btnVegatestDeleteClick
-              TabOrder = 2
-            end
-            object btnVegatestSave: TButton
-              Left = 21
-              Height = 25
-              Top = 200
-              Width = 75
-              Caption = 'Save list'
-              OnClick = btnVegatestSaveClick
-              TabOrder = 3
-            end
           end
-          object treeviewSelector: TTreeView
+          object TreeViewSelector: TTreeView
             Left = 1
             Height = 590
             Top = 1
             Width = 519
             Align = alClient
+            ReadOnly = True
+            RowSelect = True
             TabOrder = 1
-            OnSelectionChanged = treeviewSelectorSelectionChanged
+            OnSelectionChanged = TreeViewSelectorSelectionChanged
+            Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
             Items.Data = {
               F9FFFFFF020002000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
               00000005000000436C656172FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF01000000
@@ -5988,7 +5964,6 @@ object frmMain: TfrmMain
     Parity = pNone
     FlowControl = fcNone
     StopBits = sbOne
-    Device = 'COM1'
     RcvLineCRLF = False
     OnRxData = serialRxData
     left = 552
@@ -6011,7 +5986,7 @@ object frmMain: TfrmMain
   end
   object chartSourceCurrent: TListChartSource
     DataPoints.Strings = (
-      '0|2.2999999999999998|$FF8000|'
+      '0|2.3|$FF8000|'
     )
     left = 472
     top = 280
