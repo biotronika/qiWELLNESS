@@ -109,7 +109,7 @@ type
     rbRyodorakuRight: TRadioButton;
     SaveDialog: TSaveDialog;
     SaveDialogForm: TSaveDialog;
-    serial: TLazSerial;
+    Serial: TLazSerial;
     Panel2: TPanel;
     statusBar: TStatusBar;
     gridRyodoraku: TStringGrid;
@@ -160,7 +160,7 @@ type
     procedure Label8Click(Sender: TObject);
     procedure rbCommonChange(Sender: TObject);
 
-    procedure serialRxData(Sender: TObject);
+    procedure SerialRxData(Sender: TObject);
     procedure StringGridEAPTherapySelectCell(Sender: TObject; aCol,
       aRow: Integer; var CanSelect: Boolean);
     //procedure serialStatus(Sender: TObject; Reason: THookSerialReason;
@@ -236,9 +236,9 @@ end;
 
 procedure TfrmMain.btnConsoleExecuteClick(Sender: TObject);
 begin
-    if (serial.Active) then begin
+    if (Serial.Active) then begin
 
-    serial.WriteData(edtConsoleCommand.Text+#13#10);
+    Serial.WriteData(edtConsoleCommand.Text+#13#10);
 
   end;
 end;
@@ -274,8 +274,8 @@ end;
 
 procedure TfrmMain.btnCloseClick(Sender: TObject);
 begin
-  if serial.Active then begin
-    serial.Close;
+  if Serial.Active then begin
+    Serial.Close;
     statusBar.SimpleText:='Serial connection was closed';
   end;
 end;
@@ -303,11 +303,11 @@ begin
 
   Sleep(2);
 
-  if serial.Active then begin
+  if Serial.Active then begin
      //DTR line is in Arduino boartds the reset of an ucontroller
-     serial.SetDTR(false);
+     Serial.SetDTR(false);
      Sleep(2);
-     serial.SetDTR(true);
+     Serial.SetDTR(true);
   end;
 
 end;
@@ -325,19 +325,19 @@ begin
       {$I+}
       if IOResult=0 then  begin
          readln(f,s);
-         serial.Device:=s;
+         Serial.Device:=s;
       //CloseFile(f);
       end;
 
-      serial.ShowSetupDialog;
-      serial.Open;
+      Serial.ShowSetupDialog;
+      Serial.Open;
 
-      if serial.Active then  begin
+      if Serial.Active then  begin
            Rewrite(f);
            {$I-}
-           Writeln(f,serial.Device);
+           Writeln(f,Serial.Device);
            {$I+}
-           statusBar.SimpleText:='Serial port: '+ serial.Device+' is open.';
+           statusBar.SimpleText:='Serial port: '+ Serial.Device+' is open.';
 
       end;
       CloseFile(f);
@@ -557,21 +557,21 @@ end;
 
 procedure TfrmMain.edtFreqChange(Sender: TObject);
 begin
-  if serial.Active then begin
+  if Serial.Active then begin
 
     //Type of current (pulse or DC)
     if rbPulse.Checked then
-      serial.WriteData('freq '+ IntToStr(trunc(StrToFloatDef(edtFreq.Text,10)*100)) +' '+edtDutyCycle.Text+#13#10)
+      Serial.WriteData('freq '+ IntToStr(trunc(StrToFloatDef(edtFreq.Text,10)*100)) +' '+edtDutyCycle.Text+#13#10)
     else
-      serial.WriteData('freq 100 100'#13#10);   //DC current
+      Serial.WriteData('freq 100 100'#13#10);   //DC current
 
     sleep(200);
 
     //Polarization of electrode
     if rbNegativeElectrode.Checked then
-      serial.WriteData('chp 0'#13#10)
+      Serial.WriteData('chp 0'#13#10)
     else
-       serial.WriteData('chp 1'#13#10);
+       Serial.WriteData('chp 1'#13#10);
 
   end;
 
@@ -766,14 +766,14 @@ end;
 
 
 
-procedure TfrmMain.serialRxData(Sender: TObject);
+procedure TfrmMain.SerialRxData(Sender: TObject);
 var s,ss : string;
-    i,j,l: integer;
-    myTime : Double;
+    i,j,l,p: integer;
+    myTime,d : Double;
 
 begin
 
-  s:= serial.ReadData;
+  s:= Serial.ReadData;
 
   for i:=1 to Length(s) do
      if (s[i]= #10)  then begin
@@ -858,12 +858,22 @@ begin
               ProgressBarTime.Color:=clYellow;
            end;
 
-           j:= StrToIntDef(ss,0);
+           p := Pos(' ',ss);
 
-           mySeries.AddXY( myTime ,j*StrToFloatDef(edtDutyCycle.Text,0)/100);
+           if p=0 then begin
+
+               j:= StrToIntDef(ss,0);
+               d:= StrToFloatDef(edtDutyCycle.Text,0);
+
+           end else begin
+               j := StrToIntDef( Trim( Copy(ss,1,p) ),0);
+               d := StrToFloatDef( Trim( Copy(ss,p,Length(ss)-p) ),0);
+           end;
+
+           mySeries.AddXY( myTime ,j*d/100);
 
            chartSourceCurrent.SetYValue(0,j/1000);
-           chartSourceRMS.SetYValue(0,j*StrToFloatDef(edtDutyCycle.Text,0)/100);
+           chartSourceRMS.SetYValue(0,j*d/100); //chartSourceRMS.SetYValue(0,j*StrToFloatDef(edtDutyCycle.Text,0)/100);
 
 
              l:= StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0)+
@@ -909,9 +919,9 @@ procedure TfrmMain.tabEAVShow(Sender: TObject);
 begin
   cbEAVOn.Checked:=frmMain.tabEAV.Visible;
 
-  if (serial.Active) and (cbEAVOn.Checked) then begin
+  if (Serial.Active) and (cbEAVOn.Checked) then begin
 
-    serial.WriteData('eav'#13#10);
+    Serial.WriteData('eav'#13#10);
 
   end;
 end;
@@ -922,8 +932,8 @@ begin
 
   cbElectropunctueOn.Checked:=frmMain.tabElectropunture.Visible;
 
-  if (serial.Active) and (cbElectropunctueOn.Checked) then
-    serial.WriteData('eap'#13#10);
+  if (Serial.Active) and (cbElectropunctueOn.Checked) then
+    Serial.WriteData('eap'#13#10);
 
 end;
 
@@ -933,8 +943,8 @@ begin
 
   cbRyodorakuOn.Checked:=frmMain.tabRyodoraku.Visible;
 
-  if (serial.Active) and (cbRyodorakuOn.Checked) then
-    serial.WriteData('eav'#13#10); //Ryodoraku is measured with the same parameter as EAV
+  if (Serial.Active) and (cbRyodorakuOn.Checked) then
+    Serial.WriteData('eav'#13#10); //Ryodoraku is measured with the same parameter as EAV
 end;
 
 
@@ -944,8 +954,8 @@ begin
   cbVegatestOn.Checked:=frmMain.tabVegatest.Visible;
 
   //Send to miniVOLL commmand: vegatest
-  if (serial.Active) and (cbVegatestOn.Checked) then
-    serial.WriteData('veg'#13#10);
+  if (Serial.Active) and (cbVegatestOn.Checked) then
+    Serial.WriteData('veg'#13#10);
 
 end;
 

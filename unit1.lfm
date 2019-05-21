@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 53
+  Left = 235
   Height = 661
-  Top = 283
+  Top = 186
   Width = 1259
   Caption = 'qiWELLNESS'
   ClientHeight = 661
@@ -3556,9 +3556,9 @@ object frmMain: TfrmMain
             ClientWidth = 118
             TabOrder = 0
             object ButtonVegatestEdit: TButton
-              Left = 21
+              Left = 24
               Height = 25
-              Top = 256
+              Top = 16
               Width = 75
               Caption = 'Edit'
               OnClick = ButtonVegatestEditClick
@@ -5957,7 +5957,7 @@ object frmMain: TfrmMain
       end
     end
   end
-  object serial: TLazSerial
+  object Serial: TLazSerial
     Active = False
     BaudRate = br115200
     DataBits = db8bits
@@ -5965,7 +5965,7 @@ object frmMain: TfrmMain
     FlowControl = fcNone
     StopBits = sbOne
     RcvLineCRLF = False
-    OnRxData = serialRxData
+    OnRxData = SerialRxData
     left = 552
     top = 56
   end
@@ -5986,7 +5986,7 @@ object frmMain: TfrmMain
   end
   object chartSourceCurrent: TListChartSource
     DataPoints.Strings = (
-      '0|2.3|$FF8000|'
+      '0|2.2999999999999998|$FF8000|'
     )
     left = 472
     top = 280

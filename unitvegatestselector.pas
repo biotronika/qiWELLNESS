@@ -103,7 +103,7 @@ begin
 
    //If selected node has child nodes, first ask for confirmation
    if TreeViewSelector.Selected.HasChildren then
-      if messagedlg( 'Delete selected group and all children?',mtConfirmation, [mbYes,mbNo],0 ) <> mrYes then
+      if MessageDlg( 'Delete selected group and all children?',mtConfirmation, [mbYes,mbNo],0 ) <> mrYes then
          exit;
       DeleteNode(TreeViewSelector.Selected);
 end;
