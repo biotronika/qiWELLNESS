@@ -51,6 +51,7 @@ type
     edtConsoleCommand: TEdit;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
+    Image1: TImage;
     Image2: TImage;
     Image3: TImage;
     Image4: TImage;
@@ -67,6 +68,7 @@ type
     chartSourceRMS: TListChartSource;
     chartSourceCurrent: TListChartSource;
     OpenDialog: TOpenDialog;
+    Panel15: TPanel;
     Panel4: TPanel;
     ryodorakuLeftSource: TListChartSource;
     Panel1: TPanel;
@@ -109,11 +111,13 @@ type
     rbRyodorakuRight: TRadioButton;
     SaveDialog: TSaveDialog;
     SaveDialogForm: TSaveDialog;
+    ScrollBox1: TScrollBox;
     Serial: TLazSerial;
     Panel2: TPanel;
     statusBar: TStatusBar;
     gridRyodoraku: TStringGrid;
     StringGridEAPTherapy: TStringGrid;
+    StringGridEAV: TStringGrid;
     tabConsole: TTabSheet;
     TabControl1: TTabControl;
     tabRyodoraku: TTabSheet;
