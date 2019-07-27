@@ -1,7 +1,7 @@
 object FormVegatestSelector: TFormVegatestSelector
-  Left = 537
+  Left = 619
   Height = 518
-  Top = 211
+  Top = 235
   Width = 647
   Caption = 'Vegatest selector'
   ClientHeight = 518
