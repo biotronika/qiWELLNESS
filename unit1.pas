@@ -18,6 +18,8 @@ type
     btnConnect: TButton;
     btnSaveAs: TButton;
     btnDelete: TButton;
+    ButtonCalibrateEAV: TButton;
+    ButtonCalibrateVegatest: TButton;
     ButtonVegatestEdit: TButton;
     ButtonSaveReport: TButton;
     btnConsoleExecute: TButton;
@@ -143,6 +145,8 @@ type
     procedure btnResetClick(Sender: TObject);
     procedure btnConnectClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
+    procedure ButtonCalibrateEAVClick(Sender: TObject);
+    procedure ButtonCalibrateVegatestClick(Sender: TObject);
     //procedure btnVegatestSaveClick(Sender: TObject);
     procedure ButtonSaveReportClick(Sender: TObject);
     procedure ButtonVegatestEditClick(Sender: TObject);
@@ -479,6 +483,30 @@ begin
 
   end;
 
+end;
+
+procedure TfrmMain.ButtonCalibrateEAVClick(Sender: TObject);
+begin
+    if (Serial.Active) then begin
+
+       Serial.WriteData('eav'+#13#10);
+       ShowMessage('Short the electrodes and press OK');
+
+       Serial.WriteData('eavcalib'+#13#10);
+
+    end;
+end;
+
+procedure TfrmMain.ButtonCalibrateVegatestClick(Sender: TObject);
+begin
+    if (Serial.Active) then begin
+
+       Serial.WriteData('veg'+#13#10);
+       ShowMessage('Short the electrodes and press OK');
+
+       Serial.WriteData('vegcalib'+#13#10);
+
+    end;
 end;
 
 

@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 235
+  Left = 376
   Height = 661
-  Top = 186
+  Top = 208
   Width = 1259
   Caption = 'qiWELLNESS'
   ClientHeight = 661
@@ -705,10 +705,9 @@ object frmMain: TfrmMain
           Font.Pitch = fpFixed
           Font.Quality = fqDraft
           Lines.Strings = (
-            'TIP: Click Connect and choose right COM port.'
+            'TIP: Click Connect and select the correct COM port.'
             '     If your device is not on the list of COM ports,'
-            '     it could mean that, you have to install Arduino driver.'
-            ''
+            '     it may means that you need to install the Arduino driver.'
           )
           ParentFont = False
           ReadOnly = True
@@ -750,6 +749,24 @@ object frmMain: TfrmMain
             Caption = 'Execute'
             OnClick = btnConsoleExecuteClick
             TabOrder = 1
+          end
+          object ButtonCalibrateEAV: TButton
+            Left = 376
+            Height = 25
+            Top = 14
+            Width = 104
+            Caption = 'Calibrate EAV'
+            OnClick = ButtonCalibrateEAVClick
+            TabOrder = 2
+          end
+          object ButtonCalibrateVegatest: TButton
+            Left = 488
+            Height = 25
+            Top = 14
+            Width = 104
+            Caption = 'Calibrate Vegates'
+            OnClick = ButtonCalibrateVegatestClick
+            TabOrder = 3
           end
         end
       end
