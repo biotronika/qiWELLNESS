@@ -18,8 +18,10 @@ type
     btnConnect: TButton;
     btnSaveAs: TButton;
     btnDelete: TButton;
-    ButtonCalibrateEAV: TButton;
-    ButtonCalibrateVegatest: TButton;
+    ButtonEap: TButton;
+    ButtonVeg: TButton;
+    ButtonEav: TButton;
+    ButtonCalibrate: TButton;
     ButtonVegatestEdit: TButton;
     ButtonSaveReport: TButton;
     btnConsoleExecute: TButton;
@@ -145,11 +147,14 @@ type
     procedure btnResetClick(Sender: TObject);
     procedure btnConnectClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
-    procedure ButtonCalibrateEAVClick(Sender: TObject);
+    procedure ButtonCalibrateClick(Sender: TObject);
     procedure ButtonCalibrateVegatestClick(Sender: TObject);
+    procedure ButtonEapClick(Sender: TObject);
+    procedure ButtonEavClick(Sender: TObject);
     //procedure btnVegatestSaveClick(Sender: TObject);
     procedure ButtonSaveReportClick(Sender: TObject);
     procedure ButtonVegatestEditClick(Sender: TObject);
+    procedure ButtonVegClick(Sender: TObject);
     procedure cbElectropunctueOnChange(Sender: TObject);
     procedure cboxChangeDirectionsChange(Sender: TObject);
     procedure cboxSeriesChange(Sender: TObject);
@@ -164,6 +169,7 @@ type
       aRect: TRect; aState: TGridDrawState);
     procedure gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
+    procedure Image1Click(Sender: TObject);
     procedure Image2Click(Sender: TObject);
     procedure Label8Click(Sender: TObject);
     procedure rbCommonChange(Sender: TObject);
@@ -485,26 +491,55 @@ begin
 
 end;
 
-procedure TfrmMain.ButtonCalibrateEAVClick(Sender: TObject);
+procedure TfrmMain.ButtonCalibrateClick(Sender: TObject);
 begin
     if (Serial.Active) then begin
 
-       Serial.WriteData('eav'+#13#10);
-       ShowMessage('Short the electrodes and press OK');
-
-       Serial.WriteData('eavcalib'+#13#10);
+      if messagedlg('Short the electrodes in diagnose circuit and press OK. Wait for two long voice signals. '#10#13#10#13'To abort press Cancel button!',mtWarning, mbOKCancel, 0, mbCancel ) = mrOK then begin
+          Serial.WriteData('eav'+#13#10);
+          sleep(200);
+          Serial.WriteData('calib'+#13#10);
+      end;
 
     end;
 end;
 
+
 procedure TfrmMain.ButtonCalibrateVegatestClick(Sender: TObject);
+begin
+
+
+end;
+
+procedure TfrmMain.ButtonEapClick(Sender: TObject);
 begin
     if (Serial.Active) then begin
 
-       Serial.WriteData('veg'+#13#10);
-       ShowMessage('Short the electrodes and press OK');
+       Serial.WriteData('eap'+#13#10);
 
-       Serial.WriteData('vegcalib'+#13#10);
+       sleep(200);
+
+       if rbPulse.Checked then
+          Serial.WriteData('freq '+ IntToStr(trunc(StrToFloatDef(edtFreq.Text,10)*100)) +' '+edtDutyCycle.Text+#13#10)
+       else
+           Serial.WriteData('freq 100 100'#13#10);   //DC current
+
+       sleep(200);
+
+       //Polarization of electrode
+       if rbNegativeElectrode.Checked then
+          Serial.WriteData('chp 0'#13#10)
+       else
+           Serial.WriteData('chp 1'#13#10);
+
+    end;
+end;
+
+procedure TfrmMain.ButtonEavClick(Sender: TObject);
+begin
+    if (Serial.Active) then begin
+
+       Serial.WriteData('eav'+#13#10);
 
     end;
 end;
@@ -537,6 +572,15 @@ end;
 procedure TfrmMain.ButtonVegatestEditClick(Sender: TObject);
 begin
   FormVegatestSelector.ShowModal;
+end;
+
+procedure TfrmMain.ButtonVegClick(Sender: TObject);
+begin
+  if (Serial.Active) then begin
+
+      Serial.WriteData('veg'+#13#10);
+
+   end;
 end;
 
 procedure TfrmMain.cbElectropunctueOnChange(Sender: TObject);
@@ -719,6 +763,11 @@ begin
         FRyodorakuChart+=1;
      end;
   end;
+
+end;
+
+procedure TfrmMain.Image1Click(Sender: TObject);
+begin
 
 end;
 
@@ -964,8 +1013,27 @@ begin
 
   cbElectropunctueOn.Checked:=frmMain.tabElectropunture.Visible;
 
-  if (Serial.Active) and (cbElectropunctueOn.Checked) then
-    Serial.WriteData('eap'#13#10);
+  if (Serial.Active) and (cbElectropunctueOn.Checked) then begin
+
+       Serial.WriteData('eap'+#13#10);
+
+       sleep(200);
+
+       if rbPulse.Checked then
+          Serial.WriteData('freq '+ IntToStr(trunc(StrToFloatDef(edtFreq.Text,10)*100)) +' '+edtDutyCycle.Text+#13#10)
+       else
+           Serial.WriteData('freq 100 100'#13#10);   //DC current
+
+       sleep(200);
+
+       //Polarization of electrode
+       if rbNegativeElectrode.Checked then
+          Serial.WriteData('chp 0'#13#10)
+       else
+           Serial.WriteData('chp 1'#13#10);
+
+    end;
+
 
 end;
 
@@ -1006,6 +1074,8 @@ begin
   end;
 
 end;
+
+
 
 
 

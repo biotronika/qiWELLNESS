@@ -10,7 +10,7 @@ object frmMain: TfrmMain
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.0.4'
+  LCLVersion = '2.0.2.0'
   object Panel2: TPanel
     Left = 0
     Height = 661
@@ -726,15 +726,15 @@ object frmMain: TfrmMain
           ClientWidth = 639
           TabOrder = 1
           object edtConsoleCommand: TEdit
-            Left = 89
+            Left = 72
             Height = 23
-            Top = 16
+            Top = 15
             Width = 183
             OnKeyDown = edtConsoleCommandKeyDown
             TabOrder = 0
           end
           object Label1: TLabel
-            Left = 24
+            Left = 8
             Height = 15
             Top = 20
             Width = 57
@@ -742,7 +742,7 @@ object frmMain: TfrmMain
             ParentColor = False
           end
           object btnConsoleExecute: TButton
-            Left = 288
+            Left = 256
             Height = 25
             Top = 14
             Width = 56
@@ -750,23 +750,41 @@ object frmMain: TfrmMain
             OnClick = btnConsoleExecuteClick
             TabOrder = 1
           end
-          object ButtonCalibrateEAV: TButton
-            Left = 376
+          object ButtonCalibrate: TButton
+            Left = 560
             Height = 25
             Top = 14
-            Width = 104
-            Caption = 'Calibrate EAV'
-            OnClick = ButtonCalibrateEAVClick
+            Width = 56
+            Caption = 'Calibrate'
+            OnClick = ButtonCalibrateClick
             TabOrder = 2
           end
-          object ButtonCalibrateVegatest: TButton
-            Left = 488
+          object ButtonEav: TButton
+            Left = 344
             Height = 25
             Top = 14
-            Width = 104
-            Caption = 'Calibrate Vegates'
-            OnClick = ButtonCalibrateVegatestClick
+            Width = 60
+            Caption = 'EAV'
+            OnClick = ButtonEavClick
             TabOrder = 3
+          end
+          object ButtonVeg: TButton
+            Left = 408
+            Height = 25
+            Top = 14
+            Width = 60
+            Caption = 'Vegatest'
+            OnClick = ButtonVegClick
+            TabOrder = 4
+          end
+          object ButtonEap: TButton
+            Left = 472
+            Height = 25
+            Top = 14
+            Width = 60
+            Caption = 'EAP'
+            OnClick = ButtonEapClick
+            TabOrder = 5
           end
         end
       end
@@ -3483,9 +3501,10 @@ object frmMain: TfrmMain
             Left = 40
             Height = 19
             Top = 8
-            Width = 122
+            Width = 121
             Caption = 'Turn on ryodoraku '
             TabOrder = 0
+            Visible = False
           end
           object ButtonRyodorakuSendToEAP: TButton
             Left = 432
@@ -3544,6 +3563,7 @@ object frmMain: TfrmMain
               Width = 725
               AntialiasingMode = amOn
               Align = alClient
+              OnClick = Image1Click
               Picture.Data = {
                 1754506F727461626C654E6574776F726B4772617068696359E9030089504E47
                 0D0A1A0A0000000D49484452000002D5000002D408020000004B8D5999000000
@@ -11575,9 +11595,10 @@ object frmMain: TfrmMain
             Left = 40
             Height = 19
             Top = 8
-            Width = 86
+            Width = 85
             Caption = 'Turn EAV on'
             TabOrder = 0
+            Visible = False
           end
         end
         object Panel15: TPanel
@@ -11762,9 +11783,10 @@ object frmMain: TfrmMain
             Left = 39
             Height = 19
             Top = 9
-            Width = 109
+            Width = 108
             Caption = 'Turn on vegatest'
             TabOrder = 0
+            Visible = False
           end
         end
       end
@@ -12087,7 +12109,7 @@ object frmMain: TfrmMain
             Left = 8
             Height = 15
             Top = 136
-            Width = 47
+            Width = 46
             Caption = 'Time left'
             ParentColor = False
           end
@@ -12194,10 +12216,11 @@ object frmMain: TfrmMain
             Left = 40
             Height = 19
             Top = 8
-            Width = 152
+            Width = 151
             Caption = 'Turn on electropuncture '
             OnChange = cbElectropunctueOnChange
             TabOrder = 0
+            Visible = False
           end
           object btnEapSave: TButton
             Left = 503
@@ -12236,6 +12259,7 @@ object frmMain: TfrmMain
           ColCount = 6
           FixedCols = 0
           Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goAutoAddRows, goRowSelect, goRelaxedRowSelect, goSmoothScroll, goRowHighlight]
+          RowCount = 10
           ScrollBars = ssVertical
           TabOrder = 3
           TitleFont.CharSet = EASTEUROPE_CHARSET
@@ -12255,7 +12279,7 @@ object frmMain: TfrmMain
             191
           )
           Cells = (
-            26
+            38
             0
             0
             'Point(s)'
@@ -12271,6 +12295,18 @@ object frmMain: TfrmMain
             0
             4
             'CV 24'
+            0
+            5
+            'SP 6 (L,R))'
+            0
+            6
+            'GB 34 (L,R)'
+            0
+            7
+            'KD 1 (L)'
+            0
+            8
+            'GV 21'
             1
             0
             'Meridian'
@@ -12286,6 +12322,18 @@ object frmMain: TfrmMain
             1
             4
             'Conception Vessel'
+            1
+            5
+            'Spleen'
+            1
+            6
+            'Gallbladder'
+            1
+            7
+            'Kidney'
+            1
+            8
+            'Governing Vessel'
             2
             0
             'Profile'
@@ -12301,39 +12349,51 @@ object frmMain: TfrmMain
             2
             4
             'Stimulation'
+            2
+            5
+            'Common'
+            2
+            6
+            'Common'
+            2
+            7
+            'Common'
+            2
+            8
+            'Stimulation'
             3
             0
             'Time [s]'
             3
             1
-            '30'
+            '240'
             3
             2
             '120'
             3
             3
-            '120'
+            '30'
             3
             4
+            '30'
+            3
+            5
+            '120'
+            3
+            6
+            '60'
+            3
+            7
+            '240'
+            3
+            8
             '120'
             4
             0
             'Elapsed [s]'
-            4
-            1
-            '15'
-            4
-            3
-            '120'
             5
             0
             'Progress'
-            5
-            1
-            '|||||'
-            5
-            3
-            '||||||||||||||||||||||||||||||||||||||||'
           )
         end
       end
