@@ -18,6 +18,7 @@ type
     btnConnect: TButton;
     btnSaveAs: TButton;
     btnDelete: TButton;
+    ButtonSaveReading: TButton;
     ButtonEap: TButton;
     ButtonVeg: TButton;
     ButtonEav: TButton;
@@ -32,10 +33,6 @@ type
     ButtonRyodorakuAnalize: TButton;
     ButtonRyodorakuSendToEAP: TButton;
     cboxSeries: TComboBox;
-    cbRyodorakuOn: TCheckBox;
-    cbEAVOn: TCheckBox;
-    cbElectropunctueOn: TCheckBox;
-    cbVegatestOn: TCheckBox;
     chartRyodoraku: TChart;
     chartRyodorakuRightSeries: TBarSeries;
     chartRMS: TChart;
@@ -60,6 +57,8 @@ type
     Image3: TImage;
     Image4: TImage;
     Image5: TImage;
+    Image6: TImage;
+    Image7: TImage;
     Label1: TLabel;
     LabelTime: TLabel;
     Label2: TLabel;
@@ -128,10 +127,12 @@ type
     tabEAV: TTabSheet;
     tabElectropunture: TTabSheet;
     tabAuriculotherapy: TTabSheet;
+    RightHand: TTabSheet;
+    LeftFoot: TTabSheet;
     TabSheet2: TTabSheet;
-    Hand: TTabSheet;
-    TabSheet3: TTabSheet;
-    TabSheet4: TTabSheet;
+    LeftHand: TTabSheet;
+    Chart: TTabSheet;
+    RightFoot: TTabSheet;
     tabVegatest: TTabSheet;
     timerChangeDirection: TTimer;
     TreeViewSelector: TTreeView;
@@ -148,13 +149,15 @@ type
     procedure btnConnectClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
     procedure ButtonCalibrateClick(Sender: TObject);
-    procedure ButtonCalibrateVegatestClick(Sender: TObject);
+
     procedure ButtonEapClick(Sender: TObject);
     procedure ButtonEavClick(Sender: TObject);
+    procedure ButtonSaveReadingClick(Sender: TObject);
     //procedure btnVegatestSaveClick(Sender: TObject);
     procedure ButtonSaveReportClick(Sender: TObject);
     procedure ButtonVegatestEditClick(Sender: TObject);
     procedure ButtonVegClick(Sender: TObject);
+    procedure cbEAVOnChange(Sender: TObject);
     procedure cbElectropunctueOnChange(Sender: TObject);
     procedure cboxChangeDirectionsChange(Sender: TObject);
     procedure cboxSeriesChange(Sender: TObject);
@@ -164,15 +167,19 @@ type
     procedure edtFreqChange(Sender: TObject);
     procedure edtSecondsChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+
     procedure FormShow(Sender: TObject);
     procedure gridRyodorakuDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
+    procedure gridRyodorakuKeyPress(Sender: TObject; var Key: char);
     procedure gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
-    procedure Image1Click(Sender: TObject);
-    procedure Image2Click(Sender: TObject);
+    procedure gridRyodorakuSelection(Sender: TObject; aCol, aRow: Integer);
+
     procedure Label8Click(Sender: TObject);
+
     procedure rbCommonChange(Sender: TObject);
+    procedure rbRyodorakuLeftChange(Sender: TObject);
 
     procedure SerialRxData(Sender: TObject);
     procedure StringGridEAPTherapySelectCell(Sender: TObject; aCol,
@@ -185,10 +192,23 @@ type
     procedure tabVegatestShow(Sender: TObject);
     procedure timerChangeDirectionTimer(Sender: TObject);
     procedure TreeViewSelectorSelectionChanged(Sender: TObject);
-    procedure SelectorLoad();
+
+
+    procedure ClearEAP;
+    procedure SelectorLoad;
+    procedure RyodorakuClear;
+    procedure ChangeMode(mode : integer);
+
+
 
   private
     const
+         MODE_UNK = -1; //unknown
+         MODE_EAP = 0;
+         MODE_EAV = 1;
+         MODE_VEG = 2;
+         MODE_RYO = 3; //Ryodoraku
+
       MAX_SERIES_NUMBER = 30;
       MAX_EAP_POINTS_NUMBER = 30;
       //RYODORAKU_NORMAL_MIN = 75;
@@ -203,6 +223,7 @@ type
 
 
     var
+      CurrentMode : integer;
       FCurrentPointName : string;
       FRyodorakuChart : integer;
       fReadBuffer : string;
@@ -214,10 +235,12 @@ type
       EAPProgressGridRow : integer;
       EAPProgressTime : Double;
 
-      procedure ClearEAP;
+
+
 
   public
      ryodorakuPoint : array[0..11,0..1] of Double; //[0..23]
+
 
   end;
 
@@ -233,6 +256,57 @@ uses unitVegatestSelector;
 
 { TfrmMain }
 
+procedure TfrmMain.ChangeMode(mode : integer);
+begin
+  CurrentMode := mode;
+
+  if (Serial.Active) then begin
+
+    case mode of
+      MODE_UNK: ;
+
+      MODE_EAP: begin
+
+                     Serial.WriteData('eap'+#13#10);
+
+                     sleep(200);
+
+                     if rbPulse.Checked then
+                        Serial.WriteData('freq '+ IntToStr(trunc(StrToFloatDef(edtFreq.Text,10)*100)) +' '+edtDutyCycle.Text+#13#10)
+                     else
+                         Serial.WriteData('freq 100 100'#13#10);   //DC current
+
+                     sleep(200);
+
+                     //Polarization of electrode
+                     if rbNegativeElectrode.Checked then
+                        Serial.WriteData('chp 0'#13#10)
+                     else
+                         Serial.WriteData('chp 1'#13#10);
+
+                end;
+
+      MODE_EAV: begin
+                     Serial.WriteData('eav'+#13#10);
+
+                end;
+
+      MODE_VEG: begin
+                    Serial.WriteData('veg'+#13#10);
+                end;
+
+      MODE_RYO: begin
+                    Serial.WriteData('eav'+#13#10);
+
+                end;
+
+    end;
+
+  end;
+
+
+
+end;
 
 procedure TfrmMain.btnDeleteAllClick(Sender: TObject);
 var i : integer;
@@ -356,6 +430,10 @@ begin
       end;
       CloseFile(f);
 
+      sleep(2000);
+
+      frmMain.ChangeMode(CurrentMode);
+
   //step := 1;
 end;
 
@@ -372,6 +450,8 @@ begin
   //Check numbers of seriers on chart
   if cboxSeries.Items.Count>MAX_SERIES_NUMBER then exit;
 
+  //if (chartIndex=-1) then exit;
+
   //Check if is set series name
   if FCurrentPointName='' then begin
 
@@ -385,7 +465,7 @@ begin
 
      s:=FCurrentPointName;
 
-     if cbRyodorakuOn.Checked then begin
+     if CurrentMode=MODE_RYO then begin
         //chartIndex := FRyodorakuChart;
        chartIndex := FRyodorakuChart div 2;
        rightChartIndex :=  FRyodorakuChart mod 2;
@@ -410,13 +490,15 @@ begin
   chartMainCurrentLineSeries.Clear;
 
 //RYODORAKU
-  if (chartIndex<>-1) and (cbRyodorakuOn.Checked) then begin
+  if (chartIndex<>-1) and (CurrentMode=MODE_RYO) then begin
 
 //TODO: Calculate current equivalent  - check!
     if seriesArray[i].Count > 50 then
-       d:= seriesArray[i].GetYValue(40) (*MaxYValue*) * RYODORAKU_FACTOR    //Get sample at 0.8sec.
+       //Get sample at: 0.8, 0.9 and 1 sec.
+       d:= RYODORAKU_FACTOR * (seriesArray[i].GetYValue(40)+seriesArray[i].GetYValue(45)+seriesArray[i].GetYValue(50)) / 3
     else  begin
         ShowMessage('Take a longer sample! Minimum is 1 second.');
+        FCurrentPointName:=s;
         Exit;
     end;
 
@@ -429,7 +511,7 @@ begin
 
 
 
-    //Calculate normal value  (+/- 15[uA])
+    //Calculate normal range:  +/-15[uA]
 
     sum:=0;
     count:=0;
@@ -447,7 +529,7 @@ begin
        end;
 
 
-    //Set normal line on ryododraku chart
+    //Set normal line range on ryododraku chart
 
     if count>0 then begin
       sum := round(sum/count);
@@ -456,7 +538,7 @@ begin
     end;
 
 
-    //Set color of ryodoraku charts
+    //Set colors of ryodoraku charts
 
     for i:= 0 to 11 do
       for j:=0 to 1 do begin
@@ -501,48 +583,170 @@ begin
           Serial.WriteData('calib'+#13#10);
       end;
 
+      frmMain.ChangeMode(CurrentMode);
+
     end;
 end;
 
-
-procedure TfrmMain.ButtonCalibrateVegatestClick(Sender: TObject);
-begin
-
-
-end;
 
 procedure TfrmMain.ButtonEapClick(Sender: TObject);
 begin
-    if (Serial.Active) then begin
-
-       Serial.WriteData('eap'+#13#10);
-
-       sleep(200);
-
-       if rbPulse.Checked then
-          Serial.WriteData('freq '+ IntToStr(trunc(StrToFloatDef(edtFreq.Text,10)*100)) +' '+edtDutyCycle.Text+#13#10)
-       else
-           Serial.WriteData('freq 100 100'#13#10);   //DC current
-
-       sleep(200);
-
-       //Polarization of electrode
-       if rbNegativeElectrode.Checked then
-          Serial.WriteData('chp 0'#13#10)
-       else
-           Serial.WriteData('chp 1'#13#10);
-
-    end;
+    frmMain.ChangeMode(MODE_EAP);
 end;
 
 procedure TfrmMain.ButtonEavClick(Sender: TObject);
 begin
-    if (Serial.Active) then begin
-
-       Serial.WriteData('eav'+#13#10);
-
-    end;
+  frmMain.ChangeMode(MODE_EAV);
 end;
+
+procedure TfrmMain.ButtonSaveReadingClick(Sender: TObject);
+
+var s : string;
+    i,j,count : integer;
+    sum,d : Double;
+    chartIndex: integer;
+    rightChartIndex : integer;
+begin
+  (*
+  if gridRyodoraku.col > 0 then begin;
+    PageControl2.TabIndex:=0;
+    frmMain.btnSaveAsClick(Sender);
+  end;
+
+ // gridRyodoraku.col:=7;
+ // gridRyodoraku.row:=0;
+  *)
+  if CurrentMode=MODE_RYO then begin
+
+   chartIndex      := -1;
+   rightChartIndex := -1;
+
+   //Check numbers of seriers on chart
+   if cboxSeries.Items.Count>MAX_SERIES_NUMBER then exit;
+
+
+   //Check if is set series name
+   if FCurrentPointName='' then begin
+
+      ShowMessage('Select the point before save pressing.');
+
+   end else begin
+
+      s:=FCurrentPointName;
+
+      if CurrentMode=MODE_RYO then begin
+         //chartIndex := FRyodorakuChart;
+        chartIndex := FRyodorakuChart div 2;
+        rightChartIndex :=  FRyodorakuChart mod 2;
+      end;
+
+   end;
+
+
+   FCurrentPointName:='';
+
+
+   i:= cboxSeries.Items.Add(s);
+
+   with seriesArray[i] do begin
+      SeriesColor:=clGray;
+      LinePen.Color:=clGray;
+      LinePen.Style:=ChartComboBox1.PenStyle;
+      LinePen.Width:=3;
+      ListSource.CopyFrom(chartMainCurrentLineSeries.Source);
+      Title:=s;
+   end;
+
+   chartMainCurrentLineSeries.Clear;
+
+
+ //RYODORAKU
+   if  chartIndex<>-1  then begin
+
+ //TODO: Calculate current equivalent  - check!
+     if seriesArray[i].Count > 50 then
+        //Get sample at: 0.8, 0.9 and 1 sec.
+        d:= RYODORAKU_FACTOR * (seriesArray[i].GetYValue(40)+seriesArray[i].GetYValue(45)+seriesArray[i].GetYValue(50)) / 3
+     else  begin
+         ShowMessage('Take a longer sample! Minimum is 1 second.');
+         FCurrentPointName:=s;
+         Exit;
+     end;
+
+     //Save value
+     ryodorakuPoint[chartIndex,rightChartIndex]:= d;
+     if rightChartIndex=0 then
+       ryodorakuLeftSource.SetYValue(chartIndex,d)
+     else
+       ryodorakuRightSource.SetYValue(chartIndex,d);
+
+
+
+     //Calculate normal range:  +/-15[uA]
+
+     sum:=0;
+     count:=0;
+
+     for i:= 0 to 11 do
+        for j:= 0 to 1 do begin
+
+          if ryodorakuPoint[i,j]>0 then begin
+
+            sum := sum + ryodorakuPoint[i,j];
+            count := count+1;
+
+          end;
+
+        end;
+
+
+     //Set normal line range on ryododraku chart
+
+     if count>0 then begin
+       sum := round(sum/count);
+       ryodorakuNormalSource.SetYValue(0,sum);
+       ryodorakuNormalSource.SetYValue(1,sum);
+     end;
+
+
+     //Set colors of ryodoraku charts
+
+     for i:= 0 to 11 do
+       for j:=0 to 1 do begin
+
+         if ryodorakuPoint[i,j]< sum-15 then begin
+
+            if j=0 then
+              ryodorakuLeftSource.SetColor(i,$800000)  //navy
+            else
+              ryodorakuRightSource.SetColor(i,$800000);
+
+         end else if ryodorakuPoint[i,j]> sum+15 then begin
+
+            if j=0 then
+              ryodorakuLeftSource.SetColor(i,$0000FF)  //red
+            else
+              ryodorakuRightSource.SetColor(i,$0000FF);
+
+         end else begin
+
+           if j=0 then
+             ryodorakuLeftSource.SetColor(i,$008000)  //green
+           else
+             ryodorakuRightSource.SetColor(i,$008000);
+
+         end;
+       end;
+
+
+
+   end;
+
+
+  end;
+
+end;
+
 
 
 
@@ -576,19 +780,20 @@ end;
 
 procedure TfrmMain.ButtonVegClick(Sender: TObject);
 begin
-  if (Serial.Active) then begin
+  frmMain.ChangeMode(MODE_VEG);
+end;
 
-      Serial.WriteData('veg'+#13#10);
+procedure TfrmMain.cbEAVOnChange(Sender: TObject);
+begin
 
-   end;
 end;
 
 procedure TfrmMain.cbElectropunctueOnChange(Sender: TObject);
-var b : boolean;
+//var b : boolean;
 begin
-  b := cbElectropunctueOn.Checked;
+  //b := cbElectropunctueOn.Checked;
   //timerCurrent.Enabled:=b;
-  if b then begin
+  if CurrentMode=MODE_EAP then begin
     //chartMain.LeftAxis.Range.Max:=1000;
     frmMain.edtFreqChange(Sender);
 
@@ -681,6 +886,7 @@ begin
 
 end;
 
+
 procedure TfrmMain.SelectorLoad();
 var s: string;
 begin
@@ -691,19 +897,26 @@ begin
 
 end;
 
-procedure TfrmMain.FormShow(Sender: TObject);
+procedure TfrmMain.RyodorakuClear;
 var
     i : integer;
 begin
-
-  //Load user veagtest selector
-  SelectorLoad();
-
-  //Clear Ryodoraku chart
+//Clear Ryodoraku chart
   for i:= 0 to 11 do begin
       chartRyodorakuLeftSeries.SetYValue(i,0);
       chartRyodorakuRightSeries.SetYValue(i,0); //do not use Clear method
   end;
+end;
+
+procedure TfrmMain.FormShow(Sender: TObject);
+
+begin
+  CurrentMode := MODE_UNK;
+
+  //Load user veagtest selector
+  SelectorLoad;
+
+  RyodorakuClear;
 
   ClearEAP;
 
@@ -734,7 +947,7 @@ end;
 procedure TfrmMain.gridRyodorakuDrawCell(Sender: TObject; aCol, aRow: Integer;
   aRect: TRect; aState: TGridDrawState);
 begin
-
+  (*
   if (ACol = 0) and (ARow = 0) then
     with TStringGrid(Sender) do begin
       //Paint the background
@@ -742,6 +955,16 @@ begin
       Canvas.FillRect(aRect);
       Canvas.TextOut(aRect.Left+2,aRect.Top+2,Cells[ACol, ARow]);
     end;
+    *)
+
+end;
+
+procedure TfrmMain.gridRyodorakuKeyPress(Sender: TObject; var Key: char);
+begin
+
+ // if UpperCase(Key) = 'S' then begin
+ //   frmMain.ButtonSaveReadingClick(Sender);
+ // end;
 
 end;
 
@@ -749,6 +972,7 @@ end;
 procedure TfrmMain.gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
   var CanSelect: Boolean);
 begin
+
   if gridRyodoraku.Cells[aCol,0]<>'' then begin
 
      //Ryodoraku bar chart index - left side
@@ -766,21 +990,36 @@ begin
 
 end;
 
-procedure TfrmMain.Image1Click(Sender: TObject);
+procedure TfrmMain.gridRyodorakuSelection(Sender: TObject; aCol, aRow: Integer);
 begin
+  gridRyodoraku.Row := 0;;
+  if aRow=0 then begin
+    if (aCol >= 1) and (aCol <= 6) then begin
+
+      if rbRyodorakuRight.Checked then
+         PageControl2.TabIndex:=1
+      else
+         PageControl2.TabIndex:=2;
+    end;
+
+    if (aCol >= 7) and (aCol <= 12) then begin
+      if rbRyodorakuRight.Checked then
+         PageControl2.TabIndex:=3
+      else
+         PageControl2.TabIndex:=4;
+    end;
+
+  end;
 
 end;
 
-procedure TfrmMain.Image2Click(Sender: TObject);
-begin
-
-end;
 
 
 procedure TfrmMain.Label8Click(Sender: TObject);
 begin
   OpenUrl('https://biotronics.eu/literature');
 end;
+
 
 procedure TfrmMain.rbCommonChange(Sender: TObject);
 begin
@@ -842,6 +1081,28 @@ begin
     end;
   end;
 end;
+
+procedure TfrmMain.rbRyodorakuLeftChange(Sender: TObject);
+
+var i : integer;
+begin
+  i:= PageControl2.TabIndex;
+  case i of
+    1,2: if rbRyodorakuRight.Checked then
+             PageControl2.TabIndex := 1
+          else
+             PageControl2.TabIndex := 2;
+
+
+    3,4: if rbRyodorakuRight.Checked then
+             PageControl2.TabIndex := 3
+         else
+             PageControl2.TabIndex :=4 ;
+
+  end;
+
+end;
+
 
 
 
@@ -998,65 +1259,25 @@ end;
 
 procedure TfrmMain.tabEAVShow(Sender: TObject);
 begin
-  cbEAVOn.Checked:=frmMain.tabEAV.Visible;
-
-  if (Serial.Active) and (cbEAVOn.Checked) then begin
-
-    Serial.WriteData('eav'#13#10);
-
-  end;
+  frmMain.ChangeMode(MODE_EAV);
 end;
 
 
 procedure TfrmMain.tabElectropuntureShow(Sender: TObject);
 begin
-
-  cbElectropunctueOn.Checked:=frmMain.tabElectropunture.Visible;
-
-  if (Serial.Active) and (cbElectropunctueOn.Checked) then begin
-
-       Serial.WriteData('eap'+#13#10);
-
-       sleep(200);
-
-       if rbPulse.Checked then
-          Serial.WriteData('freq '+ IntToStr(trunc(StrToFloatDef(edtFreq.Text,10)*100)) +' '+edtDutyCycle.Text+#13#10)
-       else
-           Serial.WriteData('freq 100 100'#13#10);   //DC current
-
-       sleep(200);
-
-       //Polarization of electrode
-       if rbNegativeElectrode.Checked then
-          Serial.WriteData('chp 0'#13#10)
-       else
-           Serial.WriteData('chp 1'#13#10);
-
-    end;
-
-
+  frmMain.ChangeMode(MODE_EAP);
 end;
 
 
 procedure TfrmMain.tabRyodorakuShow(Sender: TObject);
 begin
-
-  cbRyodorakuOn.Checked:=frmMain.tabRyodoraku.Visible;
-
-  if (Serial.Active) and (cbRyodorakuOn.Checked) then
-    Serial.WriteData('eav'#13#10); //Ryodoraku is measured with the same parameter as EAV
+  frmMain.ChangeMode(MODE_RYO);
 end;
 
 
 procedure TfrmMain.tabVegatestShow(Sender: TObject);
 begin
-
-  cbVegatestOn.Checked:=frmMain.tabVegatest.Visible;
-
-  //Send to miniVOLL commmand: vegatest
-  if (Serial.Active) and (cbVegatestOn.Checked) then
-    Serial.WriteData('veg'#13#10);
-
+  frmMain.ChangeMode(MODE_VEG);
 end;
 
 procedure TfrmMain.timerChangeDirectionTimer(Sender: TObject);
