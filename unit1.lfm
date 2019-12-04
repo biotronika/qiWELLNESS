@@ -1,10 +1,10 @@
 object frmMain: TfrmMain
   Left = 331
-  Height = 731
+  Height = 707
   Top = 150
   Width = 1280
   Caption = 'qiWELLNESS'
-  ClientHeight = 731
+  ClientHeight = 707
   ClientWidth = 1280
   DefaultMonitor = dmMainForm
   OnCreate = FormCreate
@@ -13,16 +13,16 @@ object frmMain: TfrmMain
   LCLVersion = '2.0.2.0'
   object Panel2: TPanel
     Left = 0
-    Height = 731
+    Height = 707
     Top = 0
     Width = 512
     Align = alClient
-    ClientHeight = 731
+    ClientHeight = 707
     ClientWidth = 512
     TabOrder = 0
     object chartMain: TChart
       Left = 1
-      Height = 530
+      Height = 506
       Top = 177
       Width = 510
       AxisList = <      
@@ -600,26 +600,26 @@ object frmMain: TfrmMain
     object statusBar: TStatusBar
       Left = 1
       Height = 23
-      Top = 707
+      Top = 683
       Width = 510
       Panels = <>
     end
   end
   object panelRight: TPanel
     Left = 512
-    Height = 731
+    Height = 707
     Top = 0
     Width = 768
     Align = alRight
-    ClientHeight = 731
+    ClientHeight = 707
     ClientWidth = 768
     TabOrder = 1
     object pageRight: TPageControl
       Left = 1
-      Height = 729
+      Height = 705
       Top = 1
       Width = 766
-      ActivePage = tabConsole
+      ActivePage = tabVegatest
       Align = alClient
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
@@ -628,7 +628,7 @@ object frmMain: TfrmMain
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 0
+      TabIndex = 3
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -754,13 +754,13 @@ object frmMain: TfrmMain
       end
       object tabRyodoraku: TTabSheet
         Caption = 'Ryodoraku'
-        ClientHeight = 701
+        ClientHeight = 677
         ClientWidth = 758
         OnShow = tabRyodorakuShow
         object gridRyodoraku: TStringGrid
           Left = 0
           Height = 136
-          Top = 488
+          Top = 464
           Width = 758
           Align = alClient
           ColCount = 13
@@ -1044,7 +1044,7 @@ object frmMain: TfrmMain
         end
         object PageControl2: TPageControl
           Left = 0
-          Height = 456
+          Height = 432
           Top = 0
           Width = 758
           ActivePage = Chart
@@ -1054,11 +1054,11 @@ object frmMain: TfrmMain
           TabPosition = tpBottom
           object Chart: TTabSheet
             Caption = 'Chart'
-            ClientHeight = 428
+            ClientHeight = 404
             ClientWidth = 750
             object chartRyodoraku: TChart
               Left = 0
-              Height = 428
+              Height = 404
               Top = 0
               Width = 750
               AxisList = <              
@@ -9986,7 +9986,7 @@ object frmMain: TfrmMain
         object Panel3: TPanel
           Left = 0
           Height = 32
-          Top = 456
+          Top = 432
           Width = 758
           Align = alTop
           BevelOuter = bvNone
@@ -10032,7 +10032,7 @@ object frmMain: TfrmMain
         object Panel1: TPanel
           Left = 0
           Height = 77
-          Top = 624
+          Top = 600
           Width = 758
           Align = alBottom
           BevelOuter = bvNone
@@ -10078,7 +10078,7 @@ object frmMain: TfrmMain
       end
       object tabEAV: TTabSheet
         Caption = 'EAV'
-        ClientHeight = 701
+        ClientHeight = 677
         ClientWidth = 758
         OnShow = tabEAVShow
         object TabControl1: TTabControl
@@ -18131,18 +18131,18 @@ object frmMain: TfrmMain
         end
         object Panel9: TPanel
           Left = 624
-          Height = 285
+          Height = 261
           Top = 416
           Width = 134
           Align = alRight
           BevelOuter = bvNone
-          ClientHeight = 285
+          ClientHeight = 261
           ClientWidth = 134
           TabOrder = 1
           object btnSaveAs: TButton
             Left = 0
             Height = 74
-            Top = 206
+            Top = 184
             Width = 128
             Caption = 'Save'
             Font.CharSet = EASTEUROPE_CHARSET
@@ -18194,12 +18194,12 @@ object frmMain: TfrmMain
         end
         object Panel15: TPanel
           Left = 0
-          Height = 285
+          Height = 261
           Top = 416
           Width = 624
           Align = alClient
           BevelOuter = bvNone
-          ClientHeight = 285
+          ClientHeight = 261
           ClientWidth = 624
           TabOrder = 2
           object StringGridEAV: TStringGrid
@@ -18362,42 +18362,42 @@ object frmMain: TfrmMain
       end
       object tabVegatest: TTabSheet
         Caption = 'Vegatest'
-        ClientHeight = 701
+        ClientHeight = 677
         ClientWidth = 758
         OnShow = tabVegatestShow
         object Panel6: TPanel
           Left = 0
-          Height = 701
+          Height = 677
           Top = 0
           Width = 758
           Align = alClient
-          ClientHeight = 701
+          ClientHeight = 677
           ClientWidth = 758
           TabOrder = 0
           object Panel7: TPanel
-            Left = 639
-            Height = 699
+            Left = 608
+            Height = 675
             Top = 1
-            Width = 118
+            Width = 149
             Align = alRight
             BevelOuter = bvNone
-            ClientHeight = 699
-            ClientWidth = 118
+            ClientHeight = 675
+            ClientWidth = 149
             TabOrder = 0
             object ButtonVegatestEdit: TButton
-              Left = 8
+              Left = 16
               Height = 33
               Top = 8
-              Width = 104
+              Width = 128
               Caption = 'Edit'
               OnClick = ButtonVegatestEditClick
               TabOrder = 0
             end
             object ButtonVegatestSaveAs1: TButton
-              Left = 8
+              Left = 16
               Height = 89
-              Top = 600
-              Width = 104
+              Top = 568
+              Width = 128
               Caption = 'Save'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
@@ -18413,9 +18413,9 @@ object frmMain: TfrmMain
           end
           object TreeViewSelector: TTreeView
             Left = 1
-            Height = 699
+            Height = 675
             Top = 1
-            Width = 638
+            Width = 607
             Align = alClient
             ReadOnly = True
             RowSelect = True
