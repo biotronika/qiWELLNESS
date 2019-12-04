@@ -16,8 +16,9 @@ type
   TfrmMain = class(TForm)
     btnDeleteAll: TButton;
     btnConnect: TButton;
-    btnSaveAs: TButton;
     btnDelete: TButton;
+    btnSaveAs: TButton;
+    btnSaveAs1: TButton;
     ButtonSaveReading: TButton;
     ButtonEap: TButton;
     ButtonVeg: TButton;
@@ -72,7 +73,10 @@ type
     chartSourceCurrent: TListChartSource;
     OpenDialog: TOpenDialog;
     Panel15: TPanel;
+    Panel16: TPanel;
     Panel4: TPanel;
+    rbRyodorakuLeft1: TRadioButton;
+    rbRyodorakuRight1: TRadioButton;
     ryodorakuLeftSource: TListChartSource;
     Panel1: TPanel;
     Panel10: TPanel;
@@ -198,6 +202,7 @@ type
     procedure SelectorLoad;
     procedure RyodorakuClear;
     procedure ChangeMode(mode : integer);
+    procedure SaveRyodoraku;
 
 
 
@@ -224,6 +229,8 @@ type
 
     var
       CurrentMode : integer;
+      FLastCol : integer;
+      FLastLeftSide : boolean;
       FCurrentPointName : string;
       FRyodorakuChart : integer;
       fReadBuffer : string;
@@ -234,6 +241,7 @@ type
       //EAPDoneTimeArray : array[1..MAX_EAP_POINTS_NUMBER] of Double;
       EAPProgressGridRow : integer;
       EAPProgressTime : Double;
+
 
 
 
@@ -489,88 +497,6 @@ begin
 
   chartMainCurrentLineSeries.Clear;
 
-//RYODORAKU
-  if (chartIndex<>-1) and (CurrentMode=MODE_RYO) then begin
-
-//TODO: Calculate current equivalent  - check!
-    if seriesArray[i].Count > 50 then
-       //Get sample at: 0.8, 0.9 and 1 sec.
-       d:= RYODORAKU_FACTOR * (seriesArray[i].GetYValue(40)+seriesArray[i].GetYValue(45)+seriesArray[i].GetYValue(50)) / 3
-    else  begin
-        ShowMessage('Take a longer sample! Minimum is 1 second.');
-        FCurrentPointName:=s;
-        Exit;
-    end;
-
-    //Save value
-    ryodorakuPoint[chartIndex,rightChartIndex]:= d;
-    if rightChartIndex=0 then
-      ryodorakuLeftSource.SetYValue(chartIndex,d)
-    else
-      ryodorakuRightSource.SetYValue(chartIndex,d);
-
-
-
-    //Calculate normal range:  +/-15[uA]
-
-    sum:=0;
-    count:=0;
-
-    for i:= 0 to 11 do
-       for j:= 0 to 1 do begin
-
-         if ryodorakuPoint[i,j]>0 then begin
-
-           sum := sum + ryodorakuPoint[i,j];
-           count := count+1;
-
-         end;
-
-       end;
-
-
-    //Set normal line range on ryododraku chart
-
-    if count>0 then begin
-      sum := round(sum/count);
-      ryodorakuNormalSource.SetYValue(0,sum);
-      ryodorakuNormalSource.SetYValue(1,sum);
-    end;
-
-
-    //Set colors of ryodoraku charts
-
-    for i:= 0 to 11 do
-      for j:=0 to 1 do begin
-
-        if ryodorakuPoint[i,j]< sum-15 then begin
-
-           if j=0 then
-             ryodorakuLeftSource.SetColor(i,$800000)  //navy
-           else
-             ryodorakuRightSource.SetColor(i,$800000);
-
-        end else if ryodorakuPoint[i,j]> sum+15 then begin
-
-           if j=0 then
-             ryodorakuLeftSource.SetColor(i,$0000FF)  //red
-           else
-             ryodorakuRightSource.SetColor(i,$0000FF);
-
-        end else begin
-
-          if j=0 then
-            ryodorakuLeftSource.SetColor(i,$008000)  //green
-          else
-            ryodorakuRightSource.SetColor(i,$008000);
-
-        end;
-      end;
-
-
-
-  end;
-
 end;
 
 procedure TfrmMain.ButtonCalibrateClick(Sender: TObject);
@@ -599,23 +525,16 @@ begin
   frmMain.ChangeMode(MODE_EAV);
 end;
 
-procedure TfrmMain.ButtonSaveReadingClick(Sender: TObject);
 
+procedure TfrmMain.SaveRyodoraku;
 var s : string;
     i,j,count : integer;
     sum,d : Double;
     chartIndex: integer;
     rightChartIndex : integer;
+    currentPointName : string;
 begin
-  (*
-  if gridRyodoraku.col > 0 then begin;
-    PageControl2.TabIndex:=0;
-    frmMain.btnSaveAsClick(Sender);
-  end;
 
- // gridRyodoraku.col:=7;
- // gridRyodoraku.row:=0;
-  *)
   if CurrentMode=MODE_RYO then begin
 
    chartIndex      := -1;
@@ -624,26 +543,34 @@ begin
    //Check numbers of seriers on chart
    if cboxSeries.Items.Count>MAX_SERIES_NUMBER then exit;
 
-
-   //Check if is set series name
-   if FCurrentPointName='' then begin
-
-      ShowMessage('Select the point before save pressing.');
-
-   end else begin
-
-      s:=FCurrentPointName;
-
-      if CurrentMode=MODE_RYO then begin
-         //chartIndex := FRyodorakuChart;
-        chartIndex := FRyodorakuChart div 2;
-        rightChartIndex :=  FRyodorakuChart mod 2;
-      end;
-
+   if chartMainCurrentLineSeries.Count < 50 then begin
+         ShowMessage('Take a longer sample! Minimum is 1 second.');
+         Exit;
    end;
 
+   // Setup point name
+   if gridRyodoraku.col>0  then begin
 
-   FCurrentPointName:='';
+     //Ryodoraku bar chart index - left side
+     FRyodorakuChart:=(gridRyodoraku.col-1)*2;
+
+     if rbRyodorakuLeft.Checked then begin
+        currentPointName:=gridRyodoraku.Cells[gridRyodoraku.col,0]+' Left';
+     end else begin
+        currentPointName:=gridRyodoraku.Cells[gridRyodoraku.col,0]+' Right';
+
+        //Ryodoraku bar chart index - change left to right side
+        FRyodorakuChart+=1;
+     end;
+  end;
+
+   s:=currentPointName;
+
+   //chartIndex := FRyodorakuChart;
+   chartIndex := FRyodorakuChart div 2;
+   rightChartIndex :=  FRyodorakuChart mod 2;
+
+
 
 
    i:= cboxSeries.Items.Add(s);
@@ -664,14 +591,10 @@ begin
    if  chartIndex<>-1  then begin
 
  //TODO: Calculate current equivalent  - check!
-     if seriesArray[i].Count > 50 then
+     if seriesArray[i].Count >= 50 then
         //Get sample at: 0.8, 0.9 and 1 sec.
-        d:= RYODORAKU_FACTOR * (seriesArray[i].GetYValue(40)+seriesArray[i].GetYValue(45)+seriesArray[i].GetYValue(50)) / 3
-     else  begin
-         ShowMessage('Take a longer sample! Minimum is 1 second.');
-         FCurrentPointName:=s;
-         Exit;
-     end;
+        d:= RYODORAKU_FACTOR * (seriesArray[i].GetYValue(40)+seriesArray[i].GetYValue(45)+seriesArray[i].GetYValue(50)) / 3;
+
 
      //Save value
      ryodorakuPoint[chartIndex,rightChartIndex]:= d;
@@ -743,6 +666,26 @@ begin
    end;
 
 
+  end;
+
+end;
+
+
+procedure TfrmMain.ButtonSaveReadingClick(Sender: TObject);
+
+begin
+
+  if gridRyodoraku.col > 0 then begin;
+
+     // Before save point remember last point
+     FLastCol:=gridRyodoraku.col;
+     FLastLeftSide := rbRyodorakuLeft.Checked;
+
+     //Show ryodoraku chart
+     PageControl2.TabIndex:=0;
+
+     //Save point
+     frmMain.SaveRyodoraku;
   end;
 
 end;
@@ -883,6 +826,7 @@ begin
 
   startTime := 0;
   EAPProgressGridRow := 0;
+  FLastCol := 0;
 
 end;
 
@@ -972,7 +916,7 @@ end;
 procedure TfrmMain.gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
   var CanSelect: Boolean);
 begin
-
+  (*
   if gridRyodoraku.Cells[aCol,0]<>'' then begin
 
      //Ryodoraku bar chart index - left side
@@ -987,12 +931,18 @@ begin
         FRyodorakuChart+=1;
      end;
   end;
+  *)
 
 end;
 
 procedure TfrmMain.gridRyodorakuSelection(Sender: TObject; aCol, aRow: Integer);
+
 begin
-  gridRyodoraku.Row := 0;;
+  gridRyodoraku.Row := 0;
+
+  if aCol> 0 then FLastCol := aCol;
+
+
   if aRow=0 then begin
     if (aCol >= 1) and (aCol <= 6) then begin
 
@@ -1086,7 +1036,13 @@ procedure TfrmMain.rbRyodorakuLeftChange(Sender: TObject);
 
 var i : integer;
 begin
+
+  // Show proper points chart
   i:= PageControl2.TabIndex;
+
+//TODO : remove it
+  if i=0 then i:= 1 + FLastCol div 3;
+
   case i of
     1,2: if rbRyodorakuRight.Checked then
              PageControl2.TabIndex := 1

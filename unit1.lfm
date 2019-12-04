@@ -3,7 +3,7 @@ object frmMain: TfrmMain
   Height = 731
   Top = 142
   Width = 1280
-  Caption = 'qiWELLNESS   ver. 2019-12-03'
+  Caption = 'qiWELLNESS   ver. 2019-12-03 (beta)'
   ClientHeight = 731
   ClientWidth = 1280
   DefaultMonitor = dmMainForm
@@ -96,15 +96,6 @@ object frmMain: TfrmMain
         OnClick = btnDeleteAllClick
         TabOrder = 1
       end
-      object btnSaveAs: TButton
-        Left = 240
-        Height = 25
-        Top = 8
-        Width = 85
-        Caption = 'Save working'
-        OnClick = btnSaveAsClick
-        TabOrder = 2
-      end
       object btnDelete: TButton
         Left = 328
         Height = 25
@@ -112,7 +103,7 @@ object frmMain: TfrmMain
         Width = 59
         Caption = 'Delete'
         OnClick = btnDeleteClick
-        TabOrder = 3
+        TabOrder = 2
       end
       object Panel11: TPanel
         Left = 475
@@ -124,7 +115,7 @@ object frmMain: TfrmMain
         Caption = 'Panel11'
         ClientHeight = 40
         ClientWidth = 154
-        TabOrder = 4
+        TabOrder = 3
         object cboxSeries: TComboBox
           Left = 10
           Height = 23
@@ -147,7 +138,7 @@ object frmMain: TfrmMain
         Width = 46
         Caption = 'Close'
         OnClick = btnCloseClick
-        TabOrder = 5
+        TabOrder = 4
       end
       object ButtonSaveReport: TButton
         Left = 136
@@ -156,7 +147,7 @@ object frmMain: TfrmMain
         Width = 85
         Caption = 'Save report'
         OnClick = ButtonSaveReportClick
-        TabOrder = 6
+        TabOrder = 5
         Visible = False
       end
     end
@@ -683,9 +674,16 @@ object frmMain: TfrmMain
       Height = 729
       Top = 1
       Width = 647
-      ActivePage = tabRyodoraku
+      ActivePage = tabConsole
       Align = alClient
-      TabIndex = 1
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Color = clBlack
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentFont = False
+      TabIndex = 0
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -796,8 +794,8 @@ object frmMain: TfrmMain
         OnShow = tabRyodorakuShow
         object gridRyodoraku: TStringGrid
           Left = 0
-          Height = 155
-          Top = 480
+          Height = 136
+          Top = 488
           Width = 639
           Align = alClient
           ColCount = 13
@@ -10020,44 +10018,58 @@ object frmMain: TfrmMain
         end
         object Panel3: TPanel
           Left = 0
-          Height = 24
+          Height = 32
           Top = 456
           Width = 639
           Align = alTop
           BevelOuter = bvNone
-          ClientHeight = 24
+          ClientHeight = 32
           ClientWidth = 639
           TabOrder = 2
           object rbRyodorakuLeft: TRadioButton
-            Left = 320
-            Height = 19
-            Top = 0
-            Width = 40
+            Left = 224
+            Height = 21
+            Top = 5
+            Width = 41
             Caption = 'Left'
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
             OnChange = rbRyodorakuLeftChange
+            ParentFont = False
             TabOrder = 0
           end
           object rbRyodorakuRight: TRadioButton
-            Left = 232
+            Left = 347
             Height = 19
-            Top = 0
-            Width = 56
+            Top = 5
+            Width = 61
             AutoSize = False
             Caption = 'Right'
             Checked = True
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
             OnChange = rbRyodorakuLeftChange
+            ParentFont = False
             TabOrder = 1
             TabStop = True
           end
         end
         object Panel1: TPanel
           Left = 0
-          Height = 66
-          Top = 635
+          Height = 77
+          Top = 624
           Width = 639
           Align = alBottom
           BevelOuter = bvNone
-          ClientHeight = 66
+          ClientHeight = 77
           ClientWidth = 639
           TabOrder = 3
           object ButtonRyodorakuSendToEAP: TButton
@@ -10079,15 +10091,15 @@ object frmMain: TfrmMain
             TabOrder = 1
           end
           object ButtonSaveReading: TButton
-            Left = 341
-            Height = 48
+            Left = 373
+            Height = 64
             Top = 11
-            Width = 274
-            Caption = 'Save [s]'
+            Width = 242
+            Caption = 'Save'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -24
-            Font.Name = 'Segoe UI'
+            Font.Height = -19
+            Font.Name = 'Segoe UI Semibold'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             Font.Style = [fsBold]
@@ -18153,32 +18165,52 @@ object frmMain: TfrmMain
         end
         object Panel9: TPanel
           Left = 0
-          Height = 39
-          Top = 662
+          Height = 61
+          Top = 640
           Width = 639
           Align = alBottom
           BevelOuter = bvNone
+          ClientHeight = 61
+          ClientWidth = 639
           TabOrder = 1
+          object btnSaveAs: TButton
+            Left = 400
+            Height = 55
+            Top = 3
+            Width = 216
+            Caption = 'Save'
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -19
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Font.Style = [fsBold]
+            OnClick = btnSaveAsClick
+            ParentFont = False
+            TabOrder = 0
+          end
         end
         object Panel15: TPanel
           Left = 0
-          Height = 294
+          Height = 272
           Top = 368
           Width = 639
           Align = alClient
           BevelOuter = bvNone
-          ClientHeight = 294
+          ClientHeight = 272
           ClientWidth = 639
           TabOrder = 2
           object StringGridEAV: TStringGrid
             Left = 0
-            Height = 294
-            Top = 0
+            Height = 240
+            Top = 32
             Width = 639
             Align = alClient
             ColCount = 6
             FixedCols = 0
             Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goAutoAddRows, goRowSelect, goRelaxedRowSelect, goSmoothScroll, goRowHighlight]
+            RowCount = 9
             ScrollBars = ssVertical
             TabOrder = 0
             TitleFont.CharSet = EASTEUROPE_CHARSET
@@ -18198,22 +18230,34 @@ object frmMain: TfrmMain
               39
             )
             Cells = (
-              24
+              36
               0
               0
               'Point(s)'
               0
               1
-              'LI 4 (L,R)'
+              'LI 1'
               0
               2
-              'ST 36 (R)'
+              'LI 1a'
               0
               3
-              'GV 26'
+              'LI 1b'
               0
               4
-              'CV 24'
+              'LI 1c'
+              0
+              5
+              'LI 2'
+              0
+              6
+              'LI 3'
+              0
+              7
+              'LI 4'
+              0
+              8
+              'LI 5'
               1
               0
               'Atlas'
@@ -18222,28 +18266,52 @@ object frmMain: TfrmMain
               '1'
               1
               2
-              '2'
+              '1'
               1
               3
-              '3'
+              '1'
               1
               4
-              '3'
+              '1'
+              1
+              5
+              '1'
+              1
+              6
+              '1'
+              1
+              7
+              '1'
+              1
+              8
+              '1'
               2
               0
               'Body part'
               2
               1
-              'Large Intestine'
+              'Transverse Colon'
               2
               2
-              'Stomach'
+              'Superior Hypogastric Plexus'
               2
               3
-              'Governing Vessel'
+              'Right Side of Large Intestine (Vegatest MDP)'
               2
               4
-              'Conception Vessel'
+              'Peritoneum'
+              2
+              5
+              'Hepatic Flexure'
+              2
+              6
+              'Ascending Colon'
+              2
+              7
+              'Cecum'
+              2
+              8
+              'Wrist Joint'
               3
               0
               'Level'
@@ -18273,6 +18341,52 @@ object frmMain: TfrmMain
               '10'
             )
           end
+          object Panel16: TPanel
+            Left = 0
+            Height = 32
+            Top = 0
+            Width = 639
+            Align = alTop
+            BevelOuter = bvNone
+            ClientHeight = 32
+            ClientWidth = 639
+            TabOrder = 1
+            object rbRyodorakuLeft1: TRadioButton
+              Left = 224
+              Height = 21
+              Top = 5
+              Width = 41
+              Caption = 'Left'
+              Font.CharSet = EASTEUROPE_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Segoe UI'
+              Font.Pitch = fpVariable
+              Font.Quality = fqDraft
+              OnChange = rbRyodorakuLeftChange
+              ParentFont = False
+              TabOrder = 0
+            end
+            object rbRyodorakuRight1: TRadioButton
+              Left = 347
+              Height = 19
+              Top = 5
+              Width = 61
+              AutoSize = False
+              Caption = 'Right'
+              Checked = True
+              Font.CharSet = EASTEUROPE_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Segoe UI'
+              Font.Pitch = fpVariable
+              Font.Quality = fqDraft
+              OnChange = rbRyodorakuLeftChange
+              ParentFont = False
+              TabOrder = 1
+              TabStop = True
+            end
+          end
         end
       end
       object tabVegatest: TTabSheet
@@ -18282,21 +18396,21 @@ object frmMain: TfrmMain
         OnShow = tabVegatestShow
         object Panel6: TPanel
           Left = 0
-          Height = 662
+          Height = 632
           Top = 0
           Width = 639
           Align = alClient
-          ClientHeight = 662
+          ClientHeight = 632
           ClientWidth = 639
           TabOrder = 0
           object Panel7: TPanel
             Left = 520
-            Height = 660
+            Height = 630
             Top = 1
             Width = 118
             Align = alRight
             BevelOuter = bvNone
-            ClientHeight = 660
+            ClientHeight = 630
             ClientWidth = 118
             TabOrder = 0
             object ButtonVegatestEdit: TButton
@@ -18311,7 +18425,7 @@ object frmMain: TfrmMain
           end
           object TreeViewSelector: TTreeView
             Left = 1
-            Height = 660
+            Height = 630
             Top = 1
             Width = 519
             Align = alClient
@@ -18330,12 +18444,31 @@ object frmMain: TfrmMain
         end
         object Panel10: TPanel
           Left = 0
-          Height = 39
-          Top = 662
+          Height = 69
+          Top = 632
           Width = 639
           Align = alBottom
           BevelOuter = bvNone
+          ClientHeight = 69
+          ClientWidth = 639
           TabOrder = 1
+          object btnSaveAs1: TButton
+            Left = 376
+            Height = 57
+            Top = 8
+            Width = 232
+            Caption = 'Save'
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -19
+            Font.Name = 'Segoe UI Semibold'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Font.Style = [fsBold]
+            OnClick = btnSaveAsClick
+            ParentFont = False
+            TabOrder = 0
+          end
         end
       end
       object tabElectropunture: TTabSheet
