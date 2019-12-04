@@ -592,7 +592,7 @@ object frmMain: TfrmMain
       end
       object Label8: TLabel
         Cursor = crHandPoint
-        Left = 504
+        Left = 512
         Height = 17
         Top = 108
         Width = 86
