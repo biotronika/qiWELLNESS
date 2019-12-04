@@ -619,7 +619,7 @@ object frmMain: TfrmMain
       Height = 705
       Top = 1
       Width = 766
-      ActivePage = tabVegatest
+      ActivePage = tabConsole
       Align = alClient
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
@@ -628,15 +628,15 @@ object frmMain: TfrmMain
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 3
+      TabIndex = 0
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
-        ClientHeight = 701
+        ClientHeight = 677
         ClientWidth = 758
         object memoConsole: TMemo
           Left = 0
-          Height = 651
+          Height = 627
           Top = 0
           Width = 758
           Align = alClient
@@ -682,7 +682,7 @@ object frmMain: TfrmMain
         object Panel12: TPanel
           Left = 0
           Height = 50
-          Top = 651
+          Top = 627
           Width = 758
           Align = alBottom
           BevelOuter = bvNone
