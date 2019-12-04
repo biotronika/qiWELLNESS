@@ -18,7 +18,9 @@ type
     btnConnect: TButton;
     btnDelete: TButton;
     btnSaveAs: TButton;
-    btnSaveAs1: TButton;
+    ButtonVegatestSaveAs1: TButton;
+    ButtonSavePath: TButton;
+    ButtonLoadPath: TButton;
     ButtonSaveReading: TButton;
     ButtonEap: TButton;
     ButtonVeg: TButton;
@@ -41,8 +43,6 @@ type
     chartSeriesCurrent: TBarSeries;
     chartCurrent: TChart;
     chartRyodorakuNormal: TLineSeries;
-    ChartComboBox1: TChartComboBox;
-    ChartLegendPanel1: TChartLegendPanel;
     chartRyodorakuLeftSeries: TBarSeries;
     chartMain: TChart;
     chartMainCurrentLineSeries: TLineSeries;
@@ -75,17 +75,13 @@ type
     Panel15: TPanel;
     Panel16: TPanel;
     Panel4: TPanel;
-    rbRyodorakuLeft1: TRadioButton;
-    rbRyodorakuRight1: TRadioButton;
+    rbEavLeft: TRadioButton;
+    rbEavRight: TRadioButton;
     ryodorakuLeftSource: TListChartSource;
     Panel1: TPanel;
-    Panel10: TPanel;
-    Panel11: TPanel;
     Panel12: TPanel;
     Panel13: TPanel;
     Panel14: TPanel;
-    Panel5: TPanel;
-    Panel8: TPanel;
     Panel9: TPanel;
     ProgressBarTime: TProgressBar;
     rbNegativeElectrode: TRadioButton;
@@ -139,6 +135,7 @@ type
     RightFoot: TTabSheet;
     tabVegatest: TTabSheet;
     timerChangeDirection: TTimer;
+    ToggleBoxEdit: TToggleBox;
     TreeViewSelector: TTreeView;
     procedure btnConsoleExecuteClick(Sender: TObject);
     procedure btnDeleteAllClick(Sender: TObject);
@@ -156,10 +153,13 @@ type
 
     procedure ButtonEapClick(Sender: TObject);
     procedure ButtonEavClick(Sender: TObject);
+    procedure ButtonLoadPathClick(Sender: TObject);
+    procedure ButtonSavePathClick(Sender: TObject);
     procedure ButtonSaveReadingClick(Sender: TObject);
     //procedure btnVegatestSaveClick(Sender: TObject);
     procedure ButtonSaveReportClick(Sender: TObject);
     procedure ButtonVegatestEditClick(Sender: TObject);
+    procedure ButtonVegatestSaveAs1Click(Sender: TObject);
     procedure ButtonVegClick(Sender: TObject);
     procedure cbEAVOnChange(Sender: TObject);
     procedure cbElectropunctueOnChange(Sender: TObject);
@@ -195,16 +195,19 @@ type
     procedure tabRyodorakuShow(Sender: TObject);
     procedure tabVegatestShow(Sender: TObject);
     procedure timerChangeDirectionTimer(Sender: TObject);
+    procedure ToggleBoxEditChange(Sender: TObject);
     procedure TreeViewSelectorSelectionChanged(Sender: TObject);
 
+    procedure ChangeMode(mode : integer);
+
+    procedure RyodorakuClear;
+    procedure SaveRyodoraku;
+
+    procedure SaveEav;
+    procedure SaveVeg;
 
     procedure ClearEAP;
     procedure SelectorLoad;
-    procedure RyodorakuClear;
-    procedure ChangeMode(mode : integer);
-    procedure SaveRyodoraku;
-
-
 
   private
     const
@@ -247,6 +250,9 @@ type
 
 
   public
+     const
+       version = '2019-12-04 (beta)';
+     var
      ryodorakuPoint : array[0..11,0..1] of Double; //[0..23]
 
 
@@ -446,57 +452,8 @@ begin
 end;
 
 procedure TfrmMain.btnSaveAsClick(Sender: TObject);
-var s : string;
-    i,j,count : integer;
-    sum,d : Double;
-    chartIndex: integer;
-    rightChartIndex : integer;
 begin
-  chartIndex      := -1;
-  rightChartIndex := -1;
-
-  //Check numbers of seriers on chart
-  if cboxSeries.Items.Count>MAX_SERIES_NUMBER then exit;
-
-  //if (chartIndex=-1) then exit;
-
-  //Check if is set series name
-  if FCurrentPointName='' then begin
-
-     //Auto name series
-     FCurrentPointName := 'New ' + IntToStr(cboxSeries.Items.Count);
-     repeat
-           s := InputBox('Active Point', 'Write name of chart.', FCurrentPointName);
-     until s <> '';
-
-  end else begin
-
-     s:=FCurrentPointName;
-
-     if CurrentMode=MODE_RYO then begin
-        //chartIndex := FRyodorakuChart;
-       chartIndex := FRyodorakuChart div 2;
-       rightChartIndex :=  FRyodorakuChart mod 2;
-     end;
-
-  end;
-
-  FCurrentPointName:='';
-
-
-  i:= cboxSeries.Items.Add(s);
-
-  with seriesArray[i] do begin
-     SeriesColor:=clGray;
-     LinePen.Color:=clGray;
-     LinePen.Style:=ChartComboBox1.PenStyle;
-     LinePen.Width:=3;
-     ListSource.CopyFrom(chartMainCurrentLineSeries.Source);
-     Title:=s;
-  end;
-
-  chartMainCurrentLineSeries.Clear;
-
+   frmMain.SaveEav;
 end;
 
 procedure TfrmMain.ButtonCalibrateClick(Sender: TObject);
@@ -523,6 +480,19 @@ end;
 procedure TfrmMain.ButtonEavClick(Sender: TObject);
 begin
   frmMain.ChangeMode(MODE_EAV);
+end;
+
+procedure TfrmMain.ButtonLoadPathClick(Sender: TObject);
+begin
+  if OpenDialog.Execute then
+    StringGridEAV.LoadFromCSVFile(OpenDialog.FileName);
+end;
+
+procedure TfrmMain.ButtonSavePathClick(Sender: TObject);
+begin
+  if SaveDialog.Execute then
+     StringGridEAV.SaveToCSVFile(SaveDialog.FileName);
+
 end;
 
 
@@ -578,7 +548,7 @@ begin
    with seriesArray[i] do begin
       SeriesColor:=clGray;
       LinePen.Color:=clGray;
-      LinePen.Style:=ChartComboBox1.PenStyle;
+      LinePen.Style:=psSolid;
       LinePen.Width:=3;
       ListSource.CopyFrom(chartMainCurrentLineSeries.Source);
       Title:=s;
@@ -670,6 +640,95 @@ begin
 
 end;
 
+procedure TfrmMain.SaveVeg;
+//Save reading in EAV mode
+var
+    currentPointName: string;
+    i : integer;
+
+begin
+
+  if CurrentMode=MODE_VEG then begin
+
+      //Check numbers of seriers on chart
+   if cboxSeries.Items.Count>MAX_SERIES_NUMBER then exit;
+
+   if chartMainCurrentLineSeries.Count < 50 then begin
+         ShowMessage('Take a longer sample! Minimum is 1 second.');
+         Exit;
+   end;
+
+   // Setup EAV point name
+   if FCurrentPointName<>'' then begin
+        currentPointName:= FCurrentPointName;
+     end else begin
+        currentPointName:=InputBox('Vegatest sample name', 'Name of that sample', 'New ' + IntToStr(cboxSeries.Items.Count));
+     end;
+
+
+   //ShowMessage( currentPointName);
+
+     i:= cboxSeries.Items.Add(currentPointName);
+
+  with seriesArray[i] do begin
+     SeriesColor:=clGray;
+     LinePen.Color:=clGray;
+     LinePen.Style:=psSolid;
+     LinePen.Width:=3;
+     ListSource.CopyFrom(chartMainCurrentLineSeries.Source);
+     Title:=currentPointName;
+  end;
+
+  chartMainCurrentLineSeries.Clear;
+  end;
+end;
+
+
+procedure TfrmMain.SaveEav;
+//Save reading in EAV mode
+var
+    currentPointName: string;
+    i : integer;
+
+begin
+
+  if CurrentMode=MODE_EAV then begin
+
+      //Check numbers of seriers on chart
+   if cboxSeries.Items.Count>MAX_SERIES_NUMBER then exit;
+
+   if chartMainCurrentLineSeries.Count < 50 then begin
+         ShowMessage('Take a longer sample! Minimum is 1 second.');
+         Exit;
+   end;
+
+   // Setup EAV point name
+   if StringGridEAV.row>0  then begin
+
+     if rbEavLeft.Checked then begin
+        currentPointName:=StringGridEAV.Cells[0, StringGridEAV.row]+' Left';
+     end else begin
+        currentPointName:=StringGridEAV.Cells[0, StringGridEAV.row]+' Right';
+     end;
+
+   end else Exit;
+
+   //ShowMessage( currentPointName);
+
+     i:= cboxSeries.Items.Add(currentPointName);
+
+  with seriesArray[i] do begin
+     SeriesColor:=clGray;
+     LinePen.Color:=clGray;
+     LinePen.Style:=psSolid;
+     LinePen.Width:=3;
+     ListSource.CopyFrom(chartMainCurrentLineSeries.Source);
+     Title:=currentPointName;
+  end;
+
+  chartMainCurrentLineSeries.Clear;
+  end;
+end;
 
 procedure TfrmMain.ButtonSaveReadingClick(Sender: TObject);
 
@@ -719,6 +778,11 @@ end;
 procedure TfrmMain.ButtonVegatestEditClick(Sender: TObject);
 begin
   FormVegatestSelector.ShowModal;
+end;
+
+procedure TfrmMain.ButtonVegatestSaveAs1Click(Sender: TObject);
+begin
+  frmMain.SaveVeg;
 end;
 
 procedure TfrmMain.ButtonVegClick(Sender: TObject);
@@ -813,6 +877,10 @@ end;
 procedure TfrmMain.FormCreate(Sender: TObject);
 var i : integer;
 begin
+
+  Caption := 'qiWELLNESS   ' +version;
+  memoConsole.Lines.Add ('Software version: ' +version);
+
   DefaultFormatSettings.DecimalSeparator:='.';
 
   for i:=1 to MAX_SERIES_NUMBER do begin;
@@ -831,7 +899,7 @@ begin
 end;
 
 
-procedure TfrmMain.SelectorLoad();
+procedure TfrmMain.SelectorLoad;
 var s: string;
 begin
    //Load user veagtest selector
@@ -906,9 +974,10 @@ end;
 procedure TfrmMain.gridRyodorakuKeyPress(Sender: TObject; var Key: char);
 begin
 
- // if UpperCase(Key) = 'S' then begin
- //   frmMain.ButtonSaveReadingClick(Sender);
- // end;
+ if UpperCase(Key) = ' ' then begin
+    frmMain.ButtonSaveReadingClick(Sender);
+    //frmMain.SaveRyodoraku;
+ end;
 
 end;
 
@@ -1252,6 +1321,14 @@ begin
 
 end;
 
+procedure TfrmMain.ToggleBoxEditChange(Sender: TObject);
+begin
+  if ToggleBoxEdit.Checked then
+     StringGridEAV.Options:= StringGridEAV.Options + [goEditing]
+  else
+     StringGridEAV.Options:= StringGridEAV.Options - [goEditing];
+end;
+
 
 
 
@@ -1261,6 +1338,7 @@ begin
   FCurrentPointName:=TreeViewSelector.Selected.Text;
 
 end;
+
 
 
 end.

@@ -1,9 +1,9 @@
 object frmMain: TfrmMain
-  Left = 330
+  Left = 331
   Height = 731
-  Top = 113
+  Top = 150
   Width = 1280
-  Caption = 'qiWELLNESS   ver. 2019-12-03 (beta)'
+  Caption = 'qiWELLNESS'
   ClientHeight = 731
   ClientWidth = 1280
   DefaultMonitor = dmMainForm
@@ -15,16 +15,16 @@ object frmMain: TfrmMain
     Left = 0
     Height = 731
     Top = 0
-    Width = 631
+    Width = 512
     Align = alClient
     ClientHeight = 731
-    ClientWidth = 631
+    ClientWidth = 512
     TabOrder = 0
     object chartMain: TChart
       Left = 1
       Height = 530
       Top = 177
-      Width = 475
+      Width = 510
       AxisList = <      
         item
           Marks.LabelBrush.Style = bsClear
@@ -72,11 +72,11 @@ object frmMain: TfrmMain
       Left = 1
       Height = 40
       Top = 137
-      Width = 629
+      Width = 510
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 40
-      ClientWidth = 629
+      ClientWidth = 510
       TabOrder = 1
       object btnConnect: TButton
         Left = 8
@@ -88,7 +88,7 @@ object frmMain: TfrmMain
         TabOrder = 0
       end
       object btnDeleteAll: TButton
-        Left = 392
+        Left = 296
         Height = 25
         Top = 8
         Width = 61
@@ -97,39 +97,13 @@ object frmMain: TfrmMain
         TabOrder = 1
       end
       object btnDelete: TButton
-        Left = 328
+        Left = 232
         Height = 25
         Top = 8
         Width = 59
         Caption = 'Delete'
         OnClick = btnDeleteClick
         TabOrder = 2
-      end
-      object Panel11: TPanel
-        Left = 475
-        Height = 40
-        Top = 0
-        Width = 154
-        Align = alRight
-        BevelOuter = bvNone
-        Caption = 'Panel11'
-        ClientHeight = 40
-        ClientWidth = 154
-        TabOrder = 3
-        object cboxSeries: TComboBox
-          Left = 10
-          Height = 23
-          Top = 8
-          Width = 137
-          ItemHeight = 15
-          ItemIndex = 0
-          Items.Strings = (
-            'Working'
-          )
-          OnChange = cboxSeriesChange
-          TabOrder = 0
-          Text = 'Working'
-        end
       end
       object btnClose: TButton
         Left = 72
@@ -138,7 +112,7 @@ object frmMain: TfrmMain
         Width = 46
         Caption = 'Close'
         OnClick = btnCloseClick
-        TabOrder = 4
+        TabOrder = 3
       end
       object ButtonSaveReport: TButton
         Left = 136
@@ -147,25 +121,39 @@ object frmMain: TfrmMain
         Width = 85
         Caption = 'Save report'
         OnClick = ButtonSaveReportClick
-        TabOrder = 5
+        TabOrder = 4
         Visible = False
+      end
+      object cboxSeries: TComboBox
+        Left = 384
+        Height = 23
+        Top = 8
+        Width = 112
+        ItemHeight = 15
+        ItemIndex = 0
+        Items.Strings = (
+          'Working'
+        )
+        OnChange = cboxSeriesChange
+        TabOrder = 5
+        Text = 'Working'
       end
     end
     object panelLogo: TPanel
       Left = 1
       Height = 136
       Top = 1
-      Width = 629
+      Width = 510
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 136
-      ClientWidth = 629
+      ClientWidth = 510
       TabOrder = 2
       object Image4: TImage
         Left = 0
         Height = 136
         Top = 0
-        Width = 629
+        Width = 510
         Align = alClient
         Picture.Data = {
           1754506F727461626C654E6574776F726B477261706869635C34000089504E47
@@ -592,9 +580,9 @@ object frmMain: TfrmMain
       end
       object Label8: TLabel
         Cursor = crHandPoint
-        Left = 512
+        Left = 352
         Height = 17
-        Top = 108
+        Top = 104
         Width = 86
         Caption = 'See literature...'
         Font.CharSet = EASTEUROPE_CHARSET
@@ -613,67 +601,24 @@ object frmMain: TfrmMain
       Left = 1
       Height = 23
       Top = 707
-      Width = 629
+      Width = 510
       Panels = <>
-    end
-    object Panel5: TPanel
-      Left = 476
-      Height = 530
-      Top = 177
-      Width = 154
-      Align = alRight
-      BevelOuter = bvNone
-      ClientHeight = 530
-      ClientWidth = 154
-      TabOrder = 4
-      object Panel8: TPanel
-        Left = 0
-        Height = 31
-        Top = 499
-        Width = 154
-        Align = alBottom
-        BevelOuter = bvNone
-        ClientHeight = 31
-        ClientWidth = 154
-        TabOrder = 0
-        object ChartComboBox1: TChartComboBox
-          Left = 10
-          Height = 22
-          Top = 3
-          Width = 137
-          PenPattern = '1|1'
-          PointerStyle = psNone
-          ItemHeight = 16
-          ItemIndex = 0
-          TabOrder = 0
-        end
-      end
-      object ChartLegendPanel1: TChartLegendPanel
-        Left = 3
-        Height = 499
-        Top = 0
-        Width = 148
-        Chart = chartMain
-        Align = alClient
-        BorderSpacing.Left = 3
-        BorderSpacing.Right = 3
-      end
     end
   end
   object panelRight: TPanel
-    Left = 631
+    Left = 512
     Height = 731
     Top = 0
-    Width = 649
+    Width = 768
     Align = alRight
     ClientHeight = 731
-    ClientWidth = 649
+    ClientWidth = 768
     TabOrder = 1
     object pageRight: TPageControl
       Left = 1
       Height = 729
       Top = 1
-      Width = 647
+      Width = 766
       ActivePage = tabConsole
       Align = alClient
       Font.CharSet = EASTEUROPE_CHARSET
@@ -688,12 +633,12 @@ object frmMain: TfrmMain
       object tabConsole: TTabSheet
         Caption = 'Console'
         ClientHeight = 701
-        ClientWidth = 639
+        ClientWidth = 758
         object memoConsole: TMemo
           Left = 0
           Height = 651
           Top = 0
-          Width = 639
+          Width = 758
           Align = alClient
           Color = clBlack
           Font.CharSet = EASTEUROPE_CHARSET
@@ -704,8 +649,29 @@ object frmMain: TfrmMain
           Font.Quality = fqDraft
           Lines.Strings = (
             'TIP: Click Connect and select the correct COM port.'
-            '     If your device is not on the list of COM ports,'
-            '     it may means that you need to install the Arduino driver.'
+            ''
+            'If your device is not on the list of COM ports, it may means that '
+            'you need to install the Arduino driver.'
+            ''
+            ''
+            'What is new:'
+            ''
+            'RYODORAKU:'
+            '1. Improved ryodoraku charts left and right hand and foot picture;'
+            '2. Added special Save button for touch screen and you can use S keyboard key;'
+            '3. Swapped meridians LU / HT have been corrected;'
+            '4. All meridian chart names have been corrected to the grid below.'
+            ''
+            'EAV:'
+            '1. Added special Save button for touch screen;'
+            '2. Now you must not provide point name anymore in dialog box. You choose '
+            '   the point on the grid below;'
+            '3. You can load diagnose path (the points collection you want to mesure).'
+            ''
+            'VEGATEST:'
+            '1. Added special Save button for touch screen;'
+            ''
+            ''
           )
           ParentFont = False
           ReadOnly = True
@@ -717,11 +683,11 @@ object frmMain: TfrmMain
           Left = 0
           Height = 50
           Top = 651
-          Width = 639
+          Width = 758
           Align = alBottom
           BevelOuter = bvNone
           ClientHeight = 50
-          ClientWidth = 639
+          ClientWidth = 758
           TabOrder = 1
           object edtConsoleCommand: TEdit
             Left = 72
@@ -789,16 +755,16 @@ object frmMain: TfrmMain
       object tabRyodoraku: TTabSheet
         Caption = 'Ryodoraku'
         ClientHeight = 701
-        ClientWidth = 639
-        OnHide = tabRyodorakuShow
+        ClientWidth = 758
         OnShow = tabRyodorakuShow
         object gridRyodoraku: TStringGrid
           Left = 0
           Height = 136
           Top = 488
-          Width = 639
+          Width = 758
           Align = alClient
           ColCount = 13
+          DefaultColWidth = 59
           ExtendedSelect = False
           FixedCols = 0
           FixedRows = 0
@@ -827,19 +793,19 @@ object frmMain: TfrmMain
           OnSelection = gridRyodorakuSelection
           OnSelectCell = gridRyodorakuSelectCell
           ColWidths = (
-            42
-            47
-            49
-            48
-            47
-            46
-            50
-            48
-            50
-            52
-            51
-            49
-            51
+            45
+            59
+            59
+            59
+            59
+            59
+            59
+            59
+            59
+            59
+            59
+            59
+            59
           )
           Cells = (
             77
@@ -1080,7 +1046,7 @@ object frmMain: TfrmMain
           Left = 0
           Height = 456
           Top = 0
-          Width = 639
+          Width = 758
           ActivePage = Chart
           Align = alTop
           TabIndex = 0
@@ -1089,12 +1055,12 @@ object frmMain: TfrmMain
           object Chart: TTabSheet
             Caption = 'Chart'
             ClientHeight = 428
-            ClientWidth = 631
+            ClientWidth = 750
             object chartRyodoraku: TChart
               Left = 0
               Height = 428
               Top = 0
-              Width = 631
+              Width = 750
               AxisList = <              
                 item
                   Intervals.NiceSteps = '5|10'
@@ -3312,6 +3278,7 @@ object frmMain: TfrmMain
                 A552A9B44C55B02A954AA552A9545A6561E1BF01591C19425A454B2600000000
                 49454E44AE426082
               }
+              Stretch = True
             end
           end
           object LeftHand: TTabSheet
@@ -10020,14 +9987,14 @@ object frmMain: TfrmMain
           Left = 0
           Height = 32
           Top = 456
-          Width = 639
+          Width = 758
           Align = alTop
           BevelOuter = bvNone
           ClientHeight = 32
-          ClientWidth = 639
+          ClientWidth = 758
           TabOrder = 2
           object rbRyodorakuLeft: TRadioButton
-            Left = 224
+            Left = 272
             Height = 21
             Top = 5
             Width = 41
@@ -10043,7 +10010,7 @@ object frmMain: TfrmMain
             TabOrder = 0
           end
           object rbRyodorakuRight: TRadioButton
-            Left = 347
+            Left = 440
             Height = 19
             Top = 5
             Width = 61
@@ -10066,11 +10033,11 @@ object frmMain: TfrmMain
           Left = 0
           Height = 77
           Top = 624
-          Width = 639
+          Width = 758
           Align = alBottom
           BevelOuter = bvNone
           ClientHeight = 77
-          ClientWidth = 639
+          ClientWidth = 758
           TabOrder = 3
           object ButtonRyodorakuSendToEAP: TButton
             Left = 16
@@ -10091,14 +10058,14 @@ object frmMain: TfrmMain
             TabOrder = 1
           end
           object ButtonSaveReading: TButton
-            Left = 373
+            Left = 512
             Height = 64
             Top = 11
             Width = 242
-            Caption = 'Save'
+            Caption = 'Save (SPACE)'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -19
+            Font.Height = -16
             Font.Name = 'Segoe UI Semibold'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10112,14 +10079,13 @@ object frmMain: TfrmMain
       object tabEAV: TTabSheet
         Caption = 'EAV'
         ClientHeight = 701
-        ClientWidth = 639
-        OnHide = tabEAVShow
+        ClientWidth = 758
         OnShow = tabEAVShow
         object TabControl1: TTabControl
           Left = 0
-          Height = 368
+          Height = 416
           Top = 0
-          Width = 639
+          Width = 758
           TabPosition = tpBottom
           TabIndex = 0
           Tabs.Strings = (
@@ -10130,20 +10096,20 @@ object frmMain: TfrmMain
           TabOrder = 0
           object ScrollBox1: TScrollBox
             Left = 2
-            Height = 343
+            Height = 391
             Top = 2
-            Width = 635
-            HorzScrollBar.Page = 614
-            VertScrollBar.Page = 322
+            Width = 754
+            HorzScrollBar.Page = 725
+            VertScrollBar.Page = 387
             Align = alClient
-            ClientHeight = 322
-            ClientWidth = 614
+            ClientHeight = 387
+            ClientWidth = 733
             TabOrder = 1
             object Image1: TImage
               Left = 0
               Height = 724
               Top = 0
-              Width = 725
+              Width = 733
               AntialiasingMode = amOn
               Align = alClient
               Picture.Data = {
@@ -18164,25 +18130,25 @@ object frmMain: TfrmMain
           end
         end
         object Panel9: TPanel
-          Left = 0
-          Height = 61
-          Top = 640
-          Width = 639
-          Align = alBottom
+          Left = 624
+          Height = 285
+          Top = 416
+          Width = 134
+          Align = alRight
           BevelOuter = bvNone
-          ClientHeight = 61
-          ClientWidth = 639
+          ClientHeight = 285
+          ClientWidth = 134
           TabOrder = 1
           object btnSaveAs: TButton
-            Left = 400
-            Height = 55
-            Top = 3
-            Width = 216
+            Left = 0
+            Height = 74
+            Top = 206
+            Width = 128
             Caption = 'Save'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -19
-            Font.Name = 'Segoe UI'
+            Font.Height = -16
+            Font.Name = 'Segoe UI Semibold'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             Font.Style = [fsBold]
@@ -18190,26 +18156,61 @@ object frmMain: TfrmMain
             ParentFont = False
             TabOrder = 0
           end
+          object ButtonSavePath: TButton
+            Left = 0
+            Height = 41
+            Top = 120
+            Width = 128
+            Caption = 'Save path'
+            OnClick = ButtonSavePathClick
+            TabOrder = 1
+          end
+          object ButtonLoadPath: TButton
+            Left = 0
+            Height = 40
+            Top = 8
+            Width = 128
+            Caption = 'Load path'
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -16
+            Font.Name = 'Segoe UI Semibold'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Font.Style = [fsBold]
+            OnClick = ButtonLoadPathClick
+            ParentFont = False
+            TabOrder = 2
+          end
+          object ToggleBoxEdit: TToggleBox
+            Left = 0
+            Height = 40
+            Top = 72
+            Width = 128
+            Caption = 'Edit BAPs'
+            OnChange = ToggleBoxEditChange
+            TabOrder = 3
+          end
         end
         object Panel15: TPanel
           Left = 0
-          Height = 272
-          Top = 368
-          Width = 639
+          Height = 285
+          Top = 416
+          Width = 624
           Align = alClient
           BevelOuter = bvNone
-          ClientHeight = 272
-          ClientWidth = 639
+          ClientHeight = 285
+          ClientWidth = 624
           TabOrder = 2
           object StringGridEAV: TStringGrid
             Left = 0
-            Height = 240
+            Height = 248
+            Hint = 'Click to edit Bilogicly Active Points in the grid below'
             Top = 32
-            Width = 639
-            Align = alClient
-            ColCount = 6
+            Width = 608
+            ColCount = 3
             FixedCols = 0
-            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goAutoAddRows, goRowSelect, goRelaxedRowSelect, goSmoothScroll, goRowHighlight]
+            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goAutoAddRows, goRowSelect, goRelaxedRowSelect, goSmoothScroll, goRowHighlight]
             RowCount = 9
             ScrollBars = ssVertical
             TabOrder = 0
@@ -18222,15 +18223,12 @@ object frmMain: TfrmMain
             TitleFont.Style = [fsBold]
             OnSelectCell = StringGridEAPTherapySelectCell
             ColWidths = (
+              118
               82
-              33
-              255
-              38
-              168
-              39
+              278
             )
             Cells = (
-              36
+              27
               0
               0
               'Point(s)'
@@ -18312,49 +18310,22 @@ object frmMain: TfrmMain
               2
               8
               'Wrist Joint'
-              3
-              0
-              'Level'
-              3
-              1
-              '34'
-              3
-              3
-              '70'
-              4
-              0
-              'Level'
-              4
-              1
-              '|||||'
-              4
-              3
-              '||||||||||||||||||||||||||||||||||||||||'
-              5
-              0
-              'Drop'
-              5
-              1
-              '0'
-              5
-              3
-              '10'
             )
           end
           object Panel16: TPanel
             Left = 0
             Height = 32
             Top = 0
-            Width = 639
+            Width = 624
             Align = alTop
             BevelOuter = bvNone
             ClientHeight = 32
-            ClientWidth = 639
+            ClientWidth = 624
             TabOrder = 1
-            object rbRyodorakuLeft1: TRadioButton
+            object rbEavLeft: TRadioButton
               Left = 224
               Height = 21
-              Top = 5
+              Top = 0
               Width = 41
               Caption = 'Left'
               Font.CharSet = EASTEUROPE_CHARSET
@@ -18367,10 +18338,10 @@ object frmMain: TfrmMain
               ParentFont = False
               TabOrder = 0
             end
-            object rbRyodorakuRight1: TRadioButton
-              Left = 347
+            object rbEavRight: TRadioButton
+              Left = 360
               Height = 19
-              Top = 5
+              Top = 2
               Width = 61
               AutoSize = False
               Caption = 'Right'
@@ -18392,42 +18363,59 @@ object frmMain: TfrmMain
       object tabVegatest: TTabSheet
         Caption = 'Vegatest'
         ClientHeight = 701
-        ClientWidth = 639
+        ClientWidth = 758
         OnShow = tabVegatestShow
         object Panel6: TPanel
           Left = 0
-          Height = 632
+          Height = 701
           Top = 0
-          Width = 639
+          Width = 758
           Align = alClient
-          ClientHeight = 632
-          ClientWidth = 639
+          ClientHeight = 701
+          ClientWidth = 758
           TabOrder = 0
           object Panel7: TPanel
-            Left = 520
-            Height = 630
+            Left = 639
+            Height = 699
             Top = 1
             Width = 118
             Align = alRight
             BevelOuter = bvNone
-            ClientHeight = 630
+            ClientHeight = 699
             ClientWidth = 118
             TabOrder = 0
             object ButtonVegatestEdit: TButton
-              Left = 24
-              Height = 25
-              Top = 16
-              Width = 75
+              Left = 8
+              Height = 33
+              Top = 8
+              Width = 104
               Caption = 'Edit'
               OnClick = ButtonVegatestEditClick
               TabOrder = 0
             end
+            object ButtonVegatestSaveAs1: TButton
+              Left = 8
+              Height = 89
+              Top = 600
+              Width = 104
+              Caption = 'Save'
+              Font.CharSet = EASTEUROPE_CHARSET
+              Font.Color = clBlack
+              Font.Height = -16
+              Font.Name = 'Segoe UI Semibold'
+              Font.Pitch = fpVariable
+              Font.Quality = fqDraft
+              Font.Style = [fsBold]
+              OnClick = ButtonVegatestSaveAs1Click
+              ParentFont = False
+              TabOrder = 1
+            end
           end
           object TreeViewSelector: TTreeView
             Left = 1
-            Height = 630
+            Height = 699
             Top = 1
-            Width = 519
+            Width = 638
             Align = alClient
             ReadOnly = True
             RowSelect = True
@@ -18442,49 +18430,21 @@ object frmMain: TfrmMain
             }
           end
         end
-        object Panel10: TPanel
-          Left = 0
-          Height = 69
-          Top = 632
-          Width = 639
-          Align = alBottom
-          BevelOuter = bvNone
-          ClientHeight = 69
-          ClientWidth = 639
-          TabOrder = 1
-          object btnSaveAs1: TButton
-            Left = 376
-            Height = 57
-            Top = 8
-            Width = 232
-            Caption = 'Save'
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Color = clBlack
-            Font.Height = -19
-            Font.Name = 'Segoe UI Semibold'
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            Font.Style = [fsBold]
-            OnClick = btnSaveAsClick
-            ParentFont = False
-            TabOrder = 0
-          end
-        end
       end
       object tabElectropunture: TTabSheet
         Caption = 'Electropunture'
         ClientHeight = 701
-        ClientWidth = 639
+        ClientWidth = 670
         OnShow = tabElectropuntureShow
         object Panel13: TPanel
           Left = 0
           Height = 168
           Top = 0
-          Width = 639
+          Width = 670
           Align = alTop
           BevelOuter = bvNone
           ClientHeight = 168
-          ClientWidth = 639
+          ClientWidth = 670
           TabOrder = 0
           object RadioGroup1: TRadioGroup
             Left = 344
@@ -18675,7 +18635,7 @@ object frmMain: TfrmMain
             Left = 0
             Height = 64
             Top = 0
-            Width = 639
+            Width = 670
             Align = alTop
             AutoFill = True
             Caption = 'Profil'
@@ -18687,14 +18647,14 @@ object frmMain: TfrmMain
             ChildSizing.Layout = cclTopToBottomThenLeftToRight
             ChildSizing.ControlsPerLine = 1
             ClientHeight = 44
-            ClientWidth = 635
+            ClientWidth = 666
             ColumnLayout = clVerticalThenHorizontal
             TabOrder = 4
             object rbUsers: TRadioButton
               Left = 6
               Height = 44
               Top = 0
-              Width = 63
+              Width = 68
               Caption = 'Users'
               Checked = True
               OnChange = rbCommonChange
@@ -18702,56 +18662,56 @@ object frmMain: TfrmMain
               TabStop = True
             end
             object rbCommon: TRadioButton
-              Left = 69
+              Left = 74
               Height = 44
               Top = 0
-              Width = 86
+              Width = 91
               AutoSize = False
               Caption = 'Common'
               OnChange = rbCommonChange
               TabOrder = 1
             end
             object rbStimulation: TRadioButton
-              Left = 155
+              Left = 165
               Height = 44
               Top = 0
-              Width = 135
+              Width = 140
               Caption = 'Stimulation (Pulse)'
               OnChange = rbCommonChange
               TabOrder = 2
             end
             object rbSedation: TRadioButton
-              Left = 290
+              Left = 305
               Height = 44
               Top = 0
-              Width = 81
+              Width = 86
               Caption = 'Sedation'
               OnChange = rbCommonChange
               TabOrder = 3
             end
             object rbDCnegative: TRadioButton
-              Left = 371
+              Left = 391
               Height = 44
               Top = 0
-              Width = 56
+              Width = 61
               Caption = 'DC-'
               OnChange = rbCommonChange
               TabOrder = 4
             end
             object rbDCpositive: TRadioButton
-              Left = 427
+              Left = 452
               Height = 44
               Top = 0
-              Width = 59
+              Width = 64
               Caption = 'DC+'
               OnChange = rbCommonChange
               TabOrder = 5
             end
             object rbDCchangeDirections: TRadioButton
-              Left = 486
+              Left = 516
               Height = 44
               Top = 0
-              Width = 143
+              Width = 144
               Caption = 'DC change direction'
               OnChange = rbCommonChange
               TabOrder = 6
@@ -18762,16 +18722,16 @@ object frmMain: TfrmMain
           Left = 0
           Height = 192
           Top = 168
-          Width = 639
+          Width = 670
           Align = alTop
           ClientHeight = 192
-          ClientWidth = 639
+          ClientWidth = 670
           TabOrder = 1
           object ProgressBarTime: TProgressBar
             Left = 8
             Height = 17
             Top = 154
-            Width = 621
+            Width = 648
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
             Font.Height = -12
@@ -18798,7 +18758,7 @@ object frmMain: TfrmMain
             Left = 1
             Height = 63
             Top = 1
-            Width = 637
+            Width = 668
             AxisList = <            
               item
                 Visible = False
@@ -18842,7 +18802,7 @@ object frmMain: TfrmMain
             Left = 1
             Height = 64
             Top = 64
-            Width = 637
+            Width = 668
             AxisList = <            
               item
                 Visible = False
@@ -18887,11 +18847,11 @@ object frmMain: TfrmMain
           Left = 0
           Height = 39
           Top = 662
-          Width = 639
+          Width = 670
           Align = alBottom
           BevelOuter = bvNone
           ClientHeight = 39
-          ClientWidth = 639
+          ClientWidth = 670
           TabOrder = 2
           object btnEapSave: TButton
             Left = 503
@@ -18925,7 +18885,7 @@ object frmMain: TfrmMain
           Left = 0
           Height = 302
           Top = 360
-          Width = 639
+          Width = 670
           Align = alClient
           ColCount = 6
           FixedCols = 0
@@ -19071,13 +19031,13 @@ object frmMain: TfrmMain
       object tabAuriculotherapy: TTabSheet
         Caption = 'Auriculotherapy'
         ClientHeight = 701
-        ClientWidth = 639
+        ClientWidth = 670
         TabVisible = False
         object PageControl1: TPageControl
           Left = 0
           Height = 448
           Top = 0
-          Width = 639
+          Width = 670
           ActivePage = TabSheet2
           Align = alTop
           TabIndex = 0
@@ -19086,12 +19046,12 @@ object frmMain: TfrmMain
           object TabSheet2: TTabSheet
             Caption = 'Ear atlas'
             ClientHeight = 420
-            ClientWidth = 631
+            ClientWidth = 662
             object Image2: TImage
               Left = 0
               Height = 420
               Top = 0
-              Width = 631
+              Width = 662
               Align = alClient
               Center = True
               Picture.Data = {
@@ -20861,37 +20821,37 @@ object frmMain: TfrmMain
     Device = 'COM1'
     RcvLineCRLF = False
     OnRxData = SerialRxData
-    left = 552
-    top = 56
+    left = 48
+    top = 352
   end
   object ryodorakuNormalSource: TListChartSource
     DataPoints.Strings = (
       '0|50|$00FF00|'
       '11|50|$00FF00|'
     )
-    left = 448
-    top = 72
+    left = 408
+    top = 200
   end
   object chartSourceRMS: TListChartSource
     DataPoints.Strings = (
       '0|205|$00FF00|RMS'
     )
-    left = 472
-    top = 224
+    left = 160
+    top = 200
   end
   object chartSourceCurrent: TListChartSource
     DataPoints.Strings = (
       '0|2.3|$FF8000|'
     )
-    left = 472
-    top = 280
+    left = 160
+    top = 272
   end
   object timerChangeDirection: TTimer
     Enabled = False
     Interval = 5000
     OnTimer = timerChangeDirectionTimer
-    left = 320
-    top = 16
+    left = 288
+    top = 304
   end
   object ryodorakuLeftSource: TListChartSource
     DataPoints.Strings = (
@@ -20908,8 +20868,8 @@ object frmMain: TfrmMain
       '10|90|?|GB'
       '11|110|?|ST'
     )
-    left = 152
-    top = 72
+    left = 408
+    top = 352
   end
   object ryodorakuRightSource: TListChartSource
     DataPoints.Strings = (
@@ -20926,24 +20886,24 @@ object frmMain: TfrmMain
       '10|110|?|GB'
       '11|120|?|ST'
     )
-    left = 272
-    top = 72
+    left = 408
+    top = 264
   end
   object SaveDialog: TSaveDialog
     FileName = 'therapy'
     Filter = '(txt)|*.txt'
-    left = 512
-    top = 356
+    left = 48
+    top = 272
   end
   object OpenDialog: TOpenDialog
     Filter = '(txt)|*.txt'
-    left = 512
-    top = 415
+    left = 48
+    top = 200
   end
   object SaveDialogForm: TSaveDialog
     DefaultExt = '.bmp'
     FileName = 'Report.bmp'
-    left = 547
-    top = 320
+    left = 288
+    top = 200
   end
 end
