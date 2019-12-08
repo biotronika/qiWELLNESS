@@ -17,6 +17,8 @@ type
     btnDeleteAll: TButton;
     btnConnect: TButton;
     btnDelete: TButton;
+    btnEapLoad: TButton;
+    btnEapSave: TButton;
     btnSaveAs: TButton;
     ButtonVegatestSaveAs1: TButton;
     ButtonSavePath: TButton;
@@ -30,9 +32,6 @@ type
     ButtonSaveReport: TButton;
     btnConsoleExecute: TButton;
     btnClose: TButton;
-    btnEapSave: TButton;
-    btnEapLoad: TButton;
-    btnEapLoadFromWebside: TButton;
     ButtonRyodorakuAnalize: TButton;
     ButtonRyodorakuSendToEAP: TButton;
     cboxSeries: TComboBox;
@@ -47,6 +46,7 @@ type
     chartMain: TChart;
     chartMainCurrentLineSeries: TLineSeries;
     cboxChangeDirections: TCheckBox;
+    CheckBoxAutoTrack: TCheckBox;
     edtDutyCycle: TFloatSpinEdit;
     edtFreq: TFloatSpinEdit;
     edtSeconds: TEdit;
@@ -61,6 +61,7 @@ type
     Image6: TImage;
     Image7: TImage;
     Label1: TLabel;
+    Label8: TLabel;
     LabelTime: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -68,13 +69,12 @@ type
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
-    Label8: TLabel;
     chartSourceRMS: TListChartSource;
     chartSourceCurrent: TListChartSource;
     OpenDialog: TOpenDialog;
     Panel15: TPanel;
     Panel16: TPanel;
-    Panel4: TPanel;
+    Panel5: TPanel;
     rbEavLeft: TRadioButton;
     rbEavRight: TRadioButton;
     ryodorakuLeftSource: TListChartSource;
@@ -142,6 +142,7 @@ type
     procedure btnDeleteClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnEapLoadClick(Sender: TObject);
+
     procedure btnEapSaveClick(Sender: TObject);
     //procedure btnVegatestDeleteClick(Sender: TObject);
     //procedure btnVegatestNewClick(Sender: TObject);
@@ -217,8 +218,8 @@ type
          MODE_VEG = 2;
          MODE_RYO = 3; //Ryodoraku
 
-      MAX_SERIES_NUMBER = 30;
-      MAX_EAP_POINTS_NUMBER = 30;
+      MAX_SERIES_NUMBER = 50;
+      MAX_EAP_POINTS_NUMBER = 50;
       //RYODORAKU_NORMAL_MIN = 75;
       //RYODORAKU_NORMAL_MAX = 100;
       RYODORAKU_FACTOR = 1.54;
@@ -251,7 +252,7 @@ type
 
   public
      const
-       version = '2019-12-04 (beta)';
+       version = '2019-12-08 (beta)';
      var
      ryodorakuPoint : array[0..11,0..1] of Double; //[0..23]
 
@@ -388,6 +389,8 @@ begin
     StringGridEAPTherapy.LoadFromCSVFile(OpenDialog.FileName);
 end;
 
+
+
 procedure TfrmMain.btnEapSaveClick(Sender: TObject);
 begin
   if SaveDialog.Execute then;
@@ -515,6 +518,7 @@ begin
 
    if chartMainCurrentLineSeries.Count < 50 then begin
          ShowMessage('Take a longer sample! Minimum is 1 second.');
+         CheckBoxAutoTrack.Checked:=false;
          Exit;
    end;
 
@@ -745,7 +749,42 @@ begin
 
      //Save point
      frmMain.SaveRyodoraku;
+
+     // Auto check next point
+     if CheckBoxAutoTrack.Checked then begin
+        sleep(2000);
+
+        case FLastCol of
+          1,2,3,4,5: gridRyodoraku.col:=FlastCol+1;
+          6: if FLastLeftSide then begin
+             gridRyodoraku.col:=FlastCol+1;
+             rbRyodorakuLeft.Checked :=false;
+             rbRyodorakuRight.Checked :=true;
+          end else begin
+             gridRyodoraku.col:=1;
+             FLastLeftSide:=false;
+             rbRyodorakuLeft.Checked :=true;
+             rbRyodorakuRight.Checked :=false;
+          end;
+          7,8,9,10,11: gridRyodoraku.col:=FlastCol+1;
+          12: if FLastLeftSide then begin
+             CheckBoxAutoTrack.Checked:=false;
+          end else begin
+             gridRyodoraku.col:=7;
+             FLastLeftSide:=false;
+             rbRyodorakuLeft.Checked :=true;
+             rbRyodorakuRight.Checked :=false;
+          end;
+        end;
+
+
+
+     end;
+
+
   end;
+
+
 
 end;
 
@@ -923,6 +962,13 @@ end;
 procedure TfrmMain.FormShow(Sender: TObject);
 
 begin
+  // With windows taskbar on down side
+  // size is 40pixels *  scaling (e.g. 100%, 150%, 200%)
+
+     Self.Height := 680;
+     Self.Width := 1280;
+
+
   CurrentMode := MODE_UNK;
 
   //Load user veagtest selector
