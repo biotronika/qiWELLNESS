@@ -969,7 +969,7 @@ begin
      //Self.Height := 680;
      //Self.Width := 1280;
 
-
+  pageRight.TabIndex:=0;
   CurrentMode := MODE_UNK;
 
   //Load user veagtest selector

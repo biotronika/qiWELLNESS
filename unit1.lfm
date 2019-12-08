@@ -619,7 +619,7 @@ object frmMain: TfrmMain
       Height = 678
       Top = 1
       Width = 766
-      ActivePage = tabRyodoraku
+      ActivePage = tabConsole
       Align = alClient
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
@@ -628,7 +628,7 @@ object frmMain: TfrmMain
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 1
+      TabIndex = 0
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
