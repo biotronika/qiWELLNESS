@@ -749,6 +749,7 @@ begin
 
      //Save point
      frmMain.SaveRyodoraku;
+     Application.ProcessMessages;
 
      // Auto check next point
      if CheckBoxAutoTrack.Checked then begin
@@ -965,8 +966,8 @@ begin
   // With windows taskbar on down side
   // size is 40pixels *  scaling (e.g. 100%, 150%, 200%)
 
-     Self.Height := 680;
-     Self.Width := 1280;
+     //Self.Height := 680;
+     //Self.Width := 1280;
 
 
   CurrentMode := MODE_UNK;
