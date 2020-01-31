@@ -19,4 +19,3 @@ begin
   Application.CreateForm(TFormVegatestSelector, FormVegatestSelector);
   Application.Run;
 end.
-

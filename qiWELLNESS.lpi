@@ -42,7 +42,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="qiWELLNESS.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -53,7 +53,7 @@
         <ComponentName Value="frmMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="Unit1"/>
+        <UnitName Value="unitMain"/>
       </Unit1>
       <Unit2>
         <Filename Value="unitvegatestselector.pas"/>
@@ -63,6 +63,11 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitVegatestSelector"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="myfunctions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="myFunctions"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

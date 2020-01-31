@@ -1,4 +1,4 @@
-unit Unit1;
+unit unit1;
 
 {$mode objfpc}{$H+}
 
@@ -20,6 +20,10 @@ type
     btnEapLoad: TButton;
     btnEapSave: TButton;
     btnSaveAs: TButton;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
+    ButtonIon: TButton;
     ButtonVegatestSaveAs1: TButton;
     ButtonSavePath: TButton;
     ButtonLoadPath: TButton;
@@ -35,6 +39,8 @@ type
     ButtonRyodorakuAnalize: TButton;
     ButtonRyodorakuSendToEAP: TButton;
     cboxSeries: TComboBox;
+    chartRMS_ION: TChart;
+    chartRMS_IONBarSeries1: TBarSeries;
     chartRyodoraku: TChart;
     chartRyodorakuRightSeries: TBarSeries;
     chartRMS: TChart;
@@ -46,13 +52,20 @@ type
     chartMain: TChart;
     chartMainCurrentLineSeries: TLineSeries;
     cboxChangeDirections: TCheckBox;
+    chartSourceRMS_ION: TListChartSource;
     CheckBoxAutoTrack: TCheckBox;
+    EditSubstance_ION: TEdit;
+    EditActiveElectrode_ION: TEdit;
+    EditMollMass_ION: TEdit;
+    EditValence_ION: TEdit;
     edtDutyCycle: TFloatSpinEdit;
     edtFreq: TFloatSpinEdit;
+    edtFreq_ION: TFloatSpinEdit;
     edtSeconds: TEdit;
     edtConsoleCommand: TEdit;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -61,7 +74,21 @@ type
     Image6: TImage;
     Image7: TImage;
     Label1: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label20: TLabel;
     Label8: TLabel;
+    Label9: TLabel;
+    LabelCharge: TLabel;
+    LabelCharge1: TLabel;
     LabelTime: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -72,11 +99,27 @@ type
     chartSourceRMS: TListChartSource;
     chartSourceCurrent: TListChartSource;
     OpenDialog: TOpenDialog;
+    Panel10: TPanel;
+    Panel11: TPanel;
     Panel15: TPanel;
     Panel16: TPanel;
+    Panel17: TPanel;
+    Panel18: TPanel;
+    Panel19: TPanel;
+    Panel20: TPanel;
+    Panel4: TPanel;
     Panel5: TPanel;
+    Panel8: TPanel;
+    rbDutyCycle50_ION: TRadioButton;
+    rbDutyCycle90_ION: TRadioButton;
+    RadioGroup4: TRadioGroup;
+    RadioGroup5: TRadioGroup;
+    rbDirect_ION: TRadioButton;
     rbEavLeft: TRadioButton;
     rbEavRight: TRadioButton;
+    rbNegativeElectrode_ION: TRadioButton;
+    rbPositiveElectrode_ION: TRadioButton;
+    rbPulse_ION: TRadioButton;
     ryodorakuLeftSource: TListChartSource;
     Panel1: TPanel;
     Panel12: TPanel;
@@ -120,6 +163,7 @@ type
     statusBar: TStatusBar;
     gridRyodoraku: TStringGrid;
     StringGridEAPTherapy: TStringGrid;
+    StringGridEAPTherapy1: TStringGrid;
     StringGridEAV: TStringGrid;
     tabConsole: TTabSheet;
     TabControl1: TTabControl;
@@ -129,6 +173,7 @@ type
     tabAuriculotherapy: TTabSheet;
     RightHand: TTabSheet;
     LeftFoot: TTabSheet;
+    tabIonophorese: TTabSheet;
     TabSheet2: TTabSheet;
     LeftHand: TTabSheet;
     Chart: TTabSheet;
@@ -154,6 +199,7 @@ type
 
     procedure ButtonEapClick(Sender: TObject);
     procedure ButtonEavClick(Sender: TObject);
+    procedure ButtonIonClick(Sender: TObject);
     procedure ButtonLoadPathClick(Sender: TObject);
     procedure ButtonSavePathClick(Sender: TObject);
     procedure ButtonSaveReadingClick(Sender: TObject);
@@ -193,6 +239,7 @@ type
     //const Value: string);
     procedure tabEAVShow(Sender: TObject);
     procedure tabElectropuntureShow(Sender: TObject);
+    procedure tabIonophoreseShow(Sender: TObject);
     procedure tabRyodorakuShow(Sender: TObject);
     procedure tabVegatestShow(Sender: TObject);
     procedure timerChangeDirectionTimer(Sender: TObject);
@@ -217,6 +264,7 @@ type
          MODE_EAV = 1;
          MODE_VEG = 2;
          MODE_RYO = 3; //Ryodoraku
+         MODE_ION = 4; //Ionophoreses & zapper
 
       MAX_SERIES_NUMBER = 50;
       MAX_EAP_POINTS_NUMBER = 50;
@@ -245,6 +293,10 @@ type
       //EAPDoneTimeArray : array[1..MAX_EAP_POINTS_NUMBER] of Double;
       EAPProgressGridRow : integer;
       EAPProgressTime : Double;
+      myTime : Double;
+      lastMyTime : Double;
+      firstTime_ION : boolean;
+      Charge_ION : Double;
 
 
 
@@ -252,7 +304,7 @@ type
 
   public
      const
-       version = '2019-12-08 (beta)';
+       version = '2020-01-09 (beta)';
      var
      ryodorakuPoint : array[0..11,0..1] of Double; //[0..23]
 
@@ -264,12 +316,13 @@ var
 
 implementation
 
-uses unitVegatestSelector;
+uses unitVegatestSelector, myFunctions;
 
 
 {$R *.lfm}
 
 { TfrmMain }
+
 
 procedure TfrmMain.ChangeMode(mode : integer);
 begin
@@ -295,6 +348,31 @@ begin
 
                      //Polarization of electrode
                      if rbNegativeElectrode.Checked then
+                        Serial.WriteData('chp 0'#13#10)
+                     else
+                         Serial.WriteData('chp 1'#13#10);
+
+                end;
+
+      MODE_ION: begin
+                     Charge_ION := 0;
+
+                     Serial.WriteData('ion'+#13#10);
+
+                     sleep(200);
+
+                     if rbPulse_ION.Checked then begin
+                        if rbDutyCycle50_ION.Checked then
+                           Serial.WriteData('freq '+ IntToStr(trunc(StrToFloatDef(edtFreq_ION.Text,10)*100)) +' 50'#13#10)
+                        else
+                           Serial.WriteData('freq '+ IntToStr(trunc(StrToFloatDef(edtFreq_ION.Text,10)*100)) +' 90'#13#10);
+                     end else
+                         Serial.WriteData('sfreq'#13#10);   //DC current
+
+                     sleep(200);
+
+                     //Polarization of electrode
+                     if rbNegativeElectrode_ION.Checked then
                         Serial.WriteData('chp 0'#13#10)
                      else
                          Serial.WriteData('chp 1'#13#10);
@@ -483,6 +561,11 @@ end;
 procedure TfrmMain.ButtonEavClick(Sender: TObject);
 begin
   frmMain.ChangeMode(MODE_EAV);
+end;
+
+procedure TfrmMain.ButtonIonClick(Sender: TObject);
+begin
+  frmMain.ChangeMode(MODE_ION);
 end;
 
 procedure TfrmMain.ButtonLoadPathClick(Sender: TObject);
@@ -933,8 +1016,10 @@ begin
   mySeries:=chartMainCurrentLineSeries;
 
   startTime := 0;
+  lastMyTime := 0;
   EAPProgressGridRow := 0;
   FLastCol := 0;
+  firstTime_ION := True;
 
 end;
 
@@ -1000,6 +1085,8 @@ begin
   chartSourceCurrent.SetYValue(0,0);
   chartSourceRMS.SetYValue(0,0);
   ProgressBarTime.Position:=0;
+
+  chartSourceRMS_ION.SetYValue(0,0);
 end;
 
 
@@ -1183,7 +1270,8 @@ end;
 procedure TfrmMain.SerialRxData(Sender: TObject);
 var s,ss : string;
     i,j,l,p: integer;
-    myTime,d : Double;
+    d : Double;
+
 
 begin
 
@@ -1197,12 +1285,12 @@ begin
 
         if (ss= ':btn' ) then begin //TODO: check
           // Save series
-
-          frmMain.btnSaveAs.SetFocus;
-          frmMain.btnSaveAsClick (Sender);
-          mySeries.Clear;
-          mySeries.AddXY( 0.0,0 );
-          startTime:=Now();
+          //Do nothing
+          //frmMain.btnSaveAs.SetFocus;
+          //frmMain.btnSaveAsClick (Sender);
+          //mySeries.Clear;
+          //mySeries.AddXY( 0.0,0 );
+          //startTime:=Now();
           //step:=1;
 
         end else if (ss=':vstart') then begin
@@ -1211,6 +1299,7 @@ begin
           mySeries.Clear;
           chartMain.BottomAxis.Range.Max:=7;  // 7 sec.
           chartMain.LeftAxis.Range.Max:=100;  // 100%
+          chartMain.LeftAxis.Range.UseMax:= True;
           mySeries.SeriesColor:= $000080FF;
           startTime:=Now()-0.03/(24*60*60);
 
@@ -1223,6 +1312,7 @@ begin
           mySeries.Clear;
           chartMain.BottomAxis.Range.Max:=7;  // 7 sec.
           chartMain.LeftAxis.Range.Max:=100;  // 100%
+          chartMain.LeftAxis.Range.UseMax:= True;
           mySeries.SeriesColor:= clRed;
           startTime:=Now()-0.03/(24*60*60);
 
@@ -1233,32 +1323,86 @@ begin
         end else if (ss=':cstart') then begin
           // Clear series
 
+          CurrentMode := MODE_EAP;
+
           mySeries.Clear;
           chartMain.LeftAxis.Range.Max:=500;  // 500uA
-          chartMain.BottomAxis.Range.Max:=30; // 30sec. or more
           mySeries.SeriesColor:= clGreen;
+
+          chartMain.LeftAxis.Range.UseMax:= True;
+          chartMain.BottomAxis.Range.Max:=30; // 30sec. or more
 
           ProgressBarTime.Max:=StrToIntDef(StringGridEAPTherapy.Cells[EAP_TIME_GRID_COL,EAPProgressGridRow],0);
           ProgressBarTime.Position := StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0);
           //ProgressBarTime.Color:=clGreen;
 
-
           startTime:=Now()-0.03/(24*60*60);
 
           mySeries.AddXY( 0.03,0 );
 
+
+
+
+        end else if (ss=':istart') then begin
+
+          CurrentMode := MODE_ION;
+
+
+          if firstTime_ION then begin
+
+            mySeries.Clear;
+            firstTime_ION := False;
+
+            chartMain.LeftAxis.Range.Max:=12;  // 12mA
+            mySeries.SeriesColor:= clGreen;
+            chartMain.LeftAxis.Range.UseMax:= True;
+            chartMain.BottomAxis.Range.Max:=120; // 2min. or more
+
+            startTime:=Now()-0.03/(24*60*60);
+            mySeries.AddXY( 0.03,0 );
+
+          end else begin
+
+            myTime:= (Now()- startTime)*(24*60*60);
+            if myTime > 120 then chartMain.LeftAxis.Range.UseMax:= False;
+
+            mySeries.AddXY( myTime ,0);
+
+          end;
+
+
+
+
         end else if ss=':stop' then begin
-// :stop
-           myTime:= (Now()- startTime)*(24*60*60);
 
-           StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow]:=
-             IntToStr(
-               StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0)+
-               Round(myTime)
-             );
+          case CurrentMode of
+            MODE_ION : begin
 
-           chartSourceCurrent.SetYValue(0,0);
-           chartSourceRMS.SetYValue(0,0);
+                         mySeries.AddXY( myTime ,0);
+                         chartSourceRMS_ION.SetYValue(0,0);
+
+            end;
+
+
+            MODE_EAP : begin
+
+                         myTime:= (Now()- startTime)*(24*60*60);
+
+                         StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow]:=
+                           IntToStr(
+                             StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0)+
+                               Round(myTime)
+                           );
+
+                         chartSourceCurrent.SetYValue(0,0);
+                         chartSourceRMS.SetYValue(0,0);
+            end;
+
+          end;  // case
+
+
+
+
 
         end else if copy(ss,1,2)= ':c' then begin
         // Add to eap current series new point
@@ -1296,14 +1440,48 @@ begin
            //if l > 30 then ProgressBarTime.Max:=120 else ProgressBarTime.Max:=30;
 //TODO           StringGridEAPTherapy.Cells[EAP_PRECENTAGE_GRID_COL,EAPProgressGridRow]:= IntToStr(l)+'%';
 
+
            //Set EAP therapy progress of the point
            if EAPProgressGridRow > 0 then begin
 
              StringGridEAPTherapy.Cells[EAP_PROGRESS_GRID_COL,EAPProgressGridRow]:= StringOfChar(char('|'),
                Trunc(StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0)+myTime/3));
 
-
            end;
+
+
+
+        end else if copy(ss,1,2)= ':i' then begin
+        // Add to eap current series new point
+           ss:=copy(ss,3,Length(ss));
+           myTime:= (Now()- startTime)*(24*60*60);
+           //myTime:= (Now()- startTime)*(24*60*60);
+
+           //Rescale chart to 2 minutes
+           if myTime >= 120 then begin
+              chartMain.BottomAxis.Range.Max:=600;
+              //ProgressBarTime.Max:=120;
+              //ProgressBarTime.Color:=clYellow;
+           end;
+
+           p := Pos(' ',ss);
+
+           if p=0 then begin
+
+               j:= StrToIntDef(ss,0);
+               d:= StrToFloatDef(edtDutyCycle.Text,0);
+
+           end else begin
+               j := StrToIntDef( Trim( Copy(ss,1,p) ),0);
+               d := StrToFloatDef( Trim( Copy(ss,p,Length(ss)-p) ),0);
+           end;
+
+           mySeries.AddXY( myTime ,j*d/100000);
+
+           chartSourceRMS_ION.SetYValue(0,j*d/100000);
+           Charge_ION := Charge_ION + (j*d/100000) (*mA*) * (myTime - lastMyTime) (*s*) / 3600;
+           LabelCharge.Caption := FormatFloat('0.000',Charge_ION);
+           lastMyTime := myTime;
 
 
         end else  if( copy(ss,1,2)= ':v') or (copy(ss,1,2)= ':e') then begin // Veagtest and  EAV have the same scale
@@ -1338,6 +1516,11 @@ end;
 procedure TfrmMain.tabElectropuntureShow(Sender: TObject);
 begin
   frmMain.ChangeMode(MODE_EAP);
+end;
+
+procedure TfrmMain.tabIonophoreseShow(Sender: TObject);
+begin
+  frmMain.ChangeMode(MODE_ION);
 end;
 
 
