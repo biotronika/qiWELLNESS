@@ -7,7 +7,8 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, LazSerialPort, tachartlazaruspkg, Unit1, unitVegatestSelector;
+  Forms, LazSerialPort, tachartlazaruspkg, unitMain, unitVegatestSelector,
+  unitUpdateList, unitChooseEAPTherapy;
 
 {$R *.res}
 
@@ -17,5 +18,7 @@ begin
   Application.Initialize;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TFormVegatestSelector, FormVegatestSelector);
+  Application.CreateForm(TFormUpdateList, FormUpdateList);
+  Application.CreateForm(TFormChooseEAPTherapy, FormChooseEAPTherapy);
   Application.Run;
 end.

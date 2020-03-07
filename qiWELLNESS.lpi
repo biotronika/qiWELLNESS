@@ -16,6 +16,10 @@
         <TextDesc Value="The best thing are for free..."/>
       </XPManifest>
       <Icon Value="0"/>
+      <Resources Count="2">
+        <Resource_0 FileName="libeay32.dll" Type="RCDATA" ResourceName="LIBEAY32"/>
+        <Resource_1 FileName="ssleay32.dll" Type="RCDATA" ResourceName="SSLEAY32"/>
+      </Resources>
     </General>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -28,27 +32,30 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="4">
+    <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="LazSerialPort"/>
+        <PackageName Value="laz_synapse"/>
       </Item1>
       <Item2>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="LazSerialPort"/>
       </Item2>
       <Item3>
-        <PackageName Value="TAChartLazarusPkg"/>
+        <PackageName Value="SynEdit"/>
       </Item3>
       <Item4>
-        <PackageName Value="LCL"/>
+        <PackageName Value="TAChartLazarusPkg"/>
       </Item4>
+      <Item5>
+        <PackageName Value="LCL"/>
+      </Item5>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="6">
       <Unit0>
         <Filename Value="qiWELLNESS.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="unit1.pas"/>
+        <Filename Value="unitmain.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmMain"/>
         <HasResources Value="True"/>
@@ -68,6 +75,22 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="myFunctions"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="unitupdatelist.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormUpdateList"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="unitUpdateList"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="unitchooseeaptherapy.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormChooseEAPTherapy"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="unitChooseEAPTherapy"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -81,9 +104,6 @@
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
-      <Debugging>
-        <GenerateDebugInfo Value="False"/>
-      </Debugging>
       <Options>
         <Win32>
           <GraphicApplication Value="True"/>

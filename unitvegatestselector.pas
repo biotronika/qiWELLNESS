@@ -37,7 +37,7 @@ var
 
 implementation
 
-uses unit1;
+uses unitMain;
 
 {$R *.lfm}
 
