@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Grids;
+  Grids, myFunctions;
 
 type
 
@@ -54,10 +54,10 @@ begin
   StringGrid.Cells[0,0]:='Click Update to download EAP therapies!';
 
 
-  Self.Caption := TFormUpdateList.LISTS_DEF[LIST_EAP_PATHS].Title;
+  Self.Caption := LISTS_DEF[LIST_EAP_PATHS].Title;
   //StringGrid.LoadFromCSVFile(TFormUpdat);     //LIST_EAP_PATHS
 
-  DestinationListFile := ExtractFilePath(Application.ExeName) + TFormUpdateList.LISTS_DEF[LIST_EAP_PATHS].FileName;
+  DestinationListFile := ExtractFilePath(Application.ExeName) + LISTS_DEF[LIST_EAP_PATHS].FileName;
 
   if SysUtils.FileExists(DestinationListFile) then begin
      StringGrid.LoadFromCSVFile(DestinationListFile);

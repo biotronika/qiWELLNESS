@@ -66,7 +66,6 @@ type
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
     Image1: TImage;
-    Image2: TImage;
     Image3: TImage;
     Image4: TImage;
     Image5: TImage;
@@ -87,7 +86,7 @@ type
     Label8: TLabel;
     Label9: TLabel;
     LabelCharge: TLabel;
-    LabelCharge1: TLabel;
+    LabelMass: TLabel;
     LabelTime: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -145,7 +144,6 @@ type
     Panel6: TPanel;
     Panel7: TPanel;
     memoConsole: TMemo;
-    PageControl1: TPageControl;
     PageControl2: TPageControl;
     pageRight: TPageControl;
     Panel3: TPanel;
@@ -169,11 +167,9 @@ type
     tabRyodoraku: TTabSheet;
     tabEAV: TTabSheet;
     tabElectropunture: TTabSheet;
-    tabAuriculotherapy: TTabSheet;
     RightHand: TTabSheet;
     LeftFoot: TTabSheet;
     tabIonophorese: TTabSheet;
-    TabSheet2: TTabSheet;
     LeftHand: TTabSheet;
     Chart: TTabSheet;
     RightFoot: TTabSheet;
@@ -230,8 +226,12 @@ type
     procedure gridRyodorakuSelection(Sender: TObject; aCol, aRow: Integer);
 
     procedure Label8Click(Sender: TObject);
+    procedure Label9Click(Sender: TObject);
 
     procedure rbCommonChange(Sender: TObject);
+    procedure rbDirect_IONChange(Sender: TObject);
+    procedure rbDutyCycle50_IONChange(Sender: TObject);
+    procedure rbDutyCycle90_IONChange(Sender: TObject);
     procedure rbRyodorakuLeftChange(Sender: TObject);
 
     procedure SerialRxData(Sender: TObject);
@@ -249,6 +249,7 @@ type
     procedure timerChangeDirectionTimer(Sender: TObject);
     procedure ToggleBoxEditChange(Sender: TObject);
     procedure TreeViewSelectorSelectionChanged(Sender: TObject);
+    procedure setIonParameters(Sender: TObject);
 
     procedure ChangeMode(mode : integer);
 
@@ -308,7 +309,7 @@ type
 
   public
      const
-       version = '2020-03-07 (beta)';
+       version = '2020-03-09 (beta)';
      var
      ryodorakuPoint : array[0..11,0..1] of Double; //[0..23]
 
@@ -329,6 +330,7 @@ uses unitVegatestSelector, myFunctions, unitUpdateList, unitChooseEAPTherapy;
 
 
 procedure TfrmMain.ChangeMode(mode : integer);
+
 begin
   CurrentMode := mode;
 
@@ -371,7 +373,7 @@ begin
                         else
                            Serial.WriteData('freq '+ IntToStr(trunc(StrToFloatDef(edtFreq_ION.Text,10)*100)) +' 90'#13#10);
                      end else
-                         Serial.WriteData('sfreq'#13#10);   //DC current
+                         Serial.WriteData('dc'#13#10);   //DC current
 
                      sleep(200);
 
@@ -473,13 +475,32 @@ end;
 
 procedure TfrmMain.ButtonChooseEAPTherapyClick(Sender: TObject);
 var TherapyIdx : integer;
+    EAPTherapy: TEAPTherapy;
+    i : integer;
 begin
   TherapyIdx:=0; //Nothing was chosen
   TherapyIdx := FormChooseEAPTherapy.Choose;
 
   //TODO: remove
   ShowMessage(FormChooseEAPTherapy.EAPTherapyString);
-  ShowMessage(IntToStr(TherapyIdx));
+  EAPTherapy:=StringToEAPTherapy(FormChooseEAPTherapy.EAPTherapyString);
+
+  StringGridEAPTherapy.RowCount:=1;
+  StringGridEAPTherapy.RowCount:=Length(EAPTherapy)+1;
+  for i:= 1 to Length(EAPTherapy) do begin
+      with StringGridEAPTherapy do begin
+          Cells[0,i]:=EAPTherapy[i-1].Point;
+          Cells[3,i]:=IntToStr( EAPTherapy[i-1].Time);
+      end;
+
+  end;
+
+
+
+
+
+
+  //ShowMessage(IntToStr(TherapyIdx));
 
 
 
@@ -560,6 +581,7 @@ procedure TfrmMain.ButtonIonOnClick(Sender: TObject);
 begin
    Serial.WriteData('act 1'+#13#10);
    sleep(200);
+   setIonParameters(Sender);
 end;
 
 procedure TfrmMain.ButtonIonOffClick(Sender: TObject);
@@ -572,7 +594,7 @@ procedure TfrmMain.ButtonUpdateClick(Sender: TObject);
 var DestinationListFile : string;
 begin
 
-  DestinationListFile := ExtractFilePath(Application.ExeName) + TFormUpdateList.LISTS_DEF[LIST_ION_SUBSTANCES].FileName;
+  DestinationListFile := ExtractFilePath(Application.ExeName) + LISTS_DEF[LIST_ION_SUBSTANCES].FileName;
 
   if SysUtils.FileExists(DestinationListFile) then
      StringGridIonTherapy.LoadFromCSVFile(DestinationListFile)
@@ -1056,6 +1078,7 @@ var i : integer;
 begin
 
   Caption := 'qiWELLNESS   ' +version;
+
   memoConsole.Lines.Add ('Software version: ' +version);
 
   DefaultFormatSettings.DecimalSeparator:='.';
@@ -1077,7 +1100,7 @@ begin
 
 
   //Iontophoresis tab
-  DestinationListFile := ExtractFilePath(Application.ExeName) + TFormUpdateList.LISTS_DEF[LIST_ION_SUBSTANCES].FileName;
+  DestinationListFile := ExtractFilePath(Application.ExeName) + LISTS_DEF[LIST_ION_SUBSTANCES].FileName;
 
   if SysUtils.FileExists(DestinationListFile) then
      StringGridIonTherapy.LoadFromCSVFile(DestinationListFile);
@@ -1116,8 +1139,8 @@ begin
   // With windows taskbar on down side
   // size is 40pixels *  scaling (e.g. 100%, 150%, 200%)
 
-     //Self.Height := 680;
-     //Self.Width := 1280;
+     Self.Height := 850;
+     Self.Width := 1600;
 
   pageRight.TabIndex:=0;
   CurrentMode := MODE_UNK;
@@ -1238,6 +1261,11 @@ begin
   OpenUrl('https://biotronics.eu/literature');
 end;
 
+procedure TfrmMain.Label9Click(Sender: TObject);
+begin
+
+end;
+
 
 procedure TfrmMain.rbCommonChange(Sender: TObject);
 begin
@@ -1299,6 +1327,29 @@ begin
     end;
   end;
 end;
+
+procedure TfrmMain.rbDirect_IONChange(Sender: TObject);
+begin
+
+end;
+
+procedure TfrmMain.rbDutyCycle50_IONChange(Sender: TObject);
+begin
+
+end;
+
+procedure TfrmMain.rbDutyCycle90_IONChange(Sender: TObject);
+begin
+
+end;
+
+procedure TfrmMain.setIonParameters(Sender: TObject);
+begin
+  ChangeMode(MODE_ION);
+
+end;
+
+
 
 procedure TfrmMain.rbRyodorakuLeftChange(Sender: TObject);
 
@@ -1546,6 +1597,8 @@ begin
            chartSourceRMS_ION.SetYValue(0,j*d/100000);
            Charge_ION := Charge_ION + (j*d/100000) (*mA*) * (myTime - lastMyTime) (*s*) / 3600;
            LabelCharge.Caption := FormatFloat('0.000',Charge_ION);
+           LabelMass.Caption:= FormatFloat('0.000', calculateMass( StrToFloat(EditMolarMass_ION.Caption), StrToFloat(EditValence_ION.Caption), Charge_ION(*mAh*)));
+           // : Double;
            lastMyTime := myTime;
 
 

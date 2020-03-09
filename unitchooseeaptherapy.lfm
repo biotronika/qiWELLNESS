@@ -1,7 +1,7 @@
 object FormChooseEAPTherapy: TFormChooseEAPTherapy
-  Left = 654
+  Left = 468
   Height = 445
-  Top = 295
+  Top = 296
   Width = 807
   BorderStyle = bsToolWindow
   Caption = 'FormChooseEAPTherapy'

@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="8">
+    <Units Count="11">
       <Unit0>
         <Filename Value="qiWELLNESS.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -20,9 +20,12 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitMain"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="559"/>
-        <CursorPos X="25" Y="568"/>
+        <TopLine Value="470"/>
+        <CursorPos X="29" Y="488"/>
         <UsageCount Value="265"/>
+        <Bookmarks Count="1">
+          <Item0 X="14" Y="476" ID="1"/>
+        </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -42,7 +45,14 @@
         <Filename Value="myfunctions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="myFunctions"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="83"/>
+        <CursorPos Y="100"/>
         <UsageCount Value="265"/>
+        <Bookmarks Count="1">
+          <Item0 X="14" Y="84" ID="2"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="unitupdatelist.pas"/>
@@ -51,14 +61,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitUpdateList"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="257"/>
-        <CursorPos X="31" Y="275"/>
+        <EditorIndex Value="6"/>
+        <CursorPos X="83" Y="9"/>
         <UsageCount Value="265"/>
-        <Bookmarks Count="2">
-          <Item0 X="3" Y="214" ID="1"/>
-          <Item1 X="3" Y="254" ID="3"/>
+        <Bookmarks Count="1">
+          <Item0 X="3" Y="207" ID="3"/>
         </Bookmarks>
+        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="unitchooseeaptherapy.pas"/>
@@ -67,13 +76,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitChooseEAPTherapy"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="20"/>
-        <CursorPos X="39" Y="34"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="45"/>
+        <CursorPos X="65" Y="60"/>
         <UsageCount Value="225"/>
-        <Bookmarks Count="1">
-          <Item0 X="3" Y="110" ID="2"/>
-        </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit5>
@@ -82,7 +88,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="2898"/>
         <CursorPos Y="2917"/>
-        <UsageCount Value="141"/>
+        <UsageCount Value="132"/>
       </Unit6>
       <Unit7>
         <Filename Value="..\RESTtool\unit1.pas"/>
@@ -93,42 +99,155 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="103"/>
         <CursorPos X="107" Y="118"/>
-        <UsageCount Value="96"/>
+        <UsageCount Value="87"/>
       </Unit7>
+      <Unit8>
+        <Filename Value="C:\lazarus\lcl\dialogs.pp"/>
+        <UnitName Value="Dialogs"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="709"/>
+        <CursorPos X="11" Y="724"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\sysutils\syshelph.inc"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="82"/>
+        <CursorPos X="18" Y="93"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\sysutils\syshelp.inc"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="620"/>
+        <CursorPos X="3" Y="622"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
+      </Unit10>
     </Units>
-    <JumpHistory Count="8" HistoryIndex="7">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="75" Column="5" TopLine="72"/>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="109" TopLine="101"/>
       </Position1>
       <Position2>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="112" Column="3" TopLine="87"/>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="111" TopLine="101"/>
       </Position2>
       <Position3>
-        <Filename Value="unitmain.pas"/>
-        <Caret Line="1557" Column="7" TopLine="1552"/>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="112" TopLine="101"/>
       </Position3>
       <Position4>
-        <Filename Value="unitmain.pas"/>
-        <Caret Line="311" Column="29" TopLine="311"/>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="113" TopLine="101"/>
       </Position4>
       <Position5>
-        <Filename Value="unitmain.pas"/>
-        <Caret Line="481" Column="52" TopLine="463"/>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="114" TopLine="101"/>
       </Position5>
       <Position6>
-        <Filename Value="unitmain.pas"/>
-        <Caret Line="592" TopLine="580"/>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="115" TopLine="101"/>
       </Position6>
       <Position7>
-        <Filename Value="unitmain.pas"/>
-        <Caret Line="561" TopLine="559"/>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="116" TopLine="101"/>
       </Position7>
       <Position8>
-        <Filename Value="unitmain.pas"/>
-        <Caret Line="568" Column="4" TopLine="559"/>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="114" Column="32" TopLine="92"/>
       </Position8>
+      <Position9>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="100" TopLine="92"/>
+      </Position9>
+      <Position10>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="101" TopLine="92"/>
+      </Position10>
+      <Position11>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="103" TopLine="92"/>
+      </Position11>
+      <Position12>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="105" TopLine="92"/>
+      </Position12>
+      <Position13>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="109" TopLine="92"/>
+      </Position13>
+      <Position14>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="111" TopLine="92"/>
+      </Position14>
+      <Position15>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="112" TopLine="92"/>
+      </Position15>
+      <Position16>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="113" TopLine="92"/>
+      </Position16>
+      <Position17>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="114" TopLine="92"/>
+      </Position17>
+      <Position18>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="115" TopLine="92"/>
+      </Position18>
+      <Position19>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="116" TopLine="92"/>
+      </Position19>
+      <Position20>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="123" TopLine="109"/>
+      </Position20>
+      <Position21>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="125" TopLine="109"/>
+      </Position21>
+      <Position22>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="109" TopLine="95"/>
+      </Position22>
+      <Position23>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="111" TopLine="95"/>
+      </Position23>
+      <Position24>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="112" TopLine="95"/>
+      </Position24>
+      <Position25>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="113" TopLine="95"/>
+      </Position25>
+      <Position26>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="114" TopLine="95"/>
+      </Position26>
+      <Position27>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="115" TopLine="95"/>
+      </Position27>
+      <Position28>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="116" TopLine="95"/>
+      </Position28>
+      <Position29>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="476" Column="26" TopLine="485"/>
+      </Position29>
+      <Position30>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="487" Column="17" TopLine="470"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

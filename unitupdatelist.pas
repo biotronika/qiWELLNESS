@@ -6,14 +6,9 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Grids, HTTPSend, fphttpclient, fpjson, jsonparser, Windows, LCLIntf ;
+  Grids, HTTPSend, fphttpclient, fpjson, jsonparser, Windows, LCLIntf, myFunctions;
 
-const
-   //Types of lists
-   LIST_ION_SUBSTANCES = 1;
-   LIST_EAV_PATHS = 2;
-   LIST_EAP_PATHS = 3;
-   LIST_CATALOG = 4;
+
 
 type
 
@@ -43,48 +38,6 @@ type
     procedure ConnectRESTInterface(Url: String);
     function  JSON2String( TypeOfList : Integer; _JSONData: TJSONData): string;
 
-    type
-         TList = record
-         Title,  FileName: string[50];
-         Url : string [255];
-         RestURL : string [255];
-         FieldCount : integer;
-         FieldNames : array[1..10] of string[50];
-         FieldJsonPath : array[1..10] of string[50];
-    end;
-
-    const
-
-
-      LISTS_DEF : array[1..3] of TList = (
-             (
-              Title : 'Iontophoresis substances'; FileName : 'iontoporesis.txt';
-              Url : 'https://biotronics.eu/iontophoresis-substances';
-              RestURL :'https://biotronics.eu/iontophoresis-substances/rest?_format=json';
-              FieldCount : 4;
-              FieldNames :    ('Substance','Active electrode','Molar mass','Valence','','','','','','');
-              FieldJsonPath : ('.title[0].value','.field_active_electrode[0].value','field_mol_mass[0].value','field_valence[0].value','','','','','','')
-              ),
-
-              (Title : 'xxx'; FileName : 'xxx.txt';
-              Url : 'https://biotronics.eu/iontophoresis-substances';
-              RestURL :'https://biotronics.eu/iontophoresis-substances/rest?_format=json';
-              FieldCount : 1;
-              FieldNames :    ('Substance','Active electrode','Molar mass','Valence','','','','','','');
-              FieldJsonPath : ('.title[0].value','.field_active_electrode[0].value','field_mol_mass[0].value','field_valence[0].value','','','','','','')
-              ),
-
-              (Title : 'EAP therapies'; FileName : 'EAPtherapies.txt';
-              Url : 'https://biotronics.eu/eap-therapies';
-              RestURL :'https://biotronics.eu/eap-therapies/rest?_format=json';
-              FieldCount : 2;
-              FieldNames :    ('EAP therapy name','BAPs','Link','','','','','','','');
-              FieldJsonPath : ('.title[0].value','.field_baps[0].value','','field_valence[0].value','','','','','','')
-              )
-
-       ) ;
-
-      TEMPORARY_FILE = '~temp.txt';
 
    var
 
