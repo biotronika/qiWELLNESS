@@ -1,11 +1,11 @@
 object frmMain: TfrmMain
-  Left = 369
+  Left = 240
   Height = 864
   Top = 75
-  Width = 1465
+  Width = 1594
   Caption = 'qiWELLNESS'
   ClientHeight = 864
-  ClientWidth = 1465
+  ClientWidth = 1594
   DefaultMonitor = dmMainForm
   DesignTimePPI = 120
   OnCreate = FormCreate
@@ -16,17 +16,17 @@ object frmMain: TfrmMain
     Left = 0
     Height = 864
     Top = 0
-    Width = 505
+    Width = 634
     Align = alClient
     ClientHeight = 864
-    ClientWidth = 505
+    ClientWidth = 634
     ParentFont = False
     TabOrder = 0
     object chartMain: TChart
       Left = 1
       Height = 615
       Top = 219
-      Width = 503
+      Width = 632
       AxisList = <      
         item
           Marks.LabelBrush.Style = bsClear
@@ -74,11 +74,11 @@ object frmMain: TfrmMain
       Left = 1
       Height = 90
       Top = 129
-      Width = 503
+      Width = 632
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 90
-      ClientWidth = 503
+      ClientWidth = 632
       ParentFont = False
       TabOrder = 1
       object btnConnect: TButton
@@ -170,18 +170,18 @@ object frmMain: TfrmMain
       Left = 1
       Height = 128
       Top = 1
-      Width = 503
+      Width = 632
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 128
-      ClientWidth = 503
+      ClientWidth = 632
       ParentFont = False
       TabOrder = 2
       object Image4: TImage
         Left = 0
         Height = 128
         Top = 0
-        Width = 503
+        Width = 632
         Align = alClient
         Picture.Data = {
           1754506F727461626C654E6574776F726B477261706869635C34000089504E47
@@ -611,13 +611,13 @@ object frmMain: TfrmMain
       Left = 1
       Height = 29
       Top = 834
-      Width = 503
+      Width = 632
       Panels = <>
       ParentFont = False
     end
   end
   object panelRight: TPanel
-    Left = 505
+    Left = 634
     Height = 864
     Top = 0
     Width = 960
@@ -631,7 +631,7 @@ object frmMain: TfrmMain
       Height = 862
       Top = 1
       Width = 958
-      ActivePage = tabElectropunture
+      ActivePage = tabIonophorese
       Align = alClient
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
@@ -640,7 +640,7 @@ object frmMain: TfrmMain
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 4
+      TabIndex = 5
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -674,8 +674,21 @@ object frmMain: TfrmMain
             ''
             ''
             'What is new:'
+            'You need new version of your device. At least 2020-03-07'
+            ''
+            'IONTOPHORESIS'
+            '1. New tab'
+            '2. DC, zapper/TENS with duty cycle 50 and 90%'
+            '3. Substancies mass calculation based on web site catalog'
+            ''
+            'WEB SITE REST INTERFACE:'
+            '1. You can define your own therapy on the web site and share it.'
+            '2. Uploading therapies for all users'
+            '3. EAP shared terapies'
+            '4. IONTOPHORESIS shared therapies'
             ''
             ''
+            '2019-12-30:'
             'RYODORAKU:'
             '1. Improved ryodoraku charts left and right hand and foot picture;'
             '2. Added special Save button for touch screen and you can use SPACE keyboard key;'
@@ -20276,7 +20289,7 @@ object frmMain: TfrmMain
               Font.Quality = fqDraft
               Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goAutoAddRows, goRowSelect, goRelaxedRowSelect, goSmoothScroll, goRowHighlight]
               ParentFont = False
-              RowCount = 3
+              RowCount = 1
               ScrollBars = ssVertical
               TabOrder = 1
               TitleFont.CharSet = EASTEUROPE_CHARSET
@@ -20296,35 +20309,21 @@ object frmMain: TfrmMain
               )
               RowHeights = (
                 27
-                27
-                30
               )
               Cells = (
-                8
+                4
                 0
                 0
                 'Substance'
-                0
-                1
-                'Naproxen (naproxen sodium)'
                 1
                 0
                 'Active electrode'
-                1
-                1
-                'Negative'
                 2
                 0
                 'Molar mass'
-                2
-                1
-                '230.26'
                 3
                 0
                 'Valence'
-                3
-                1
-                '1'
               )
             end
           end

@@ -229,9 +229,7 @@ type
     procedure Label9Click(Sender: TObject);
 
     procedure rbCommonChange(Sender: TObject);
-    procedure rbDirect_IONChange(Sender: TObject);
-    procedure rbDutyCycle50_IONChange(Sender: TObject);
-    procedure rbDutyCycle90_IONChange(Sender: TObject);
+
     procedure rbRyodorakuLeftChange(Sender: TObject);
 
     procedure SerialRxData(Sender: TObject);
@@ -259,7 +257,7 @@ type
     procedure SaveEav;
     procedure SaveVeg;
 
-    procedure ClearEAP;
+    procedure EAPClear;
     procedure SelectorLoad;
 
   private
@@ -309,7 +307,7 @@ type
 
   public
      const
-       version = '2020-03-09 (beta)';
+
      var
      ryodorakuPoint : array[0..11,0..1] of Double; //[0..23]
 
@@ -481,16 +479,18 @@ begin
   TherapyIdx:=0; //Nothing was chosen
   TherapyIdx := FormChooseEAPTherapy.Choose;
 
-  //TODO: remove
-  ShowMessage(FormChooseEAPTherapy.EAPTherapyString);
+  //ShowMessage(FormChooseEAPTherapy.EAPTherapyString);
   EAPTherapy:=StringToEAPTherapy(FormChooseEAPTherapy.EAPTherapyString);
 
   StringGridEAPTherapy.RowCount:=1;
   StringGridEAPTherapy.RowCount:=Length(EAPTherapy)+1;
   for i:= 1 to Length(EAPTherapy) do begin
       with StringGridEAPTherapy do begin
-          Cells[0,i]:=EAPTherapy[i-1].Point;
-          Cells[3,i]:=IntToStr( EAPTherapy[i-1].Time);
+          Cells[0,i]:=EAPTherapy[i-1].Point;          //Point name
+          Cells[1,i]:=EAPTherapy[i-1].Meridian;       //Meridian name
+//TODO
+          Cells[2,i]:='User'; //EAPTherapy[i-1].Profile;        //Profile name
+          Cells[3,i]:=IntToStr( EAPTherapy[i-1].Time);//Therapy time
       end;
 
   end;
@@ -1077,9 +1077,9 @@ var i : integer;
   DestinationListFile : string;
 begin
 
-  Caption := 'qiWELLNESS   ' +version;
+  Caption := 'qiWELLNESS   ' +SOFTWARE_VERSION;
 
-  memoConsole.Lines.Add ('Software version: ' +version);
+  memoConsole.Lines.Add ('Software version: ' +SOFTWARE_VERSION);
 
   DefaultFormatSettings.DecimalSeparator:='.';
 
@@ -1150,11 +1150,11 @@ begin
 
   RyodorakuClear;
 
-  ClearEAP;
+  EAPClear;
 
 end;
 
-procedure TfrmMain.ClearEAP;
+procedure TfrmMain.EAPClear;
 var i: integer;
 begin
   //Clear all EAP counters
@@ -1162,6 +1162,7 @@ begin
   // EAP_ELAPSED_GRID_COL = 4;
   // EAP_PROGRESS_GRID_COL = 5;
   // EAP_PRECENTAGE_GRID_COL = 6;
+  StringGridEAPTherapy.RowCount:=1;
   for i:= 1 to StringGridEAPTherapy.RowCount-1 do begin
 
       StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,i]:='';
@@ -1328,20 +1329,10 @@ begin
   end;
 end;
 
-procedure TfrmMain.rbDirect_IONChange(Sender: TObject);
-begin
 
-end;
 
-procedure TfrmMain.rbDutyCycle50_IONChange(Sender: TObject);
-begin
 
-end;
 
-procedure TfrmMain.rbDutyCycle90_IONChange(Sender: TObject);
-begin
-
-end;
 
 procedure TfrmMain.setIonParameters(Sender: TObject);
 begin
@@ -1685,9 +1676,6 @@ begin
   else
      StringGridEAV.Options:= StringGridEAV.Options - [goEditing];
 end;
-
-
-
 
 
 procedure TfrmMain.TreeViewSelectorSelectionChanged(Sender: TObject);

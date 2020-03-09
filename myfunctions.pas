@@ -1,5 +1,5 @@
 unit myFunctions;
-// Module for converters and physical models & definitions of REST interface
+// Module for definitions, REST interface, converters and physical models
 // Copyleft by Chris Czoba 2020
 
 {$mode objfpc}{$H+}
@@ -8,6 +8,9 @@ interface
 
 uses
   Classes, SysUtils, StrUtils;
+
+const
+  SOFTWARE_VERSION = '2020-03-09 (beta)';
 
 type TEAPPoint = record
      Point : string[10];
@@ -88,13 +91,22 @@ var OnePointString : string;
   i,l,n:integer;
   EAPTherapy : TEAPTherapy;
 
-function GetTimeFromOnePointString(OnePointString: string) : integer;
-//Internal function.
-begin
+  //Internal function
+  function GetTimeFromOnePointString(var OnePointString: string) : integer;
+  var s : string;
+      i,j : integer;
+  begin
+       result:= DEFAULT_EAP_THERAPY_TIME;
 
+       i:= Pos('[',OnePointString);
+       j:= Pos(']',OnePointString);
+       if (i>1) and (j>0) then begin
+          s:= trim(copy(OnePointString,i+1,j-i-1));
+          result:=StrToIntDef(s,DEFAULT_EAP_THERAPY_TIME);
+          OnePointString:=copy(OnePointString,1,i-1);
+       end;
+  end;
 
-  result:= DEFAULT_EAP_THERAPY_TIME;
-end;
 
 begin
   i:=0;
@@ -110,10 +122,13 @@ begin
 
      if l>2 then begin
        OnePointString:= Trim(copy(s,i,l));
+
        SetLength(EAPTherapy, Length(EAPTherapy)+1);
        n:= Length(EAPTherapy)-1;
        EAPTherapy[n].Time := GetTimeFromOnePointString(OnePointString);
        EAPTherapy[n].Point := OnePointString;
+       EAPTherapy[n].Meridian:='';
+       EAPTherapy[n].Profile:=1;
 
 
        //ShowMessage(OnePointString);
