@@ -1,4 +1,4 @@
-"EAP therapy name", "BAPs"
-"Example of electropuncture therapy", "LI4(R) LI-4(L) ST36(R)[240] GV26 CV24 SP6(R) SP6(L) GB34 KD1(L) GV21"
-"Obesity", "CV24[240] GV26[240]"
+"Substance", "Active electrode", "Molar mass", "Valence"
+"Naproxen (naproxen sodium)", "Negative", "230.26", "1"
+"Voltaren", "Negative", "296.10", "1"
 

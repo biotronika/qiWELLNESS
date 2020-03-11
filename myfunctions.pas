@@ -10,7 +10,7 @@ uses
   Classes, SysUtils, StrUtils;
 
 const
-  SOFTWARE_VERSION = '2020-03-09 (beta)';
+  SOFTWARE_VERSION = '2020-03-11 (beta)';
 
 type TEAPPoint = record
      Point : string[10];

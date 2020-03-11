@@ -305,6 +305,7 @@ type
 
 
 
+
   public
      const
 
@@ -359,7 +360,7 @@ begin
                 end;
 
       MODE_ION: begin
-                     Charge_ION := 0;
+
 
                      Serial.WriteData('ion'+#13#10);
 
@@ -408,6 +409,8 @@ end;
 procedure TfrmMain.btnDeleteAllClick(Sender: TObject);
 var i : integer;
 begin
+   Charge_ION := 0;
+
    for i:=1 to High(seriesArray) do begin
        cboxSeries.Items.Delete(1);
        seriesArray[i].Clear;
@@ -431,6 +434,7 @@ end;
 procedure TfrmMain.btnDeleteClick(Sender: TObject);
 var i,a : integer;
 begin
+  Charge_ION := 0;
 
   if cboxSeries.Items.Count>1 then  begin
     i:= cboxSeries.ItemIndex;
@@ -581,7 +585,7 @@ procedure TfrmMain.ButtonIonOnClick(Sender: TObject);
 begin
    Serial.WriteData('act 1'+#13#10);
    sleep(200);
-   setIonParameters(Sender);
+   //setIonParameters(Sender);
 end;
 
 procedure TfrmMain.ButtonIonOffClick(Sender: TObject);
@@ -1152,6 +1156,8 @@ begin
 
   EAPClear;
 
+  Charge_ION := 0;
+
 end;
 
 procedure TfrmMain.EAPClear;
@@ -1387,8 +1393,13 @@ begin
   for i:=1 to Length(s) do
      if (s[i]= #10)  then begin
 
-       memoConsole.Lines.Add(trim(fReadBuffer));
+
+       //memoConsole.Lines.Add(trim(fReadBuffer));
+       //ss:=trim(fReadBuffer);
+
        ss:=trim(fReadBuffer);
+       if copy(ss,1,2)<> ':i' then
+          memoConsole.Lines.Add(ss);
 
         if (ss= ':btn' ) then begin //TODO: check
           // Save series
@@ -1453,6 +1464,8 @@ begin
         end else if (ss=':istart') then begin
 
           CurrentMode := MODE_ION;
+
+          memoConsole.Lines.Add(trim(fReadBuffer));
 
 
           if firstTime_ION then begin
@@ -1565,11 +1578,12 @@ begin
            //myTime:= (Now()- startTime)*(24*60*60);
 
            //Rescale chart to 2 minutes
-           if myTime >= 120 then begin
-              chartMain.BottomAxis.Range.Max:=600;
-              //ProgressBarTime.Max:=120;
-              //ProgressBarTime.Color:=clYellow;
-           end;
+           if myTime >= 600 then
+              chartMain.BottomAxis.Range.Max:=1200
+           else if myTime >= 120 then
+              chartMain.BottomAxis.Range.Max:=600
+           else
+              chartMain.BottomAxis.Range.Max:=120;
 
            p := Pos(' ',ss);
 
@@ -1583,14 +1597,22 @@ begin
                d := StrToFloatDef( Trim( Copy(ss,p,Length(ss)-p) ),0);
            end;
 
-           mySeries.AddXY( myTime ,j*d/100000);
+           if myTime >= (lastMyTime + 0.25) then begin
+
+              memoConsole.Lines.Add(trim(fReadBuffer));
+
+              mySeries.AddXY( myTime ,j*d/100000);
+              Charge_ION := Charge_ION + abs((j*d/100000) (*mA*) * (myTime - lastMyTime) (*s*) / 3600);
+              LabelCharge.Caption := FormatFloat('0.000',Charge_ION);
+              LabelMass.Caption:= FormatFloat('0.000', calculateMass( StrToFloat(EditMolarMass_ION.Caption), StrToFloat(EditValence_ION.Caption), Charge_ION(*mAh*)));
+
+              lastMyTime :=myTime;
+           end;
 
            chartSourceRMS_ION.SetYValue(0,j*d/100000);
-           Charge_ION := Charge_ION + (j*d/100000) (*mA*) * (myTime - lastMyTime) (*s*) / 3600;
-           LabelCharge.Caption := FormatFloat('0.000',Charge_ION);
-           LabelMass.Caption:= FormatFloat('0.000', calculateMass( StrToFloat(EditMolarMass_ION.Caption), StrToFloat(EditValence_ION.Caption), Charge_ION(*mAh*)));
+
            // : Double;
-           lastMyTime := myTime;
+           //lastMyTime := myTime;
 
 
         end else  if( copy(ss,1,2)= ':v') or (copy(ss,1,2)= ':e') then begin // Veagtest and  EAV have the same scale

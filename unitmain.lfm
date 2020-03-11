@@ -1,11 +1,11 @@
 object frmMain: TfrmMain
-  Left = 240
+  Left = -8
   Height = 864
-  Top = 75
-  Width = 1594
+  Top = 76
+  Width = 1078
   Caption = 'qiWELLNESS'
   ClientHeight = 864
-  ClientWidth = 1594
+  ClientWidth = 1078
   DefaultMonitor = dmMainForm
   DesignTimePPI = 120
   OnCreate = FormCreate
@@ -16,17 +16,17 @@ object frmMain: TfrmMain
     Left = 0
     Height = 864
     Top = 0
-    Width = 634
+    Width = 118
     Align = alClient
     ClientHeight = 864
-    ClientWidth = 634
+    ClientWidth = 118
     ParentFont = False
     TabOrder = 0
     object chartMain: TChart
       Left = 1
       Height = 615
       Top = 219
-      Width = 632
+      Width = 116
       AxisList = <      
         item
           Marks.LabelBrush.Style = bsClear
@@ -74,11 +74,11 @@ object frmMain: TfrmMain
       Left = 1
       Height = 90
       Top = 129
-      Width = 632
+      Width = 116
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 90
-      ClientWidth = 632
+      ClientWidth = 116
       ParentFont = False
       TabOrder = 1
       object btnConnect: TButton
@@ -170,18 +170,18 @@ object frmMain: TfrmMain
       Left = 1
       Height = 128
       Top = 1
-      Width = 632
+      Width = 116
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 128
-      ClientWidth = 632
+      ClientWidth = 116
       ParentFont = False
       TabOrder = 2
       object Image4: TImage
         Left = 0
         Height = 128
         Top = 0
-        Width = 632
+        Width = 116
         Align = alClient
         Picture.Data = {
           1754506F727461626C654E6574776F726B477261706869635C34000089504E47
@@ -611,13 +611,13 @@ object frmMain: TfrmMain
       Left = 1
       Height = 29
       Top = 834
-      Width = 632
+      Width = 116
       Panels = <>
       ParentFont = False
     end
   end
   object panelRight: TPanel
-    Left = 634
+    Left = 118
     Height = 864
     Top = 0
     Width = 960
@@ -674,7 +674,7 @@ object frmMain: TfrmMain
             ''
             ''
             'What is new:'
-            'You need new version of your device. At least 2020-03-07'
+            'You need new version of your device. At least 2020-03-11'
             ''
             'IONTOPHORESIS'
             '1. New tab'
@@ -20061,7 +20061,7 @@ object frmMain: TfrmMain
             object ButtonIonOff: TButton
               Left = 13
               Height = 110
-              Top = 140
+              Top = 144
               Width = 140
               Caption = 'OFF'
               Font.CharSet = EASTEUROPE_CHARSET
