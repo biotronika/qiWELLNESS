@@ -1,11 +1,11 @@
 object frmMain: TfrmMain
-  Left = -8
+  Left = 235
   Height = 864
-  Top = 76
-  Width = 1078
+  Top = 211
+  Width = 1603
   Caption = 'qiWELLNESS'
   ClientHeight = 864
-  ClientWidth = 1078
+  ClientWidth = 1603
   DefaultMonitor = dmMainForm
   DesignTimePPI = 120
   OnCreate = FormCreate
@@ -16,17 +16,17 @@ object frmMain: TfrmMain
     Left = 0
     Height = 864
     Top = 0
-    Width = 118
+    Width = 643
     Align = alClient
     ClientHeight = 864
-    ClientWidth = 118
+    ClientWidth = 643
     ParentFont = False
     TabOrder = 0
     object chartMain: TChart
       Left = 1
       Height = 615
       Top = 219
-      Width = 116
+      Width = 641
       AxisList = <      
         item
           Marks.LabelBrush.Style = bsClear
@@ -74,11 +74,11 @@ object frmMain: TfrmMain
       Left = 1
       Height = 90
       Top = 129
-      Width = 116
+      Width = 641
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 90
-      ClientWidth = 116
+      ClientWidth = 641
       ParentFont = False
       TabOrder = 1
       object btnConnect: TButton
@@ -170,18 +170,18 @@ object frmMain: TfrmMain
       Left = 1
       Height = 128
       Top = 1
-      Width = 116
+      Width = 641
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 128
-      ClientWidth = 116
+      ClientWidth = 641
       ParentFont = False
       TabOrder = 2
       object Image4: TImage
         Left = 0
         Height = 128
         Top = 0
-        Width = 116
+        Width = 641
         Align = alClient
         Picture.Data = {
           1754506F727461626C654E6574776F726B477261706869635C34000089504E47
@@ -611,13 +611,13 @@ object frmMain: TfrmMain
       Left = 1
       Height = 29
       Top = 834
-      Width = 116
+      Width = 641
       Panels = <>
       ParentFont = False
     end
   end
   object panelRight: TPanel
-    Left = 118
+    Left = 643
     Height = 864
     Top = 0
     Width = 960

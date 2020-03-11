@@ -84,3 +84,5 @@ qiWELLNESS.port
 *.txt
 iontophoresis.txt
 *.txt
+~temp.txt
+iontophoresis.txt

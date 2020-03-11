@@ -1143,8 +1143,8 @@ begin
   // With windows taskbar on down side
   // size is 40pixels *  scaling (e.g. 100%, 150%, 200%)
 
-     Self.Height := 850;
-     Self.Width := 1600;
+     //Self.Height := 850;
+     //Self.Width := 1600;
 
   pageRight.TabIndex:=0;
   CurrentMode := MODE_UNK;
