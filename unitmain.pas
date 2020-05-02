@@ -956,7 +956,7 @@ var
 
 begin
   //FormUpdateList.Show;
-  FormUpdateList.OpenWindowUpdateList( LIST_EAP_PATHS );
+  FormUpdateList.OpenWindowUpdateList( LIST_ATLAS );
 
   (*
   statusBar.SimpleText:=FormatDateTime('yyyy-MM-DD hh:nn',Now());

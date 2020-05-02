@@ -248,6 +248,9 @@ procedure TFormUpdateList.ButtonSaveClick(Sender: TObject);
 begin
 
   StringGrid.SaveToCSVFile(DestinationListFile);
+//TODO: REMOVE
+  ShowMessage( IntToStr(AtlasCreatePicturesIndex(DestinationListFile)));
+
   Self.Close;
 
 end;

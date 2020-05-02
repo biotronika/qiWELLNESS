@@ -1,16 +1,22 @@
 unit myFunctions;
 // Module for definitions, REST interface, converters and physical models
-// Copyleft by Chris Czoba 2020
+// Copyleft 2020 by Chris Czoba krzysiek@biotronika.pl. See: biotronics.eu
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, StrUtils;
+  Classes, SysUtils, StrUtils, Forms;
 
 const
-  SOFTWARE_VERSION = '2020-03-11 (beta)';
+  SOFTWARE_VERSION = '2020-05-01 (beta)';
+
+  ATLAS_FOLDER ='AtlasDB';                 //Subfolder (exe file place) for pictures and indexed database text files
+  ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
+  ATLAS_PICTURES_FILE ='pictures.db';    //Text file name of numbered pictures list
+
+
 
 type TEAPPoint = record
      Point : string[10];
@@ -20,8 +26,8 @@ type TEAPPoint = record
      Elapsed : integer;
 end;
 
-type TEAPTherapy = array of TEAPPoint;
 
+type TEAPTherapy = array of TEAPPoint;
 
 
 type
@@ -39,13 +45,13 @@ const
    LIST_ION_SUBSTANCES = 1;
    LIST_EAV_PATHS = 2;
    LIST_EAP_PATHS = 3;
-   LIST_CATALOG = 4;
+   LIST_ATLAS = 4;  // atlas catalog with pictures
 
    DEFAULT_EAP_THERAPY_TIME = 120;  //120seconds;
 
 
 
-  LISTS_DEF : array[1..3] of TList = (
+  LISTS_DEF : array[1..4] of TList = (
          (
           Title : 'Iontophoresis substances'; FileName : 'iontophoresis.txt';
           Url : 'https://biotronics.eu/iontophoresis-substances';
@@ -55,9 +61,9 @@ const
           FieldJsonPath : ('.title[0].value','.field_active_electrode[0].value','field_mol_mass[0].value','field_valence[0].value','','','','','','')
           ),
 
-          (Title : 'xxx'; FileName : 'xxx.txt';
-          Url : 'https://biotronics.eu/iontophoresis-substances';
-          RestURL :'https://biotronics.eu/iontophoresis-substances/rest?_format=json';
+          (Title : 'Volls Electroacupuncture points'; FileName : 'eav.txt';
+          Url : 'https://biotronics.eu/xxx';
+          RestURL :'https://biotronics.eu/xxx/rest?_format=json';
           FieldCount : 1;
           FieldNames :    ('Substance','Active electrode','Molar mass','Valence','','','','','','');
           FieldJsonPath : ('.title[0].value','.field_active_electrode[0].value','field_mol_mass[0].value','field_valence[0].value','','','','','','')
@@ -67,8 +73,16 @@ const
           Url : 'https://biotronics.eu/eap-therapies';
           RestURL :'https://biotronics.eu/eap-therapies/rest?_format=json';
           FieldCount : 2;
-          FieldNames :    ('EAP therapy name','BAPs','Link','','','','','','','');
-          FieldJsonPath : ('.title[0].value','.field_baps[0].value','','field_valence[0].value','','','','','','')
+          FieldNames :    ('EAP therapy name','BAPs','','','','','','','','');
+          FieldJsonPath : ('.title[0].value','.field_baps[0].value','','','','','','','','')
+          ),
+
+          (Title : 'Atlas'; FileName : 'Atlas.txt';
+          Url : 'https://biotronics.eu/atlas';
+          RestURL :'https://biotronics.eu/atlas/rest?_format=json';
+          FieldCount : 2;
+          FieldNames :    ('Points','Picture Link','','','','','','','','');
+          FieldJsonPath : ('.title[0].value','.field_picture[0].url','','','','','','','','')
           )
 
    ) ;
@@ -76,12 +90,71 @@ const
   TEMPORARY_FILE = '~temp.txt';
 
 
+  var
+    AtlasPointsDB : array of string;   // Ordered alphabetical list of all point names and numbers of pictures
+    AtlasPicturesDB : array of string;  // List of numbered pictures
 
 function calculateMass( mollMass : Double; z : Double; Q : Double (*mAh*)) : Double;
 function StringToEAPTherapy(s : string) : TEAPTherapy;
 
+function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer; //Return number of pictures
+
 implementation
 uses Dialogs;
+
+//ATLAS
+function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer;
+var txtIN,txtOUT : textFile;
+    txtOutFileName : string;
+    txtInIOResult : Word;
+    s : string;
+begin
+   txtOutFileName := ExtractFilePath(Application.ExeName) + ATLAS_FOLDER + '\' + ATLAS_PICTURES_FILE;
+
+   AssignFile(txtIN,AtlasSitePicturesList);
+   AssignFile(txtOUT,txtOutFileName);
+
+   {$I-}
+   Reset(txtIN);
+   {$I+}
+
+   txtInIOResult:=IOResult;
+
+   if txtInIOResult<>0 then begin
+//TODO : Error hendling
+      ShowMessage( 'Error: No atlas index file '+ AtlasSitePicturesList);
+      Exit;
+   end;
+
+   {$I-}
+   ReWrite(txtOUT);
+   {$I+}
+
+
+
+   if txtInIOResult=0 then  begin
+
+     readln(txtIn,s);
+     txtInIOResult:=IOResult;
+
+     //readln(f,s);    //CloseFile(f);
+   end;
+
+
+
+    if IOResult=0 then  begin
+
+//TODO : Error hendling
+     ShowMessage( 'Cannot create pictures file: '+ AtlasSitePicturesList);
+     Exit;
+     //readln(f,s);    //CloseFile(f);
+   end;
+
+
+
+end;
+
+
 
 
 function StringToEAPTherapy(s : string) : TEAPTherapy;

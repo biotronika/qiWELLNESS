@@ -1,11 +1,11 @@
 object frmMain: TfrmMain
-  Left = 235
+  Left = 403
   Height = 864
-  Top = 211
-  Width = 1603
+  Top = 98
+  Width = 1593
   Caption = 'qiWELLNESS'
   ClientHeight = 864
-  ClientWidth = 1603
+  ClientWidth = 1593
   DefaultMonitor = dmMainForm
   DesignTimePPI = 120
   OnCreate = FormCreate
@@ -16,17 +16,17 @@ object frmMain: TfrmMain
     Left = 0
     Height = 864
     Top = 0
-    Width = 643
+    Width = 633
     Align = alClient
     ClientHeight = 864
-    ClientWidth = 643
+    ClientWidth = 633
     ParentFont = False
     TabOrder = 0
     object chartMain: TChart
       Left = 1
       Height = 615
       Top = 219
-      Width = 641
+      Width = 631
       AxisList = <      
         item
           Marks.LabelBrush.Style = bsClear
@@ -74,11 +74,11 @@ object frmMain: TfrmMain
       Left = 1
       Height = 90
       Top = 129
-      Width = 641
+      Width = 631
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 90
-      ClientWidth = 641
+      ClientWidth = 631
       ParentFont = False
       TabOrder = 1
       object btnConnect: TButton
@@ -130,7 +130,6 @@ object frmMain: TfrmMain
         OnClick = ButtonSaveReportClick
         ParentFont = False
         TabOrder = 4
-        Visible = False
       end
       object cboxSeries: TComboBox
         Left = 480
@@ -170,18 +169,18 @@ object frmMain: TfrmMain
       Left = 1
       Height = 128
       Top = 1
-      Width = 641
+      Width = 631
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 128
-      ClientWidth = 641
+      ClientWidth = 631
       ParentFont = False
       TabOrder = 2
       object Image4: TImage
         Left = 0
         Height = 128
         Top = 0
-        Width = 641
+        Width = 631
         Align = alClient
         Picture.Data = {
           1754506F727461626C654E6574776F726B477261706869635C34000089504E47
@@ -611,13 +610,13 @@ object frmMain: TfrmMain
       Left = 1
       Height = 29
       Top = 834
-      Width = 641
+      Width = 631
       Panels = <>
       ParentFont = False
     end
   end
   object panelRight: TPanel
-    Left = 643
+    Left = 633
     Height = 864
     Top = 0
     Width = 960
@@ -631,7 +630,7 @@ object frmMain: TfrmMain
       Height = 862
       Top = 1
       Width = 958
-      ActivePage = tabIonophorese
+      ActivePage = tabElectropunture
       Align = alClient
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
@@ -640,7 +639,7 @@ object frmMain: TfrmMain
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 5
+      TabIndex = 4
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -866,7 +865,7 @@ object frmMain: TfrmMain
       end
       object tabRyodoraku: TTabSheet
         Caption = 'Ryodoraku'
-        ClientHeight = 800
+        ClientHeight = 829
         ClientWidth = 950
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clBlack
@@ -878,7 +877,7 @@ object frmMain: TfrmMain
         ParentFont = False
         object gridRyodoraku: TStringGrid
           Left = 0
-          Height = 163
+          Height = 192
           Top = 540
           Width = 950
           Align = alClient
@@ -10208,7 +10207,7 @@ object frmMain: TfrmMain
         object Panel1: TPanel
           Left = 0
           Height = 97
-          Top = 703
+          Top = 732
           Width = 950
           Align = alBottom
           BevelOuter = bvNone
@@ -10275,7 +10274,7 @@ object frmMain: TfrmMain
       end
       object tabEAV: TTabSheet
         Caption = 'EAV'
-        ClientHeight = 800
+        ClientHeight = 829
         ClientWidth = 950
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clBlack
@@ -18349,12 +18348,12 @@ object frmMain: TfrmMain
         end
         object Panel9: TPanel
           Left = 782
-          Height = 280
+          Height = 309
           Top = 520
           Width = 168
           Align = alRight
           BevelOuter = bvNone
-          ClientHeight = 280
+          ClientHeight = 309
           ClientWidth = 168
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
@@ -18433,12 +18432,12 @@ object frmMain: TfrmMain
         end
         object Panel15: TPanel
           Left = 0
-          Height = 280
+          Height = 309
           Top = 520
           Width = 782
           Align = alClient
           BevelOuter = bvNone
-          ClientHeight = 280
+          ClientHeight = 309
           ClientWidth = 782
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
@@ -18622,7 +18621,7 @@ object frmMain: TfrmMain
       end
       object tabVegatest: TTabSheet
         Caption = 'Vegatest'
-        ClientHeight = 800
+        ClientHeight = 829
         ClientWidth = 950
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clBlack
@@ -18634,11 +18633,11 @@ object frmMain: TfrmMain
         ParentFont = False
         object Panel6: TPanel
           Left = 0
-          Height = 800
+          Height = 829
           Top = 0
           Width = 950
           Align = alClient
-          ClientHeight = 800
+          ClientHeight = 829
           ClientWidth = 950
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
@@ -18650,12 +18649,12 @@ object frmMain: TfrmMain
           TabOrder = 0
           object Panel7: TPanel
             Left = 772
-            Height = 798
+            Height = 827
             Top = 1
             Width = 177
             Align = alRight
             BevelOuter = bvNone
-            ClientHeight = 798
+            ClientHeight = 827
             ClientWidth = 177
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
@@ -18701,7 +18700,7 @@ object frmMain: TfrmMain
           end
           object TreeViewSelector: TTreeView
             Left = 1
-            Height = 798
+            Height = 827
             Top = 1
             Width = 771
             Align = alClient
