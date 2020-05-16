@@ -1,5 +1,5 @@
 object frmMain: TfrmMain
-  Left = 403
+  Left = 317
   Height = 864
   Top = 98
   Width = 1593

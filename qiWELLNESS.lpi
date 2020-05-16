@@ -112,7 +112,7 @@
     </Linking>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="5">
+    <Exceptions Count="6">
       <Item1>
         <Name Value="EAbort"/>
       </Item1>
@@ -128,6 +128,9 @@
       <Item5>
         <Name Value="Exception"/>
       </Item5>
+      <Item6>
+        <Name Value="RunError(3)"/>
+      </Item6>
     </Exceptions>
   </Debugging>
 </CONFIG>

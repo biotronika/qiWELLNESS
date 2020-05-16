@@ -10,11 +10,12 @@ uses
   Classes, SysUtils, StrUtils, Forms;
 
 const
-  SOFTWARE_VERSION = '2020-05-01 (beta)';
+  SOFTWARE_VERSION = '2020-05-16 (beta)';
 
   ATLAS_FOLDER ='AtlasDB';                 //Subfolder (exe file place) for pictures and indexed database text files
   ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
   ATLAS_PICTURES_FILE ='pictures.db';    //Text file name of numbered pictures list
+  MY_DELIMETER = ',';
 
 
 
@@ -80,9 +81,9 @@ const
           (Title : 'Atlas'; FileName : 'Atlas.txt';
           Url : 'https://biotronics.eu/atlas';
           RestURL :'https://biotronics.eu/atlas/rest?_format=json';
-          FieldCount : 2;
-          FieldNames :    ('Points','Picture Link','','','','','','','','');
-          FieldJsonPath : ('.title[0].value','.field_picture[0].url','','','','','','','','')
+          FieldCount : 4;
+          FieldNames :    ('Points','Meridian','Picture Link','Synonyms','','','','','','');
+          FieldJsonPath : ('.title[0].value','.field_meridians[0].value','.field_picture[0].url','.field_synonyms[0].value','','','','','','')
           )
 
    ) ;
@@ -103,54 +104,72 @@ implementation
 uses Dialogs;
 
 //ATLAS
-function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer;
+function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer;  //return count of pictures;
 var txtIN,txtOUT : textFile;
     txtOutFileName : string;
     txtInIOResult : Word;
-    s : string;
+    s,sPictureLink,sPoints : string;
+    PointsStringList, LinksStringList : TStringList;
+    count,i : integer;
 begin
-   txtOutFileName := ExtractFilePath(Application.ExeName) + ATLAS_FOLDER + '\' + ATLAS_PICTURES_FILE;
+  result:= -1;
+  try
+    PointsStringList := TStringList.Create;
+    LinksStringList  := TStringList.Create;
 
-   AssignFile(txtIN,AtlasSitePicturesList);
-   AssignFile(txtOUT,txtOutFileName);
+    count := 0;
 
-   {$I-}
-   Reset(txtIN);
-   {$I+}
 
-   txtInIOResult:=IOResult;
+    //Create folder
+    txtOutFileName := ExtractFilePath(Application.ExeName) + ATLAS_FOLDER;
+    if not DirectoryExists(txtOutFileName ) then CreateDir(txtOutFileName);
 
-   if txtInIOResult<>0 then begin
-//TODO : Error hendling
-      ShowMessage( 'Error: No atlas index file '+ AtlasSitePicturesList);
+    txtOutFileName+= '\' + ATLAS_PICTURES_FILE;
+
+    AssignFile(txtIN,AtlasSitePicturesList);
+    AssignFile(txtOUT,txtOutFileName);
+
+    {$I-}
+    Reset(txtIN);
+    {$I+}
+
+    if IOResult<>0 then begin
+//TODO : Error handling
+      ShowMessage( 'Error: Cannot process atlas index file: '+ AtlasSitePicturesList);
       Exit;
+    end;
+
+
+    while not Eof(txtIn) do begin
+
+      readln(txtIn,s);
+      inc(count);
+
+      //First line contains titles
+      if count=1 then Continue;
+
+      i:= Pos(MY_DELIMETER,s);
+      sPoints:=LeftBStr(s,i-1);
+
+      //Picture links index
+      sPictureLink:=Trim(RightBStr(s,Length(s)-i));
+      LinksStringList.Add(sPictureLink);
+
+
    end;
 
-   {$I-}
-   ReWrite(txtOUT);
-   {$I+}
+     LinksStringList.SaveToFile(txtOutFileName);
 
 
 
-   if txtInIOResult=0 then  begin
 
-     readln(txtIn,s);
-     txtInIOResult:=IOResult;
+  finally
+    PointsStringList.Free;
+    LinksStringList.Free;
+    CloseFile(txtIn);
+  end;
 
-     //readln(f,s);    //CloseFile(f);
-   end;
-
-
-
-    if IOResult=0 then  begin
-
-//TODO : Error hendling
-     ShowMessage( 'Cannot create pictures file: '+ AtlasSitePicturesList);
-     Exit;
-     //readln(f,s);    //CloseFile(f);
-   end;
-
-
+  result:=count;
 
 end;
 
