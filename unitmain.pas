@@ -218,9 +218,13 @@ type
     procedure FormCreate(Sender: TObject);
 
     procedure FormShow(Sender: TObject);
+
+    procedure gridRyodorakuDblClick(Sender: TObject);
     procedure gridRyodorakuDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
+    procedure gridRyodorakuEnter(Sender: TObject);
     procedure gridRyodorakuKeyPress(Sender: TObject; var Key: char);
+
     procedure gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
     procedure gridRyodorakuSelection(Sender: TObject; aCol, aRow: Integer);
@@ -233,6 +237,7 @@ type
     procedure rbRyodorakuLeftChange(Sender: TObject);
 
     procedure SerialRxData(Sender: TObject);
+    procedure StringGridEAPTherapyDblClick(Sender: TObject);
     procedure StringGridEAPTherapySelectCell(Sender: TObject; aCol,
       aRow: Integer; var CanSelect: Boolean);
     procedure StringGridIonTherapySelection(Sender: TObject; aCol, aRow: Integer
@@ -300,6 +305,7 @@ type
       lastMyTime : Double;
       firstTime_ION : boolean;
       Charge_ION : Double;
+      GridRyodorakuLastClickedRow : integer;
 
 
 
@@ -1160,6 +1166,17 @@ begin
 
 end;
 
+
+
+procedure TfrmMain.gridRyodorakuDblClick(Sender: TObject);
+var strGrid: string;
+begin
+  strGrid:=gridRyodoraku.Cells[gridRyodoraku.Col, gridRyodoraku.Row (*GridRyodorakuLastClickedRow*)];
+  //ShowMessage(strGrid);
+  OpenUrl('https://biotronics.eu/atlas?field_synonyms_value='+strGrid);
+
+end;
+
 procedure TfrmMain.EAPClear;
 var i: integer;
 begin
@@ -1200,6 +1217,11 @@ begin
 
 end;
 
+procedure TfrmMain.gridRyodorakuEnter(Sender: TObject);
+begin
+
+end;
+
 procedure TfrmMain.gridRyodorakuKeyPress(Sender: TObject; var Key: char);
 begin
 
@@ -1209,6 +1231,7 @@ begin
  end;
 
 end;
+
 
 
 procedure TfrmMain.gridRyodorakuSelectCell(Sender: TObject; aCol, aRow: Integer;
@@ -1236,6 +1259,8 @@ end;
 procedure TfrmMain.gridRyodorakuSelection(Sender: TObject; aCol, aRow: Integer);
 
 begin
+
+  GridRyodorakuLastClickedRow:=gridRyodoraku.Row;
   gridRyodoraku.Row := 0;
 
   if aCol> 0 then FLastCol := aCol;
@@ -1628,6 +1653,15 @@ begin
      end else
        fReadBuffer:=fReadBuffer+s[i];
 
+
+end;
+
+procedure TfrmMain.StringGridEAPTherapyDblClick(Sender: TObject);
+var strGrid: string;
+begin
+  strGrid:=StringGridEAPTherapy.Cells[0, StringGridEAPTherapy.Row ];
+  //ShowMessage(strGrid);
+  OpenUrl('https://biotronics.eu/atlas?field_synonyms_value='+strGrid);
 
 end;
 
