@@ -111,11 +111,11 @@ var
 
 
 begin
-  HTTPClient:=TFPHttpClient.Create(Nil);
 
-  //MemoEditList.Lines.Clear;
 
   try
+     HTTPClient:=TFPHttpClient.Create(Nil);
+
      CreateDllLibraries();
      //HTTPClient.AddHeader('User-Agent','qiwellness');  //For GITHUB only
      Content:=HTTPClient.Get(Url);

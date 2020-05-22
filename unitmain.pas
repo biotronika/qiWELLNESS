@@ -159,6 +159,8 @@ type
     ScrollBox1: TScrollBox;
     Serial: TLazSerial;
     PanelLeft: TPanel;
+    ShapeRight: TShape;
+    ShapeLeft: TShape;
     statusBar: TStatusBar;
     gridRyodoraku: TStringGrid;
     StringGridEAPTherapy: TStringGrid;
@@ -242,6 +244,12 @@ type
     procedure rbRyodorakuLeftChange(Sender: TObject);
 
     procedure SerialRxData(Sender: TObject);
+    procedure ShapeLeftChangeBounds(Sender: TObject);
+    procedure ShapeLeftMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+
+    procedure ShapeRightMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure StringGridEAPTherapyDblClick(Sender: TObject);
     procedure StringGridEAPTherapySelectCell(Sender: TObject; aCol,
       aRow: Integer; var CanSelect: Boolean);
@@ -258,6 +266,7 @@ type
     procedure timerChangeDirectionTimer(Sender: TObject);
     procedure ToggleBox1Change(Sender: TObject);
     procedure ToggleBoxEditChange(Sender: TObject);
+    procedure TrackBarAtlasChange(Sender: TObject);
     procedure TreeViewSelectorSelectionChanged(Sender: TObject);
     procedure setIonParameters(Sender: TObject);
 
@@ -360,8 +369,11 @@ begin
                 PanelPicture.Align:= alClient;
                 ButtonHideAtlas.Visible:= true;
                 ImageAtlas.Visible:= true;
+                ImageAtlas.Stretch:= true;
                 ImageLogo.Visible:= false;
-                TrackBarAtlas.Visible:= true;
+                //TrackBarAtlas.Visible:= false;
+                ShapeLeft.Visible:= true;
+                ShapeRight.Visible:= true;
                 end;
     else
      (*VIEW_LOGO*)
@@ -370,8 +382,11 @@ begin
                 PanelPicture.Height:= 128;
                 ButtonHideAtlas.Visible:=false;
                 ImageAtlas.Visible:= false;
+                ImageAtlas.Stretch:= false;
                 ImageLogo.Visible:= true;
                 TrackBarAtlas.Visible:= false;
+                ShapeLeft.Visible:= false;
+                ShapeRight.Visible:= false;
 
 
 
@@ -1232,9 +1247,10 @@ begin
   if SearchBAP( pointSymbol, atlasPicturesFilesList ) >0 then begin
 
      TrackBarAtlas.Max:= atlasPicturesFilesList.Count-1;
+     TrackBarAtlas.Position:=0;
 
      //Do not show the controll if there is only one picture in atlas
-     TrackBarAtlas.Visible:= TrackBarAtlas.Max>0;
+     //TrackBarAtlas.Visible:= TrackBarAtlas.Max>0;
 
      ImageAtlas.Picture.LoadFromFile(atlasPicturesFilesList.Strings[0]);
 
@@ -1345,7 +1361,10 @@ procedure TfrmMain.gridRyodorakuSelection(Sender: TObject; aCol, aRow: Integer);
 begin
 
   GridRyodorakuLastClickedRow:=gridRyodoraku.Row;
-  gridRyodoraku.Row := 0;
+
+  //Select main Ryodoracu point
+  if aRow < 3 then
+     gridRyodoraku.Row := 0;
 
   if aCol> 0 then FLastCol := aCol;
 
@@ -1741,6 +1760,40 @@ begin
 
 end;
 
+procedure TfrmMain.ShapeLeftChangeBounds(Sender: TObject);
+begin
+
+end;
+
+procedure TfrmMain.ShapeLeftMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  TrackBarAtlas.Position:= TrackBarAtlas.Position-1;
+  if TrackBarAtlas.Position<=0 then begin
+     TrackBarAtlas.Position:=0;
+     ShapeLeft.Brush.Color:=clGray;
+  end else begin
+     ShapeRight.Brush.Color:=clWhite;
+     ShapeLeft.Brush.Color:=clWhite;
+
+  end
+end;
+
+
+procedure TfrmMain.ShapeRightMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  TrackBarAtlas.Position:= TrackBarAtlas.Position+1;
+  if TrackBarAtlas.Position >= TrackBarAtlas.Max then begin
+    TrackBarAtlas.Position := TrackBarAtlas.Max;
+    ShapeRight.Brush.Color:=clGray;
+  end else begin
+     ShapeRight.Brush.Color:=clWhite;
+     ShapeLeft.Brush.Color:=clWhite;
+
+  end;
+end;
+
 procedure TfrmMain.StringGridEAPTherapyDblClick(Sender: TObject);
 var strGrid: string;
 begin
@@ -1828,6 +1881,12 @@ begin
      StringGridEAV.Options:= StringGridEAV.Options + [goEditing]
   else
      StringGridEAV.Options:= StringGridEAV.Options - [goEditing];
+end;
+
+procedure TfrmMain.TrackBarAtlasChange(Sender: TObject);
+begin
+     //if TrackBarAtlas.Visible  then
+        ImageAtlas.Picture.LoadFromFile(atlasPicturesFilesList.Strings[TrackBarAtlas.Position]);
 end;
 
 

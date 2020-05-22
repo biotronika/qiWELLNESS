@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 241
+  Left = 408
   Height = 864
-  Top = 161
+  Top = 84
   Width = 1593
   Caption = 'qiWELLNESS'
   ClientHeight = 864
@@ -151,9 +151,12 @@ object frmMain: TfrmMain
       Top = 1
       Width = 631
       Align = alTop
+      BevelColor = clBlack
       BevelOuter = bvNone
       ClientHeight = 128
       ClientWidth = 631
+      Color = clBlack
+      ParentColor = False
       ParentFont = False
       TabOrder = 2
       object ImageLogo: TImage
@@ -594,7 +597,13 @@ object frmMain: TfrmMain
         Cancel = True
         Caption = 'X'
         Color = 16754769
+        DoubleBuffered = True
+        Font.Color = clBlack
+        Font.Style = [fsBold]
+        ParentBidiMode = False
         OnClick = ButtonHideAtlasClick
+        ParentDoubleBuffered = False
+        ParentFont = False
         TabOrder = 0
         Visible = False
       end
@@ -604,6 +613,9 @@ object frmMain: TfrmMain
         Top = 0
         Width = 631
         Align = alClient
+        KeepOriginXWhenClipped = True
+        KeepOriginYWhenClipped = True
+        Proportional = True
         Visible = False
       end
       object TrackBarAtlas: TTrackBar
@@ -612,7 +624,8 @@ object frmMain: TfrmMain
         Top = 96
         Width = 125
         Max = 4
-        Position = 1
+        OnChange = TrackBarAtlasChange
+        Position = 0
         ScalePos = trBottom
         ShowSelRange = False
         TickMarks = tmTopLeft
@@ -621,6 +634,27 @@ object frmMain: TfrmMain
         ParentColor = False
         ParentShowHint = False
         TabOrder = 1
+        Visible = False
+      end
+      object ShapeRight: TShape
+        Left = 584
+        Height = 60
+        Top = 58
+        Width = 30
+        Anchors = [akRight, akBottom]
+        OnMouseDown = ShapeRightMouseDown
+        Shape = stTriangleRight
+        Visible = False
+      end
+      object ShapeLeft: TShape
+        Left = 16
+        Height = 60
+        Top = 58
+        Width = 30
+        Anchors = [akLeft, akBottom]
+        OnChangeBounds = ShapeLeftChangeBounds
+        OnMouseDown = ShapeLeftMouseDown
+        Shape = stTriangleLeft
         Visible = False
       end
     end
@@ -649,7 +683,7 @@ object frmMain: TfrmMain
       Height = 862
       Top = 1
       Width = 958
-      ActivePage = tabIonophorese
+      ActivePage = tabRyodoraku
       Align = alRight
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
@@ -658,7 +692,7 @@ object frmMain: TfrmMain
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 5
+      TabIndex = 1
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -689,47 +723,6 @@ object frmMain: TfrmMain
             ''
             'If your device is not on the list of COM ports, it may means that '
             'you need to install the Arduino driver.'
-            ''
-            ''
-            'What is new:'
-            'You need new version of your device. At least 2020-03-11'
-            ''
-            'IONTOPHORESIS'
-            '1. New tab'
-            '2. DC, zapper/TENS with duty cycle 50 and 90%'
-            '3. Substancies mass calculation based on web site catalog'
-            ''
-            'WEB SITE REST INTERFACE:'
-            '1. You can define your own therapy on the web site and share it.'
-            '2. Uploading therapies for all users'
-            '3. EAP shared terapies'
-            '4. IONTOPHORESIS shared therapies'
-            ''
-            ''
-            '2019-12-30:'
-            'RYODORAKU:'
-            '1. Improved ryodoraku charts left and right hand and foot picture;'
-            '2. Added special Save button for touch screen and you can use SPACE keyboard key;'
-            '3. Swapped meridians LU / HT have been corrected;'
-            '4. All meridian chart names have been corrected to the grid below;'
-            '5. Auto Track function - program autoamtically change to next point.'
-            ''
-            ''
-            'EAV:'
-            '1. Added special Save button for touch screen;'
-            '2. Now you must not provide point name anymore in dialog box. You choose '
-            '   the point on the grid below;'
-            '3. You can load diagnose path (the points collection you want to mesure).'
-            ''
-            ''
-            'VEGATEST:'
-            '1. Added special Save button for touch screen.'
-            ''
-            ''
-            'EAP:'
-            '1. Added  buttons for touch screen.'
-            ''
-            ''
           )
           ParentFont = False
           ReadOnly = True

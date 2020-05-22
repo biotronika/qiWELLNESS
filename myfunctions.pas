@@ -7,10 +7,10 @@ unit myFunctions;
 interface
 
 uses
-  Classes, SysUtils, StrUtils, Forms, LCLIntf;
+  Classes, SysUtils, StrUtils, Forms, LCLIntf, HTTPSend, fphttpclient, fpjson, jsonparser,URLMon;
 
 const
-  SOFTWARE_VERSION = '2020-05-19_1 (alpha)';
+  SOFTWARE_VERSION = '2020-05-22 (alpha)';
 
   ATLAS_FOLDER ='AtlasDB';                 //Subfolder (exe file place) for pictures and indexed database text files
   ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
@@ -52,7 +52,7 @@ const
 
 
 
-  LISTS_DEF : array[1..4] of TList = (
+   LISTS_DEF : array[1..4] of TList = (
          (
           Title : 'Iontophoresis substances'; FileName : 'iontophoresis.txt';
           Url : 'https://biotronics.eu/iontophoresis-substances';
@@ -72,7 +72,7 @@ const
 
           (Title : 'EAP therapies'; FileName : 'EAPtherapies.txt';
           Url : 'https://biotronics.eu/eap-therapies';
-          RestURL :'https://biotronics.eu/eap-therapies/rest?_format=json';
+          RestURL :'https://biotronics.eu/eap-therapies/rest';
           FieldCount : 2;
           FieldNames :    ('EAP therapy name','BAPs','','','','','','','','');
           FieldJsonPath : ('.title[0].value','.field_baps[0].value','','','','','','','','')
@@ -95,14 +95,19 @@ const
     AtlasPointsDB : array of string;   // Ordered alphabetical list of all point names and numbers of pictures
     AtlasPicturesDB : array of string;  // List of numbered pictures
 
+
+
+
 function calculateMass( mollMass : Double; z : Double; Q : Double (*mAh*)) : Double;
 function StringToEAPTherapy(s : string) : TEAPTherapy;
 
 function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer; //Return number of pictures
 
 function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return number of pictures
+
+
 implementation
-uses Dialogs;
+uses Dialogs, unitUpdateList;
 
 
 
@@ -143,19 +148,125 @@ end;
 
 
 //ATLAS
-function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return number of pictures
+function HexToInt(HexStr: String): Int64;
+var RetVar : Int64;
+    i : byte;
 begin
+  HexStr := UpperCase(HexStr);
+  if HexStr[length(HexStr)] = 'H' then
+     Delete(HexStr,length(HexStr),1);
+  RetVar := 0;
 
-  result:=0;
+  for i := 1 to length(HexStr) do begin
+      RetVar := RetVar shl 4;
+      if HexStr[i] in ['0'..'9'] then
+         RetVar := RetVar + (byte(HexStr[i]) - 48)
+      else
+         if HexStr[i] in ['A'..'F'] then
+            RetVar := RetVar + (byte(HexStr[i]) - 55)
+         else begin
+            Retvar := 0;
+            break;
+         end;
+  end;
+
+  Result := RetVar;
+end;
+
+function UrlDecode(const EncodedStr: String): String;
+var
+  I: Integer;
+begin
+  Result := '';
+  if Length(EncodedStr) > 0 then
+  begin
+    I := 1;
+    while I <= Length(EncodedStr) do
+    begin
+      if EncodedStr[I] = '%' then
+        begin
+          Result := Result + Chr(HexToInt(EncodedStr[I+1]
+                                       + EncodedStr[I+2]));
+          I := Succ(Succ(I));
+        end
+      else if EncodedStr[I] = '+' then
+        Result := Result + ' '
+      else
+        Result := Result + EncodedStr[I];
+
+      I := Succ(I);
+    end;
+  end;
+end;
+
+function DownLoadInternetFile(SourceFile, DestinationFile : String): Boolean;
+begin
+  try
+    result := URLDownloadToFile(nil,PChar(SourceFile),PChar(DestinationFile),0,nil) = 0
+  except
+    result := False;
+  end;
+end;
+
+
+
+function GetURLFilename(const FilePath:String; Const Delimiter:String='/'):String;
+    var I: Integer;
+begin
+    I := LastDelimiter(Delimiter, FILEPATH);
+    Result := Copy(FILEPATH, I + 1, MaxInt);
+    Result := UrlDecode(Result);
+end;
+
+function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return number of pictures
+var i : integer;
+    s :  string;
+    appFolder, sourceFile, destinationFile: string;
+    HTTPClient: TFPHttpClient;
+    JSONData : TJSONData;
+    content : string;
+
+begin
 
   //OpenUrl('https://biotronics.eu/atlas?field_synonyms_value='+trim(BAP));
 
+  result:=0;
   PictureFilesList.Clear;
-  PictureFilesList.Add( 'C:\workspace\qiWELLNESS\AtlasDB\ST41.png');
+
+  //Create Atlas Database directory
+  appFolder := ExtractFilePath(Application.ExeName);
+  if not FileExists(appFolder + ATLAS_FOLDER) then  CreateDir( appFolder + ATLAS_FOLDER);
 
 
+  // REST/JSON interface
+
+  try
+     HTTPClient:=TFPHttpClient.Create(Nil);
+     FormUpdateList.CreateDllLibraries();
+
+     HTTPClient.AddHeader('User-Agent','qiwellness');  //For GITHUB only
+     content:=HTTPClient.Get( LISTS_DEF[4].RestURL + '&field_synonyms_value=' + trim(BAP)  );
+
+     JSONData:=GetJSON(Content);
+
+     for i:= 0 to JsonData.Count-1 do begin
+//TODO Progress bar with downloaded pictures
+
+       sourceFile := JSONData.FindPath('['+IntToStr(i)+']'+'.field_picture[0].url').AsString;
+       destinationFile := AppFolder + ATLAS_FOLDER + '\' +GetURLFilename(sourceFile) ;
+
+       if not FileExists(destinationFile) then
+          if not DownLoadInternetFile(sourceFile, destinationFile) then continue;
+
+       PictureFilesList.Add(destinationFile);
+
+     end;
 
 
+  finally
+         JSONData.Free;
+         HTTPClient.Free;
+  end;
 
   result:=PictureFilesList.Count;
 
