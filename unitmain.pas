@@ -14,9 +14,11 @@ type
   { TfrmMain }
 
   TfrmMain = class(TForm)
-    btnDeleteAll: TButton;
+    btnClose: TButton;
     btnConnect: TButton;
+    btnDeleteAll: TButton;
     btnDelete: TButton;
+    ButtonHideAtlas: TButton;
     ButtonChooseEAPTherapy: TButton;
     btnSaveAs: TButton;
     ButtonIonOn: TButton;
@@ -34,7 +36,6 @@ type
     ButtonVegatestEdit: TButton;
     ButtonSaveReport: TButton;
     btnConsoleExecute: TButton;
-    btnClose: TButton;
     ButtonRyodorakuAnalize: TButton;
     ButtonRyodorakuSendToEAP: TButton;
     cboxSeries: TComboBox;
@@ -48,8 +49,8 @@ type
     chartCurrent: TChart;
     chartRyodorakuNormal: TLineSeries;
     chartRyodorakuLeftSeries: TBarSeries;
-    chartMain: TChart;
-    chartMainCurrentLineSeries: TLineSeries;
+    ChartMeasure: TChart;
+    ChartMeasureCurrentLineSeries: TLineSeries;
     cboxChangeDirections: TCheckBox;
     chartSourceRMS_ION: TListChartSource;
     CheckBoxAutoTrack: TCheckBox;
@@ -66,8 +67,9 @@ type
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
     Image1: TImage;
+    ImageAtlas: TImage;
     Image3: TImage;
-    Image4: TImage;
+    ImageLogo: TImage;
     Image5: TImage;
     Image6: TImage;
     Image7: TImage;
@@ -147,16 +149,16 @@ type
     PageControl2: TPageControl;
     pageRight: TPageControl;
     Panel3: TPanel;
-    panelButtons: TPanel;
-    panelLogo: TPanel;
-    panelRight: TPanel;
+    PanelButtons: TPanel;
+    PanelPicture: TPanel;
+    PanelRight: TPanel;
     rbRyodorakuLeft: TRadioButton;
     rbRyodorakuRight: TRadioButton;
     SaveDialog: TSaveDialog;
     SaveDialogForm: TSaveDialog;
     ScrollBox1: TScrollBox;
     Serial: TLazSerial;
-    Panel2: TPanel;
+    PanelLeft: TPanel;
     statusBar: TStatusBar;
     gridRyodoraku: TStringGrid;
     StringGridEAPTherapy: TStringGrid;
@@ -176,6 +178,7 @@ type
     tabVegatest: TTabSheet;
     timerChangeDirection: TTimer;
     ToggleBoxEdit: TToggleBox;
+    TrackBarAtlas: TTrackBar;
     TreeViewSelector: TTreeView;
     procedure btnConsoleExecuteClick(Sender: TObject);
     procedure btnDeleteAllClick(Sender: TObject);
@@ -190,6 +193,7 @@ type
     procedure btnResetClick(Sender: TObject);
     procedure btnConnectClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
+    procedure ButtonHideAtlasClick(Sender: TObject);
     procedure ButtonIonOnClick(Sender: TObject);
     procedure ButtonIonOffClick(Sender: TObject);
     procedure ButtonUpdateClick(Sender: TObject);
@@ -229,6 +233,7 @@ type
       var CanSelect: Boolean);
     procedure gridRyodorakuSelection(Sender: TObject; aCol, aRow: Integer);
 
+
     procedure Label8Click(Sender: TObject);
     procedure Label9Click(Sender: TObject);
 
@@ -240,6 +245,7 @@ type
     procedure StringGridEAPTherapyDblClick(Sender: TObject);
     procedure StringGridEAPTherapySelectCell(Sender: TObject; aCol,
       aRow: Integer; var CanSelect: Boolean);
+    procedure StringGridEAVDblClick(Sender: TObject);
     procedure StringGridIonTherapySelection(Sender: TObject; aCol, aRow: Integer
       );
     //procedure serialStatus(Sender: TObject; Reason: THookSerialReason;
@@ -250,6 +256,7 @@ type
     procedure tabRyodorakuShow(Sender: TObject);
     procedure tabVegatestShow(Sender: TObject);
     procedure timerChangeDirectionTimer(Sender: TObject);
+    procedure ToggleBox1Change(Sender: TObject);
     procedure ToggleBoxEditChange(Sender: TObject);
     procedure TreeViewSelectorSelectionChanged(Sender: TObject);
     procedure setIonParameters(Sender: TObject);
@@ -264,6 +271,10 @@ type
 
     procedure EAPClear;
     procedure SelectorLoad;
+
+    procedure SetPictureBlock( view : integer);
+
+    procedure AtlasSearchBAP(pointSymbol: string);
 
   private
     const
@@ -286,6 +297,9 @@ type
       EAP_PROGRESS_GRID_COL = 5;
       EAP_PRECENTAGE_GRID_COL = 6;
 
+      VIEW_LOGO = 0;
+      VIEW_ATLAS =1;
+
 
     var
       CurrentMode : integer;
@@ -306,6 +320,8 @@ type
       firstTime_ION : boolean;
       Charge_ION : Double;
       GridRyodorakuLastClickedRow : integer;
+
+      atlasPicturesFilesList :TStringList;
 
 
 
@@ -333,6 +349,38 @@ uses unitVegatestSelector, myFunctions, unitUpdateList, unitChooseEAPTherapy;
 
 { TfrmMain }
 
+procedure TfrmMain.SetPictureBlock( view : integer);
+begin
+
+  case view of
+    VIEW_ATLAS:
+                begin
+                ChartMeasure.Align:= alBottom;
+                ChartMeasure.Height:= 250;
+                PanelPicture.Align:= alClient;
+                ButtonHideAtlas.Visible:= true;
+                ImageAtlas.Visible:= true;
+                ImageLogo.Visible:= false;
+                TrackBarAtlas.Visible:= true;
+                end;
+    else
+     (*VIEW_LOGO*)
+                ChartMeasure.Align:= alClient;
+                PanelPicture.Align:= alTop;
+                PanelPicture.Height:= 128;
+                ButtonHideAtlas.Visible:=false;
+                ImageAtlas.Visible:= false;
+                ImageLogo.Visible:= true;
+                TrackBarAtlas.Visible:= false;
+
+
+
+  end;
+
+
+
+
+end;
 
 procedure TfrmMain.ChangeMode(mode : integer);
 
@@ -424,7 +472,7 @@ begin
        seriesArray[i].SeriesColor:=clWhite; //clGray;
        seriesArray[i].Title:='';
    end;
-   chartMainCurrentLineSeries.Clear;
+   ChartMeasureCurrentLineSeries.Clear;
    //step:=0;
 end;
 
@@ -587,6 +635,11 @@ begin
    frmMain.SaveEav;
 end;
 
+procedure TfrmMain.ButtonHideAtlasClick(Sender: TObject);
+begin
+  SetPictureBlock( VIEW_LOGO);
+end;
+
 procedure TfrmMain.ButtonIonOnClick(Sender: TObject);
 begin
    Serial.WriteData('act 1'+#13#10);
@@ -680,7 +733,7 @@ begin
    //Check numbers of seriers on chart
    if cboxSeries.Items.Count>MAX_SERIES_NUMBER then exit;
 
-   if chartMainCurrentLineSeries.Count < 50 then begin
+   if ChartMeasureCurrentLineSeries.Count < 50 then begin
          ShowMessage('Take a longer sample! Minimum is 1 second.');
          CheckBoxAutoTrack.Checked:=false;
          Exit;
@@ -718,11 +771,11 @@ begin
       LinePen.Color:=clGray;
       LinePen.Style:=psSolid;
       LinePen.Width:=3;
-      ListSource.CopyFrom(chartMainCurrentLineSeries.Source);
+      ListSource.CopyFrom(ChartMeasureCurrentLineSeries.Source);
       Title:=s;
    end;
 
-   chartMainCurrentLineSeries.Clear;
+   ChartMeasureCurrentLineSeries.Clear;
 
 
  //RYODORAKU
@@ -821,7 +874,7 @@ begin
       //Check numbers of seriers on chart
    if cboxSeries.Items.Count>MAX_SERIES_NUMBER then exit;
 
-   if chartMainCurrentLineSeries.Count < 50 then begin
+   if ChartMeasureCurrentLineSeries.Count < 50 then begin
          ShowMessage('Take a longer sample! Minimum is 1 second.');
          Exit;
    end;
@@ -843,11 +896,11 @@ begin
      LinePen.Color:=clGray;
      LinePen.Style:=psSolid;
      LinePen.Width:=3;
-     ListSource.CopyFrom(chartMainCurrentLineSeries.Source);
+     ListSource.CopyFrom(ChartMeasureCurrentLineSeries.Source);
      Title:=currentPointName;
   end;
 
-  chartMainCurrentLineSeries.Clear;
+  ChartMeasureCurrentLineSeries.Clear;
   end;
 end;
 
@@ -865,7 +918,7 @@ begin
       //Check numbers of seriers on chart
    if cboxSeries.Items.Count>MAX_SERIES_NUMBER then exit;
 
-   if chartMainCurrentLineSeries.Count < 50 then begin
+   if ChartMeasureCurrentLineSeries.Count < 50 then begin
          ShowMessage('Take a longer sample! Minimum is 1 second.');
          Exit;
    end;
@@ -890,11 +943,11 @@ begin
      LinePen.Color:=clGray;
      LinePen.Style:=psSolid;
      LinePen.Width:=3;
-     ListSource.CopyFrom(chartMainCurrentLineSeries.Source);
+     ListSource.CopyFrom(ChartMeasureCurrentLineSeries.Source);
      Title:=currentPointName;
   end;
 
-  chartMainCurrentLineSeries.Clear;
+  ChartMeasureCurrentLineSeries.Clear;
   end;
 end;
 
@@ -961,8 +1014,12 @@ var
   bmp: TBitmap;
 
 begin
+  //SetPictureBlock(VIEW_ATLAS);
+
+
+  //PanelPicture.Height:=800;
   //FormUpdateList.Show;
-  FormUpdateList.OpenWindowUpdateList( LIST_ATLAS );
+  //FormUpdateList.OpenWindowUpdateList( LIST_ATLAS );
 
   (*
   statusBar.SimpleText:=FormatDateTime('yyyy-MM-DD hh:nn',Now());
@@ -1009,11 +1066,11 @@ begin
   //b := cbElectropunctueOn.Checked;
   //timerCurrent.Enabled:=b;
   if CurrentMode=MODE_EAP then begin
-    //chartMain.LeftAxis.Range.Max:=1000;
+    //ChartMeasure.LeftAxis.Range.Max:=1000;
     frmMain.edtFreqChange(Sender);
 
   end else begin
-    chartMain.LeftAxis.Range.Max:=100;
+    ChartMeasure.LeftAxis.Range.Max:=100;
   end;
 end;
 
@@ -1086,7 +1143,7 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 var i : integer;
   DestinationListFile : string;
 begin
-
+  atlasPicturesFilesList :=TStringList.Create;
   Caption := 'qiWELLNESS   ' +SOFTWARE_VERSION;
 
   memoConsole.Lines.Add ('Software version: ' +SOFTWARE_VERSION);
@@ -1095,12 +1152,12 @@ begin
 
   for i:=1 to MAX_SERIES_NUMBER do begin;
     seriesArray[i] := TLineSeries.Create(Self);
-    chartMain.AddSeries(seriesArray[i]);
+    ChartMeasure.AddSeries(seriesArray[i]);
     seriesArray[i].SeriesColor:=clWhite;
     seriesArray[i].Title:='';
   end;
 
-  mySeries:=chartMainCurrentLineSeries;
+  mySeries:=ChartMeasureCurrentLineSeries;
 
   startTime := 0;
   lastMyTime := 0;
@@ -1166,14 +1223,41 @@ begin
 
 end;
 
+procedure TfrmMain.AtlasSearchBAP(pointSymbol:string);
+//Open Atlas and load pictures from url or file
 
+begin
+  SetPictureBlock(VIEW_ATLAS);
+
+  if SearchBAP( pointSymbol, atlasPicturesFilesList ) >0 then begin
+
+     TrackBarAtlas.Max:= atlasPicturesFilesList.Count-1;
+
+     //Do not show the controll if there is only one picture in atlas
+     TrackBarAtlas.Visible:= TrackBarAtlas.Max>0;
+
+     ImageAtlas.Picture.LoadFromFile(atlasPicturesFilesList.Strings[0]);
+
+  end else begin
+
+     ShowMessage('No such point in atlas or cannot connect to biotronics web portal');
+     SetPictureBlock(VIEW_LOGO);
+
+  end;
+
+
+
+
+
+end;
 
 procedure TfrmMain.gridRyodorakuDblClick(Sender: TObject);
 var strGrid: string;
+
 begin
   strGrid:=gridRyodoraku.Cells[gridRyodoraku.Col, gridRyodoraku.Row (*GridRyodorakuLastClickedRow*)];
-  //ShowMessage(strGrid);
-  OpenUrl('https://biotronics.eu/atlas?field_synonyms_value='+strGrid);
+
+  AtlasSearchBAP(strGrid);
 
 end;
 
@@ -1285,6 +1369,7 @@ begin
   end;
 
 end;
+
 
 
 
@@ -1440,9 +1525,9 @@ begin
           // Clear series
 
           mySeries.Clear;
-          chartMain.BottomAxis.Range.Max:=7;  // 7 sec.
-          chartMain.LeftAxis.Range.Max:=100;  // 100%
-          chartMain.LeftAxis.Range.UseMax:= True;
+          ChartMeasure.BottomAxis.Range.Max:=7;  // 7 sec.
+          ChartMeasure.LeftAxis.Range.Max:=100;  // 100%
+          ChartMeasure.LeftAxis.Range.UseMax:= True;
           mySeries.SeriesColor:= $000080FF;
           startTime:=Now()-0.03/(24*60*60);
 
@@ -1453,9 +1538,9 @@ begin
           // Clear series
 
           mySeries.Clear;
-          chartMain.BottomAxis.Range.Max:=7;  // 7 sec.
-          chartMain.LeftAxis.Range.Max:=100;  // 100%
-          chartMain.LeftAxis.Range.UseMax:= True;
+          ChartMeasure.BottomAxis.Range.Max:=7;  // 7 sec.
+          ChartMeasure.LeftAxis.Range.Max:=100;  // 100%
+          ChartMeasure.LeftAxis.Range.UseMax:= True;
           mySeries.SeriesColor:= clRed;
           startTime:=Now()-0.03/(24*60*60);
 
@@ -1469,11 +1554,11 @@ begin
           CurrentMode := MODE_EAP;
 
           mySeries.Clear;
-          chartMain.LeftAxis.Range.Max:=500;  // 500uA
+          ChartMeasure.LeftAxis.Range.Max:=500;  // 500uA
           mySeries.SeriesColor:= clGreen;
 
-          chartMain.LeftAxis.Range.UseMax:= True;
-          chartMain.BottomAxis.Range.Max:=30; // 30sec. or more
+          ChartMeasure.LeftAxis.Range.UseMax:= True;
+          ChartMeasure.BottomAxis.Range.Max:=30; // 30sec. or more
 
           ProgressBarTime.Max:=StrToIntDef(StringGridEAPTherapy.Cells[EAP_TIME_GRID_COL,EAPProgressGridRow],0);
           ProgressBarTime.Position := StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0);
@@ -1498,10 +1583,10 @@ begin
             mySeries.Clear;
             firstTime_ION := False;
 
-            chartMain.LeftAxis.Range.Max:=12;  // 12mA
+            ChartMeasure.LeftAxis.Range.Max:=12;  // 12mA
             mySeries.SeriesColor:= clGreen;
-            chartMain.LeftAxis.Range.UseMax:= True;
-            chartMain.BottomAxis.Range.Max:=120; // 2min. or more
+            ChartMeasure.LeftAxis.Range.UseMax:= True;
+            ChartMeasure.BottomAxis.Range.Max:=120; // 2min. or more
 
             startTime:=Now()-0.03/(24*60*60);
             mySeries.AddXY( 0.03,0 );
@@ -1509,7 +1594,7 @@ begin
           end else begin
 
             myTime:= (Now()- startTime)*(24*60*60);
-            if myTime > 120 then chartMain.LeftAxis.Range.UseMax:= False;
+            if myTime > 120 then ChartMeasure.LeftAxis.Range.UseMax:= False;
 
             mySeries.AddXY( myTime ,0);
 
@@ -1556,7 +1641,7 @@ begin
 
            //Rescale chart to 2 minutes
            if myTime >= 30 then begin
-              chartMain.BottomAxis.Range.Max:=120;
+              ChartMeasure.BottomAxis.Range.Max:=120;
               ProgressBarTime.Max:=120;
               ProgressBarTime.Color:=clYellow;
            end;
@@ -1604,11 +1689,11 @@ begin
 
            //Rescale chart to 2 minutes
            if myTime >= 600 then
-              chartMain.BottomAxis.Range.Max:=1200
+              ChartMeasure.BottomAxis.Range.Max:=1200
            else if myTime >= 120 then
-              chartMain.BottomAxis.Range.Max:=600
+              ChartMeasure.BottomAxis.Range.Max:=600
            else
-              chartMain.BottomAxis.Range.Max:=120;
+              ChartMeasure.BottomAxis.Range.Max:=120;
 
            p := Pos(' ',ss);
 
@@ -1660,8 +1745,7 @@ procedure TfrmMain.StringGridEAPTherapyDblClick(Sender: TObject);
 var strGrid: string;
 begin
   strGrid:=StringGridEAPTherapy.Cells[0, StringGridEAPTherapy.Row ];
-  //ShowMessage(strGrid);
-  OpenUrl('https://biotronics.eu/atlas?field_synonyms_value='+strGrid);
+  AtlasSearchBAP(strGrid);
 
 end;
 
@@ -1669,6 +1753,13 @@ procedure TfrmMain.StringGridEAPTherapySelectCell(Sender: TObject; aCol,
   aRow: Integer; var CanSelect: Boolean);
 begin
   EAPProgressGridRow := aRow;
+end;
+
+procedure TfrmMain.StringGridEAVDblClick(Sender: TObject);
+var strGrid: string;
+begin
+  strGrid:=StringGridEAV.Cells[0, StringGridEAV.Row ];
+  AtlasSearchBAP(strGrid);
 end;
 
 procedure TfrmMain.StringGridIonTherapySelection(Sender: TObject; aCol,
@@ -1722,6 +1813,12 @@ begin
       rbPositiveElectrode.Checked := false;
 
   end;
+
+end;
+
+procedure TfrmMain.ToggleBox1Change(Sender: TObject);
+begin
+
 
 end;
 

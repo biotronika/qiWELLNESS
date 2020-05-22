@@ -7,10 +7,10 @@ unit myFunctions;
 interface
 
 uses
-  Classes, SysUtils, StrUtils, Forms;
+  Classes, SysUtils, StrUtils, Forms, LCLIntf;
 
 const
-  SOFTWARE_VERSION = '2020-05-16_1 (beta)';
+  SOFTWARE_VERSION = '2020-05-19_1 (alpha)';
 
   ATLAS_FOLDER ='AtlasDB';                 //Subfolder (exe file place) for pictures and indexed database text files
   ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
@@ -100,10 +100,67 @@ function StringToEAPTherapy(s : string) : TEAPTherapy;
 
 function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer; //Return number of pictures
 
+function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return number of pictures
 implementation
 uses Dialogs;
 
+
+
+
+procedure xxxxxButtonUpdateClick(Sender: TObject);
+var s : string;
+    f : TextFile;
+begin
+(*
+  ConnectRESTInterface(LISTS_DEF[ListType].RestURL);
+
+  s:=JSON2String( ListType, JSONData);
+
+
+  try
+     AssignFile(f,TemporaryListFile);
+     Rewrite(f);
+
+     {$I-}
+          Writeln(f,s);
+     {$I+}
+
+  finally
+
+     CloseFile(f);
+
+  end;
+
+  StringGrid.LoadFromCSVFile(TemporaryListFile);
+  StringGrid.AutoSizeColumns;
+
+  *)
+
+end;
+
+
+
+
+
 //ATLAS
+function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return number of pictures
+begin
+
+  result:=0;
+
+  //OpenUrl('https://biotronics.eu/atlas?field_synonyms_value='+trim(BAP));
+
+  PictureFilesList.Clear;
+  PictureFilesList.Add( 'C:\workspace\qiWELLNESS\AtlasDB\ST41.png');
+
+
+
+
+
+  result:=PictureFilesList.Count;
+
+end;
+
 function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer;  //return count of pictures;
 var txtIN,txtOUT : textFile;
     txtOutFileName : string;
