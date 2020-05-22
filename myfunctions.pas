@@ -10,7 +10,7 @@ uses
   Classes, SysUtils, StrUtils, Forms, LCLIntf, HTTPSend, fphttpclient, fpjson, jsonparser,URLMon;
 
 const
-  SOFTWARE_VERSION = '2020-05-22 (alpha)';
+  SOFTWARE_VERSION = '2020-05-22_2 (alpha)';
 
   ATLAS_FOLDER ='AtlasDB';                 //Subfolder (exe file place) for pictures and indexed database text files
   ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
@@ -245,7 +245,7 @@ begin
      FormUpdateList.CreateDllLibraries();
 
      HTTPClient.AddHeader('User-Agent','qiwellness');  //For GITHUB only
-     content:=HTTPClient.Get( LISTS_DEF[4].RestURL + '&field_synonyms_value=' + trim(BAP)  );
+     content:=HTTPClient.Get( LISTS_DEF[4].RestURL + '&field_synonyms_value=' + trim(BAP) +' '  );
 
      JSONData:=GetJSON(Content);
 

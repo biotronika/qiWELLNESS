@@ -369,11 +369,15 @@ begin
                 PanelPicture.Align:= alClient;
                 ButtonHideAtlas.Visible:= true;
                 ImageAtlas.Visible:= true;
-                ImageAtlas.Stretch:= true;
+                //ImageAtlas.Stretch:= true;
+                //ImageAtlas.Center:= true;
                 ImageLogo.Visible:= false;
                 //TrackBarAtlas.Visible:= false;
                 ShapeLeft.Visible:= true;
                 ShapeRight.Visible:= true;
+                PanelButtons.Visible:= false;
+                statusBar.Visible:= false;
+
                 end;
     else
      (*VIEW_LOGO*)
@@ -382,11 +386,14 @@ begin
                 PanelPicture.Height:= 128;
                 ButtonHideAtlas.Visible:=false;
                 ImageAtlas.Visible:= false;
-                ImageAtlas.Stretch:= false;
+                //ImageAtlas.Stretch:= false;
+                //ImageAtlas.Center:= true;
                 ImageLogo.Visible:= true;
                 TrackBarAtlas.Visible:= false;
                 ShapeLeft.Visible:= false;
                 ShapeRight.Visible:= false;
+                PanelButtons.Visible:= true;
+                statusBar.Visible:= true;
 
 
 

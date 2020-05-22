@@ -608,14 +608,19 @@ object frmMain: TfrmMain
         Visible = False
       end
       object ImageAtlas: TImage
-        Left = 0
-        Height = 128
-        Top = 0
-        Width = 631
+        Left = 5
+        Height = 118
+        Top = 5
+        Width = 621
+        AntialiasingMode = amOn
         Align = alClient
+        AutoSize = True
+        BorderSpacing.Around = 5
+        Center = True
         KeepOriginXWhenClipped = True
         KeepOriginYWhenClipped = True
         Proportional = True
+        Stretch = True
         Visible = False
       end
       object TrackBarAtlas: TTrackBar
@@ -665,7 +670,6 @@ object frmMain: TfrmMain
       Width = 631
       Panels = <>
       ParentFont = False
-      Visible = False
     end
   end
   object PanelRight: TPanel
