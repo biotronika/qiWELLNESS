@@ -10,9 +10,9 @@ uses
   Classes, SysUtils, StrUtils, Forms, LCLIntf, HTTPSend, fphttpclient, fpjson, jsonparser,URLMon;
 
 const
-  SOFTWARE_VERSION = '2020-05-22_2 (alpha)';
+  SOFTWARE_VERSION = '2020-05-23 (alpha)';
 
-  ATLAS_FOLDER ='AtlasDB';                 //Subfolder (exe file place) for pictures and indexed database text files
+  ATLAS_FOLDER ='AtlasDB';               //Subfolder (exe file place) for pictures and indexed database text files
   ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
   ATLAS_PICTURES_FILE ='pictures.db';    //Text file name of numbered pictures list
   MY_DELIMETER = ',';

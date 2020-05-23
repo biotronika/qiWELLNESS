@@ -18,7 +18,6 @@ type
     btnConnect: TButton;
     btnDeleteAll: TButton;
     btnDelete: TButton;
-    ButtonHideAtlas: TButton;
     ButtonChooseEAPTherapy: TButton;
     btnSaveAs: TButton;
     ButtonIonOn: TButton;
@@ -66,7 +65,10 @@ type
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
-    Image1: TImage;
+    ImageCloseAtlas: TImage;
+    ImageBack: TImage;
+    ImageNext: TImage;
+    ImageMaximumScreen: TImage;
     ImageAtlas: TImage;
     Image3: TImage;
     ImageLogo: TImage;
@@ -156,18 +158,14 @@ type
     rbRyodorakuRight: TRadioButton;
     SaveDialog: TSaveDialog;
     SaveDialogForm: TSaveDialog;
-    ScrollBox1: TScrollBox;
     Serial: TLazSerial;
     PanelLeft: TPanel;
-    ShapeRight: TShape;
-    ShapeLeft: TShape;
     statusBar: TStatusBar;
     gridRyodoraku: TStringGrid;
     StringGridEAPTherapy: TStringGrid;
     StringGridIonTherapy: TStringGrid;
     StringGridEAV: TStringGrid;
     tabConsole: TTabSheet;
-    TabControl1: TTabControl;
     tabRyodoraku: TTabSheet;
     tabEAV: TTabSheet;
     tabElectropunture: TTabSheet;
@@ -180,7 +178,6 @@ type
     tabVegatest: TTabSheet;
     timerChangeDirection: TTimer;
     ToggleBoxEdit: TToggleBox;
-    TrackBarAtlas: TTrackBar;
     TreeViewSelector: TTreeView;
     procedure btnConsoleExecuteClick(Sender: TObject);
     procedure btnDeleteAllClick(Sender: TObject);
@@ -236,6 +233,9 @@ type
     procedure gridRyodorakuSelection(Sender: TObject; aCol, aRow: Integer);
 
 
+    procedure ImageControllClick(Sender: TObject);
+
+
     procedure Label8Click(Sender: TObject);
     procedure Label9Click(Sender: TObject);
 
@@ -244,7 +244,7 @@ type
     procedure rbRyodorakuLeftChange(Sender: TObject);
 
     procedure SerialRxData(Sender: TObject);
-    procedure ShapeLeftChangeBounds(Sender: TObject);
+
     procedure ShapeLeftMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
 
@@ -266,7 +266,7 @@ type
     procedure timerChangeDirectionTimer(Sender: TObject);
     procedure ToggleBox1Change(Sender: TObject);
     procedure ToggleBoxEditChange(Sender: TObject);
-    procedure TrackBarAtlasChange(Sender: TObject);
+
     procedure TreeViewSelectorSelectionChanged(Sender: TObject);
     procedure setIonParameters(Sender: TObject);
 
@@ -307,7 +307,8 @@ type
       EAP_PRECENTAGE_GRID_COL = 6;
 
       VIEW_LOGO = 0;
-      VIEW_ATLAS =1;
+      VIEW_ATLAS = 1;
+      VIEW_ATLAS_FULL = 2;
 
 
     var
@@ -337,6 +338,8 @@ type
 
 
 
+
+
   public
      const
 
@@ -353,6 +356,10 @@ implementation
 
 uses unitVegatestSelector, myFunctions, unitUpdateList, unitChooseEAPTherapy;
 
+var
+  atlasPictureCurrent : integer = 0;
+  atlasPictureMax : integer = 0;
+
 
 {$R *.lfm}
 
@@ -367,34 +374,83 @@ begin
                 ChartMeasure.Align:= alBottom;
                 ChartMeasure.Height:= 250;
                 PanelPicture.Align:= alClient;
-                ButtonHideAtlas.Visible:= true;
+                //ButtonHideAtlas.Visible:= true;
                 ImageAtlas.Visible:= true;
                 //ImageAtlas.Stretch:= true;
                 //ImageAtlas.Center:= true;
                 ImageLogo.Visible:= false;
                 //TrackBarAtlas.Visible:= false;
-                ShapeLeft.Visible:= true;
-                ShapeRight.Visible:= true;
+                //ShapeLeft.Visible:= true;
+                //ShapeRight.Visible:= true;
                 PanelButtons.Visible:= false;
+
+                //buttons
+                ImageCloseAtlas.Visible:= true;
+                ImageBack.Visible:= true;
+                ImageNext.Visible:= true;
+                ImageMaximumScreen.Visible:= true;
+
+
+                ChartMeasure.Visible:= true;
                 statusBar.Visible:= false;
+                PanelRight.Visible:= true;
 
                 end;
+
+     VIEW_ATLAS_FULL:
+                begin
+                ChartMeasure.Align:= alBottom;
+                ChartMeasure.Height:= 250;
+                PanelPicture.Align:= alClient;
+                //ButtonHideAtlas.Visible:= true;
+                ImageAtlas.Visible:= true;
+                //ImageAtlas.Stretch:= true;
+                //ImageAtlas.Center:= true;
+                ImageLogo.Visible:= false;
+                //TrackBarAtlas.Visible:= false;
+                //ShapeLeft.Visible:= true;
+                //ShapeRight.Visible:= true;
+                PanelButtons.Visible:= false;
+
+                //buttons
+                ImageCloseAtlas.Visible:= true;
+                ImageBack.Visible:= true;
+                ImageNext.Visible:= true;
+                ImageMaximumScreen.Visible:= false;
+
+
+                ChartMeasure.Visible:= false;
+                statusBar.Visible:= false;
+                PanelRight.Visible:= false;
+
+
+                end;
+
     else
      (*VIEW_LOGO*)
                 ChartMeasure.Align:= alClient;
                 PanelPicture.Align:= alTop;
                 PanelPicture.Height:= 128;
-                ButtonHideAtlas.Visible:=false;
+                //ButtonHideAtlas.Visible:=false;
                 ImageAtlas.Visible:= false;
                 //ImageAtlas.Stretch:= false;
                 //ImageAtlas.Center:= true;
                 ImageLogo.Visible:= true;
-                TrackBarAtlas.Visible:= false;
-                ShapeLeft.Visible:= false;
-                ShapeRight.Visible:= false;
-                PanelButtons.Visible:= true;
-                statusBar.Visible:= true;
 
+                //ShapeLeft.Visible:= false;
+                //ShapeRight.Visible:= false;
+                PanelButtons.Visible:= true;
+
+                //buttons
+                ImageCloseAtlas.Visible:= false;
+                ImageBack.Visible:= false;
+                ImageNext.Visible:= false;
+                ImageMaximumScreen.Visible:= false;
+
+
+                ChartMeasure.Visible:= true;
+                statusBar.Visible:= true;
+                PanelRight.Visible:= true;
 
 
   end;
@@ -659,7 +715,7 @@ end;
 
 procedure TfrmMain.ButtonHideAtlasClick(Sender: TObject);
 begin
-  SetPictureBlock( VIEW_LOGO);
+
 end;
 
 procedure TfrmMain.ButtonIonOnClick(Sender: TObject);
@@ -1253,8 +1309,8 @@ begin
 
   if SearchBAP( pointSymbol, atlasPicturesFilesList ) >0 then begin
 
-     TrackBarAtlas.Max:= atlasPicturesFilesList.Count-1;
-     TrackBarAtlas.Position:=0;
+     atlasPictureMax:= atlasPicturesFilesList.Count-1;
+     atlasPictureCurrent:=0;
 
      //Do not show the controll if there is only one picture in atlas
      //TrackBarAtlas.Visible:= TrackBarAtlas.Max>0;
@@ -1396,6 +1452,38 @@ begin
 
 end;
 
+
+
+
+
+procedure TfrmMain.ImageControllClick(Sender: TObject);
+//atlasPictureCurrent
+
+begin
+  if Sender=ImageNext then begin
+
+        atlasPictureCurrent := atlasPictureCurrent + 1;
+        if atlasPictureCurrent > atlasPictureMax then atlasPictureCurrent := atlasPictureMax;
+        ImageAtlas.Picture.LoadFromFile(atlasPicturesFilesList.Strings[atlasPictureCurrent]);
+
+  end else if Sender=ImageBack then begin
+
+        atlasPictureCurrent := atlasPictureCurrent - 1;
+        if atlasPictureCurrent < 0 then atlasPictureCurrent := 0;
+        ImageAtlas.Picture.LoadFromFile(atlasPicturesFilesList.Strings[atlasPictureCurrent]);
+
+  end else if Sender = ImageMaximumScreen then begin;
+
+        SetPictureBlock(VIEW_ATLAS_FULL);
+
+  end else if Sender = ImageCloseAtlas then begin
+
+        SetPictureBlock( VIEW_LOGO);
+
+  end;
+
+
+end;
 
 
 
@@ -1767,38 +1855,19 @@ begin
 
 end;
 
-procedure TfrmMain.ShapeLeftChangeBounds(Sender: TObject);
-begin
 
-end;
 
 procedure TfrmMain.ShapeLeftMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  TrackBarAtlas.Position:= TrackBarAtlas.Position-1;
-  if TrackBarAtlas.Position<=0 then begin
-     TrackBarAtlas.Position:=0;
-     ShapeLeft.Brush.Color:=clGray;
-  end else begin
-     ShapeRight.Brush.Color:=clWhite;
-     ShapeLeft.Brush.Color:=clWhite;
 
-  end
 end;
 
 
 procedure TfrmMain.ShapeRightMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  TrackBarAtlas.Position:= TrackBarAtlas.Position+1;
-  if TrackBarAtlas.Position >= TrackBarAtlas.Max then begin
-    TrackBarAtlas.Position := TrackBarAtlas.Max;
-    ShapeRight.Brush.Color:=clGray;
-  end else begin
-     ShapeRight.Brush.Color:=clWhite;
-     ShapeLeft.Brush.Color:=clWhite;
 
-  end;
 end;
 
 procedure TfrmMain.StringGridEAPTherapyDblClick(Sender: TObject);
@@ -1890,11 +1959,6 @@ begin
      StringGridEAV.Options:= StringGridEAV.Options - [goEditing];
 end;
 
-procedure TfrmMain.TrackBarAtlasChange(Sender: TObject);
-begin
-     //if TrackBarAtlas.Visible  then
-        ImageAtlas.Picture.LoadFromFile(atlasPicturesFilesList.Strings[TrackBarAtlas.Position]);
-end;
 
 
 procedure TfrmMain.TreeViewSelectorSelectionChanged(Sender: TObject);
