@@ -10,18 +10,20 @@ uses
   Classes, SysUtils, StrUtils, Forms, LCLIntf, HTTPSend, fphttpclient, fpjson, jsonparser,URLMon;
 
 const
-  SOFTWARE_VERSION = '2020-05-23 (alpha)';
+  SOFTWARE_VERSION = '2020-05-24 (beta)';
 
   ATLAS_FOLDER ='AtlasDB';               //Subfolder (exe file place) for pictures and indexed database text files
   ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
   ATLAS_PICTURES_FILE ='pictures.db';    //Text file name of numbered pictures list
   MY_DELIMETER = ',';
 
+  PROFILES : array[0..6] of string = ( 'User', 'Common', 'Stimulation', 'Sedation', 'DC-', 'DC+', 'DC change');
+
 
 
 type TEAPPoint = record
-     Point : string[10];
-     Meridian : string [50];
+     Point : string[20];
+     Side : string [20];
      Profile : integer;
      Time : integer;
      Elapsed : integer;
@@ -72,7 +74,7 @@ const
 
           (Title : 'EAP therapies'; FileName : 'EAPtherapies.txt';
           Url : 'https://biotronics.eu/eap-therapies';
-          RestURL :'https://biotronics.eu/eap-therapies/rest';
+          RestURL :'https://biotronics.eu/eap-therapies/rest?_format=json';
           FieldCount : 2;
           FieldNames :    ('EAP therapy name','BAPs','','','','','','','','');
           FieldJsonPath : ('.title[0].value','.field_baps[0].value','','','','','','','','')
@@ -116,30 +118,7 @@ procedure xxxxxButtonUpdateClick(Sender: TObject);
 var s : string;
     f : TextFile;
 begin
-(*
-  ConnectRESTInterface(LISTS_DEF[ListType].RestURL);
 
-  s:=JSON2String( ListType, JSONData);
-
-
-  try
-     AssignFile(f,TemporaryListFile);
-     Rewrite(f);
-
-     {$I-}
-          Writeln(f,s);
-     {$I+}
-
-  finally
-
-     CloseFile(f);
-
-  end;
-
-  StringGrid.LoadFromCSVFile(TemporaryListFile);
-  StringGrid.AutoSizeColumns;
-
-  *)
 
 end;
 
@@ -245,7 +224,7 @@ begin
      FormUpdateList.CreateDllLibraries();
 
      HTTPClient.AddHeader('User-Agent','qiwellness');  //For GITHUB only
-     content:=HTTPClient.Get( LISTS_DEF[4].RestURL + '&field_synonyms_value=' + trim(BAP) +' '  );
+     content:=HTTPClient.Get( LISTS_DEF[4].RestURL + '&field_synonyms_value=' + trim(BAP) + '+'  );
 
      JSONData:=GetJSON(Content);
 
@@ -363,6 +342,33 @@ var OnePointString : string;
        if (i>1) and (j>0) then begin
           s:= trim(copy(OnePointString,i+1,j-i-1));
           result:=StrToIntDef(s,DEFAULT_EAP_THERAPY_TIME);
+          OnePointString:=copy(OnePointString,1,i-1) + copy(OnePointString, j+1, OnePointString.Length-1 );
+       end;
+  end;
+
+  function GetSideFromOnePointString(var OnePointString: string) : string;
+  var s : string;
+      i,j : integer;
+  begin
+       result:= ''; //NA
+
+       i:= Pos('(',OnePointString);
+       j:= Pos(')',OnePointString);
+       if (i>1) and (j>0) then begin
+          s:= UpperCase( trim(   copy(OnePointString,i+1,j-i-1)   ) );
+
+          if  (s='B') or (s='R,L') or (s='RL') or (s='LR') or (s='L,R') then
+
+              result:='Right, Left'
+
+          else if s='R' then
+
+               result := 'Right'
+
+          else if s='L' then
+
+               result := 'Left';
+
           OnePointString:=copy(OnePointString,1,i-1);
        end;
   end;
@@ -385,10 +391,13 @@ begin
 
        SetLength(EAPTherapy, Length(EAPTherapy)+1);
        n:= Length(EAPTherapy)-1;
+
+       //Important is an order
        EAPTherapy[n].Time := GetTimeFromOnePointString(OnePointString);
+       EAPTherapy[n].Side := GetSideFromOnePointString(OnePointString);
        EAPTherapy[n].Point := OnePointString;
-       EAPTherapy[n].Meridian:='';
-       EAPTherapy[n].Profile:=1;
+
+       EAPTherapy[n].Profile:= 0;   //Profile User
 
 
        //ShowMessage(OnePointString);

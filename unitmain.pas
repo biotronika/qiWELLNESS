@@ -18,8 +18,8 @@ type
     btnConnect: TButton;
     btnDeleteAll: TButton;
     btnDelete: TButton;
-    ButtonChooseEAPTherapy: TButton;
     btnSaveAs: TButton;
+    ButtonChooseEAPTherapy: TButton;
     ButtonIonOn: TButton;
     ButtonIonOff: TButton;
     ButtonUpdate: TButton;
@@ -87,6 +87,10 @@ type
     Label18: TLabel;
     Label19: TLabel;
     Label20: TLabel;
+    Label21: TLabel;
+    Label22: TLabel;
+    Label23: TLabel;
+    Label24: TLabel;
     Label8: TLabel;
     Label9: TLabel;
     LabelCharge: TLabel;
@@ -108,9 +112,11 @@ type
     Panel17: TPanel;
     Panel18: TPanel;
     Panel19: TPanel;
+    Panel2: TPanel;
     Panel20: TPanel;
+    Panel21: TPanel;
+    Panel22: TPanel;
     Panel4: TPanel;
-    Panel5: TPanel;
     Panel8: TPanel;
     rbDutyCycle50_ION: TRadioButton;
     rbDutyCycle90_ION: TRadioButton;
@@ -160,6 +166,9 @@ type
     SaveDialogForm: TSaveDialog;
     Serial: TLazSerial;
     PanelLeft: TPanel;
+    Shape1: TShape;
+    Shape2: TShape;
+    Shape3: TShape;
     statusBar: TStatusBar;
     gridRyodoraku: TStringGrid;
     StringGridEAPTherapy: TStringGrid;
@@ -235,8 +244,6 @@ type
 
     procedure ImageControllClick(Sender: TObject);
 
-
-    procedure Label8Click(Sender: TObject);
     procedure Label9Click(Sender: TObject);
 
     procedure rbCommonChange(Sender: TObject);
@@ -301,10 +308,13 @@ type
       RYODORAKU_FACTOR = 1.54;
       // MINIVOLL_READ_VALUE_PERIOD = 0.05; //seconds
 
+      EAP_POINT_GRID_COL = 0;
+      EAP_SIDE_GRID_COL = 1;
+      EAP_PROFILE_GRID_COL = 2;
       EAP_TIME_GRID_COL = 3;
       EAP_ELAPSED_GRID_COL = 4;
       EAP_PROGRESS_GRID_COL = 5;
-      EAP_PRECENTAGE_GRID_COL = 6;
+      //EAP_PRECENTAGE_GRID_COL = 6;
 
       VIEW_LOGO = 0;
       VIEW_ATLAS = 1;
@@ -620,13 +630,15 @@ begin
 
   StringGridEAPTherapy.RowCount:=1;
   StringGridEAPTherapy.RowCount:=Length(EAPTherapy)+1;
+
   for i:= 1 to Length(EAPTherapy) do begin
       with StringGridEAPTherapy do begin
-          Cells[0,i]:=EAPTherapy[i-1].Point;          //Point name
-          Cells[1,i]:=EAPTherapy[i-1].Meridian;       //Meridian name
-//TODO
-          Cells[2,i]:='User'; //EAPTherapy[i-1].Profile;        //Profile name
-          Cells[3,i]:=IntToStr( EAPTherapy[i-1].Time);//Therapy time
+
+          Cells[EAP_POINT_GRID_COL,i]   := EAPTherapy[i-1].Point;          //Point name
+          Cells[EAP_SIDE_GRID_COL,i]    := EAPTherapy[i-1].Side;
+          Cells[EAP_PROFILE_GRID_COL,i] := PROFILES[EAPTherapy[i-1].Profile];
+          Cells[EAP_TIME_GRID_COL,i]    := IntToStr( EAPTherapy[i-1].Time);
+
       end;
 
   end;
@@ -1312,9 +1324,6 @@ begin
      atlasPictureMax:= atlasPicturesFilesList.Count-1;
      atlasPictureCurrent:=0;
 
-     //Do not show the controll if there is only one picture in atlas
-     //TrackBarAtlas.Visible:= TrackBarAtlas.Max>0;
-
      ImageAtlas.Picture.LoadFromFile(atlasPicturesFilesList.Strings[0]);
 
   end else begin
@@ -1487,10 +1496,7 @@ end;
 
 
 
-procedure TfrmMain.Label8Click(Sender: TObject);
-begin
-  OpenUrl('https://biotronics.eu/literature');
-end;
+
 
 procedure TfrmMain.Label9Click(Sender: TObject);
 begin
