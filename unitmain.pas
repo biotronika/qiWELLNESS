@@ -91,7 +91,7 @@ type
     Label22: TLabel;
     Label23: TLabel;
     Label24: TLabel;
-    Label8: TLabel;
+    LabelLiteratureURL: TLabel;
     Label9: TLabel;
     LabelCharge: TLabel;
     LabelMass: TLabel;
@@ -117,6 +117,7 @@ type
     Panel21: TPanel;
     Panel22: TPanel;
     Panel4: TPanel;
+    Panel5: TPanel;
     Panel8: TPanel;
     rbDutyCycle50_ION: TRadioButton;
     rbDutyCycle90_ION: TRadioButton;
@@ -169,6 +170,7 @@ type
     Shape1: TShape;
     Shape2: TShape;
     Shape3: TShape;
+    Shape4: TShape;
     statusBar: TStatusBar;
     gridRyodoraku: TStringGrid;
     StringGridEAPTherapy: TStringGrid;
@@ -243,8 +245,7 @@ type
 
 
     procedure ImageControllClick(Sender: TObject);
-
-    procedure Label9Click(Sender: TObject);
+    procedure LabelLiteratureURLClick(Sender: TObject);
 
     procedure rbCommonChange(Sender: TObject);
 
@@ -618,40 +619,38 @@ begin
 end;
 
 procedure TfrmMain.ButtonChooseEAPTherapyClick(Sender: TObject);
-var TherapyIdx : integer;
+var //TherapyIdx : integer;
     EAPTherapy: TEAPTherapy;
     i : integer;
 begin
-  TherapyIdx:=0; //Nothing was chosen
-  TherapyIdx := FormChooseEAPTherapy.Choose;
 
-  //ShowMessage(FormChooseEAPTherapy.EAPTherapyString);
-  EAPTherapy:=StringToEAPTherapy(FormChooseEAPTherapy.EAPTherapyString);
+  //Open Choose window
+  EAPTherapy := FormChooseEAPTherapy.Choose('');
 
-  StringGridEAPTherapy.RowCount:=1;
-  StringGridEAPTherapy.RowCount:=Length(EAPTherapy)+1;
+  StringGridEAPTherapy.RowCount:= 1; //Clear fields, but not change grid size
+  StringGridEAPTherapy.RowCount:=Length(EAPTherapy.Points)+1;
 
-  for i:= 1 to Length(EAPTherapy) do begin
+  for i:= 1 to Length(EAPTherapy.Points) do begin
       with StringGridEAPTherapy do begin
 
-          Cells[EAP_POINT_GRID_COL,i]   := EAPTherapy[i-1].Point;          //Point name
-          Cells[EAP_SIDE_GRID_COL,i]    := EAPTherapy[i-1].Side;
-          Cells[EAP_PROFILE_GRID_COL,i] := PROFILES[EAPTherapy[i-1].Profile];
-          Cells[EAP_TIME_GRID_COL,i]    := IntToStr( EAPTherapy[i-1].Time);
+          Cells[EAP_POINT_GRID_COL,i]   := EAPTherapy.Points[i-1].Point;
+          Cells[EAP_SIDE_GRID_COL,i]    := EAPTherapy.Points[i-1].Side;
+          Cells[EAP_PROFILE_GRID_COL,i] := PROFILES[EAPTherapy.Points[i-1].Profile];
+          Cells[EAP_TIME_GRID_COL,i]    := IntToStr( EAPTherapy.Points[i-1].Time);
 
       end;
-
   end;
 
+  //Collumn names
+  with StringGridEAPTherapy do begin
 
-
-
-
-
-  //ShowMessage(IntToStr(TherapyIdx));
-
-
-
+          Cells[EAP_POINT_GRID_COL,0]   := 'BAP(s)';
+          Cells[EAP_SIDE_GRID_COL,0]    := 'Side';
+          Cells[EAP_PROFILE_GRID_COL,0] := 'Profile';
+          Cells[EAP_TIME_GRID_COL,0]    := 'Time [s]';
+          Cells[EAP_ELAPSED_GRID_COL,0] := 'Elapsed';
+          Cells[EAP_PROGRESS_GRID_COL,0]:= 'Progress';
+  end
 
 
 end;
@@ -1236,7 +1235,8 @@ begin
   atlasPicturesFilesList :=TStringList.Create;
   Caption := 'qiWELLNESS   ' +SOFTWARE_VERSION;
 
-  memoConsole.Lines.Add ('Software version: ' +SOFTWARE_VERSION);
+
+  memoConsole.Lines.Add (#13#10'Software version: ' +SOFTWARE_VERSION);
 
   DefaultFormatSettings.DecimalSeparator:='.';
 
@@ -1494,14 +1494,11 @@ begin
 
 end;
 
-
-
-
-
-procedure TfrmMain.Label9Click(Sender: TObject);
+procedure TfrmMain.LabelLiteratureURLClick(Sender: TObject);
 begin
-
+  OpenURL('https://biotronics.eu/literature');
 end;
+
 
 
 procedure TfrmMain.rbCommonChange(Sender: TObject);

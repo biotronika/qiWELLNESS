@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 215
+  Left = 229
   Height = 864
-  Top = 144
+  Top = -1151
   Width = 1568
   Caption = 'qiWELLNESS'
   ClientHeight = 864
@@ -706,23 +706,6 @@ object frmMain: TfrmMain
         Transparent = True
         Visible = False
       end
-      object Label8: TLabel
-        Cursor = crHandPoint
-        Left = 8
-        Height = 23
-        Top = 10
-        Width = 113
-        Caption = 'See literature...'
-        Font.CharSet = EASTEUROPE_CHARSET
-        Font.Color = clNavy
-        Font.Height = -17
-        Font.Name = 'Segoe UI'
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        Font.Style = [fsUnderline]
-        ParentColor = False
-        ParentFont = False
-      end
     end
     object statusBar: TStatusBar
       Left = 1
@@ -748,7 +731,7 @@ object frmMain: TfrmMain
       Height = 862
       Top = 1
       Width = 958
-      ActivePage = tabElectropunture
+      ActivePage = tabRyodoraku
       Align = alRight
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
@@ -757,7 +740,7 @@ object frmMain: TfrmMain
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 4
+      TabIndex = 1
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -772,7 +755,7 @@ object frmMain: TfrmMain
         ParentFont = False
         object memoConsole: TMemo
           Left = 0
-          Height = 744
+          Height = 718
           Top = 0
           Width = 950
           Align = alClient
@@ -957,6 +940,48 @@ object frmMain: TfrmMain
             OnClick = btnCloseClick
             ParentFont = False
             TabOrder = 8
+          end
+        end
+        object Panel5: TPanel
+          Left = 0
+          Height = 26
+          Top = 718
+          Width = 950
+          Align = alBottom
+          BevelOuter = bvNone
+          Caption = 'Panel5'
+          ClientHeight = 26
+          ClientWidth = 950
+          TabOrder = 2
+          object Shape4: TShape
+            Left = 0
+            Height = 26
+            Top = 0
+            Width = 950
+            Align = alClient
+            Brush.Color = 15314554
+            Pen.Style = psDash
+          end
+          object LabelLiteratureURL: TLabel
+            Cursor = crHandPoint
+            Left = 0
+            Height = 26
+            Top = 0
+            Width = 950
+            Align = alClient
+            Alignment = taCenter
+            AutoSize = False
+            Caption = 'Click here to open manual and literature page in browser...'
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = 8213760
+            Font.Height = -17
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Font.Style = [fsBold]
+            ParentColor = False
+            ParentFont = False
+            OnClick = LabelLiteratureURLClick
           end
         end
       end
@@ -10798,7 +10823,7 @@ object frmMain: TfrmMain
             Align = alClient
             Alignment = taCenter
             AutoSize = False
-            Caption = 'Double click the point symbol to view its location in the Atlas'
+            Caption = 'Double click the point symbol to view its localisation in the Atlas'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clGreen
             Font.Height = -17
@@ -11598,7 +11623,7 @@ object frmMain: TfrmMain
             33
             0
             0
-            'Point(s)'
+            'BAP(s)'
             0
             1
             'LI-4(R)'
@@ -11915,7 +11940,6 @@ object frmMain: TfrmMain
               Font.Quality = fqDraft
               ParentColor = False
               ParentFont = False
-              OnClick = Label9Click
             end
             object Label10: TLabel
               Left = 10

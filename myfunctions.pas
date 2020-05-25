@@ -7,10 +7,13 @@ unit myFunctions;
 interface
 
 uses
-  Classes, SysUtils, StrUtils, Forms, LCLIntf, HTTPSend, fphttpclient, fpjson, jsonparser,URLMon;
+  Classes, SysUtils, StrUtils, Forms, LCLIntf, HTTPSend, fphttpclient, fpjson, jsonparser, URLMon, Windows;
+
+//Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
+//Grids, HTTPSend, fphttpclient, fpjson, jsonparser, Windows, LCLIntf, myFunctions;
 
 const
-  SOFTWARE_VERSION = '2020-05-24 (beta)';
+  SOFTWARE_VERSION = '2020-05-25 (alfa)';
 
   ATLAS_FOLDER ='AtlasDB';               //Subfolder (exe file place) for pictures and indexed database text files
   ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
@@ -30,7 +33,13 @@ type TEAPPoint = record
 end;
 
 
-type TEAPTherapy = array of TEAPPoint;
+type TEAPTherapy = record
+     Name : string;
+     Description : string;
+     Points : array of TEAPPoint;
+end;
+
+type TEAPTherapies = array of TEAPTherapy;
 
 
 type
@@ -101,28 +110,22 @@ const
 
 
 function calculateMass( mollMass : Double; z : Double; Q : Double (*mAh*)) : Double;
+
 function StringToEAPTherapy(s : string) : TEAPTherapy;
 
 function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer; //Return number of pictures
 
 function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return number of pictures
 
+procedure CreateDllLibraries();
+
+function GetContentFromREST(var Content : string; RestURL : string; ExtraFilters : string = '') : integer; //Return number of items
+
+function GetListFromContent( Content : string; TypeOfList : integer; var ListObject : TObject) : integer;
+
 
 implementation
 uses Dialogs, unitUpdateList;
-
-
-
-
-procedure xxxxxButtonUpdateClick(Sender: TObject);
-var s : string;
-    f : TextFile;
-begin
-
-
-end;
-
-
 
 
 
@@ -156,7 +159,7 @@ function UrlDecode(const EncodedStr: String): String;
 var
   I: Integer;
 begin
-  Result := '';
+  result := '';
   if Length(EncodedStr) > 0 then
   begin
     I := 1;
@@ -164,14 +167,14 @@ begin
     begin
       if EncodedStr[I] = '%' then
         begin
-          Result := Result + Chr(HexToInt(EncodedStr[I+1]
+          result := result + Chr(HexToInt(EncodedStr[I+1]
                                        + EncodedStr[I+2]));
           I := Succ(Succ(I));
         end
       else if EncodedStr[I] = '+' then
-        Result := Result + ' '
+        result := result + ' '
       else
-        Result := Result + EncodedStr[I];
+        result := result + EncodedStr[I];
 
       I := Succ(I);
     end;
@@ -198,16 +201,14 @@ begin
 end;
 
 function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return number of pictures
-var i : integer;
-    s :  string;
+var i,j : integer;
+   // s :  string;
     appFolder, sourceFile, destinationFile: string;
-    HTTPClient: TFPHttpClient;
-    JSONData : TJSONData;
+
+    JSONData : TJSONData; //Do not use create
     content : string;
 
 begin
-
-  //OpenUrl('https://biotronics.eu/atlas?field_synonyms_value='+trim(BAP));
 
   result:=0;
   PictureFilesList.Clear;
@@ -219,37 +220,106 @@ begin
 
   // REST/JSON interface
 
-  try
-     HTTPClient:=TFPHttpClient.Create(Nil);
-     FormUpdateList.CreateDllLibraries();
+     j := GetContentFromREST(content, LISTS_DEF[4].RestURL, 'field_synonyms_value=' + trim(BAP)+ '+');
+     if j < 0 then Exit;
 
-     HTTPClient.AddHeader('User-Agent','qiwellness');  //For GITHUB only
-     content:=HTTPClient.Get( LISTS_DEF[4].RestURL + '&field_synonyms_value=' + trim(BAP) + '+'  );
+     try
 
-     JSONData:=GetJSON(Content);
+       JSONData:=GetJSON(content);
 
-     for i:= 0 to JsonData.Count-1 do begin
+       for i := 0 to JSONData.Count - 1 do begin
 //TODO Progress bar with downloaded pictures
 
-       sourceFile := JSONData.FindPath('['+IntToStr(i)+']'+'.field_picture[0].url').AsString;
-       destinationFile := AppFolder + ATLAS_FOLDER + '\' +GetURLFilename(sourceFile) ;
+         sourceFile := JSONData.FindPath('['+IntToStr(i)+']'+'.field_picture[0].url').AsString;
+         destinationFile := AppFolder + ATLAS_FOLDER + '\' +GetURLFilename(sourceFile) ;
 
-       if not FileExists(destinationFile) then
-          if not DownLoadInternetFile(sourceFile, destinationFile) then continue;
+         if not FileExists(destinationFile) then
+            if not DownLoadInternetFile(sourceFile, destinationFile) then continue;
 
-       PictureFilesList.Add(destinationFile);
+         PictureFilesList.Add(destinationFile);
 
+       end;
+
+       result:=PictureFilesList.Count;
+
+     finally
+       JSONData.Free;
      end;
 
 
+end;
+
+function GetContentFromREST(var Content : string; RestURL : string ; ExtraFilters : string = '') : integer;
+(* KC 2020-05-25
+
+REST/JSON interface. Can connect http and https.
+  RestURL - e.g.: https://biotronics.eu/eap-therapies/rest?_format=json
+  ExtraFilters - e.g.: &title=anorexia
+  Content - JSON content data
+  result - Length of Content, -1=error
+
+*)
+var
+    HTTPClient: TFPHttpClient;
+
+begin
+
+  result := -1; //error
+
+//TODO: Exeptions
+  try
+
+     HTTPClient:=TFPHttpClient.Create(Nil);
+     CreateDllLibraries(); //Create Openssl libraries
+
+     HTTPClient.AddHeader('User-Agent','qiwellness');  //For GITHUB only
+     Content:=HTTPClient.Get( RestURL + '&' + trim(ExtraFilters)  );
+
+     result:= Content.Length;
+
   finally
-         JSONData.Free;
-         HTTPClient.Free;
+     HTTPClient.Free;
   end;
 
-  result:=PictureFilesList.Count;
+end;
+
+function GetListFromContent( Content : string; TypeOfList : integer; var ListObject : TObject) : integer;
+
+var
+    i,j : integer;
+    JSONData : TJSONData; //Do not use create
+
+begin
+
+     result:=0;
+
+
+
+     try
+
+        JSONData:=GetJSON(content);
+
+        for i := 0 to JSONData.Count - 1 do begin
+
+        if ListObject.ClassType = TEAPTherapies then;
+        sourceFile := JSONData.FindPath('['+IntToStr(i)+']'+'.field_picture[0].url').AsString;
+        destinationFile := AppFolder + ATLAS_FOLDER + '\' +GetURLFilename(sourceFile) ;
+
+        if not FileExists(destinationFile) then
+           if not DownLoadInternetFile(sourceFile, destinationFile) then continue;
+
+           PictureFilesList.Add(destinationFile);
+
+        end;
+
+
+
+     finally
+            JSONData.Free;
+     end;
 
 end;
+
 
 function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer;  //return count of pictures;
 var txtIN,txtOUT : textFile;
@@ -325,6 +395,7 @@ end;
 
 function StringToEAPTherapy(s : string) : TEAPTherapy;
 //Converts strings like "CV24[240] GV26[240]" to structurized records
+//without of Name and Description field
 
 var OnePointString : string;
   i,l,n:integer;
@@ -378,7 +449,7 @@ begin
   i:=0;
   s:=trim(s)+' ';
 
-  SetLength(EAPTherapy,0);
+  SetLength(EAPTherapy.Points,0);
 
   if trim(s)<>'' then begin
 
@@ -389,15 +460,15 @@ begin
      if l>2 then begin
        OnePointString:= Trim(copy(s,i,l));
 
-       SetLength(EAPTherapy, Length(EAPTherapy)+1);
-       n:= Length(EAPTherapy)-1;
+       SetLength(EAPTherapy.Points, Length(EAPTherapy.Points)+1);
+       n:= Length(EAPTherapy.Points)-1;
 
        //Important is an order
-       EAPTherapy[n].Time := GetTimeFromOnePointString(OnePointString);
-       EAPTherapy[n].Side := GetSideFromOnePointString(OnePointString);
-       EAPTherapy[n].Point := OnePointString;
+       EAPTherapy.Points[n].Time := GetTimeFromOnePointString(OnePointString);
+       EAPTherapy.Points[n].Side := GetSideFromOnePointString(OnePointString);
+       EAPTherapy.Points[n].Point := OnePointString;
 
-       EAPTherapy[n].Profile:= 0;   //Profile User
+       EAPTherapy.Points[n].Profile:= 0;   //Profile User
 
 
        //ShowMessage(OnePointString);
@@ -411,6 +482,45 @@ begin
   end;
 
   result:= EAPTherapy;
+
+end;
+
+procedure CreateDllLibraries();
+(* KC 2020-05-25
+Create Openssl DLLs from qiWELLNESS.exe resource if is not available
+
+
+*)
+var
+  AppFolder: string;
+  ResourceStream: TResourceStream;
+
+begin
+  //Create OpenSSL libraries from exe resource
+
+  AppFolder := ExtractFilePath(Application.ExeName);
+
+  if not FileExists(AppFolder + 'libeay32.dll') then begin
+    try
+      ResourceStream := TResourceStream.Create(HInstance, 'LIBEAY32', RT_RCDATA);
+      ResourceStream.Position := 0;
+      ResourceStream.SaveToFile( AppFolder + 'libeay32.dll' );
+
+    finally
+      ResourceStream.Free;
+    end;
+end;
+
+  if not FileExists(AppFolder + 'ssleay32.dll') then begin
+    try
+      ResourceStream := TResourceStream.Create(HInstance, 'SSLEAY32', RT_RCDATA);
+      ResourceStream.Position := 0;
+      ResourceStream.SaveToFile( AppFolder + 'ssleay32.dll' );
+
+    finally
+      ResourceStream.Free;
+    end;
+  end;
 
 end;
 

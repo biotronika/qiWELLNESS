@@ -33,8 +33,9 @@ type
      JSONData : TJSONData;
 
   public
-    procedure OpenWindowUpdateList( TypeOfList : Integer);
-    procedure CreateDllLibraries();
+    procedure OpenWindowUpdateList( TypeOfList : Integer; FilterOptions : string ='' );
+    //procedure OpenWindowUpdateList( TypeOfList : Integer);
+    //procedure CreateDllLibraries();
     procedure ConnectRESTInterface(Url: String);
     function  JSON2String( TypeOfList : Integer; _JSONData: TJSONData): string;
 
@@ -130,6 +131,7 @@ begin
   end;
 end;
 
+(*
 procedure TFormUpdateList.CreateDllLibraries();
 var
   AppFolder: string;
@@ -163,8 +165,9 @@ end;
   end;
 
 end;
+*)
 
-procedure TFormUpdateList.OpenWindowUpdateList( TypeOfList : Integer);
+procedure TFormUpdateList.OpenWindowUpdateList( TypeOfList : Integer; FilterOptions : string );
 begin
 
   StringGrid.Clear;
@@ -249,7 +252,7 @@ begin
 
   StringGrid.SaveToCSVFile(DestinationListFile);
 //TODO: REMOVE
-  ShowMessage( IntToStr(AtlasCreatePicturesIndex(DestinationListFile)));
+ // ShowMessage( IntToStr(AtlasCreatePicturesIndex(DestinationListFile)));
 
   Self.Close;
 
