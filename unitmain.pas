@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
   ComCtrls, CheckLst, Grids, ColorBox, LazSerial, TAGraph, TASeries,
-  TALegendPanel, TASources, TAChartCombos,  Types , LCLType,  lclintf, Spin;
+  TALegendPanel, TASources,(* TAChartCombos, *) Types , LCLType,  lclintf, Spin;
 
 type
 
@@ -216,7 +216,7 @@ type
     procedure ButtonSavePathClick(Sender: TObject);
     procedure ButtonSaveReadingClick(Sender: TObject);
     //procedure btnVegatestSaveClick(Sender: TObject);
-    procedure ButtonSaveReportClick(Sender: TObject);
+    //procedure ButtonSaveReportClick(Sender: TObject);
     procedure ButtonVegatestEditClick(Sender: TObject);
     procedure ButtonVegatestSaveAs1Click(Sender: TObject);
     procedure ButtonVegClick(Sender: TObject);
@@ -612,11 +612,7 @@ begin
   end;
 end;
 
-procedure LoadEAPFromFile(idx:integer);
-begin
 
-
-end;
 
 procedure TfrmMain.ButtonChooseEAPTherapyClick(Sender: TObject);
 var //TherapyIdx : integer;
@@ -1095,39 +1091,6 @@ begin
 
 end;
 
-
-
-
-procedure TfrmMain.ButtonSaveReportClick(Sender: TObject);
-var
-  bmp: TBitmap;
-
-begin
-  //SetPictureBlock(VIEW_ATLAS);
-
-
-  //PanelPicture.Height:=800;
-  //FormUpdateList.Show;
-  //FormUpdateList.OpenWindowUpdateList( LIST_ATLAS );
-
-  (*
-  statusBar.SimpleText:=FormatDateTime('yyyy-MM-DD hh:nn',Now());
-
-  if SaveDialogForm.Execute then begin
-
-    bmp := TBitmap.Create;
-    try
-      //Application.ProcessMessages;
-      bmp.Canvas.Changed;
-      bmp := frmMain.GetFormImage;
-      bmp.SaveToFile(SaveDialogForm.FileName);
-    finally
-      bmp.Free;
-    end;
-
-  end;
-  *)
-end;
 
 procedure TfrmMain.ButtonVegatestEditClick(Sender: TObject);
 begin

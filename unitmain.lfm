@@ -731,7 +731,7 @@ object frmMain: TfrmMain
       Height = 862
       Top = 1
       Width = 958
-      ActivePage = tabRyodoraku
+      ActivePage = tabElectropunture
       Align = alRight
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
@@ -740,7 +740,7 @@ object frmMain: TfrmMain
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 1
+      TabIndex = 4
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -10758,7 +10758,6 @@ object frmMain: TfrmMain
             Top = 8
             Width = 87
             Caption = 'Save report'
-            OnClick = ButtonSaveReportClick
             ParentFont = False
             TabOrder = 2
           end
@@ -11743,11 +11742,10 @@ object frmMain: TfrmMain
             Pen.Style = psDash
           end
           object Label24: TLabel
-            Left = 0
+            Left = 40
             Height = 26
             Top = 0
-            Width = 950
-            Align = alClient
+            Width = 910
             Alignment = taCenter
             AutoSize = False
             Caption = 'Double click the point symbol to view its location in the Atlas'

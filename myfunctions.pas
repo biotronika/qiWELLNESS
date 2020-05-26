@@ -13,7 +13,7 @@ uses
 //Grids, HTTPSend, fphttpclient, fpjson, jsonparser, Windows, LCLIntf, myFunctions;
 
 const
-  SOFTWARE_VERSION = '2020-05-25 (alfa)';
+  SOFTWARE_VERSION = '2020-05-26 (beta)';
 
   ATLAS_FOLDER ='AtlasDB';               //Subfolder (exe file place) for pictures and indexed database text files
   ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
@@ -32,11 +32,14 @@ type TEAPPoint = record
      Elapsed : integer;
 end;
 
+type TEAPPoints = array of TEAPPoint;
+
 
 type TEAPTherapy = record
      Name : string;
      Description : string;
-     Points : array of TEAPPoint;
+     StrPoints : string;
+     Points : TEAPPoints;
 end;
 
 type TEAPTherapies = array of TEAPTherapy;
@@ -56,7 +59,7 @@ const
    //Types of lists
    LIST_ION_SUBSTANCES = 1;
    LIST_EAV_PATHS = 2;
-   LIST_EAP_PATHS = 3;
+   LIST_EAP_THERAPY = 3;
    LIST_ATLAS = 4;  // atlas catalog with pictures
 
    DEFAULT_EAP_THERAPY_TIME = 120;  //120seconds;
@@ -84,9 +87,9 @@ const
           (Title : 'EAP therapies'; FileName : 'EAPtherapies.txt';
           Url : 'https://biotronics.eu/eap-therapies';
           RestURL :'https://biotronics.eu/eap-therapies/rest?_format=json';
-          FieldCount : 2;
-          FieldNames :    ('EAP therapy name','BAPs','','','','','','','','');
-          FieldJsonPath : ('.title[0].value','.field_baps[0].value','','','','','','','','')
+          FieldCount : 3;
+          FieldNames :    ('EAP therapy name','BAPs','Description','','','','','','','');
+          FieldJsonPath : ('.title[0].value','.field_baps[0].value','.body[0].propossed','','','','','','','')
           ),
 
           (Title : 'Atlas'; FileName : 'Atlas.txt';
@@ -110,18 +113,12 @@ const
 
 
 function calculateMass( mollMass : Double; z : Double; Q : Double (*mAh*)) : Double;
-
-function StringToEAPTherapy(s : string) : TEAPTherapy;
-
+function StringToEAPTherapy(s : string) : TEAPPoints;
 function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer; //Return number of pictures
-
 function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return number of pictures
-
 procedure CreateDllLibraries();
-
 function GetContentFromREST(var Content : string; RestURL : string; ExtraFilters : string = '') : integer; //Return number of items
-
-function GetListFromContent( Content : string; TypeOfList : integer; var ListObject : TObject) : integer;
+function GetEAPTherapiesFromContent( Content : string; var EAPTherapies : TEAPTherapies) : integer;
 
 
 implementation
@@ -283,39 +280,42 @@ begin
 
 end;
 
-function GetListFromContent( Content : string; TypeOfList : integer; var ListObject : TObject) : integer;
-
+function GetEAPTherapiesFromContent( Content : string; var EAPTherapies : TEAPTherapies) : integer;
+const LIST_TYPE = LIST_EAP_THERAPY;
 var
     i,j : integer;
+    s : string;
     JSONData : TJSONData; //Do not use create
 
 begin
 
      result:=0;
 
+     SetLength(EAPTherapies,0);
 
 
      try
 
         JSONData:=GetJSON(content);
 
-        for i := 0 to JSONData.Count - 1 do begin
+        j:= JSONData.Count;
 
-        if ListObject.ClassType = TEAPTherapies then;
-        sourceFile := JSONData.FindPath('['+IntToStr(i)+']'+'.field_picture[0].url').AsString;
-        destinationFile := AppFolder + ATLAS_FOLDER + '\' +GetURLFilename(sourceFile) ;
+        SetLength(EAPTherapies, j);
 
-        if not FileExists(destinationFile) then
-           if not DownLoadInternetFile(sourceFile, destinationFile) then continue;
+        for i := 0 to j - 1 do begin
 
-           PictureFilesList.Add(destinationFile);
+
+          s:= '['+IntToStr(i)+']' + LISTS_DEF[LIST_TYPE].FieldJsonPath[1];
+          EAPTherapies[i].Name         := JSONData.FindPath( s ).AsString;
+          //EAPTherapies[i].Description  := JSONData.FindPath( '['+IntToStr(i)+']' + LISTS_DEF[LIST_TYPE].FieldJsonPath[3] ).AsString;
+          s                            := JSONData.FindPath( '['+IntToStr(i)+']' + LISTS_DEF[LIST_TYPE].FieldJsonPath[2] ).AsString;
+          EAPTherapies[i].Points       := StringToEAPTherapy( s );
+          EAPTherapies[i].StrPoints    := s;
 
         end;
 
-
-
      finally
-            JSONData.Free;
+          JSONData.Free;
      end;
 
 end;
@@ -393,13 +393,12 @@ end;
 
 
 
-function StringToEAPTherapy(s : string) : TEAPTherapy;
-//Converts strings like "CV24[240] GV26[240]" to structurized records
-//without of Name and Description field
+function StringToEAPTherapy(s : string) : TEAPPoints;
+//Converts strings like "CV24[240] GV26[240]" to array of points
 
 var OnePointString : string;
   i,l,n:integer;
-  EAPTherapy : TEAPTherapy;
+  Points : TEAPPoints;
 
   //Internal function
   function GetTimeFromOnePointString(var OnePointString: string) : integer;
@@ -449,7 +448,7 @@ begin
   i:=0;
   s:=trim(s)+' ';
 
-  SetLength(EAPTherapy.Points,0);
+  SetLength(Points,0);
 
   if trim(s)<>'' then begin
 
@@ -460,15 +459,15 @@ begin
      if l>2 then begin
        OnePointString:= Trim(copy(s,i,l));
 
-       SetLength(EAPTherapy.Points, Length(EAPTherapy.Points)+1);
-       n:= Length(EAPTherapy.Points)-1;
+       SetLength(Points, Length(Points)+1);
+       n:= Length(Points)-1;
 
        //Important is an order
-       EAPTherapy.Points[n].Time := GetTimeFromOnePointString(OnePointString);
-       EAPTherapy.Points[n].Side := GetSideFromOnePointString(OnePointString);
-       EAPTherapy.Points[n].Point := OnePointString;
+       Points[n].Time := GetTimeFromOnePointString(OnePointString);
+       Points[n].Side := GetSideFromOnePointString(OnePointString);
+       Points[n].Point := OnePointString;
 
-       EAPTherapy.Points[n].Profile:= 0;   //Profile User
+       Points[n].Profile:= 0;   //Profile User
 
 
        //ShowMessage(OnePointString);
@@ -481,7 +480,7 @@ begin
 
   end;
 
-  result:= EAPTherapy;
+  result:= Points;
 
 end;
 
