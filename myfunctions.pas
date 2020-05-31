@@ -13,7 +13,7 @@ uses
 //Grids, HTTPSend, fphttpclient, fpjson, jsonparser, Windows, LCLIntf, myFunctions;
 
 const
-  SOFTWARE_VERSION = '2020-05-26 (beta)';
+  SOFTWARE_VERSION = '2020-05-31 (alpha)';
 
   ATLAS_FOLDER ='AtlasDB';               //Subfolder (exe file place) for pictures and indexed database text files
   ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
@@ -89,7 +89,7 @@ const
           RestURL :'https://biotronics.eu/eap-therapies/rest?_format=json';
           FieldCount : 3;
           FieldNames :    ('EAP therapy name','BAPs','Description','','','','','','','');
-          FieldJsonPath : ('.title[0].value','.field_baps[0].value','.body[0].propossed','','','','','','','')
+          FieldJsonPath : ('.title[0].value','.field_baps[0].value','.body[0].processed','','','','','','','')
           ),
 
           (Title : 'Atlas'; FileName : 'Atlas.txt';
@@ -267,6 +267,8 @@ begin
   try
 
      HTTPClient:=TFPHttpClient.Create(Nil);
+
+//TODO:multiplatform
      CreateDllLibraries(); //Create Openssl libraries
 
      HTTPClient.AddHeader('User-Agent','qiwellness');  //For GITHUB only
@@ -307,7 +309,7 @@ begin
 
           s:= '['+IntToStr(i)+']' + LISTS_DEF[LIST_TYPE].FieldJsonPath[1];
           EAPTherapies[i].Name         := JSONData.FindPath( s ).AsString;
-          //EAPTherapies[i].Description  := JSONData.FindPath( '['+IntToStr(i)+']' + LISTS_DEF[LIST_TYPE].FieldJsonPath[3] ).AsString;
+          EAPTherapies[i].Description  := JSONData.FindPath( '['+IntToStr(i)+']' + LISTS_DEF[LIST_TYPE].FieldJsonPath[3] ).AsString;
           s                            := JSONData.FindPath( '['+IntToStr(i)+']' + LISTS_DEF[LIST_TYPE].FieldJsonPath[2] ).AsString;
           EAPTherapies[i].Points       := StringToEAPTherapy( s );
           EAPTherapies[i].StrPoints    := s;

@@ -38,19 +38,19 @@ type
     ButtonRyodorakuAnalize: TButton;
     ButtonRyodorakuSendToEAP: TButton;
     cboxSeries: TComboBox;
+    chartCurrent: TChart;
+    chartRMS: TChart;
+    chartRMSBarSeries1: TBarSeries;
     chartRMS_ION: TChart;
     chartRMS_IONBarSeries1: TBarSeries;
     chartRyodoraku: TChart;
     chartRyodorakuRightSeries: TBarSeries;
-    chartRMS: TChart;
-    chartRMSBarSeries1: TBarSeries;
-    chartSeriesCurrent: TBarSeries;
-    chartCurrent: TChart;
     chartRyodorakuNormal: TLineSeries;
     chartRyodorakuLeftSeries: TBarSeries;
     ChartMeasure: TChart;
     ChartMeasureCurrentLineSeries: TLineSeries;
     cboxChangeDirections: TCheckBox;
+    chartSeriesCurrent: TBarSeries;
     chartSourceRMS_ION: TListChartSource;
     CheckBoxAutoTrack: TCheckBox;
     EditSubstance_ION: TEdit;
@@ -91,11 +91,12 @@ type
     Label22: TLabel;
     Label23: TLabel;
     Label24: TLabel;
+    Label25: TLabel;
+    LabelEAPName: TLabel;
     LabelLiteratureURL: TLabel;
     Label9: TLabel;
     LabelCharge: TLabel;
     LabelMass: TLabel;
-    LabelTime: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
@@ -104,6 +105,8 @@ type
     Label7: TLabel;
     chartSourceRMS: TListChartSource;
     chartSourceCurrent: TListChartSource;
+    LabelTime: TLabel;
+    MemoDescription: TMemo;
     OpenDialog: TOpenDialog;
     Panel10: TPanel;
     Panel11: TPanel;
@@ -116,9 +119,16 @@ type
     Panel20: TPanel;
     Panel21: TPanel;
     Panel22: TPanel;
+    Panel23: TPanel;
+    Panel24: TPanel;
+    Panel25: TPanel;
+    Panel26: TPanel;
     Panel4: TPanel;
     Panel5: TPanel;
     Panel8: TPanel;
+    ProgressBarTime: TProgressBar;
+    RadioBtnCurrentImpulse: TRadioButton;
+    RadioBtnCurrentRMS: TRadioButton;
     rbDutyCycle50_ION: TRadioButton;
     rbDutyCycle90_ION: TRadioButton;
     RadioGroup4: TRadioGroup;
@@ -135,7 +145,6 @@ type
     Panel13: TPanel;
     Panel14: TPanel;
     Panel9: TPanel;
-    ProgressBarTime: TProgressBar;
     rbNegativeElectrode: TRadioButton;
     rbDCpositive: TRadioButton;
     rbDCchangeDirections: TRadioButton;
@@ -246,6 +255,7 @@ type
 
     procedure ImageControllClick(Sender: TObject);
     procedure LabelLiteratureURLClick(Sender: TObject);
+    procedure RadioBtnCurrentImpulseChange(Sender: TObject);
 
     procedure rbCommonChange(Sender: TObject);
 
@@ -625,6 +635,8 @@ begin
 
   StringGridEAPTherapy.RowCount:= 1; //Clear fields, but not change grid size
   StringGridEAPTherapy.RowCount:=Length(EAPTherapy.Points)+1;
+  MemoDescription.Lines.Add(EAPTherapy.Description);
+  LabelEAPName.Caption:=EAPTherapy.Name;
 
   for i:= 1 to Length(EAPTherapy.Points) do begin
       with StringGridEAPTherapy do begin
@@ -646,7 +658,9 @@ begin
           Cells[EAP_TIME_GRID_COL,0]    := 'Time [s]';
           Cells[EAP_ELAPSED_GRID_COL,0] := 'Elapsed';
           Cells[EAP_PROGRESS_GRID_COL,0]:= 'Progress';
-  end
+  end;
+
+  Panel26.Height:= 100;
 
 
 end;
@@ -1460,6 +1474,12 @@ end;
 procedure TfrmMain.LabelLiteratureURLClick(Sender: TObject);
 begin
   OpenURL('https://biotronics.eu/literature');
+end;
+
+procedure TfrmMain.RadioBtnCurrentImpulseChange(Sender: TObject);
+begin
+  chartCurrent.Visible := RadioBtnCurrentImpulse.Checked;
+  chartRMS.Visible     := RadioBtnCurrentRMS.Checked;
 end;
 
 
