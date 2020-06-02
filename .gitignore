@@ -63,6 +63,7 @@ __recovery/
 *.~*
 backup/
 lib/
+AtlasDB/
 .gitignore
 .gitattributes
 
@@ -72,7 +73,7 @@ lib/
 # Boss dependency manager vendor folder https://github.com/HashLoad/boss
 modules/
 *.port
-qiWELLNESS.exe
+#qiWELLNESS.exe
 qiWELLNESS.port
 <<<<<<< HEAD
 =======
