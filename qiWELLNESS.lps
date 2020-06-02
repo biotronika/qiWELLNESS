@@ -4,12 +4,12 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="19">
+    <Units Count="21">
       <Unit0>
         <Filename Value="qiWELLNESS.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="4"/>
-        <CursorPos Y="24"/>
+        <EditorIndex Value="5"/>
+        <CursorPos X="55" Y="12"/>
         <UsageCount Value="265"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -20,13 +20,15 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitMain"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="620"/>
-        <CursorPos X="15" Y="638"/>
+        <TopLine Value="109"/>
+        <CursorPos X="44" Y="1816"/>
         <UsageCount Value="265"/>
-        <Bookmarks Count="2">
-          <Item0 Y="1437" ID="6"/>
-          <Item1 X="5" Y="626" ID="4"/>
+        <Bookmarks Count="5">
+          <Item0 X="67" Y="1718" ID="2"/>
+          <Item1 X="48" Y="1761" ID="3"/>
+          <Item2 X="15" Y="1669" ID="1"/>
+          <Item3 X="23" Y="1601" ID="6"/>
+          <Item4 Y="1859" ID="4"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -47,14 +49,10 @@
         <Filename Value="myfunctions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="myFunctions"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="22"/>
-        <CursorPos X="6" Y="38"/>
+        <CursorPos X="57" Y="10"/>
         <UsageCount Value="265"/>
-        <Bookmarks Count="2">
-          <Item0 X="22" Y="249" ID="1"/>
-          <Item1 X="29" Y="87" ID="3"/>
-        </Bookmarks>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -64,9 +62,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitUpdateList"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="172"/>
-        <CursorPos X="94" Y="170"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="96" Y="9"/>
         <UsageCount Value="265"/>
         <Loaded Value="True"/>
       </Unit4>
@@ -77,69 +74,67 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitChooseEAPTherapy"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="114"/>
         <CursorPos X="84" Y="119"/>
         <UsageCount Value="225"/>
-        <Bookmarks Count="2">
+        <Bookmarks Count="1">
           <Item0 X="15" Y="62" ID="5"/>
-          <Item1 X="21" Y="78" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit5>
       <Unit6>
+        <Filename Value="unitdownload.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="unitDownload"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="51" Y="4"/>
+        <UsageCount Value="110"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
         <Filename Value="C:\lazarus\lcl\include\control.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2898"/>
         <CursorPos Y="2917"/>
-        <UsageCount Value="18"/>
-      </Unit6>
-      <Unit7>
+        <UsageCount Value="9"/>
+      </Unit7>
+      <Unit8>
         <Filename Value="C:\lazarus\lcl\dialogs.pp"/>
         <UnitName Value="Dialogs"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="709"/>
         <CursorPos X="11" Y="724"/>
-        <UsageCount Value="188"/>
-      </Unit7>
-      <Unit8>
+        <UsageCount Value="179"/>
+      </Unit8>
+      <Unit9>
         <Filename Value="C:\lazarus\lcl\include\buttoncontrol.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="41"/>
         <CursorPos Y="56"/>
-        <UsageCount Value="116"/>
-      </Unit8>
-      <Unit9>
+        <UsageCount Value="107"/>
+      </Unit9>
+      <Unit10>
         <Filename Value="C:\lazarus\lcl\include\buttons.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="155"/>
         <CursorPos Y="170"/>
-        <UsageCount Value="116"/>
-      </Unit9>
-      <Unit10>
-        <Filename Value="C:\lazarus\lcl\forms.pp"/>
-        <UnitName Value="Forms"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="1822"/>
-        <CursorPos X="3" Y="1848"/>
-        <UsageCount Value="329"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="107"/>
       </Unit10>
       <Unit11>
+        <Filename Value="C:\lazarus\lcl\forms.pp"/>
+        <UnitName Value="Forms"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1684"/>
+        <CursorPos X="3" Y="1848"/>
+        <UsageCount Value="321"/>
+      </Unit11>
+      <Unit12>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\classes\classesh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="386"/>
         <CursorPos X="11" Y="607"/>
-        <UsageCount Value="295"/>
-      </Unit11>
-      <Unit12>
-        <Filename Value="C:\lazarus\lcl\lclintf.pas"/>
-        <UnitName Value="LCLIntf"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="19"/>
-        <CursorPos X="6" Y="38"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="286"/>
       </Unit12>
       <Unit13>
         <Filename Value="..\RESTtool\unit1.pas"/>
@@ -147,166 +142,178 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="91"/>
         <CursorPos X="3" Y="98"/>
-        <UsageCount Value="48"/>
+        <UsageCount Value="39"/>
       </Unit13>
       <Unit14>
-        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\wininc\defines.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="55"/>
-        <CursorPos X="5" Y="1221"/>
-        <UsageCount Value="8"/>
-      </Unit14>
-      <Unit15>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\fcl-json\src\fpjson.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1095"/>
         <CursorPos X="3" Y="824"/>
-        <UsageCount Value="10"/>
-      </Unit15>
-      <Unit16>
+        <UsageCount Value="1"/>
+      </Unit14>
+      <Unit15>
         <Filename Value="C:\lazarus\lcl\lclmessageglue.pas"/>
         <UnitName Value="LCLMessageGlue"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="101"/>
         <CursorPos Y="116"/>
-        <UsageCount Value="12"/>
-      </Unit16>
-      <Unit17>
+        <UsageCount Value="3"/>
+      </Unit15>
+      <Unit16>
         <Filename Value="C:\lazarus\lcl\grids.pas"/>
         <UnitName Value="Grids"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="9886"/>
         <CursorPos X="36" Y="9897"/>
-        <UsageCount Value="12"/>
-      </Unit17>
-      <Unit18>
+        <UsageCount Value="3"/>
+      </Unit16>
+      <Unit17>
         <Filename Value="C:\lazarus\lcl\include\customform.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2897"/>
         <CursorPos X="44" Y="2906"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="2"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\fcl-web\src\base\fphttpclient.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="240"/>
+        <CursorPos X="3" Y="325"/>
+        <UsageCount Value="2"/>
       </Unit18>
+      <Unit19>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\openssl\src\fpopenssl.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="403"/>
+        <UsageCount Value="2"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\winunits-base\src\urlmon.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="94"/>
+        <UsageCount Value="2"/>
+      </Unit20>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="137" Column="3" TopLine="119"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="342" Column="18" TopLine="328"/>
       </Position1>
       <Position2>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="157" Column="33" TopLine="134"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1615" Column="25" TopLine="1600"/>
       </Position2>
       <Position3>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="169" Column="33" TopLine="138"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1676" Column="38" TopLine="1662"/>
       </Position3>
       <Position4>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="85" Column="29" TopLine="69"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1813" Column="42" TopLine="1799"/>
       </Position4>
       <Position5>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="107" Column="11" TopLine="91"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1778" Column="29" TopLine="1761"/>
       </Position5>
       <Position6>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="170" Column="32" TopLine="145"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1603" Column="34" TopLine="1588"/>
       </Position6>
       <Position7>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="9" Column="29"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1779" Column="98" TopLine="1762"/>
       </Position7>
       <Position8>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="176" Column="16" TopLine="154"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1603" Column="49" TopLine="1612"/>
       </Position8>
       <Position9>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="38" Column="15" TopLine="23"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1779" Column="110" TopLine="1759"/>
       </Position9>
       <Position10>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="88" Column="18" TopLine="74"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1778" Column="63" TopLine="1764"/>
       </Position10>
       <Position11>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="86" TopLine="74"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1785" Column="110" TopLine="1769"/>
       </Position11>
       <Position12>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="88" TopLine="74"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1778" Column="56" TopLine="1765"/>
       </Position12>
       <Position13>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="91" Column="62" TopLine="74"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1668" Column="32" TopLine="1651"/>
       </Position13>
       <Position14>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="92" Column="62" TopLine="75"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1882" Column="3" TopLine="1867"/>
       </Position14>
       <Position15>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="93" Column="62" TopLine="76"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="9" Column="13" TopLine="19"/>
       </Position15>
       <Position16>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="165" Column="41" TopLine="134"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1777" Column="63" TopLine="1764"/>
       </Position16>
       <Position17>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="179" Column="33" TopLine="168"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1669" Column="28" TopLine="1653"/>
       </Position17>
       <Position18>
-        <Filename Value="myfunctions.pas"/>
-        <Caret Line="16" Column="23"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1603" Column="49" TopLine="1588"/>
       </Position18>
       <Position19>
-        <Filename Value="qiWELLNESS.lpr"/>
-        <Caret Line="24"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1609" Column="3" TopLine="1588"/>
       </Position19>
       <Position20>
-        <Filename Value="myfunctions.pas"/>
-        <Caret Line="92" Column="88" TopLine="127"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1669" Column="14" TopLine="1655"/>
       </Position20>
       <Position21>
-        <Filename Value="unitchooseeaptherapy.pas"/>
-        <Caret Line="129" Column="3" TopLine="168"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1603" Column="35" TopLine="1588"/>
       </Position21>
       <Position22>
-        <Filename Value="myfunctions.pas"/>
-        <Caret Line="87" Column="29" TopLine="71"/>
+        <Filename Value="unitmain.pas"/>
+        <Caret Line="1609" Column="2" TopLine="1587"/>
       </Position22>
       <Position23>
         <Filename Value="unitmain.pas"/>
-        <Caret Line="12" Column="45"/>
+        <Caret Line="1669" Column="20" TopLine="1647"/>
       </Position23>
       <Position24>
         <Filename Value="unitmain.pas"/>
-        <Caret Line="637" Column="54" TopLine="621"/>
+        <Caret Line="351" Column="17" TopLine="329"/>
       </Position24>
       <Position25>
         <Filename Value="unitmain.pas"/>
-        <Caret Line="628" Column="5" TopLine="621"/>
+        <Caret Line="1603" Column="34" TopLine="1585"/>
       </Position25>
       <Position26>
         <Filename Value="unitmain.pas"/>
-        <Caret Line="638" Column="16" TopLine="621"/>
+        <Caret Line="1669" Column="24" TopLine="1651"/>
       </Position26>
       <Position27>
         <Filename Value="unitmain.pas"/>
-        <Caret Line="95" Column="18" TopLine="80"/>
+        <Caret Line="351" Column="22" TopLine="338"/>
       </Position27>
       <Position28>
         <Filename Value="unitmain.pas"/>
-        <Caret Line="638" Column="16" TopLine="621"/>
+        <Caret Line="1728" Column="37" TopLine="1716"/>
       </Position28>
       <Position29>
         <Filename Value="unitmain.pas"/>
-        <Caret Line="95" Column="17" TopLine="80"/>
+        <Caret Line="1853" Column="3" TopLine="1849"/>
       </Position29>
       <Position30>
         <Filename Value="unitmain.pas"/>
-        <Caret Line="639" Column="11" TopLine="620"/>
+        <Caret Line="1827" Column="8" TopLine="1373"/>
       </Position30>
     </JumpHistory>
     <RunParams>

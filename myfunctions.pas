@@ -7,13 +7,12 @@ unit myFunctions;
 interface
 
 uses
-  Classes, SysUtils, StrUtils, Forms, LCLIntf, HTTPSend, fphttpclient, fpjson, jsonparser, URLMon, Windows;
-
-//Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-//Grids, HTTPSend, fphttpclient, fpjson, jsonparser, Windows, LCLIntf, myFunctions;
+  Classes, SysUtils, StrUtils, Forms, LCLIntf, HTTPSend, fphttpclient, fpjson, jsonparser, unitDownload;
+//OLD
+//, URLMon, Windows;
 
 const
-  SOFTWARE_VERSION = '2020-05-31 (alpha)';
+  SOFTWARE_VERSION = '2020-06-02 (alpha)';
 
   ATLAS_FOLDER ='AtlasDB';               //Subfolder (exe file place) for pictures and indexed database text files
   ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
@@ -21,7 +20,6 @@ const
   MY_DELIMETER = ',';
 
   PROFILES : array[0..6] of string = ( 'User', 'Common', 'Stimulation', 'Sedation', 'DC-', 'DC+', 'DC change');
-
 
 
 type TEAPPoint = record
@@ -104,6 +102,14 @@ const
 
   TEMPORARY_FILE = '~temp.txt';
 
+  const
+         MODE_UNK = -1; //unknown
+         MODE_EAP = 0;
+         MODE_EAV = 1;
+         MODE_VEG = 2;
+         MODE_RYO = 3; //Ryodoraku
+         MODE_ION = 4; //Ionophoreses & zapper
+
 
   var
     AtlasPointsDB : array of string;   // Ordered alphabetical list of all point names and numbers of pictures
@@ -116,13 +122,104 @@ function calculateMass( mollMass : Double; z : Double; Q : Double (*mAh*)) : Dou
 function StringToEAPTherapy(s : string) : TEAPPoints;
 function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer; //Return number of pictures
 function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return number of pictures
-procedure CreateDllLibraries();
 function GetContentFromREST(var Content : string; RestURL : string; ExtraFilters : string = '') : integer; //Return number of items
 function GetEAPTherapiesFromContent( Content : string; var EAPTherapies : TEAPTherapies) : integer;
+function HTML2PlainText(S: string): string;
 
+//DEPRECATED
+procedure CreateDllLibraries();
 
 implementation
 uses Dialogs, unitUpdateList;
+
+function HTML2PlainText(S: string): string;
+(* 2020-06-01
+ * Source: http://www.festra.com/eng/snip12.htm
+ * Origin name: StripHTML
+ *)
+var
+  TagBegin, TagEnd, TagLength: integer;
+begin
+  TagBegin := Pos( '<', S);
+
+  while (TagBegin > 0) do begin
+    TagEnd := Pos('>', S);
+    TagLength := TagEnd - TagBegin + 1;
+    Delete(S, TagBegin, TagLength);
+    TagBegin:= Pos( '<', S);
+  end;
+
+  result := S;
+end;
+
+//NEW
+function DownLoadInternetFile(Source, Dest : String): Boolean; begin
+  try
+     Application.ProcessMessages;
+     Result := DownloadFrInternet.DownLoadInternetFile (Source, Dest);
+  except
+    Result := False;
+  end;
+end;
+
+(* //OLD
+function DownLoadInternetFile(SourceFile, DestinationFile : String): Boolean;
+begin
+  try
+    result := URLDownloadToFile(nil,PChar(SourceFile),PChar(DestinationFile),0,nil) = 0
+  except
+    result := False;
+  end;
+end;
+*)
+
+
+//NEW
+procedure CreateDllLibraries();
+begin
+//do nothing
+end;
+
+(* OLD
+procedure CreateDllLibraries();
+(* KC 2020-05-25
+Create Openssl DLLs from qiWELLNESS.exe resource if is not available
+
+
+*)
+var
+  AppFolder: string;
+  ResourceStream: TResourceStream;
+
+begin
+  //Create OpenSSL libraries from exe resource
+
+  AppFolder := ExtractFilePath(Application.ExeName);
+
+  if not FileExists(AppFolder + 'libeay32.dll') then begin
+    try
+      ResourceStream := TResourceStream.Create(HInstance, 'LIBEAY32', RT_RCDATA);
+      ResourceStream.Position := 0;
+      ResourceStream.SaveToFile( AppFolder + 'libeay32.dll' );
+
+    finally
+      ResourceStream.Free;
+    end;
+end;
+
+  if not FileExists(AppFolder + 'ssleay32.dll') then begin
+    try
+      ResourceStream := TResourceStream.Create(HInstance, 'SSLEAY32', RT_RCDATA);
+      ResourceStream.Position := 0;
+      ResourceStream.SaveToFile( AppFolder + 'ssleay32.dll' );
+
+    finally
+      ResourceStream.Free;
+    end;
+  end;
+
+end;
+*)
 
 
 
@@ -178,14 +275,7 @@ begin
   end;
 end;
 
-function DownLoadInternetFile(SourceFile, DestinationFile : String): Boolean;
-begin
-  try
-    result := URLDownloadToFile(nil,PChar(SourceFile),PChar(DestinationFile),0,nil) = 0
-  except
-    result := False;
-  end;
-end;
+
 
 
 
@@ -292,9 +382,7 @@ var
 begin
 
      result:=0;
-
      SetLength(EAPTherapies,0);
-
 
      try
 
@@ -378,8 +466,6 @@ begin
    end;
 
      LinksStringList.SaveToFile(txtOutFileName);
-
-
 
 
   finally
@@ -474,7 +560,6 @@ begin
 
        //ShowMessage(OnePointString);
 
-
      end;
      i:=i+l;
 
@@ -486,44 +571,6 @@ begin
 
 end;
 
-procedure CreateDllLibraries();
-(* KC 2020-05-25
-Create Openssl DLLs from qiWELLNESS.exe resource if is not available
-
-
-*)
-var
-  AppFolder: string;
-  ResourceStream: TResourceStream;
-
-begin
-  //Create OpenSSL libraries from exe resource
-
-  AppFolder := ExtractFilePath(Application.ExeName);
-
-  if not FileExists(AppFolder + 'libeay32.dll') then begin
-    try
-      ResourceStream := TResourceStream.Create(HInstance, 'LIBEAY32', RT_RCDATA);
-      ResourceStream.Position := 0;
-      ResourceStream.SaveToFile( AppFolder + 'libeay32.dll' );
-
-    finally
-      ResourceStream.Free;
-    end;
-end;
-
-  if not FileExists(AppFolder + 'ssleay32.dll') then begin
-    try
-      ResourceStream := TResourceStream.Create(HInstance, 'SSLEAY32', RT_RCDATA);
-      ResourceStream.Position := 0;
-      ResourceStream.SaveToFile( AppFolder + 'ssleay32.dll' );
-
-    finally
-      ResourceStream.Free;
-    end;
-  end;
-
-end;
 
 
 function calculateMass( mollMass : Double; z : Double; Q : Double (*mAh*)) : Double;
@@ -539,7 +586,9 @@ function calculateMass( mollMass : Double; z : Double; Q : Double (*mAh*)) : Dou
 
 var
   k,m : Double;
+
 begin
+
   k := mollMass / (z*96500);  // [g / C]  = [g / (A*s)]
   m := k*Q; // [ mA * 3600s * g / (A*s) ] = [3.6g]
   m := 3.6 * m; // [g]

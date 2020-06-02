@@ -105,7 +105,6 @@ type
     Label7: TLabel;
     chartSourceRMS: TListChartSource;
     chartSourceCurrent: TListChartSource;
-    LabelTime: TLabel;
     MemoDescription: TMemo;
     OpenDialog: TOpenDialog;
     Panel10: TPanel;
@@ -126,7 +125,6 @@ type
     Panel4: TPanel;
     Panel5: TPanel;
     Panel8: TPanel;
-    ProgressBarTime: TProgressBar;
     RadioBtnCurrentImpulse: TRadioButton;
     RadioBtnCurrentRMS: TRadioButton;
     rbDutyCycle50_ION: TRadioButton;
@@ -304,6 +302,7 @@ type
     procedure AtlasSearchBAP(pointSymbol: string);
 
   private
+    (*
     const
          MODE_UNK = -1; //unknown
          MODE_EAP = 0;
@@ -311,7 +310,9 @@ type
          MODE_VEG = 2;
          MODE_RYO = 3; //Ryodoraku
          MODE_ION = 4; //Ionophoreses & zapper
+    *)
 
+    const
       MAX_SERIES_NUMBER = 50;
       MAX_EAP_POINTS_NUMBER = 50;
       //RYODORAKU_NORMAL_MIN = 75;
@@ -338,7 +339,7 @@ type
       FLastLeftSide : boolean;
       FCurrentPointName : string;
       FRyodorakuChart : integer;
-      fReadBuffer : string;
+      FReadBuffer : string;  //Buufer for incoming stream
       //step : Cardinal;
       startTime : Double;
       mySeries : TLineSeries;
@@ -347,7 +348,7 @@ type
       EAPProgressGridRow : integer;
       EAPProgressTime : Double;
       myTime : Double;
-      lastMyTime : Double;
+      FElapsedTimeDbl : Double;
       firstTime_ION : boolean;
       Charge_ION : Double;
       GridRyodorakuLastClickedRow : integer;
@@ -385,6 +386,7 @@ var
 {$R *.lfm}
 
 { TfrmMain }
+
 
 procedure TfrmMain.SetPictureBlock( view : integer);
 begin
@@ -633,10 +635,10 @@ begin
   //Open Choose window
   EAPTherapy := FormChooseEAPTherapy.Choose('');
 
-  StringGridEAPTherapy.RowCount:= 1; //Clear fields, but not change grid size
-  StringGridEAPTherapy.RowCount:=Length(EAPTherapy.Points)+1;
-  MemoDescription.Lines.Add(EAPTherapy.Description);
-  LabelEAPName.Caption:=EAPTherapy.Name;
+  StringGridEAPTherapy.RowCount  := 1; //Clear fields, but not change grid size
+  StringGridEAPTherapy.RowCount  := Length(EAPTherapy.Points)+1;
+  MemoDescription.Lines.Add(        HTML2PlainText( EAPTherapy.Description )    );
+  LabelEAPName.Caption           := EAPTherapy.Name;
 
   for i:= 1 to Length(EAPTherapy.Points) do begin
       with StringGridEAPTherapy do begin
@@ -1227,7 +1229,7 @@ begin
   mySeries:=ChartMeasureCurrentLineSeries;
 
   startTime := 0;
-  lastMyTime := 0;
+  FElapsedTimeDbl := 0;
   EAPProgressGridRow := 0;
   FLastCol := 0;
   firstTime_ION := True;
@@ -1345,7 +1347,7 @@ begin
   //Clear all electropuncture current charts
   chartSourceCurrent.SetYValue(0,0);
   chartSourceRMS.SetYValue(0,0);
-  ProgressBarTime.Position:=0;
+  //ProgressBarTime.Position:=0;
 
   chartSourceRMS_ION.SetYValue(0,0);
 end;
@@ -1591,119 +1593,118 @@ end;
 
 
 procedure TfrmMain.SerialRxData(Sender: TObject);
-var s,ss : string;
-    i,j,l,p: integer;
-    d : Double;
+(* KC 2020-06-01
+ * Main serial communiation function
+ * React of any event (started with collon) from device
+ *)
 
+var bufferCmd,eventCmd,valueCmd  : string;
+    i,j,l,p,x: integer;
+    elapsedTimeSec,therapyTimeSec : integer;
+    d : Double;
+    valueDbl,dutyCycleDbl : Double ;
 
 begin
 
-  s:= Serial.ReadData;
+  bufferCmd := Serial.ReadData;
 
-  for i:=1 to Length(s) do
-     if (s[i]= #10)  then begin
+  //Find end of line in incomming stream or add char to FReadBuffer
+  for i:=1 to Length(bufferCmd) do
 
+    if bufferCmd[i]<> #10  then
+      FReadBuffer := FReadBuffer + bufferCmd[i] //Add char to FReadBuffer
 
-       //memoConsole.Lines.Add(trim(fReadBuffer));
-       //ss:=trim(fReadBuffer);
+    else begin
 
-       ss:=trim(fReadBuffer);
-       if copy(ss,1,2)<> ':i' then
-          memoConsole.Lines.Add(ss);
+       eventCmd := trim(FReadBuffer);   //Execute incoming event
+       FReadBuffer:='';
 
-        if (ss= ':btn' ) then begin //TODO: check
-          // Save series
-          //Do nothing
-          //frmMain.btnSaveAs.SetFocus;
-          //frmMain.btnSaveAsClick (Sender);
-          //mySeries.Clear;
-          //mySeries.AddXY( 0.0,0 );
-          //startTime:=Now();
-          //step:=1;
+       if copy(eventCmd,1,2)<> ':i' then  memoConsole.Lines.Add(eventCmd);  //Add an extra line in ionotoporesies
 
-        end else if (ss=':vstart') then begin
-          // Clear series
+       //Main case procedure for events
+       if (eventCmd=':vstart') then begin
+
+          // Vegatest starts
+          CurrentMode := MODE_VEG;
 
           mySeries.Clear;
-          ChartMeasure.BottomAxis.Range.Max:=7;  // 7 sec.
-          ChartMeasure.LeftAxis.Range.Max:=100;  // 100%
-          ChartMeasure.LeftAxis.Range.UseMax:= True;
-          mySeries.SeriesColor:= $000080FF;
+          ChartMeasure.BottomAxis.Range.Max  := 7;         // 7 sec.
+          ChartMeasure.LeftAxis.Range.Max    := 100;       // 100%
+          ChartMeasure.LeftAxis.Range.UseMax := True;
+          mySeries.SeriesColor               := $000080FF;
+          mySeries.AddXY( 0.03,0 );                        // Add first point
+
           startTime:=Now()-0.03/(24*60*60);
 
 
-          mySeries.AddXY( 0.03,0 );
+        end else if (eventCmd=':estart') then begin
 
-         end else if (ss=':estart') then begin
-          // Clear series
+          // EAV starts
+          CurrentMode := MODE_EAV;
 
           mySeries.Clear;
-          ChartMeasure.BottomAxis.Range.Max:=7;  // 7 sec.
-          ChartMeasure.LeftAxis.Range.Max:=100;  // 100%
-          ChartMeasure.LeftAxis.Range.UseMax:= True;
-          mySeries.SeriesColor:= clRed;
+          ChartMeasure.BottomAxis.Range.Max   := 7;        // 7 sec.
+          ChartMeasure.LeftAxis.Range.Max     := 100;      // 100%
+          ChartMeasure.LeftAxis.Range.UseMax  := True;
+          mySeries.SeriesColor                := clRed;
+          mySeries.AddXY( 0.03,0 );                        // Add first point
+
           startTime:=Now()-0.03/(24*60*60);
 
 
-          mySeries.AddXY( 0.03,0 );
+        end else if (eventCmd=':cstart') then begin
 
-
-        end else if (ss=':cstart') then begin
-          // Clear series
-
+          // EAP therapy starts
           CurrentMode := MODE_EAP;
 
           mySeries.Clear;
-          ChartMeasure.LeftAxis.Range.Max:=500;  // 500uA
-          mySeries.SeriesColor:= clGreen;
-
-          ChartMeasure.LeftAxis.Range.UseMax:= True;
-          ChartMeasure.BottomAxis.Range.Max:=30; // 30sec. or more
-
-          ProgressBarTime.Max:=StrToIntDef(StringGridEAPTherapy.Cells[EAP_TIME_GRID_COL,EAPProgressGridRow],0);
-          ProgressBarTime.Position := StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0);
-          //ProgressBarTime.Color:=clGreen;
+          ChartMeasure.LeftAxis.Range.Max      := 500;     // 500uA
+          mySeries.SeriesColor                 := clGreen;
+          ChartMeasure.LeftAxis.Range.UseMax   := True;
+          ChartMeasure.BottomAxis.Range.Max    := 30;      // 30sec. or more
+          mySeries.AddXY( 0.03,0 );                        // Add first point
 
           startTime:=Now()-0.03/(24*60*60);
 
-          mySeries.AddXY( 0.03,0 );
+          //Elapsed time from last therapy of that point
+          if EAPProgressGridRow > 0 then
+             FElapsedTimeDbl := StrToFloatDef( StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL, EAPProgressGridRow], 0);
 
 
+        end else if eventCmd = ':istart'  then begin
 
-
-        end else if (ss=':istart') then begin
-
+          // Ionotophoresis starts
           CurrentMode := MODE_ION;
 
-          memoConsole.Lines.Add(trim(fReadBuffer));
-
+          memoConsole.Lines.Add(trim(FReadBuffer));
 
           if firstTime_ION then begin
 
             mySeries.Clear;
             firstTime_ION := False;
 
-            ChartMeasure.LeftAxis.Range.Max:=12;  // 12mA
-            mySeries.SeriesColor:= clGreen;
-            ChartMeasure.LeftAxis.Range.UseMax:= True;
-            ChartMeasure.BottomAxis.Range.Max:=120; // 2min. or more
+            ChartMeasure.LeftAxis.Range.Max    := 12;        // 12mA
+            mySeries.SeriesColor               := clGreen;
+            ChartMeasure.LeftAxis.Range.UseMax := True;
+            ChartMeasure.BottomAxis.Range.Max  := 120;       // 2min. or more
+            mySeries.AddXY( 0.03,0 );                        // Add first point
 
             startTime:=Now()-0.03/(24*60*60);
-            mySeries.AddXY( 0.03,0 );
+
 
           end else begin
 
-            myTime:= (Now()- startTime)*(24*60*60);
-            if myTime > 120 then ChartMeasure.LeftAxis.Range.UseMax:= False;
+            myTime := ( Now() - startTime )*(24*60*60);
+            if myTime > 120 then ChartMeasure.LeftAxis.Range.UseMax := False;
 
-            mySeries.AddXY( myTime ,0);
+            mySeries.AddXY( myTime ,0);                      // Add first point in the end of last chart
 
           end;
 
 
+        end else if eventCmd = ':stop' then begin
 
-
-        end else if ss=':stop' then begin
+          // Stops all modes
 
           case CurrentMode of
             MODE_ION : begin
@@ -1711,79 +1712,69 @@ begin
                          mySeries.AddXY( myTime ,0);
                          chartSourceRMS_ION.SetYValue(0,0);
 
-            end;
-
-
+                       end;
             MODE_EAP : begin
 
-                         myTime:= (Now()- startTime)*(24*60*60);
-
-                         StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow]:=
-                           IntToStr(
-                             StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0)+
-                               Round(myTime)
-                           );
+                         //myTime:= (Now()- startTime)*(24*60*60);
 
                          chartSourceCurrent.SetYValue(0,0);
                          chartSourceRMS.SetYValue(0,0);
-            end;
+                       end;
 
           end;  // case
 
 
+        end else if copy(eventCmd,1,2) = ':c' then begin
 
+           // Add new point to eap current series
+           valueCmd := copy( eventCmd, 3 , Length(eventCmd) );
 
-
-        end else if copy(ss,1,2)= ':c' then begin
-        // Add to eap current series new point
-           ss:=copy(ss,3,Length(ss));
            myTime:= (Now()- startTime)*(24*60*60);
 
-           //Rescale chart to 2 minutes
-           if myTime >= 30 then begin
-              ChartMeasure.BottomAxis.Range.Max:=120;
-              ProgressBarTime.Max:=120;
-              ProgressBarTime.Color:=clYellow;
-           end;
 
-           p := Pos(' ',ss);
+           //Rescale chart when time is longer than 30s
+           if myTime >= 120 then
+              ChartMeasure.BottomAxis.Range.Max  :=  300   // 2 min.
+           else if myTime >= 30 then
+              ChartMeasure.BottomAxis.Range.Max  :=  120;  // 5 min.
 
-           if p=0 then begin
 
-               j:= StrToIntDef(ss,0);
-               d:= StrToFloatDef(edtDutyCycle.Text,0);
+           p := Pos(' ',valueCmd); // Space separate current and duty cycle
+
+           if p = 0 then begin
+              //For devices without comming dutycycle
+               valueDbl     := StrToIntDef(valueCmd,0);
+               dutyCycleDbl := StrToFloatDef(edtDutyCycle.Text,0);
 
            end else begin
-               j := StrToIntDef( Trim( Copy(ss,1,p) ),0);
-               d := StrToFloatDef( Trim( Copy(ss,p,Length(ss)-p) ),0);
+              //For devices with dutycycle parameters
+               valueDbl     := StrToIntDef  ( Trim( Copy( valueCmd, 1, p) ), 0);
+               dutyCycleDbl := StrToFloatDef( Trim( Copy( valueCmd, p, Length(valueCmd) - p) ), 0);
            end;
 
-           mySeries.AddXY( myTime ,j*d/100);
+           //Set graphic components
+           mySeries.AddXY( myTime, valueDbl * dutyCycleDbl / 100);
+           chartSourceCurrent.SetYValue(0, valueDbl / 1000);
+           chartSourceRMS.SetYValue(0, valueDbl * dutyCycleDbl / 100);
 
-           chartSourceCurrent.SetYValue(0,j/1000);
-           chartSourceRMS.SetYValue(0,j*d/100); //chartSourceRMS.SetYValue(0,j*StrToFloatDef(edtDutyCycle.Text,0)/100);
-
-
-             l:= StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0)+
-             Round(myTime);
-           ProgressBarTime.Position:= l;
-           //if l > 30 then ProgressBarTime.Max:=120 else ProgressBarTime.Max:=30;
-//TODO           StringGridEAPTherapy.Cells[EAP_PRECENTAGE_GRID_COL,EAPProgressGridRow]:= IntToStr(l)+'%';
-
-
-           //Set EAP therapy progress of the point
+           //Set EAP therapy progress of the point on grid
            if EAPProgressGridRow > 0 then begin
 
-             StringGridEAPTherapy.Cells[EAP_PROGRESS_GRID_COL,EAPProgressGridRow]:= StringOfChar(char('|'),
-               Trunc(StrToIntDef(StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL,EAPProgressGridRow],0)+myTime/3));
+             elapsedTimeSec := round( myTime + FElapsedTimeDbl);
+             therapyTimeSec := StrToIntDef( StringGridEAPTherapy.Cells[ EAP_TIME_GRID_COL,  EAPProgressGridRow], 0);
 
+             StringGridEAPTherapy.Cells[ EAP_ELAPSED_GRID_COL,  EAPProgressGridRow] := IntToStr(elapsedTimeSec);
+             StringGridEAPTherapy.Cells[ EAP_PROGRESS_GRID_COL, EAPProgressGridRow] := StringOfChar(
+                                                                                         char('|'),
+                                                                                         round( 100 * elapsedTimeSec /therapyTimeSec ) //100 lines equal to 100%
+                                                                                       );
            end;
 
 
 
-        end else if copy(ss,1,2)= ':i' then begin
+        end else if copy(eventCmd,1,2)= ':i' then begin
         // Add to eap current series new point
-           ss:=copy(ss,3,Length(ss));
+           eventCmd:=copy(eventCmd,3,Length(eventCmd));
            myTime:= (Now()- startTime)*(24*60*60);
            //myTime:= (Now()- startTime)*(24*60*60);
 
@@ -1795,48 +1786,46 @@ begin
            else
               ChartMeasure.BottomAxis.Range.Max:=120;
 
-           p := Pos(' ',ss);
+           p := Pos(' ',eventCmd);
 
            if p=0 then begin
 
-               j:= StrToIntDef(ss,0);
+               j:= StrToIntDef(eventCmd,0);
                d:= StrToFloatDef(edtDutyCycle.Text,0);
 
            end else begin
-               j := StrToIntDef( Trim( Copy(ss,1,p) ),0);
-               d := StrToFloatDef( Trim( Copy(ss,p,Length(ss)-p) ),0);
+               j := StrToIntDef( Trim( Copy(eventCmd,1,p) ),0);
+               d := StrToFloatDef( Trim( Copy(eventCmd,p,Length(eventCmd)-p) ),0);
            end;
 
-           if myTime >= (lastMyTime + 0.25) then begin
+           if myTime >= (FElapsedTimeDbl + 0.25) then begin
 
-              memoConsole.Lines.Add(trim(fReadBuffer));
+              memoConsole.Lines.Add(trim(FReadBuffer));
 
               mySeries.AddXY( myTime ,j*d/100000);
-              Charge_ION := Charge_ION + abs((j*d/100000) (*mA*) * (myTime - lastMyTime) (*s*) / 3600);
+              Charge_ION := Charge_ION + abs((j*d/100000) (*mA*) * (myTime - FElapsedTimeDbl) (*s*) / 3600);
               LabelCharge.Caption := FormatFloat('0.000',Charge_ION);
               LabelMass.Caption:= FormatFloat('0.000', calculateMass( StrToFloat(EditMolarMass_ION.Caption), StrToFloat(EditValence_ION.Caption), Charge_ION(*mAh*)));
 
-              lastMyTime :=myTime;
+              FElapsedTimeDbl :=myTime;
            end;
 
            chartSourceRMS_ION.SetYValue(0,j*d/100000);
 
            // : Double;
-           //lastMyTime := myTime;
+           //FElapsedTimeDbl := myTime;
 
 
-        end else  if( copy(ss,1,2)= ':v') or (copy(ss,1,2)= ':e') then begin // Veagtest and  EAV have the same scale
-            ss:=copy(ss,3,Length(ss));
+        end else  if( copy(eventCmd,1,2)= ':v') or (copy(eventCmd,1,2)= ':e') then begin // Veagtest and  EAV have the same scale
+            eventCmd:=copy(eventCmd,3,Length(eventCmd));
             myTime:= (Now()- startTime)*(24*60*60);
 
-            mySeries.AddXY( myTime ,StrToIntDef(ss,0)/10.0  );
+            mySeries.AddXY( myTime ,StrToIntDef(eventCmd,0)/10.0  );
 
         end;
 
 
-       fReadBuffer:='';
-     end else
-       fReadBuffer:=fReadBuffer+s[i];
+     end;
 
 
 end;

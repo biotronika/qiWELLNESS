@@ -16,10 +16,6 @@
         <TextDesc Value="The best thing are for free..."/>
       </XPManifest>
       <Icon Value="0"/>
-      <Resources Count="2">
-        <Resource_0 FileName="libeay32.dll" Type="RCDATA" ResourceName="LIBEAY32"/>
-        <Resource_1 FileName="ssleay32.dll" Type="RCDATA" ResourceName="SSLEAY32"/>
-      </Resources>
     </General>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -49,7 +45,7 @@
         <PackageName Value="LCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="6">
+    <Units Count="7">
       <Unit0>
         <Filename Value="qiWELLNESS.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -91,13 +87,18 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitChooseEAPTherapy"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="unitdownload.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="unitDownload"/>
+      </Unit6>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="qiWELLNESS"/>
+      <Filename Value="bin\win\qiWELLNESS"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

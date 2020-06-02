@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Grids, HTTPSend, fphttpclient, fpjson, jsonparser, Windows, LCLIntf, myFunctions;
+  Grids, HTTPSend, fphttpclient, fpjson, jsonparser, Windows, LCLIntf, myFunctions,unitDownload;
 
 
 
@@ -57,11 +57,15 @@ implementation
 { TFormUpdateList }
 
 
-uses ShellApi,UrlMon,unitMain ;
+uses ShellApi,unitMain ;
+
+//Old
+//UrlMon,
 
 function TFormUpdateList.JSON2String( TypeOfList : Integer; _JSONData: TJSONData) : string;
 var s : string;
     i,col : integer;
+
 begin
   s:='';
 
@@ -99,8 +103,6 @@ begin
 
   end;
 
-
-
   result := s;
 end;
 
@@ -109,26 +111,22 @@ var
   HTTPClient: TFPHttpClient;
   Content : string;
 
-
-
 begin
-
 
   try
      HTTPClient:=TFPHttpClient.Create(Nil);
 
+//TODO: to remove
      CreateDllLibraries();
-     //HTTPClient.AddHeader('User-Agent','qiwellness');  //For GITHUB only
+
      Content:=HTTPClient.Get(Url);
 
      JSONData:=GetJSON(Content);
 
-
-     //MemoEditList.Lines.add(Content);
-
   finally
-    HTTPClient.Free;
+     HTTPClient.Free;
   end;
+
 end;
 
 (*
@@ -192,6 +190,8 @@ begin
 
 end;
 
+//Old
+(*
 function DownLoadInternetFile(Source, Dest : String): Boolean;
 begin
   try
@@ -200,6 +200,7 @@ begin
     Result := False;
   end;
 end;
+*)
 
 
 

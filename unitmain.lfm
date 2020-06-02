@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 229
+  Left = 357
   Height = 864
-  Top = -1151
+  Top = -1141
   Width = 1568
   Caption = 'qiWELLNESS'
   ClientHeight = 864
@@ -11576,8 +11576,8 @@ object frmMain: TfrmMain
         end
         object StringGridEAPTherapy: TStringGrid
           Left = 0
-          Height = 393
-          Top = 326
+          Height = 395
+          Top = 324
           Width = 950
           Align = alClient
           ColCount = 6
@@ -11604,11 +11604,11 @@ object frmMain: TfrmMain
           OnSelectCell = StringGridEAPTherapySelectCell
           ColWidths = (
             102
-            152
+            114
             122
             77
             80
-            384
+            420
           )
           Cells = (
             33
@@ -11779,49 +11779,15 @@ object frmMain: TfrmMain
             ParentFont = False
             TabOrder = 0
           end
-          object ProgressBarTime: TProgressBar
-            Left = 224
-            Height = 22
-            Top = 40
-            Width = 664
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Color = clBlack
-            Font.Height = -15
-            Font.Name = 'Segoe UI'
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            Max = 30
-            ParentColor = False
-            ParentFont = False
-            Position = 2
-            Step = 1
-            TabOrder = 1
-            BarShowText = True
-          end
-          object LabelTime: TLabel
-            Left = 224
-            Height = 20
-            Top = 16
-            Width = 59
-            Caption = 'Time left'
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Color = clBlack
-            Font.Height = -15
-            Font.Name = 'Segoe UI'
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            ParentColor = False
-            ParentFont = False
-          end
         end
         object Panel26: TPanel
           Left = 0
-          Height = 30
+          Height = 28
           Top = 296
           Width = 950
           Align = alTop
           BevelOuter = bvNone
-          ClientHeight = 30
+          ClientHeight = 28
           ClientWidth = 950
           TabOrder = 5
           object LabelEAPName: TLabel
@@ -11846,7 +11812,7 @@ object frmMain: TfrmMain
           end
           object MemoDescription: TMemo
             Left = 0
-            Height = 4
+            Height = 2
             Top = 26
             Width = 950
             Align = alClient
