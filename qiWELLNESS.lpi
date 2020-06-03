@@ -98,7 +98,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="bin\win\qiWELLNESS"/>
+      <Filename Value="bin\mac\qiWELLNESS"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

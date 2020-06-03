@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Grids, myFunctions,Windows;
+  Grids, myFunctions;
 
 type
 
@@ -168,7 +168,7 @@ end;
 procedure TFormChooseEAPTherapy.EditSearchStringKeyPress(Sender: TObject;
   var Key: char);
 begin
-  if ord(Key) = VK_RETURN then begin
+  if ord(Key) = ord(chr(13)) then begin
      Key := #0;
      ButtonSearchClick(Sender);
   end;
