@@ -345,7 +345,8 @@ type
       mySeries : TLineSeries;
       seriesArray : array[1..MAX_SERIES_NUMBER] of TLineSeries; //No dynamic array of all used series
       //EAPDoneTimeArray : array[1..MAX_EAP_POINTS_NUMBER] of Double;
-      EAPProgressGridRow : integer;
+
+
       EAPProgressTime : Double;
       myTime : Double;
       FElapsedTimeDbl : Double;
@@ -355,18 +356,13 @@ type
 
       atlasPicturesFilesList :TStringList;
 
-
-
-
-
-
+      EAPProgressGridRow : integer;
+      F_EAPProgressGridRow : integer;
 
 
   public
-     const
-
      var
-     ryodorakuPoint : array[0..11,0..1] of Double; //[0..23]
+        ryodorakuPoint : array[0..11,0..1] of Double; //[0..23]
 
 
   end;
@@ -1211,38 +1207,37 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 var i : integer;
   DestinationListFile : string;
 begin
-  atlasPicturesFilesList :=TStringList.Create;
-  Caption := 'qiWELLNESS   ' +SOFTWARE_VERSION;
+  atlasPicturesFilesList := TStringList.Create;
 
+  Caption                := 'qiWELLNESS   ' + SOFTWARE_VERSION;
+  statusBar.SimpleText   := 'qiWELLNESS   ' + SOFTWARE_VERSION;;
 
-  memoConsole.Lines.Add (#13#10'Software version: ' +SOFTWARE_VERSION);
-
-  DefaultFormatSettings.DecimalSeparator:='.';
+  DefaultFormatSettings.DecimalSeparator := '.';
 
   for i:=1 to MAX_SERIES_NUMBER do begin;
-    seriesArray[i] := TLineSeries.Create(Self);
-    ChartMeasure.AddSeries(seriesArray[i]);
-    seriesArray[i].SeriesColor:=clWhite;
-    seriesArray[i].Title:='';
+    seriesArray[i]             := TLineSeries.Create(Self);
+    seriesArray[i].SeriesColor := clWhite;
+    seriesArray[i].Title       := '';
+    ChartMeasure.AddSeries(  seriesArray[i]  );
   end;
 
-  mySeries:=ChartMeasureCurrentLineSeries;
+  mySeries             := ChartMeasureCurrentLineSeries;
 
-  startTime := 0;
-  FElapsedTimeDbl := 0;
-  EAPProgressGridRow := 0;
-  FLastCol := 0;
-  firstTime_ION := True;
+  startTime            := 0;
+  FElapsedTimeDbl      := 0;
+
+  EAPProgressGridRow   := 0;
+  F_EAPProgressGridRow := 0;
+
+  FLastCol             := 0;
+  firstTime_ION        := True;
 
 
   //Iontophoresis tab
-  DestinationListFile := ExtractFilePath(Application.ExeName) + LISTS_DEF[LIST_ION_SUBSTANCES].FileName;
+  DestinationListFile  := ExtractFilePath(Application.ExeName) + LISTS_DEF[LIST_ION_SUBSTANCES].FileName;
 
   if SysUtils.FileExists(DestinationListFile) then
      StringGridIonTherapy.LoadFromCSVFile(DestinationListFile);
-
-
-
 
 
 end;
@@ -1293,26 +1288,34 @@ begin
 end;
 
 procedure TfrmMain.AtlasSearchBAP(pointSymbol:string);
-//Open Atlas and load pictures from url or file
+(* elektros 2020-06-04
+ * Open Atlas and load pictures from url or file
+ *)
 
 begin
   SetPictureBlock(VIEW_ATLAS);
 
-  if SearchBAP( pointSymbol, atlasPicturesFilesList ) >0 then begin
+  Screen.Cursor := crHourGlass;
 
-     atlasPictureMax:= atlasPicturesFilesList.Count-1;
-     atlasPictureCurrent:=0;
+  try
 
-     ImageAtlas.Picture.LoadFromFile(atlasPicturesFilesList.Strings[0]);
+      if SearchBAP( pointSymbol, atlasPicturesFilesList ) >0 then begin
 
-  end else begin
+         atlasPictureMax     := atlasPicturesFilesList.Count-1;
+         atlasPictureCurrent := 0;
+//TODO: Show first file with the shorter name (contains that certain point, no much more)
+         ImageAtlas.Picture.LoadFromFile( atlasPicturesFilesList.Strings[0] );
 
-     ShowMessage('No such point in atlas or cannot connect to biotronics web portal');
-     SetPictureBlock(VIEW_LOGO);
+      end else begin
 
+         ShowMessage('No such point in atlas or cannot connect to biotronics web portal');
+         SetPictureBlock(VIEW_LOGO);
+
+      end;
+
+  finally
+      Screen.Cursor := crDefault;
   end;
-
-
 
 
 
@@ -1593,7 +1596,7 @@ end;
 
 
 procedure TfrmMain.SerialRxData(Sender: TObject);
-(* KC 2020-06-01
+(* elektros 2020-06-01
  * Main serial communiation function
  * React of any event (started with collon) from device
  *)
@@ -1603,6 +1606,7 @@ var bufferCmd,eventCmd,valueCmd  : string;
     elapsedTimeSec,therapyTimeSec : integer;
     d : Double;
     valueDbl,dutyCycleDbl : Double ;
+
 
 begin
 
@@ -1656,6 +1660,7 @@ begin
 
           // EAP therapy starts
           CurrentMode := MODE_EAP;
+          F_EAPProgressGridRow := EAPProgressGridRow;
 
           mySeries.Clear;
           ChartMeasure.LeftAxis.Range.Max      := 500;     // 500uA
@@ -1667,8 +1672,8 @@ begin
           startTime:=Now()-0.03/(24*60*60);
 
           //Elapsed time from last therapy of that point
-          if EAPProgressGridRow > 0 then
-             FElapsedTimeDbl := StrToFloatDef( StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL, EAPProgressGridRow], 0);
+          if F_EAPProgressGridRow > 0 then
+             FElapsedTimeDbl := StrToFloatDef( StringGridEAPTherapy.Cells[EAP_ELAPSED_GRID_COL, F_EAPProgressGridRow], 0);
 
 
         end else if eventCmd = ':istart'  then begin
@@ -1714,8 +1719,7 @@ begin
 
                        end;
             MODE_EAP : begin
-
-                         //myTime:= (Now()- startTime)*(24*60*60);
+                         F_EAPProgressGridRow := 0;
 
                          chartSourceCurrent.SetYValue(0,0);
                          chartSourceRMS.SetYValue(0,0);
@@ -1758,13 +1762,13 @@ begin
            chartSourceRMS.SetYValue(0, valueDbl * dutyCycleDbl / 100);
 
            //Set EAP therapy progress of the point on grid
-           if EAPProgressGridRow > 0 then begin
+           if F_EAPProgressGridRow > 0 then begin
 
              elapsedTimeSec := round( myTime + FElapsedTimeDbl);
-             therapyTimeSec := StrToIntDef( StringGridEAPTherapy.Cells[ EAP_TIME_GRID_COL,  EAPProgressGridRow], 0);
+             therapyTimeSec := StrToIntDef( StringGridEAPTherapy.Cells[ EAP_TIME_GRID_COL,  F_EAPProgressGridRow], 0);
 
-             StringGridEAPTherapy.Cells[ EAP_ELAPSED_GRID_COL,  EAPProgressGridRow] := IntToStr(elapsedTimeSec);
-             StringGridEAPTherapy.Cells[ EAP_PROGRESS_GRID_COL, EAPProgressGridRow] := StringOfChar(
+             StringGridEAPTherapy.Cells[ EAP_ELAPSED_GRID_COL,  F_EAPProgressGridRow] := IntToStr(elapsedTimeSec);
+             StringGridEAPTherapy.Cells[ EAP_PROGRESS_GRID_COL, F_EAPProgressGridRow] := StringOfChar(
                                                                                          char('|'),
                                                                                          round( 100 * elapsedTimeSec /therapyTimeSec ) //100 lines equal to 100%
                                                                                        );
@@ -1857,6 +1861,7 @@ procedure TfrmMain.StringGridEAPTherapySelectCell(Sender: TObject; aCol,
   aRow: Integer; var CanSelect: Boolean);
 begin
   EAPProgressGridRow := aRow;
+
 end;
 
 procedure TfrmMain.StringGridEAVDblClick(Sender: TObject);

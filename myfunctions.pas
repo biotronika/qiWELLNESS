@@ -1,6 +1,10 @@
 unit myFunctions;
-// Module for definitions, REST interface, converters and physical models
-// Copyleft 2020 by Chris Czoba krzysiek@biotronika.pl. See: biotronics.eu
+(* Module for definitions, REST interface, converters and physical models
+//TODO: Divide unit to three: constans definitions,  REST interface and physical models
+ *
+ *   Copyleft 2020 by elektros230, Chris Czoba krzysiek@biotronika.pl.
+ *   See: biotronics.eu
+ *)
 
 {$mode objfpc}{$H+}
 
@@ -8,18 +12,22 @@ interface
 
 uses
   Classes, SysUtils, StrUtils, Forms, LCLIntf, HTTPSend, fphttpclient, fpjson, jsonparser, unitDownload;
-//OLD
-//, URLMon, Windows;
 
 const
-  SOFTWARE_VERSION = '2020-06-02 (alpha)';
+  SOFTWARE_VERSION = '2020-06-04 (alpha)';
 
   ATLAS_FOLDER ='AtlasDB';               //Subfolder (exe file place) for pictures and indexed database text files
-  ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
-  ATLAS_PICTURES_FILE ='pictures.db';    //Text file name of numbered pictures list
-  MY_DELIMETER = ',';
+  //ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
+  //ATLAS_PICTURES_FILE ='pictures.db';    //Text file name of numbered pictures list
+
 
   PROFILES : array[0..6] of string = ( 'User', 'Common', 'Stimulation', 'Sedation', 'DC-', 'DC+', 'DC change');
+
+//MULTIPLATFORM DEFINITIONS
+
+  VK_RETURN = 13;
+  MY_DELIMETER = ',';
+  //MY_SLASH = '\';
 
 
 type TEAPPoint = record
@@ -120,14 +128,12 @@ const
 
 function calculateMass( mollMass : Double; z : Double; Q : Double (*mAh*)) : Double;
 function StringToEAPTherapy(s : string) : TEAPPoints;
-function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer; //Return number of pictures
+//function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer; //Return number of pictures
 function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return number of pictures
 function GetContentFromREST(var Content : string; RestURL : string; ExtraFilters : string = '') : integer; //Return number of items
 function GetEAPTherapiesFromContent( Content : string; var EAPTherapies : TEAPTherapies) : integer;
 function HTML2PlainText(S: string): string;
 
-//DEPRECATED
-procedure CreateDllLibraries();
 
 implementation
 uses Dialogs, unitUpdateList;
@@ -135,7 +141,7 @@ uses Dialogs, unitUpdateList;
 function HTML2PlainText(S: string): string;
 (* 2020-06-01
  * Source: http://www.festra.com/eng/snip12.htm
- * Origin name: StripHTML
+ * Original name: StripHTML
  *)
 var
   TagBegin, TagEnd, TagLength: integer;
@@ -152,74 +158,17 @@ begin
   result := S;
 end;
 
-//NEW
-function DownLoadInternetFile(Source, Dest : String): Boolean; begin
-  try
-     Application.ProcessMessages;
-     Result := DownloadFrInternet.DownLoadInternetFile (Source, Dest);
-  except
-    Result := False;
-  end;
-end;
 
-(* //OLD
-function DownLoadInternetFile(SourceFile, DestinationFile : String): Boolean;
+function DownLoadInternetFile(Source, Dest : String): Boolean;
 begin
   try
-    result := URLDownloadToFile(nil,PChar(SourceFile),PChar(DestinationFile),0,nil) = 0
+     Application.ProcessMessages;
+     result := DownloadFrInternet.DownloadInternetFile (Source, Dest);
   except
     result := False;
   end;
 end;
-*)
 
-
-//NEW
-procedure CreateDllLibraries();
-begin
-//do nothing
-end;
-
-(* OLD
-procedure CreateDllLibraries();
-(* KC 2020-05-25
-Create Openssl DLLs from qiWELLNESS.exe resource if is not available
-
-
-*)
-var
-  AppFolder: string;
-  ResourceStream: TResourceStream;
-
-begin
-  //Create OpenSSL libraries from exe resource
-
-  AppFolder := ExtractFilePath(Application.ExeName);
-
-  if not FileExists(AppFolder + 'libeay32.dll') then begin
-    try
-      ResourceStream := TResourceStream.Create(HInstance, 'LIBEAY32', RT_RCDATA);
-      ResourceStream.Position := 0;
-      ResourceStream.SaveToFile( AppFolder + 'libeay32.dll' );
-
-    finally
-      ResourceStream.Free;
-    end;
-end;
-
-  if not FileExists(AppFolder + 'ssleay32.dll') then begin
-    try
-      ResourceStream := TResourceStream.Create(HInstance, 'SSLEAY32', RT_RCDATA);
-      ResourceStream.Position := 0;
-      ResourceStream.SaveToFile( AppFolder + 'ssleay32.dll' );
-
-    finally
-      ResourceStream.Free;
-    end;
-  end;
-
-end;
-*)
 
 
 
@@ -337,15 +286,14 @@ begin
 end;
 
 function GetContentFromREST(var Content : string; RestURL : string ; ExtraFilters : string = '') : integer;
-(* KC 2020-05-25
-
-REST/JSON interface. Can connect http and https.
-  RestURL - e.g.: https://biotronics.eu/eap-therapies/rest?_format=json
-  ExtraFilters - e.g.: &title=anorexia
-  Content - JSON content data
-  result - Length of Content, -1=error
-
-*)
+(* elektros 2020-05-25
+ *
+ * REST/JSON interface. Can connect http and https.
+ *   RestURL - e.g.: https://biotronics.eu/eap-therapies/rest?_format=json
+ *   ExtraFilters - e.g.: &title=anorexia
+ *   Content - JSON content data
+ *   result - Length of Content, -1=error
+ *)
 var
     HTTPClient: TFPHttpClient;
 
@@ -353,15 +301,12 @@ begin
 
   result := -1; //error
 
-//TODO: Exeptions
+//TODO: Exeptions handling
   try
 
      HTTPClient:=TFPHttpClient.Create(Nil);
 
-//TODO:multiplatform
-     CreateDllLibraries(); //Create Openssl libraries
-
-     HTTPClient.AddHeader('User-Agent','qiwellness');  //For GITHUB only
+     HTTPClient.AddHeader('User-Agent','qiwellness');  //For github only
      Content:=HTTPClient.Get( RestURL + '&' + trim(ExtraFilters)  );
 
      result:= Content.Length;
@@ -410,7 +355,7 @@ begin
 
 end;
 
-
+(*
 function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer;  //return count of pictures;
 var txtIN,txtOUT : textFile;
     txtOutFileName : string;
@@ -477,6 +422,7 @@ begin
   result:=count;
 
 end;
+*)
 
 
 

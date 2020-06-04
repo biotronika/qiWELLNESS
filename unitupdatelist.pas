@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Grids, HTTPSend, fphttpclient, fpjson, jsonparser, Windows, LCLIntf, myFunctions,unitDownload;
+  Grids, HTTPSend, fphttpclient, fpjson, jsonparser,  LCLIntf, myFunctions, unitDownload;
 
 
 
@@ -35,7 +35,6 @@ type
   public
     procedure OpenWindowUpdateList( TypeOfList : Integer; FilterOptions : string ='' );
     //procedure OpenWindowUpdateList( TypeOfList : Integer);
-    //procedure CreateDllLibraries();
     procedure ConnectRESTInterface(Url: String);
     function  JSON2String( TypeOfList : Integer; _JSONData: TJSONData): string;
 
@@ -57,10 +56,8 @@ implementation
 { TFormUpdateList }
 
 
-uses ShellApi,unitMain ;
+uses unitMain ;
 
-//Old
-//UrlMon,
 
 function TFormUpdateList.JSON2String( TypeOfList : Integer; _JSONData: TJSONData) : string;
 var s : string;
@@ -115,12 +112,7 @@ begin
 
   try
      HTTPClient:=TFPHttpClient.Create(Nil);
-
-//TODO: to remove
-     CreateDllLibraries();
-
      Content:=HTTPClient.Get(Url);
-
      JSONData:=GetJSON(Content);
 
   finally
@@ -129,41 +121,6 @@ begin
 
 end;
 
-(*
-procedure TFormUpdateList.CreateDllLibraries();
-var
-  AppFolder: string;
-  ResourceStream: TResourceStream;
-
-begin
-  //Create OpenSSL libraries from exe resource
-
-  AppFolder := ExtractFilePath(Application.ExeName);
-
-  if not FileExists(AppFolder + 'libeay32.dll') then begin
-    try
-      ResourceStream := TResourceStream.Create(HInstance, 'LIBEAY32', RT_RCDATA);
-      ResourceStream.Position := 0;
-      ResourceStream.SaveToFile( AppFolder + 'libeay32.dll' );
-
-    finally
-      ResourceStream.Free;
-    end;
-end;
-
-  if not FileExists(AppFolder + 'ssleay32.dll') then begin
-    try
-      ResourceStream := TResourceStream.Create(HInstance, 'SSLEAY32', RT_RCDATA);
-      ResourceStream.Position := 0;
-      ResourceStream.SaveToFile( AppFolder + 'ssleay32.dll' );
-
-    finally
-      ResourceStream.Free;
-    end;
-  end;
-
-end;
-*)
 
 procedure TFormUpdateList.OpenWindowUpdateList( TypeOfList : Integer; FilterOptions : string );
 begin
@@ -190,17 +147,6 @@ begin
 
 end;
 
-//Old
-(*
-function DownLoadInternetFile(Source, Dest : String): Boolean;
-begin
-  try
-    Result := URLDownloadToFile(nil,PChar(Source),PChar(Dest),0,nil) = 0
-  except
-    Result := False;
-  end;
-end;
-*)
 
 
 

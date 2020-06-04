@@ -1,32 +1,31 @@
 object frmMain: TfrmMain
-  Left = 357
-  Height = 864
-  Top = -1141
-  Width = 1568
+  Left = 361
+  Height = 691
+  Top = 148
+  Width = 1254
   Caption = 'qiWELLNESS'
-  ClientHeight = 864
-  ClientWidth = 1568
+  ClientHeight = 691
+  ClientWidth = 1254
   DefaultMonitor = dmMainForm
-  DesignTimePPI = 120
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.0.6.0'
   object PanelLeft: TPanel
     Left = 0
-    Height = 864
+    Height = 691
     Top = 0
-    Width = 608
+    Width = 486
     Align = alClient
-    ClientHeight = 864
-    ClientWidth = 608
+    ClientHeight = 691
+    ClientWidth = 486
     ParentFont = False
     TabOrder = 0
     object ChartMeasure: TChart
       Left = 1
-      Height = 705
-      Top = 129
-      Width = 606
+      Height = 567
+      Top = 103
+      Width = 484
       AxisList = <      
         item
           Marks.LabelBrush.Style = bsClear
@@ -72,23 +71,23 @@ object frmMain: TfrmMain
     end
     object PanelPicture: TPanel
       Left = 1
-      Height = 128
+      Height = 102
       Top = 1
-      Width = 606
+      Width = 484
       Align = alTop
       BevelColor = clBlack
       BevelOuter = bvNone
-      ClientHeight = 128
-      ClientWidth = 606
+      ClientHeight = 102
+      ClientWidth = 484
       Color = clBlack
       ParentColor = False
       ParentFont = False
       TabOrder = 1
       object ImageLogo: TImage
         Left = 0
-        Height = 128
+        Height = 102
         Top = 0
-        Width = 606
+        Width = 484
         Align = alClient
         Picture.Data = {
           1754506F727461626C654E6574776F726B477261706869635C34000089504E47
@@ -514,14 +513,14 @@ object frmMain: TfrmMain
         }
       end
       object ImageAtlas: TImage
-        Left = 10
-        Height = 108
-        Top = 10
-        Width = 586
+        Left = 8
+        Height = 86
+        Top = 8
+        Width = 468
         AntialiasingMode = amOn
         Align = alClient
         AutoSize = True
-        BorderSpacing.Around = 10
+        BorderSpacing.Around = 8
         Center = True
         KeepOriginXWhenClipped = True
         KeepOriginYWhenClipped = True
@@ -531,10 +530,10 @@ object frmMain: TfrmMain
       end
       object ImageCloseAtlas: TImage
         Cursor = crHandPoint
-        Left = 555
-        Height = 41
-        Top = 10
-        Width = 40
+        Left = 443
+        Height = 33
+        Top = 8
+        Width = 32
         Anchors = [akTop, akRight]
         DragCursor = crHandPoint
         OnClick = ImageControllClick
@@ -565,10 +564,10 @@ object frmMain: TfrmMain
       end
       object ImageBack: TImage
         Cursor = crHandPoint
-        Left = 10
-        Height = 64
-        Top = 54
-        Width = 64
+        Left = 8
+        Height = 51
+        Top = 43
+        Width = 51
         Anchors = [akLeft, akBottom]
         DragCursor = crHandPoint
         OnClick = ImageControllClick
@@ -627,10 +626,10 @@ object frmMain: TfrmMain
       end
       object ImageNext: TImage
         Cursor = crHandPoint
-        Left = 531
-        Height = 64
-        Top = 54
-        Width = 64
+        Left = 424
+        Height = 51
+        Top = 43
+        Width = 51
         Anchors = [akRight, akBottom]
         DragCursor = crHandPoint
         OnClick = ImageControllClick
@@ -681,10 +680,10 @@ object frmMain: TfrmMain
       end
       object ImageMaximumScreen: TImage
         Cursor = crHandPoint
-        Left = 275
-        Height = 64
-        Top = 52
-        Width = 64
+        Left = 215
+        Height = 51
+        Top = 41
+        Width = 51
         Anchors = [akBottom]
         Center = True
         DragCursor = crHandPoint
@@ -709,60 +708,60 @@ object frmMain: TfrmMain
     end
     object statusBar: TStatusBar
       Left = 1
-      Height = 29
-      Top = 834
-      Width = 606
+      Height = 20
+      Top = 670
+      Width = 484
       Panels = <>
       ParentFont = False
     end
   end
   object PanelRight: TPanel
-    Left = 608
-    Height = 864
+    Left = 486
+    Height = 691
     Top = 0
-    Width = 960
+    Width = 768
     Align = alRight
-    ClientHeight = 864
-    ClientWidth = 960
+    ClientHeight = 691
+    ClientWidth = 768
     ParentFont = False
     TabOrder = 1
     object pageRight: TPageControl
       Left = 1
-      Height = 862
+      Height = 689
       Top = 1
-      Width = 958
-      ActivePage = tabElectropunture
+      Width = 766
+      ActivePage = tabConsole
       Align = alRight
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
-      Font.Height = -15
+      Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 4
+      TabIndex = 0
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
-        ClientHeight = 829
-        ClientWidth = 950
+        ClientHeight = 660
+        ClientWidth = 762
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clBlack
-        Font.Height = -15
+        Font.Height = -12
         Font.Name = 'Segoe UI'
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
         ParentFont = False
         object memoConsole: TMemo
           Left = 0
-          Height = 718
+          Height = 571
           Top = 0
-          Width = 950
+          Width = 762
           Align = alClient
           Color = clBlack
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clLime
-          Font.Height = -17
+          Font.Height = -14
           Font.Name = 'Courier'
           Font.Pitch = fpFixed
           Font.Quality = fqDraft
@@ -780,29 +779,29 @@ object frmMain: TfrmMain
         end
         object Panel12: TPanel
           Left = 0
-          Height = 85
-          Top = 744
-          Width = 950
+          Height = 68
+          Top = 592
+          Width = 762
           Align = alBottom
           BevelOuter = bvNone
-          ClientHeight = 85
-          ClientWidth = 950
+          ClientHeight = 68
+          ClientWidth = 762
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
           ParentFont = False
           TabOrder = 1
           object edtConsoleCommand: TEdit
-            Left = 592
-            Height = 28
-            Top = 48
-            Width = 251
+            Left = 474
+            Height = 22
+            Top = 38
+            Width = 201
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -811,14 +810,14 @@ object frmMain: TfrmMain
             TabOrder = 0
           end
           object Label1: TLabel
-            Left = 510
-            Height = 20
-            Top = 55
-            Width = 69
+            Left = 408
+            Height = 13
+            Top = 44
+            Width = 62
             Caption = 'Command'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -826,14 +825,14 @@ object frmMain: TfrmMain
             ParentFont = False
           end
           object btnConsoleExecute: TButton
-            Left = 856
-            Height = 32
-            Top = 48
-            Width = 70
+            Left = 685
+            Height = 26
+            Top = 38
+            Width = 56
             Caption = 'Execute'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -842,14 +841,14 @@ object frmMain: TfrmMain
             TabOrder = 1
           end
           object ButtonCalibrate: TButton
-            Left = 856
-            Height = 32
-            Top = 8
-            Width = 70
+            Left = 685
+            Height = 26
+            Top = 6
+            Width = 56
             Caption = 'Calibrate'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -858,14 +857,14 @@ object frmMain: TfrmMain
             TabOrder = 2
           end
           object ButtonEav: TButton
-            Left = 504
-            Height = 32
-            Top = 8
-            Width = 75
+            Left = 403
+            Height = 26
+            Top = 6
+            Width = 60
             Caption = 'EAV'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -874,14 +873,14 @@ object frmMain: TfrmMain
             TabOrder = 3
           end
           object ButtonVeg: TButton
-            Left = 592
-            Height = 32
-            Top = 8
-            Width = 75
+            Left = 474
+            Height = 26
+            Top = 6
+            Width = 60
             Caption = 'Vegatest'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -890,14 +889,14 @@ object frmMain: TfrmMain
             TabOrder = 4
           end
           object ButtonEap: TButton
-            Left = 680
-            Height = 32
-            Top = 8
-            Width = 75
+            Left = 544
+            Height = 26
+            Top = 6
+            Width = 60
             Caption = 'EAP'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -906,14 +905,14 @@ object frmMain: TfrmMain
             TabOrder = 5
           end
           object ButtonIon: TButton
-            Left = 768
-            Height = 32
-            Top = 8
-            Width = 75
+            Left = 614
+            Height = 26
+            Top = 6
+            Width = 60
             Caption = 'Ionoph.'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -922,20 +921,20 @@ object frmMain: TfrmMain
             TabOrder = 6
           end
           object btnConnect: TButton
-            Left = 56
-            Height = 75
-            Top = 5
-            Width = 144
+            Left = 45
+            Height = 60
+            Top = 4
+            Width = 115
             Caption = 'Connect'
             OnClick = btnConnectClick
             ParentFont = False
             TabOrder = 7
           end
           object btnClose: TButton
-            Left = 272
-            Height = 75
-            Top = 5
-            Width = 136
+            Left = 218
+            Height = 60
+            Top = 4
+            Width = 109
             Caption = 'Close'
             OnClick = btnCloseClick
             ParentFont = False
@@ -944,20 +943,27 @@ object frmMain: TfrmMain
         end
         object Panel5: TPanel
           Left = 0
-          Height = 26
-          Top = 718
-          Width = 950
+          Height = 21
+          Top = 571
+          Width = 762
           Align = alBottom
           BevelOuter = bvNone
           Caption = 'Panel5'
-          ClientHeight = 26
-          ClientWidth = 950
+          ClientHeight = 21
+          ClientWidth = 762
+          Font.CharSet = EASTEUROPE_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          ParentFont = False
           TabOrder = 2
           object Shape4: TShape
             Left = 0
-            Height = 26
+            Height = 21
             Top = 0
-            Width = 950
+            Width = 762
             Align = alClient
             Brush.Color = 15314554
             Pen.Style = psDash
@@ -965,16 +971,16 @@ object frmMain: TfrmMain
           object LabelLiteratureURL: TLabel
             Cursor = crHandPoint
             Left = 0
-            Height = 26
+            Height = 21
             Top = 0
-            Width = 950
+            Width = 762
             Align = alClient
             Alignment = taCenter
             AutoSize = False
             Caption = 'Click here to open manual and literature page in browser...'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = 8213760
-            Font.Height = -17
+            Font.Height = -14
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -987,11 +993,11 @@ object frmMain: TfrmMain
       end
       object tabRyodoraku: TTabSheet
         Caption = 'Ryodoraku'
-        ClientHeight = 829
-        ClientWidth = 950
+        ClientHeight = 660
+        ClientWidth = 762
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clBlack
-        Font.Height = -15
+        Font.Height = -12
         Font.Name = 'Segoe UI'
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
@@ -999,18 +1005,18 @@ object frmMain: TfrmMain
         ParentFont = False
         object gridRyodoraku: TStringGrid
           Left = 0
-          Height = 178
-          Top = 554
-          Width = 950
+          Height = 139
+          Top = 443
+          Width = 762
           Align = alClient
           ColCount = 13
-          DefaultColWidth = 73
+          DefaultColWidth = 58
           ExtendedSelect = False
           FixedCols = 0
           FixedRows = 0
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI Semibold'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
@@ -1271,14 +1277,14 @@ object frmMain: TfrmMain
         end
         object PageControl2: TPageControl
           Left = 0
-          Height = 488
+          Height = 390
           Top = 0
-          Width = 950
+          Width = 762
           ActivePage = Chart
           Align = alTop
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
@@ -1288,20 +1294,20 @@ object frmMain: TfrmMain
           TabPosition = tpBottom
           object Chart: TTabSheet
             Caption = 'Chart'
-            ClientHeight = 455
-            ClientWidth = 942
+            ClientHeight = 361
+            ClientWidth = 758
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             ParentFont = False
             object chartRyodoraku: TChart
               Left = 0
-              Height = 455
+              Height = 361
               Top = 0
-              Width = 942
+              Width = 758
               AxisList = <              
                 item
                   Intervals.NiceSteps = '5|10'
@@ -1371,11 +1377,11 @@ object frmMain: TfrmMain
           end
           object RightHand: TTabSheet
             Caption = 'Right hand'
-            ClientHeight = 372
-            ClientWidth = 750
+            ClientHeight = 361
+            ClientWidth = 758
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -3534,11 +3540,11 @@ object frmMain: TfrmMain
           end
           object LeftHand: TTabSheet
             Caption = 'Left hand'
-            ClientHeight = 372
-            ClientWidth = 750
+            ClientHeight = 361
+            ClientWidth = 758
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -5698,11 +5704,11 @@ object frmMain: TfrmMain
           end
           object RightFoot: TTabSheet
             Caption = 'Right foot'
-            ClientHeight = 372
-            ClientWidth = 750
+            ClientHeight = 361
+            ClientWidth = 758
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -7977,11 +7983,11 @@ object frmMain: TfrmMain
           end
           object LeftFoot: TTabSheet
             Caption = 'Left foot'
-            ClientHeight = 372
-            ClientWidth = 750
+            ClientHeight = 361
+            ClientWidth = 758
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10262,30 +10268,30 @@ object frmMain: TfrmMain
         end
         object Panel3: TPanel
           Left = 0
-          Height = 40
-          Top = 488
-          Width = 950
+          Height = 32
+          Top = 390
+          Width = 762
           Align = alTop
           BevelOuter = bvNone
-          ClientHeight = 40
-          ClientWidth = 950
+          ClientHeight = 32
+          ClientWidth = 762
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
           ParentFont = False
           TabOrder = 2
           object rbRyodorakuLeft: TRadioButton
-            Left = 340
-            Height = 27
-            Top = 7
-            Width = 52
+            Left = 272
+            Height = 21
+            Top = 6
+            Width = 50
             Caption = 'Left'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -17
+            Font.Height = -14
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10294,16 +10300,16 @@ object frmMain: TfrmMain
             TabOrder = 0
           end
           object rbRyodorakuRight: TRadioButton
-            Left = 550
-            Height = 23
-            Top = 7
-            Width = 77
+            Left = 440
+            Height = 18
+            Top = 6
+            Width = 62
             AutoSize = False
             Caption = 'Right'
             Checked = True
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -17
+            Font.Height = -14
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10313,14 +10319,14 @@ object frmMain: TfrmMain
             TabStop = True
           end
           object CheckBoxAutoTrack: TCheckBox
-            Left = 800
-            Height = 24
-            Top = 7
-            Width = 138
+            Left = 640
+            Height = 21
+            Top = 6
+            Width = 132
             Caption = 'Auto track [2sec.]'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10330,31 +10336,31 @@ object frmMain: TfrmMain
         end
         object Panel1: TPanel
           Left = 0
-          Height = 97
-          Top = 732
-          Width = 950
+          Height = 78
+          Top = 582
+          Width = 762
           Align = alBottom
           BevelOuter = bvNone
-          ClientHeight = 97
-          ClientWidth = 950
+          ClientHeight = 78
+          ClientWidth = 762
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
           ParentFont = False
           TabOrder = 3
           object ButtonRyodorakuSendToEAP: TButton
-            Left = 20
-            Height = 32
-            Top = 50
-            Width = 213
+            Left = 16
+            Height = 26
+            Top = 40
+            Width = 170
             Caption = 'Send points to EAP therapy'
             Enabled = False
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10362,15 +10368,15 @@ object frmMain: TfrmMain
             TabOrder = 0
           end
           object ButtonRyodorakuAnalize: TButton
-            Left = 20
-            Height = 32
-            Top = 10
-            Width = 213
+            Left = 16
+            Height = 26
+            Top = 8
+            Width = 170
             Caption = 'Analize result'
             Enabled = False
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10378,14 +10384,14 @@ object frmMain: TfrmMain
             TabOrder = 1
           end
           object ButtonSaveReading: TButton
-            Left = 640
-            Height = 80
-            Top = 13
-            Width = 302
+            Left = 512
+            Height = 64
+            Top = 10
+            Width = 242
             Caption = 'Save (SPACE)'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -20
+            Font.Height = -16
             Font.Name = 'Segoe UI Semibold'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10397,35 +10403,42 @@ object frmMain: TfrmMain
         end
         object Panel21: TPanel
           Left = 0
-          Height = 26
-          Top = 528
-          Width = 950
+          Height = 21
+          Top = 422
+          Width = 762
           Align = alTop
           Caption = 'Panel21'
-          ClientHeight = 26
-          ClientWidth = 950
+          ClientHeight = 21
+          ClientWidth = 762
+          Font.CharSet = EASTEUROPE_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          ParentFont = False
           TabOrder = 4
           object Shape1: TShape
             Left = 1
-            Height = 24
+            Height = 19
             Top = 1
-            Width = 948
+            Width = 760
             Align = alClient
             Brush.Color = 8454016
             Pen.Style = psDash
           end
           object Label21: TLabel
             Left = 1
-            Height = 24
+            Height = 19
             Top = 1
-            Width = 948
+            Width = 760
             Align = alClient
             Alignment = taCenter
             AutoSize = False
             Caption = 'Double click the point symbol to view its location in the Atlas'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clGreen
-            Font.Height = -17
+            Font.Height = -14
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10437,42 +10450,42 @@ object frmMain: TfrmMain
       end
       object tabEAV: TTabSheet
         Caption = 'EAV'
-        ClientHeight = 829
-        ClientWidth = 950
+        ClientHeight = 660
+        ClientWidth = 762
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clBlack
-        Font.Height = -15
+        Font.Height = -12
         Font.Name = 'Segoe UI'
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
         OnShow = tabEAVShow
         ParentFont = False
         object Panel9: TPanel
-          Left = 776
-          Height = 713
-          Top = 116
-          Width = 174
+          Left = 623
+          Height = 567
+          Top = 93
+          Width = 139
           Align = alRight
           BevelOuter = bvNone
-          ClientHeight = 713
-          ClientWidth = 174
+          ClientHeight = 567
+          ClientWidth = 139
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
           ParentFont = False
           TabOrder = 0
           object btnSaveAs: TButton
-            Left = 9
-            Height = 92
-            Top = 200
-            Width = 160
+            Left = 7
+            Height = 74
+            Top = 160
+            Width = 128
             Caption = 'Save'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -20
+            Font.Height = -16
             Font.Name = 'Segoe UI Semibold'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10482,14 +10495,14 @@ object frmMain: TfrmMain
             TabOrder = 0
           end
           object ButtonSavePath: TButton
-            Left = 9
-            Height = 52
-            Top = 130
-            Width = 160
+            Left = 7
+            Height = 42
+            Top = 104
+            Width = 128
             Caption = 'Save path'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10498,14 +10511,14 @@ object frmMain: TfrmMain
             TabOrder = 1
           end
           object ButtonLoadPath: TButton
-            Left = 9
-            Height = 50
-            Top = 10
-            Width = 160
+            Left = 7
+            Height = 40
+            Top = 8
+            Width = 128
             Caption = 'Load path'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -20
+            Font.Height = -16
             Font.Name = 'Segoe UI Semibold'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10515,14 +10528,14 @@ object frmMain: TfrmMain
             TabOrder = 2
           end
           object ToggleBoxEdit: TToggleBox
-            Left = 9
-            Height = 50
-            Top = 70
-            Width = 160
+            Left = 7
+            Height = 40
+            Top = 56
+            Width = 128
             Caption = 'Edit BAPs'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10533,16 +10546,16 @@ object frmMain: TfrmMain
         end
         object Panel15: TPanel
           Left = 0
-          Height = 713
-          Top = 116
-          Width = 776
+          Height = 567
+          Top = 93
+          Width = 623
           Align = alClient
           BevelOuter = bvNone
-          ClientHeight = 713
-          ClientWidth = 776
+          ClientHeight = 567
+          ClientWidth = 623
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
@@ -10550,16 +10563,16 @@ object frmMain: TfrmMain
           TabOrder = 1
           object StringGridEAV: TStringGrid
             Left = 0
-            Height = 673
+            Height = 535
             Hint = 'Click to edit Bilogicly Active Points in the grid below'
-            Top = 40
-            Width = 776
+            Top = 32
+            Width = 623
             Align = alClient
             ColCount = 3
             FixedCols = 0
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10578,9 +10591,9 @@ object frmMain: TfrmMain
             OnDblClick = StringGridEAVDblClick
             OnSelectCell = StringGridEAPTherapySelectCell
             ColWidths = (
-              148
-              102
-              348
+              118
+              82
+              278
             )
             Cells = (
               27
@@ -10669,30 +10682,30 @@ object frmMain: TfrmMain
           end
           object Panel16: TPanel
             Left = 0
-            Height = 40
+            Height = 32
             Top = 0
-            Width = 776
+            Width = 623
             Align = alTop
             BevelOuter = bvNone
-            ClientHeight = 40
-            ClientWidth = 776
+            ClientHeight = 32
+            ClientWidth = 623
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             ParentFont = False
             TabOrder = 1
             object rbEavLeft: TRadioButton
-              Left = 280
-              Height = 27
+              Left = 224
+              Height = 21
               Top = 0
-              Width = 52
+              Width = 50
               Caption = 'Left'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -17
+              Font.Height = -14
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -10701,16 +10714,16 @@ object frmMain: TfrmMain
               TabOrder = 0
             end
             object rbEavRight: TRadioButton
-              Left = 450
-              Height = 23
+              Left = 360
+              Height = 18
               Top = 2
-              Width = 77
+              Width = 62
               AutoSize = False
               Caption = 'Right'
               Checked = True
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -17
+              Font.Height = -14
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -10723,50 +10736,50 @@ object frmMain: TfrmMain
         end
         object PanelButtons: TPanel
           Left = 0
-          Height = 90
+          Height = 72
           Top = 0
-          Width = 950
+          Width = 762
           Align = alTop
           BevelOuter = bvNone
-          ClientHeight = 90
-          ClientWidth = 950
+          ClientHeight = 72
+          ClientWidth = 762
           ParentFont = False
           TabOrder = 2
           object btnDeleteAll: TButton
-            Left = 106
-            Height = 75
-            Top = 8
-            Width = 77
+            Left = 85
+            Height = 60
+            Top = 6
+            Width = 62
             Caption = 'Delete all'
             OnClick = btnDeleteAllClick
             ParentFont = False
             TabOrder = 0
           end
           object btnDelete: TButton
-            Left = 186
-            Height = 75
-            Top = 8
-            Width = 73
+            Left = 149
+            Height = 60
+            Top = 6
+            Width = 58
             Caption = 'Delete'
             OnClick = btnDeleteClick
             ParentFont = False
             TabOrder = 1
           end
           object ButtonSaveReport: TButton
-            Left = 16
-            Height = 75
-            Top = 8
-            Width = 87
+            Left = 13
+            Height = 60
+            Top = 6
+            Width = 70
             Caption = 'Save report'
             ParentFont = False
             TabOrder = 2
           end
           object cboxSeries: TComboBox
-            Left = 266
-            Height = 28
-            Top = 50
-            Width = 140
-            ItemHeight = 20
+            Left = 213
+            Height = 26
+            Top = 40
+            Width = 112
+            ItemHeight = 0
             ItemIndex = 0
             Items.Strings = (
               'Working'
@@ -10778,16 +10791,16 @@ object frmMain: TfrmMain
           end
         end
         object Label22: TLabel
-          Left = 56
-          Height = 20
-          Top = 531
-          Width = 836
+          Left = 45
+          Height = 16
+          Top = 425
+          Width = 669
           Alignment = taCenter
           AutoSize = False
           Caption = 'Double click the point symbol to view its location in the Atlas'
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clGreen
-          Font.Height = -17
+          Font.Height = -14
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
@@ -10797,35 +10810,42 @@ object frmMain: TfrmMain
         end
         object Panel2: TPanel
           Left = 0
-          Height = 26
-          Top = 90
-          Width = 950
+          Height = 21
+          Top = 72
+          Width = 762
           Align = alTop
           Caption = 'Panel2'
-          ClientHeight = 26
-          ClientWidth = 950
+          ClientHeight = 21
+          ClientWidth = 762
+          Font.CharSet = EASTEUROPE_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          ParentFont = False
           TabOrder = 3
           object Shape2: TShape
             Left = 1
-            Height = 24
+            Height = 19
             Top = 1
-            Width = 948
+            Width = 760
             Align = alClient
             Brush.Color = 8454016
             Pen.Style = psDash
           end
           object Label23: TLabel
             Left = 1
-            Height = 24
+            Height = 19
             Top = 1
-            Width = 948
+            Width = 760
             Align = alClient
             Alignment = taCenter
             AutoSize = False
             Caption = 'Double click the point symbol to view its localisation in the Atlas'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clGreen
-            Font.Height = -17
+            Font.Height = -14
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10837,11 +10857,11 @@ object frmMain: TfrmMain
       end
       object tabVegatest: TTabSheet
         Caption = 'Vegatest'
-        ClientHeight = 829
-        ClientWidth = 950
+        ClientHeight = 660
+        ClientWidth = 762
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clBlack
-        Font.Height = -15
+        Font.Height = -12
         Font.Name = 'Segoe UI'
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
@@ -10849,46 +10869,46 @@ object frmMain: TfrmMain
         ParentFont = False
         object Panel6: TPanel
           Left = 0
-          Height = 829
+          Height = 660
           Top = 0
-          Width = 950
+          Width = 762
           Align = alClient
-          ClientHeight = 829
-          ClientWidth = 950
+          ClientHeight = 660
+          ClientWidth = 762
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
           ParentFont = False
           TabOrder = 0
           object Panel7: TPanel
-            Left = 772
-            Height = 827
+            Left = 619
+            Height = 658
             Top = 1
-            Width = 177
+            Width = 142
             Align = alRight
             BevelOuter = bvNone
-            ClientHeight = 827
-            ClientWidth = 177
+            ClientHeight = 658
+            ClientWidth = 142
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             ParentFont = False
             TabOrder = 0
             object ButtonVegatestEdit: TButton
-              Left = 10
-              Height = 42
-              Top = 10
-              Width = 160
+              Left = 8
+              Height = 34
+              Top = 8
+              Width = 128
               Caption = 'Edit'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -10897,14 +10917,14 @@ object frmMain: TfrmMain
               TabOrder = 0
             end
             object ButtonVegatestSaveAs1: TButton
-              Left = 10
-              Height = 112
-              Top = 100
-              Width = 160
+              Left = 8
+              Height = 90
+              Top = 80
+              Width = 128
               Caption = 'Save'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -20
+              Font.Height = -16
               Font.Name = 'Segoe UI Semibold'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -10916,13 +10936,13 @@ object frmMain: TfrmMain
           end
           object TreeViewSelector: TTreeView
             Left = 1
-            Height = 827
+            Height = 658
             Top = 1
-            Width = 771
+            Width = 618
             Align = alClient
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10943,11 +10963,11 @@ object frmMain: TfrmMain
       end
       object tabElectropunture: TTabSheet
         Caption = 'Electropunture'
-        ClientHeight = 829
-        ClientWidth = 950
+        ClientHeight = 660
+        ClientWidth = 762
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clBlack
-        Font.Height = -15
+        Font.Height = -12
         Font.Name = 'Segoe UI'
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
@@ -10955,26 +10975,26 @@ object frmMain: TfrmMain
         ParentFont = False
         object Panel13: TPanel
           Left = 0
-          Height = 210
+          Height = 168
           Top = 0
-          Width = 950
+          Width = 762
           Align = alTop
           BevelOuter = bvNone
-          ClientHeight = 210
-          ClientWidth = 950
+          ClientHeight = 168
+          ClientWidth = 762
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
           ParentFont = False
           TabOrder = 0
           object RadioGroup1: TRadioGroup
-            Left = 430
-            Height = 110
-            Top = 90
-            Width = 190
+            Left = 344
+            Height = 88
+            Top = 72
+            Width = 152
             AutoFill = True
             Caption = 'Active electrode (red)'
             ChildSizing.LeftRightSpacing = 6
@@ -10984,11 +11004,11 @@ object frmMain: TfrmMain
             ChildSizing.ShrinkVertical = crsScaleChilds
             ChildSizing.Layout = cclLeftToRightThenTopToBottom
             ChildSizing.ControlsPerLine = 1
-            ClientHeight = 85
-            ClientWidth = 186
+            ClientHeight = 71
+            ClientWidth = 148
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -10996,14 +11016,14 @@ object frmMain: TfrmMain
             TabOrder = 0
             object rbNegativeElectrode: TRadioButton
               Left = 6
-              Height = 43
+              Height = 36
               Top = 0
-              Width = 174
+              Width = 136
               Caption = 'Negative (-)'
               Checked = True
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11014,13 +11034,13 @@ object frmMain: TfrmMain
             end
             object rbPositiveElectrode: TRadioButton
               Left = 6
-              Height = 42
-              Top = 43
-              Width = 174
+              Height = 35
+              Top = 36
+              Width = 136
               Caption = 'Positive (+)'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11030,9 +11050,9 @@ object frmMain: TfrmMain
           end
           object RadioGroup2: TRadioGroup
             Left = 2
-            Height = 110
-            Top = 90
-            Width = 138
+            Height = 88
+            Top = 72
+            Width = 110
             AutoFill = True
             Caption = 'Current'
             ChildSizing.LeftRightSpacing = 6
@@ -11042,11 +11062,11 @@ object frmMain: TfrmMain
             ChildSizing.ShrinkVertical = crsScaleChilds
             ChildSizing.Layout = cclLeftToRightThenTopToBottom
             ChildSizing.ControlsPerLine = 1
-            ClientHeight = 85
-            ClientWidth = 134
+            ClientHeight = 71
+            ClientWidth = 106
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -11054,13 +11074,13 @@ object frmMain: TfrmMain
             TabOrder = 1
             object rbDirect: TRadioButton
               Left = 6
-              Height = 43
+              Height = 36
               Top = 0
-              Width = 122
+              Width = 94
               Caption = 'Direct (DC)'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11070,14 +11090,14 @@ object frmMain: TfrmMain
             end
             object rbPulse: TRadioButton
               Left = 6
-              Height = 42
-              Top = 43
-              Width = 122
+              Height = 35
+              Top = 36
+              Width = 94
               Caption = 'Pulse'
               Checked = True
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11088,30 +11108,30 @@ object frmMain: TfrmMain
             end
           end
           object GroupBox1: TGroupBox
-            Left = 150
-            Height = 110
-            Top = 90
-            Width = 270
+            Left = 120
+            Height = 88
+            Top = 72
+            Width = 216
             Caption = 'Pulse parameters'
-            ClientHeight = 85
-            ClientWidth = 266
+            ClientHeight = 71
+            ClientWidth = 212
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             ParentFont = False
             TabOrder = 2
             object Label2: TLabel
-              Left = 10
-              Height = 20
-              Top = 5
-              Width = 67
+              Left = 8
+              Height = 13
+              Top = 4
+              Width = 63
               Caption = 'Frequency'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11119,14 +11139,14 @@ object frmMain: TfrmMain
               ParentFont = False
             end
             object Label3: TLabel
-              Left = 10
-              Height = 20
-              Top = 43
-              Width = 68
+              Left = 8
+              Height = 13
+              Top = 34
+              Width = 64
               Caption = 'Duty cycle'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11134,14 +11154,14 @@ object frmMain: TfrmMain
               ParentFont = False
             end
             object Label6: TLabel
-              Left = 190
-              Height = 20
-              Top = 5
-              Width = 18
+              Left = 152
+              Height = 13
+              Top = 4
+              Width = 15
               Caption = 'Hz'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11149,14 +11169,14 @@ object frmMain: TfrmMain
               ParentFont = False
             end
             object Label7: TLabel
-              Left = 190
-              Height = 20
-              Top = 43
-              Width = 75
+              Left = 152
+              Height = 13
+              Top = 34
+              Width = 73
               Caption = '% (0.1-100)'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11164,15 +11184,15 @@ object frmMain: TfrmMain
               ParentFont = False
             end
             object edtDutyCycle: TFloatSpinEdit
-              Left = 100
-              Height = 28
-              Top = 40
-              Width = 80
+              Left = 80
+              Height = 22
+              Top = 32
+              Width = 64
               Alignment = taRightJustify
               DecimalPlaces = 1
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11183,14 +11203,14 @@ object frmMain: TfrmMain
               Value = 5
             end
             object edtFreq: TFloatSpinEdit
-              Left = 100
-              Height = 28
+              Left = 80
+              Height = 22
               Top = 0
-              Width = 80
+              Width = 64
               Alignment = taRightJustify
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11202,30 +11222,30 @@ object frmMain: TfrmMain
             end
           end
           object GroupBox2: TGroupBox
-            Left = 627
-            Height = 110
-            Top = 90
-            Width = 172
+            Left = 502
+            Height = 88
+            Top = 72
+            Width = 138
             Caption = 'Change direction'
-            ClientHeight = 85
-            ClientWidth = 168
+            ClientHeight = 71
+            ClientWidth = 134
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             ParentFont = False
             TabOrder = 3
             object cboxChangeDirections: TCheckBox
-              Left = 13
-              Height = 24
-              Top = 5
-              Width = 65
+              Left = 10
+              Height = 21
+              Top = 4
+              Width = 60
               Caption = 'Active'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11234,14 +11254,14 @@ object frmMain: TfrmMain
               TabOrder = 0
             end
             object Label4: TLabel
-              Left = 13
-              Height = 20
-              Top = 43
-              Width = 35
+              Left = 10
+              Height = 13
+              Top = 34
+              Width = 34
               Caption = 'Every'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11249,14 +11269,14 @@ object frmMain: TfrmMain
               ParentFont = False
             end
             object edtSeconds: TEdit
-              Left = 53
-              Height = 28
-              Top = 40
-              Width = 47
+              Left = 42
+              Height = 22
+              Top = 32
+              Width = 38
               Alignment = taRightJustify
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11266,14 +11286,14 @@ object frmMain: TfrmMain
               Text = '5'
             end
             object Label5: TLabel
-              Left = 108
-              Height = 20
-              Top = 43
+              Left = 86
+              Height = 13
+              Top = 34
               Width = 24
               Caption = 'sek.'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11283,9 +11303,9 @@ object frmMain: TfrmMain
           end
           object RadioGroup3: TRadioGroup
             Left = 0
-            Height = 80
+            Height = 64
             Top = 0
-            Width = 950
+            Width = 762
             Align = alTop
             AutoFill = True
             Caption = 'Profil'
@@ -11296,12 +11316,12 @@ object frmMain: TfrmMain
             ChildSizing.ShrinkVertical = crsScaleChilds
             ChildSizing.Layout = cclTopToBottomThenLeftToRight
             ChildSizing.ControlsPerLine = 1
-            ClientHeight = 55
-            ClientWidth = 946
+            ClientHeight = 47
+            ClientWidth = 758
             ColumnLayout = clVerticalThenHorizontal
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -11309,14 +11329,14 @@ object frmMain: TfrmMain
             TabOrder = 4
             object rbUsers: TRadioButton
               Left = 6
-              Height = 55
+              Height = 47
               Top = 0
-              Width = 102
+              Width = 79
               Caption = 'Users'
               Checked = True
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11326,15 +11346,15 @@ object frmMain: TfrmMain
               TabStop = True
             end
             object rbCommon: TRadioButton
-              Left = 108
-              Height = 55
+              Left = 85
+              Height = 47
               Top = 0
-              Width = 128
+              Width = 100
               AutoSize = False
               Caption = 'Common'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11343,14 +11363,14 @@ object frmMain: TfrmMain
               TabOrder = 1
             end
             object rbStimulation: TRadioButton
-              Left = 236
-              Height = 55
+              Left = 185
+              Height = 47
               Top = 0
-              Width = 191
+              Width = 160
               Caption = 'Stimulation (Pulse)'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11359,14 +11379,14 @@ object frmMain: TfrmMain
               TabOrder = 2
             end
             object rbSedation: TRadioButton
-              Left = 427
-              Height = 55
+              Left = 345
+              Height = 47
               Top = 0
-              Width = 126
+              Width = 99
               Caption = 'Sedation'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11375,14 +11395,14 @@ object frmMain: TfrmMain
               TabOrder = 3
             end
             object rbDCnegative: TRadioButton
-              Left = 553
-              Height = 55
+              Left = 444
+              Height = 47
               Top = 0
-              Width = 93
+              Width = 67
               Caption = 'DC-'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11391,14 +11411,14 @@ object frmMain: TfrmMain
               TabOrder = 4
             end
             object rbDCpositive: TRadioButton
-              Left = 646
-              Height = 55
+              Left = 511
+              Height = 47
               Top = 0
-              Width = 97
+              Width = 73
               Caption = 'DC+'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11407,14 +11427,14 @@ object frmMain: TfrmMain
               TabOrder = 5
             end
             object rbDCchangeDirections: TRadioButton
-              Left = 743
-              Height = 55
+              Left = 584
+              Height = 47
               Top = 0
-              Width = 197
+              Width = 168
               Caption = 'DC change direction'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11426,66 +11446,94 @@ object frmMain: TfrmMain
         end
         object Panel14: TPanel
           Left = 0
-          Height = 86
-          Top = 210
-          Width = 950
+          Height = 69
+          Top = 168
+          Width = 762
           Align = alTop
-          ClientHeight = 86
-          ClientWidth = 950
+          ClientHeight = 69
+          ClientWidth = 762
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
           ParentFont = False
           TabOrder = 1
           object Panel24: TPanel
-            Left = 816
-            Height = 84
+            Left = 655
+            Height = 67
             Top = 1
-            Width = 133
+            Width = 106
             Align = alRight
             BevelOuter = bvNone
-            ClientHeight = 84
-            ClientWidth = 133
+            ClientHeight = 67
+            ClientWidth = 106
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            ParentFont = False
             TabOrder = 0
             object RadioBtnCurrentImpulse: TRadioButton
-              Left = 24
-              Height = 24
-              Top = 16
-              Width = 76
+              Left = 19
+              Height = 21
+              Top = 13
+              Width = 71
               Caption = 'Impulse'
               Checked = True
+              Font.CharSet = EASTEUROPE_CHARSET
+              Font.Color = clBlack
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Pitch = fpVariable
+              Font.Quality = fqDraft
               OnChange = RadioBtnCurrentImpulseChange
+              ParentFont = False
               TabOrder = 1
               TabStop = True
             end
             object RadioBtnCurrentRMS: TRadioButton
-              Left = 24
-              Height = 24
-              Top = 48
-              Width = 54
+              Left = 19
+              Height = 21
+              Top = 38
+              Width = 49
               Caption = 'RMS'
+              Font.CharSet = EASTEUROPE_CHARSET
+              Font.Color = clBlack
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Pitch = fpVariable
+              Font.Quality = fqDraft
               OnChange = RadioBtnCurrentImpulseChange
+              ParentFont = False
               TabOrder = 0
             end
           end
           object Panel25: TPanel
             Left = 1
-            Height = 84
+            Height = 67
             Top = 1
-            Width = 815
+            Width = 654
             Align = alClient
             BevelOuter = bvNone
-            ClientHeight = 84
-            ClientWidth = 815
+            ClientHeight = 67
+            ClientWidth = 654
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            ParentFont = False
             TabOrder = 1
             object chartCurrent: TChart
               Left = 0
-              Height = 81
+              Height = 65
               Top = 0
-              Width = 815
+              Width = 654
               AxisList = <              
                 item
                   Visible = False
@@ -11530,9 +11578,9 @@ object frmMain: TfrmMain
             end
             object chartRMS: TChart
               Left = 0
-              Height = 86
-              Top = 81
-              Width = 815
+              Height = 69
+              Top = 65
+              Width = 654
               AxisList = <              
                 item
                   Visible = False
@@ -11576,15 +11624,15 @@ object frmMain: TfrmMain
         end
         object StringGridEAPTherapy: TStringGrid
           Left = 0
-          Height = 395
-          Top = 324
-          Width = 950
+          Height = 313
+          Top = 259
+          Width = 762
           Align = alClient
           ColCount = 6
           FixedCols = 0
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
@@ -11603,12 +11651,12 @@ object frmMain: TfrmMain
           OnDblClick = StringGridEAPTherapyDblClick
           OnSelectCell = StringGridEAPTherapySelectCell
           ColWidths = (
-            102
-            114
-            122
-            77
-            80
-            420
+            82
+            91
+            98
+            62
+            64
+            336
           )
           Cells = (
             33
@@ -11715,36 +11763,43 @@ object frmMain: TfrmMain
         end
         object Panel22: TPanel
           Left = 0
-          Height = 26
-          Top = 803
-          Width = 950
+          Height = 21
+          Top = 639
+          Width = 762
           Align = alBottom
           BevelOuter = bvNone
           Caption = 'Panel22'
-          ClientHeight = 26
-          ClientWidth = 950
+          ClientHeight = 21
+          ClientWidth = 762
+          Font.CharSet = EASTEUROPE_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          ParentFont = False
           TabOrder = 3
           object Shape3: TShape
             Left = 0
-            Height = 26
+            Height = 21
             Top = 0
-            Width = 950
+            Width = 762
             Align = alClient
             Brush.Color = 8454016
             Pen.Style = psDash
           end
           object Label24: TLabel
             Left = 0
-            Height = 26
+            Height = 21
             Top = 0
-            Width = 950
+            Width = 762
             Align = alClient
             Alignment = taCenter
             AutoSize = False
             Caption = 'Double click the point symbol to view its location in the Atlas'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clGreen
-            Font.Height = -17
+            Font.Height = -14
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -11755,23 +11810,30 @@ object frmMain: TfrmMain
         end
         object Panel23: TPanel
           Left = 0
-          Height = 84
-          Top = 719
-          Width = 950
+          Height = 67
+          Top = 572
+          Width = 762
           Align = alBottom
           BevelOuter = bvNone
-          ClientHeight = 84
-          ClientWidth = 950
+          ClientHeight = 67
+          ClientWidth = 762
+          Font.CharSet = EASTEUROPE_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          ParentFont = False
           TabOrder = 4
           object ButtonChooseEAPTherapy: TButton
-            Left = 24
-            Height = 64
-            Top = 8
-            Width = 140
+            Left = 19
+            Height = 51
+            Top = 6
+            Width = 112
             Caption = 'Choose therapy'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -11782,26 +11844,33 @@ object frmMain: TfrmMain
         end
         object Panel26: TPanel
           Left = 0
-          Height = 28
-          Top = 296
-          Width = 950
+          Height = 22
+          Top = 237
+          Width = 762
           Align = alTop
           BevelOuter = bvNone
-          ClientHeight = 28
-          ClientWidth = 950
+          ClientHeight = 22
+          ClientWidth = 762
+          Font.CharSet = EASTEUROPE_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          ParentFont = False
           TabOrder = 5
           object LabelEAPName: TLabel
             Left = 0
-            Height = 26
+            Height = 21
             Top = 0
-            Width = 950
+            Width = 762
             Align = alTop
             Alignment = taCenter
             AutoSize = False
             Caption = '...'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -17
+            Font.Height = -14
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -11812,11 +11881,18 @@ object frmMain: TfrmMain
           end
           object MemoDescription: TMemo
             Left = 0
-            Height = 2
-            Top = 26
-            Width = 950
+            Height = 36
+            Top = 21
+            Width = 762
             Align = alClient
             BorderStyle = bsNone
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            ParentFont = False
             ScrollBars = ssAutoVertical
             TabOrder = 0
           end
@@ -11824,11 +11900,11 @@ object frmMain: TfrmMain
       end
       object tabIonophorese: TTabSheet
         Caption = 'Iontophoresis'
-        ClientHeight = 829
-        ClientWidth = 950
+        ClientHeight = 660
+        ClientWidth = 762
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clBlack
-        Font.Height = -15
+        Font.Height = -12
         Font.Name = 'Segoe UI'
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
@@ -11836,26 +11912,26 @@ object frmMain: TfrmMain
         ParentFont = False
         object Panel17: TPanel
           Left = 0
-          Height = 123
+          Height = 98
           Top = 0
           Width = 950
           Align = alTop
           BevelOuter = bvNone
-          ClientHeight = 123
+          ClientHeight = 98
           ClientWidth = 950
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
           ParentFont = False
           TabOrder = 0
           object RadioGroup4: TRadioGroup
-            Left = 430
-            Height = 110
-            Top = 3
-            Width = 190
+            Left = 344
+            Height = 88
+            Top = 2
+            Width = 152
             AutoFill = True
             Caption = 'Active electrode (red)'
             ChildSizing.LeftRightSpacing = 6
@@ -11865,18 +11941,18 @@ object frmMain: TfrmMain
             ChildSizing.ShrinkVertical = crsScaleChilds
             ChildSizing.Layout = cclLeftToRightThenTopToBottom
             ChildSizing.ControlsPerLine = 1
-            ClientHeight = 85
-            ClientWidth = 186
+            ClientHeight = 69
+            ClientWidth = 148
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             ParentFont = False
             TabOrder = 0
             object rbNegativeElectrode_ION: TRadioButton
-              Left = 6
+              Left = 5
               Height = 43
               Top = 0
               Width = 174
@@ -11884,7 +11960,7 @@ object frmMain: TfrmMain
               Checked = True
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11894,14 +11970,14 @@ object frmMain: TfrmMain
               TabStop = True
             end
             object rbPositiveElectrode_ION: TRadioButton
-              Left = 6
+              Left = 5
               Height = 42
-              Top = 43
+              Top = 34
               Width = 174
               Caption = 'Positive (+)'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11912,9 +11988,9 @@ object frmMain: TfrmMain
           end
           object RadioGroup5: TRadioGroup
             Left = 2
-            Height = 110
-            Top = 3
-            Width = 138
+            Height = 88
+            Top = 2
+            Width = 110
             AutoFill = True
             Caption = 'Current'
             ChildSizing.LeftRightSpacing = 6
@@ -11924,25 +12000,25 @@ object frmMain: TfrmMain
             ChildSizing.ShrinkVertical = crsScaleChilds
             ChildSizing.Layout = cclLeftToRightThenTopToBottom
             ChildSizing.ControlsPerLine = 1
-            ClientHeight = 85
-            ClientWidth = 134
+            ClientHeight = 69
+            ClientWidth = 106
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             ParentFont = False
             TabOrder = 1
             object rbDirect_ION: TRadioButton
-              Left = 6
+              Left = 5
               Height = 43
               Top = 0
               Width = 122
               Caption = 'Direct (DC)'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11951,15 +12027,15 @@ object frmMain: TfrmMain
               TabOrder = 0
             end
             object rbPulse_ION: TRadioButton
-              Left = 6
+              Left = 5
               Height = 42
-              Top = 43
+              Top = 34
               Width = 122
               Caption = 'Pulse (zapper)'
               Checked = True
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -11970,30 +12046,30 @@ object frmMain: TfrmMain
             end
           end
           object GroupBox3: TGroupBox
-            Left = 150
-            Height = 110
-            Top = 3
-            Width = 270
+            Left = 120
+            Height = 88
+            Top = 2
+            Width = 216
             Caption = 'Pulse parameters'
-            ClientHeight = 85
-            ClientWidth = 266
+            ClientHeight = 69
+            ClientWidth = 212
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             ParentFont = False
             TabOrder = 2
             object Label9: TLabel
-              Left = 10
+              Left = 8
               Height = 20
-              Top = 5
+              Top = 4
               Width = 67
               Caption = 'Frequency'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12001,14 +12077,14 @@ object frmMain: TfrmMain
               ParentFont = False
             end
             object Label10: TLabel
-              Left = 10
+              Left = 8
               Height = 20
-              Top = 43
+              Top = 34
               Width = 68
               Caption = 'Duty cycle'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12016,14 +12092,14 @@ object frmMain: TfrmMain
               ParentFont = False
             end
             object Label11: TLabel
-              Left = 213
+              Left = 170
               Height = 20
-              Top = 5
+              Top = 4
               Width = 18
               Caption = 'Hz'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12031,14 +12107,14 @@ object frmMain: TfrmMain
               ParentFont = False
             end
             object edtFreq_ION: TFloatSpinEdit
-              Left = 100
+              Left = 80
               Height = 28
               Top = 0
-              Width = 107
+              Width = 86
               Alignment = taRightJustify
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12049,14 +12125,14 @@ object frmMain: TfrmMain
               Value = 100
             end
             object rbDutyCycle50_ION: TRadioButton
-              Left = 102
+              Left = 82
               Height = 24
-              Top = 42
+              Top = 34
               Width = 52
               Caption = '50%'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12065,15 +12141,15 @@ object frmMain: TfrmMain
               TabOrder = 2
             end
             object rbDutyCycle90_ION: TRadioButton
-              Left = 187
+              Left = 150
               Height = 24
-              Top = 42
+              Top = 34
               Width = 52
               Caption = '90%'
               Checked = True
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12086,7 +12162,7 @@ object frmMain: TfrmMain
         end
         object chartRMS_ION: TChart
           Left = 0
-          Height = 78
+          Height = 62
           Top = 123
           Width = 950
           AxisList = <          
@@ -12135,34 +12211,34 @@ object frmMain: TfrmMain
         end
         object Panel4: TPanel
           Left = 0
-          Height = 172
+          Height = 138
           Top = 201
           Width = 950
           Align = alTop
           BevelOuter = bvNone
-          ClientHeight = 172
+          ClientHeight = 138
           ClientWidth = 950
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
           ParentFont = False
           TabOrder = 2
           object Panel8: TPanel
-            Left = 44
-            Height = 122
-            Top = 20
-            Width = 432
+            Left = 35
+            Height = 98
+            Top = 16
+            Width = 346
             BevelColor = clBlack
             BevelWidth = 2
-            ClientHeight = 122
-            ClientWidth = 432
+            ClientHeight = 98
+            ClientWidth = 346
             Color = 8454016
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -12170,15 +12246,15 @@ object frmMain: TfrmMain
             ParentFont = False
             TabOrder = 0
             object LabelCharge: TLabel
-              Left = 107
+              Left = 86
               Height = 106
-              Top = 12
+              Top = 10
               Width = 206
               Alignment = taRightJustify
               Caption = '0.000'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -80
+              Font.Height = -64
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12187,14 +12263,14 @@ object frmMain: TfrmMain
               ParentFont = False
             end
             object Label12: TLabel
-              Left = 327
+              Left = 262
               Height = 45
-              Top = 60
+              Top = 48
               Width = 86
               Caption = 'mA*h'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -33
+              Font.Height = -26
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12203,14 +12279,14 @@ object frmMain: TfrmMain
               ParentFont = False
             end
             object Label13: TLabel
-              Left = 7
+              Left = 6
               Height = 45
-              Top = -7
+              Top = -6
               Width = 25
               Caption = 'Q'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -33
+              Font.Height = -26
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12220,18 +12296,18 @@ object frmMain: TfrmMain
             end
           end
           object Panel10: TPanel
-            Left = 509
-            Height = 122
-            Top = 20
-            Width = 400
+            Left = 407
+            Height = 98
+            Top = 16
+            Width = 320
             BevelColor = clBlack
             BevelWidth = 2
-            ClientHeight = 122
-            ClientWidth = 400
+            ClientHeight = 98
+            ClientWidth = 320
             Color = 16754769
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -12239,15 +12315,15 @@ object frmMain: TfrmMain
             ParentFont = False
             TabOrder = 1
             object LabelMass: TLabel
-              Left = 107
+              Left = 86
               Height = 106
-              Top = 12
+              Top = 10
               Width = 206
               Alignment = taRightJustify
               Caption = '0.000'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -80
+              Font.Height = -64
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12256,14 +12332,14 @@ object frmMain: TfrmMain
               ParentFont = False
             end
             object Label14: TLabel
-              Left = 327
+              Left = 262
               Height = 45
-              Top = 60
+              Top = 48
               Width = 50
               Caption = 'mg'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -33
+              Font.Height = -26
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12272,14 +12348,14 @@ object frmMain: TfrmMain
               ParentFont = False
             end
             object Label15: TLabel
-              Left = 7
+              Left = 6
               Height = 45
-              Top = -7
+              Top = -6
               Width = 78
               Caption = 'mass'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -33
+              Font.Height = -26
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12301,38 +12377,38 @@ object frmMain: TfrmMain
           ClientWidth = 950
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
           ParentFont = False
           TabOrder = 3
           object Panel18: TPanel
-            Left = 788
+            Left = 820
             Height = 456
             Top = 0
-            Width = 162
+            Width = 130
             Align = alRight
             BevelOuter = bvNone
             ClientHeight = 456
-            ClientWidth = 162
+            ClientWidth = 130
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             ParentFont = False
             TabOrder = 0
             object ButtonIonOn: TButton
-              Left = 13
-              Height = 110
-              Top = 20
-              Width = 140
+              Left = 10
+              Height = 88
+              Top = 16
+              Width = 112
               Caption = 'ON'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -27
+              Font.Height = -22
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12342,14 +12418,14 @@ object frmMain: TfrmMain
               TabOrder = 0
             end
             object ButtonIonOff: TButton
-              Left = 13
-              Height = 110
-              Top = 144
-              Width = 140
+              Left = 10
+              Height = 88
+              Top = 115
+              Width = 112
               Caption = 'OFF'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -27
+              Font.Height = -22
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12359,14 +12435,14 @@ object frmMain: TfrmMain
               TabOrder = 1
             end
             object ButtonUpdate: TButton
-              Left = 13
-              Height = 110
-              Top = 267
-              Width = 140
+              Left = 10
+              Height = 88
+              Top = 214
+              Width = 112
               Caption = 'Update window'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -17
+              Font.Height = -14
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12387,7 +12463,7 @@ object frmMain: TfrmMain
             ClientWidth = 788
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
-            Font.Height = -15
+            Font.Height = -12
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
@@ -12395,17 +12471,17 @@ object frmMain: TfrmMain
             TabOrder = 1
             object Panel20: TPanel
               Left = 0
-              Height = 113
+              Height = 90
               Top = 0
               Width = 788
               Align = alTop
               BevelOuter = bvNone
-              ClientHeight = 113
+              ClientHeight = 90
               ClientWidth = 788
               Color = 16754769
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -15
+              Font.Height = -12
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12413,14 +12489,14 @@ object frmMain: TfrmMain
               ParentFont = False
               TabOrder = 0
               object Label16: TLabel
-                Left = 20
+                Left = 16
                 Height = 20
-                Top = 13
+                Top = 10
                 Width = 70
                 Caption = 'Substance:'
                 Font.CharSet = EASTEUROPE_CHARSET
                 Font.Color = clBlack
-                Font.Height = -15
+                Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Pitch = fpVariable
                 Font.Quality = fqDraft
@@ -12428,14 +12504,14 @@ object frmMain: TfrmMain
                 ParentFont = False
               end
               object Label17: TLabel
-                Left = 527
+                Left = 422
                 Height = 20
-                Top = 13
+                Top = 10
                 Width = 111
                 Caption = 'Active electrode:'
                 Font.CharSet = EASTEUROPE_CHARSET
                 Font.Color = clBlack
-                Font.Height = -15
+                Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Pitch = fpVariable
                 Font.Quality = fqDraft
@@ -12443,14 +12519,14 @@ object frmMain: TfrmMain
                 ParentFont = False
               end
               object Label18: TLabel
-                Left = 527
+                Left = 422
                 Height = 20
-                Top = 47
+                Top = 38
                 Width = 85
                 Caption = 'Molar mass*:'
                 Font.CharSet = EASTEUROPE_CHARSET
                 Font.Color = clBlack
-                Font.Height = -15
+                Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Pitch = fpVariable
                 Font.Quality = fqDraft
@@ -12458,14 +12534,14 @@ object frmMain: TfrmMain
                 ParentFont = False
               end
               object Label19: TLabel
-                Left = 527
+                Left = 422
                 Height = 20
-                Top = 80
+                Top = 64
                 Width = 54
                 Caption = 'Valence:'
                 Font.CharSet = EASTEUROPE_CHARSET
                 Font.Color = clBlack
-                Font.Height = -15
+                Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Pitch = fpVariable
                 Font.Quality = fqDraft
@@ -12473,13 +12549,13 @@ object frmMain: TfrmMain
                 ParentFont = False
               end
               object EditSubstance_ION: TEdit
-                Left = 107
+                Left = 86
                 Height = 28
-                Top = 9
-                Width = 380
+                Top = 7
+                Width = 304
                 Font.CharSet = EASTEUROPE_CHARSET
                 Font.Color = clBlack
-                Font.Height = -15
+                Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Pitch = fpVariable
                 Font.Quality = fqDraft
@@ -12489,14 +12565,14 @@ object frmMain: TfrmMain
                 Text = 'Naproxen (naproxen sodium)'
               end
               object EditActiveElectrode_ION: TEdit
-                Left = 645
+                Left = 516
                 Height = 28
-                Top = 9
-                Width = 100
+                Top = 7
+                Width = 80
                 Alignment = taCenter
                 Font.CharSet = EASTEUROPE_CHARSET
                 Font.Color = clBlack
-                Font.Height = -15
+                Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Pitch = fpVariable
                 Font.Quality = fqDraft
@@ -12506,14 +12582,14 @@ object frmMain: TfrmMain
                 Text = 'Negative'
               end
               object EditMolarMass_ION: TEdit
-                Left = 645
+                Left = 516
                 Height = 28
-                Top = 43
-                Width = 100
+                Top = 34
+                Width = 80
                 Alignment = taCenter
                 Font.CharSet = EASTEUROPE_CHARSET
                 Font.Color = clBlack
-                Font.Height = -15
+                Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Pitch = fpVariable
                 Font.Quality = fqDraft
@@ -12523,14 +12599,14 @@ object frmMain: TfrmMain
                 Text = '230.26'
               end
               object EditValence_ION: TEdit
-                Left = 645
+                Left = 516
                 Height = 28
-                Top = 77
-                Width = 100
+                Top = 62
+                Width = 80
                 Alignment = taCenter
                 Font.CharSet = EASTEUROPE_CHARSET
                 Font.Color = clBlack
-                Font.Height = -15
+                Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Pitch = fpVariable
                 Font.Quality = fqDraft
@@ -12540,14 +12616,14 @@ object frmMain: TfrmMain
                 Text = '1'
               end
               object Label20: TLabel
-                Left = 20
+                Left = 16
                 Height = 20
-                Top = 80
+                Top = 64
                 Width = 488
                 Caption = '(*) Molar mass refers to complete molecule (not an ion). Mass equivalent. '
                 Font.CharSet = EASTEUROPE_CHARSET
                 Font.Color = clBlack
-                Font.Height = -15
+                Font.Height = -12
                 Font.Name = 'Segoe UI'
                 Font.Pitch = fpVariable
                 Font.Quality = fqDraft
@@ -12566,7 +12642,7 @@ object frmMain: TfrmMain
               FixedCols = 0
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -17
+              Font.Height = -14
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
@@ -12585,13 +12661,13 @@ object frmMain: TfrmMain
               OnSelection = StringGridIonTherapySelection
               OnSelectCell = StringGridEAPTherapySelectCell
               ColWidths = (
-                356
-                135
-                122
-                77
+                285
+                108
+                98
+                62
               )
               RowHeights = (
-                27
+                22
               )
               Cells = (
                 4
@@ -12615,16 +12691,16 @@ object frmMain: TfrmMain
     end
   end
   object Label25: TLabel
-    Left = 80
-    Height = 26
+    Left = 64
+    Height = 21
     Top = 0
-    Width = 910
+    Width = 728
     Alignment = taCenter
     AutoSize = False
     Caption = 'Double click the point symbol to view its location in the Atlas'
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Color = clGreen
-    Font.Height = -17
+    Font.Height = -14
     Font.Name = 'Segoe UI'
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
@@ -12642,37 +12718,37 @@ object frmMain: TfrmMain
     Device = 'COM1'
     RcvLineCRLF = False
     OnRxData = SerialRxData
-    left = 60
-    top = 440
+    left = 48
+    top = 352
   end
   object ryodorakuNormalSource: TListChartSource
     DataPoints.Strings = (
       '0|50|$00FF00|'
       '11|50|$00FF00|'
     )
-    left = 450
-    top = 250
+    left = 360
+    top = 200
   end
   object chartSourceRMS: TListChartSource
     DataPoints.Strings = (
       '0|205|$00FF00|RMS'
     )
-    left = 200
-    top = 250
+    left = 160
+    top = 200
   end
   object chartSourceCurrent: TListChartSource
     DataPoints.Strings = (
-      '0|2.3|$FF8000|'
+      '0|2.2999999999999998|$FF8000|'
     )
-    left = 200
-    top = 340
+    left = 160
+    top = 272
   end
   object timerChangeDirection: TTimer
     Enabled = False
     Interval = 5000
     OnTimer = timerChangeDirectionTimer
-    left = 330
-    top = 570
+    left = 264
+    top = 456
   end
   object ryodorakuLeftSource: TListChartSource
     DataPoints.Strings = (
@@ -12689,8 +12765,8 @@ object frmMain: TfrmMain
       '10|90|?|GB'
       '11|110|?|ST'
     )
-    left = 450
-    top = 430
+    left = 360
+    top = 344
   end
   object ryodorakuRightSource: TListChartSource
     DataPoints.Strings = (
@@ -12707,31 +12783,31 @@ object frmMain: TfrmMain
       '10|110|?|GB'
       '11|120|?|ST'
     )
-    left = 450
-    top = 320
+    left = 360
+    top = 256
   end
   object SaveDialog: TSaveDialog
     FileName = 'therapy'
     Filter = '(txt)|*.txt'
-    left = 60
-    top = 340
+    left = 48
+    top = 272
   end
   object OpenDialog: TOpenDialog
     Filter = '(txt)|*.txt'
-    left = 60
-    top = 250
+    left = 48
+    top = 200
   end
   object SaveDialogForm: TSaveDialog
     DefaultExt = '.bmp'
     FileName = 'Report.bmp'
-    left = 330
-    top = 250
+    left = 264
+    top = 200
   end
   object chartSourceRMS_ION: TListChartSource
     DataPoints.Strings = (
       '0|2|$00FF00|RMS'
     )
-    left = 200
-    top = 440
+    left = 160
+    top = 352
   end
 end

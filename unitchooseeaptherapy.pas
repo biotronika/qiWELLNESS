@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Grids, myFunctions,Windows;
+  Grids, myFunctions;
 
 type
 
@@ -96,21 +96,15 @@ begin
 end;
 
 function  TFormChooseEAPTherapy.Choose(SearchString: string):TEAPTherapy;
-(* KC 2020-05-25
-
-Open choose window to select an EAP therapy from portal (via REST/JSON)
-   SearchString - Search text contained in title
-   result - comlex chosen therapy
-
-*)
-
-
+(* elektros 2020-05-25
+ * Open choose window to select an EAP therapy from portal (via REST/JSON)
+ *   SearchString - Search text contained in title
+ *   result - comlex chosen therapy
+ *)
 begin
 
   F_Page := 0;
-
   Search(EditSearchString.Text);
-
   Self.ShowModal;
 
   result:= F_EAPTherapy;

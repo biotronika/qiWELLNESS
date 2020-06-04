@@ -26,7 +26,7 @@ type
      procedure GetSocketHandler(Sender : TObject; const {%H-}UseSSL : Boolean; Out AHandler : TSocketHandler);
 
   public
-    function DownLoadInternetFile(Src, Dst: String): Boolean;
+    function DownloadInternetFile(Src, Dst: String): Boolean;
 
   end;
 
@@ -70,7 +70,7 @@ begin
   end;
 end;
 
-function TDownloadFrInternet.DownLoadInternetFile(Src, Dst: String): Boolean; begin
+function TDownloadFrInternet.DownloadInternetFile(Src, Dst: String): Boolean; begin
   try
      Application.ProcessMessages;
      Result := Download (Src, Dst);
