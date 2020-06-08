@@ -19,9 +19,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitMain"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="1848"/>
-        <CursorPos X="30" Y="1863"/>
+        <CursorPos X="42" Y="1855"/>
         <UsageCount Value="265"/>
         <Bookmarks Count="5">
           <Item0 X="50" Y="1765" ID="3"/>
@@ -49,10 +48,12 @@
         <Filename Value="myfunctions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="myFunctions"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="123"/>
-        <CursorPos Y="136"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="13"/>
+        <CursorPos X="40" Y="18"/>
         <UsageCount Value="265"/>
+        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="unitupdatelist.pas"/>

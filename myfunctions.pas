@@ -1,5 +1,6 @@
 unit myFunctions;
-(* Module for definitions, REST interface, converters and physical models
+(* elektros: 2020-06-07
+ * Module for definitions, REST interface, converters and physical models
 //TODO: Divide unit to three: constans definitions,  REST interface and physical models
  *
  *   Copyleft 2020 by elektros230, Chris Czoba krzysiek@biotronika.pl.
@@ -14,22 +15,21 @@ uses
   Classes, SysUtils, StrUtils, Forms, LCLIntf, HTTPSend, fphttpclient, fpjson, jsonparser, unitDownload;
 
 const
-  SOFTWARE_VERSION = '2020-06-04 (alpha)';
+  SOFTWARE_VERSION = '2020-06-08 (alpha)';
+
+  PAGE_URL    = 'https://biotronics.eu';
+  PAGE_URL_PL = 'https://biotronika.pl';
 
   ATLAS_FOLDER ='AtlasDB';               //Subfolder (exe file place) for pictures and indexed database text files
-  //ATLAS_POINTS_FILE = 'points.db';       //Text file name of ordered alphabetical list of all point names and numbers of pictures
-  //ATLAS_PICTURES_FILE ='pictures.db';    //Text file name of numbered pictures list
-
 
   PROFILES : array[0..6] of string = ( 'User', 'Common', 'Stimulation', 'Sedation', 'DC-', 'DC+', 'DC change');
 
 //MULTIPLATFORM DEFINITIONS
-
   VK_RETURN = 13;
   MY_DELIMETER = ',';
-  //MY_SLASH = '\';
 
 
+//EAP therapy
 type TEAPPoint = record
      Point : string[20];
      Side : string [20];
@@ -46,11 +46,26 @@ type TEAPTherapy = record
      Description : string;
      StrPoints : string;
      Points : TEAPPoints;
+     Url : string;
+     Langcode : string;
 end;
 
 type TEAPTherapies = array of TEAPTherapy;
 
 
+//Bioresonance therapy
+type TBioresonanceTherapy = record
+     Name : string;
+     Description : string;
+     TherapyScript : string;
+     Devices : string;   //freePEMF, multiZAP etc.
+     Url : string;
+     Langcode : string;
+end;
+
+type TBioresonanceTherapies = array of TBioresonanceTherapy;
+
+//REST list
 type
     TList = record
     Title,  FileName: string[50];
@@ -62,20 +77,21 @@ type
 end;
 
 const
-   //Types of lists
-   LIST_ION_SUBSTANCES = 1;
-   LIST_EAV_PATHS = 2;
-   LIST_EAP_THERAPY = 3;
-   LIST_ATLAS = 4;  // atlas catalog with pictures
+   //Types of REST lists
+   LIST_ION_SUBSTANCES       = 1;
+   LIST_EAV_PATHS            = 2;
+   LIST_EAP_THERAPY          = 3;
+   LIST_ATLAS                = 4;  // atlas catalog with pictures
+   LIST_BIORESONANCE_THERAPY = 5;  // freePEMF and multiZAP
 
-   DEFAULT_EAP_THERAPY_TIME = 120;  //120seconds;
+   DEFAULT_EAP_THERAPY_TIME = 120; // 120 seconds
 
 
 
-   LISTS_DEF : array[1..4] of TList = (
+   LISTS_DEF : array[1..5] of TList = (
          (
           Title : 'Iontophoresis substances'; FileName : 'iontophoresis.txt';
-          Url : 'https://biotronics.eu/iontophoresis-substances';
+          Url : PAGE_URL + '/iontophoresis-substances';
           RestURL :'https://biotronics.eu/iontophoresis-substances/rest?_format=json';
           FieldCount : 4;
           FieldNames :    ('Substance','Active electrode','Molar mass','Valence','','','','','','');
@@ -98,12 +114,20 @@ const
           FieldJsonPath : ('.title[0].value','.field_baps[0].value','.body[0].processed','','','','','','','')
           ),
 
-          (Title : 'Atlas'; FileName : 'Atlas.txt';
-          Url : 'https://biotronics.eu/atlas';
-          RestURL :'https://biotronics.eu/atlas/rest?_format=json';
-          FieldCount : 4;
-          FieldNames :    ('Points','Meridian','Picture Link','Synonyms','','','','','','');
+          (Title        : 'Atlas'; FileName : 'Atlas.txt';
+          Url           : PAGE_URL + '/atlas';
+          RestURL       : PAGE_URL + '/atlas/rest?_format=json';
+          FieldCount    : 4;
+          FieldNames    : ('Points','Meridian','Picture Link','Synonyms','','','','','','');
           FieldJsonPath : ('.title[0].value','.field_meridians[0].value','.field_picture[0].url','.field_synonyms[0].value','','','','','','')
+          ),
+
+          (Title : 'Bioresonance Therapy'; FileName : 'bioresonance-therapy.txt';
+          Url : PAGE_URL + '/bioresonance-therapies';
+          RestURL :PAGE_URL + '/bioresonance-therapies/rest?_format=json';
+          FieldCount : 5;
+          FieldNames :    ('Name','+Devices','Therapy script','Node','Description','','','','','');
+          FieldJsonPath : ('.title[0].value','.field_urzadzenie[%d].value','.field_skrypt[0].value','.nid[0].value','.body[0].value','','','','','')
           )
 
    ) ;
@@ -111,7 +135,7 @@ const
   TEMPORARY_FILE = '~temp.txt';
 
   const
-         MODE_UNK = -1; //unknown
+         MODE_UNK =-1; //unknown
          MODE_EAP = 0;
          MODE_EAV = 1;
          MODE_VEG = 2;
@@ -128,15 +152,16 @@ const
 
 function calculateMass( mollMass : Double; z : Double; Q : Double (*mAh*)) : Double;
 function StringToEAPTherapy(s : string) : TEAPPoints;
-//function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer; //Return number of pictures
+
 function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return number of pictures
 function GetContentFromREST(var Content : string; RestURL : string; ExtraFilters : string = '') : integer; //Return number of items
 function GetEAPTherapiesFromContent( Content : string; var EAPTherapies : TEAPTherapies) : integer;
+function GetBioresonanceTherapiesFromContent( Content : string; var BioresonanceTherapies : TBioresonanceTherapies) : integer;
 function HTML2PlainText(S: string): string;
 
 
 implementation
-uses Dialogs, unitUpdateList;
+uses Dialogs;
 
 function HTML2PlainText(S: string): string;
 (* 2020-06-01
@@ -168,7 +193,6 @@ begin
     result := False;
   end;
 end;
-
 
 
 
@@ -227,8 +251,7 @@ end;
 
 
 
-
-function GetURLFilename(const FilePath:String; Const Delimiter:String='/'):String;
+function GetURLFilename(const FilePath : string; Const Delimiter: string='/'): string;
     var I: Integer;
 begin
     I := LastDelimiter(Delimiter, FILEPATH);
@@ -354,6 +377,59 @@ begin
      end;
 
 end;
+
+//////
+function GetBioresonanceTherapiesFromContent( Content : string; var BioresonanceTherapies : TBioresonanceTherapies) : integer;
+const LIST_TYPE = LIST_BIORESONANCE_THERAPY;
+var
+    i,count,j : integer;
+    s,pageUrl : string;
+    JSONData : TJSONData; //Do not use create
+
+begin
+
+     result:=0;
+     SetLength(BioresonanceTherapies,0);
+
+     try
+
+        JSONData:=GetJSON(content);
+
+        count:= JSONData.Count;
+
+        SetLength(BioresonanceTherapies, count);
+
+        for i := 0 to count - 1 do begin
+
+          BioresonanceTherapies[i].Name         := JSONData.FindPath( '['+IntToStr(i)+'].title[0].value'        ).AsString;
+          BioresonanceTherapies[i].TherapyScript:= JSONData.FindPath( '['+IntToStr(i)+'].field_skrypt[0].value' ).AsString;
+          BioresonanceTherapies[i].Description  := JSONData.FindPath( '['+IntToStr(i)+'].body[0].value'         ).AsString;
+          BioresonanceTherapies[i].Langcode     := JSONData.FindPath( '['+IntToStr(i)+'].langcode[0].value'     ).AsString;
+
+          if UpperCase(BioresonanceTherapies[i].Langcode ) = 'PL' then
+             pageURL := PAGE_URL_PL
+          else
+             pageUrl := PAGE_URL;
+
+          BioresonanceTherapies[i].Url := pageUrl + '/node/' + JSONData.FindPath( '['+IntToStr(i)+'].nid[0].value' ).AsString;
+
+          for j:= 0 to JSONData.FindPath('['+IntToStr(i)+']'+'.field_urzadzenie').Count-1 do begin
+
+            s  := format('['+IntToStr(i)+'].field_urzadzenie[%d].value', [j] );
+            BioresonanceTherapies[i].Devices      := trim( BioresonanceTherapies[i].Devices + ' '+JSONData.FindPath( s ).AsString);
+
+          end;
+
+        end;
+
+     finally
+          JSONData.Free;
+     end;
+
+end;
+
+
+/////
 
 (*
 function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer;  //return count of pictures;
