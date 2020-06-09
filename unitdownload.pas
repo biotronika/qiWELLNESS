@@ -46,6 +46,7 @@ procedure TDownloadFrInternet.GetSocketHandler(Sender: TObject; const UseSSL: Bo
 begin
   AHandler := TSSLSocketHandler.Create;
   TSSLSocketHandler(AHandler).SSLType := stTLSv1_2;
+
 end;
 
 function TDownloadFrInternet.Download(AFrom, ATo: String): Boolean; var
@@ -54,10 +55,12 @@ begin
   Result := False;
   HTTPClient := TFPHTTPClient.Create(nil);
   try
-    HTTPClient.OnDataReceived := @DataReceived;
-    HTTPClient.OnGetSocketHandler := @GetSocketHandler;
+    //HTTPClient.OnDataReceived := @DataReceived;
+    //HTTPClient.OnGetSocketHandler := @GetSocketHandler;
+
     HTTPClient.AllowRedirect := True;
-    HTTPClient.AddHeader('User-Agent','Mozilla/5.0 (compatible; fpweb)');
+    //HTTPClient.AddHeader('User-Agent','Mozilla/5.0 (compatible; fpweb)');
+    HTTPClient.AddHeader('User-Agent','qiwellness');
     try
       HTTPClient.Get(AFrom, ATo);
       Result := True;
