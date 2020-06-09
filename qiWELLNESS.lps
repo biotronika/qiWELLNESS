@@ -4,13 +4,14 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="22">
+    <Units Count="35">
       <Unit0>
         <Filename Value="qiWELLNESS.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="55" Y="12"/>
+        <EditorIndex Value="5"/>
+        <CursorPos X="88" Y="19"/>
         <UsageCount Value="265"/>
+        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="unitmain.pas"/>
@@ -19,8 +20,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitMain"/>
-        <TopLine Value="1848"/>
-        <CursorPos X="42" Y="1855"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="619"/>
+        <CursorPos Y="632"/>
         <UsageCount Value="265"/>
         <Bookmarks Count="5">
           <Item0 X="50" Y="1765" ID="3"/>
@@ -49,9 +51,9 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="myFunctions"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="13"/>
-        <CursorPos X="40" Y="18"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="303"/>
+        <CursorPos X="51" Y="338"/>
         <UsageCount Value="265"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -62,9 +64,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitUpdateList"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="88" Y="12"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="23" Y="9"/>
         <UsageCount Value="265"/>
+        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="unitchooseeaptherapy.pas"/>
@@ -73,137 +76,333 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitChooseEAPTherapy"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="93"/>
-        <CursorPos X="4" Y="103"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="77"/>
+        <CursorPos Y="91"/>
         <UsageCount Value="225"/>
         <Bookmarks Count="1">
           <Item0 X="15" Y="62" ID="5"/>
         </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="unitdownload.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unitDownload"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="14"/>
-        <CursorPos X="24" Y="18"/>
-        <UsageCount Value="112"/>
+        <TopLine Value="32"/>
+        <CursorPos Y="48"/>
+        <UsageCount Value="124"/>
+        <Loaded Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="C:\lazarus\lcl\include\control.inc"/>
+        <Filename Value="ssl_openssl_lib.pas"/>
+        <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="2898"/>
-        <CursorPos Y="2917"/>
-        <UsageCount Value="9"/>
+        <TopLine Value="73"/>
+        <CursorPos X="6" Y="80"/>
+        <UsageCount Value="28"/>
       </Unit7>
       <Unit8>
+        <Filename Value="C:\lazarus\lcl\include\control.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3554"/>
+        <CursorPos Y="3568"/>
+        <UsageCount Value="12"/>
+      </Unit8>
+      <Unit9>
         <Filename Value="C:\lazarus\lcl\dialogs.pp"/>
         <UnitName Value="Dialogs"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="709"/>
         <CursorPos X="11" Y="724"/>
         <UsageCount Value="179"/>
-      </Unit8>
-      <Unit9>
+      </Unit9>
+      <Unit10>
         <Filename Value="C:\lazarus\lcl\include\buttoncontrol.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="41"/>
         <CursorPos Y="56"/>
         <UsageCount Value="107"/>
-      </Unit9>
-      <Unit10>
+      </Unit10>
+      <Unit11>
         <Filename Value="C:\lazarus\lcl\include\buttons.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="155"/>
         <CursorPos Y="170"/>
         <UsageCount Value="107"/>
-      </Unit10>
-      <Unit11>
+      </Unit11>
+      <Unit12>
         <Filename Value="C:\lazarus\lcl\forms.pp"/>
         <UnitName Value="Forms"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1834"/>
         <CursorPos X="3" Y="1849"/>
         <UsageCount Value="321"/>
-      </Unit11>
-      <Unit12>
+      </Unit12>
+      <Unit13>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\classes\classesh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="386"/>
         <CursorPos X="11" Y="607"/>
         <UsageCount Value="286"/>
-      </Unit12>
-      <Unit13>
+      </Unit13>
+      <Unit14>
         <Filename Value="..\RESTtool\unit1.pas"/>
         <UnitName Value="Unit1"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="91"/>
         <CursorPos X="3" Y="98"/>
         <UsageCount Value="39"/>
-      </Unit13>
-      <Unit14>
+      </Unit14>
+      <Unit15>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\fcl-json\src\fpjson.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1095"/>
         <CursorPos X="3" Y="824"/>
         <UsageCount Value="1"/>
-      </Unit14>
-      <Unit15>
+      </Unit15>
+      <Unit16>
         <Filename Value="C:\lazarus\lcl\lclmessageglue.pas"/>
         <UnitName Value="LCLMessageGlue"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="101"/>
         <CursorPos Y="116"/>
         <UsageCount Value="3"/>
-      </Unit15>
-      <Unit16>
+      </Unit16>
+      <Unit17>
         <Filename Value="C:\lazarus\lcl\grids.pas"/>
         <UnitName Value="Grids"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="9886"/>
         <CursorPos X="36" Y="9897"/>
         <UsageCount Value="3"/>
-      </Unit16>
-      <Unit17>
-        <Filename Value="C:\lazarus\lcl\include\customform.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="2897"/>
-        <CursorPos X="44" Y="2906"/>
-        <UsageCount Value="2"/>
       </Unit17>
       <Unit18>
-        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\fcl-web\src\base\fphttpclient.pp"/>
+        <Filename Value="C:\lazarus\lcl\include\customform.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="240"/>
-        <CursorPos X="3" Y="325"/>
-        <UsageCount Value="2"/>
+        <TopLine Value="2954"/>
+        <CursorPos Y="2968"/>
+        <UsageCount Value="12"/>
       </Unit18>
       <Unit19>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\fcl-web\src\base\fphttpclient.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1338"/>
+        <CursorPos X="91" Y="1346"/>
+        <UsageCount Value="13"/>
+      </Unit19>
+      <Unit20>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\openssl\src\fpopenssl.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="403"/>
         <UsageCount Value="2"/>
-      </Unit19>
-      <Unit20>
+      </Unit20>
+      <Unit21>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\winunits-base\src\urlmon.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="94"/>
         <UsageCount Value="2"/>
-      </Unit20>
-      <Unit21>
+      </Unit21>
+      <Unit22>
         <Filename Value="C:\home\kc\.lazarus\onlinepackagemanager\packages\synapse40.1\ssl_openssl_lib.pas"/>
         <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
-        <TopLine Value="74"/>
-        <CursorPos X="3" Y="92"/>
+        <TopLine Value="516"/>
+        <CursorPos X="39" Y="617"/>
         <UsageCount Value="10"/>
-      </Unit21>
+      </Unit22>
+      <Unit23>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\fcl-net\src\sslsockets.pp"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="37" Y="11"/>
+        <UsageCount Value="11"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="C:\Users\kczoba\AppData\Local\lazarus\onlinepackagemanager\packages\synapse40.1\sswin32.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="142"/>
+        <UsageCount Value="10"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="C:\Users\kczoba\AppData\Local\lazarus\onlinepackagemanager\packages\synapse40.1\ssfpc.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="19"/>
+        <UsageCount Value="10"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="C:\Users\kczoba\AppData\Local\lazarus\onlinepackagemanager\packages\synapse40.1\ssl_openssl_lib.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="127"/>
+        <CursorPos Y="159"/>
+        <UsageCount Value="13"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="C:\Users\kczoba\AppData\Local\lazarus\onlinepackagemanager\packages\synapse40.1\ssl_openssl.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="172"/>
+        <CursorPos X="18" Y="160"/>
+        <UsageCount Value="12"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="C:\home\kc\.lazarus\onlinepackagemanager\packages\synapse40.1\blcksock.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="26" Y="9"/>
+        <UsageCount Value="10"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="C:\home\kc\.lazarus\onlinepackagemanager\packages\synapse40.1\ssl_openssl.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="202"/>
+        <CursorPos X="109" Y="904"/>
+        <UsageCount Value="10"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="C:\home\kc\.lazarus\onlinepackagemanager\packages\synapse40.1\synafpc.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="113"/>
+        <CursorPos X="60" Y="28"/>
+        <UsageCount Value="10"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="C:\home\kc\.lazarus\onlinepackagemanager\packages\synapse40.1\ssfpc.inc"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="760"/>
+        <UsageCount Value="10"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="C:\home\kc\.lazarus\onlinepackagemanager\packages\synapse40.1\sswin32.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="484"/>
+        <CursorPos X="26" Y="28"/>
+        <UsageCount Value="10"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="C:\lazarus\lcl\include\customedit.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="577"/>
+        <CursorPos Y="597"/>
+        <UsageCount Value="12"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="C:\lazarus\lcl\include\wincontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="8289"/>
+        <CursorPos Y="8303"/>
+        <UsageCount Value="12"/>
+      </Unit34>
     </Units>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="22" HistoryIndex="21">
+      <Position1>
+        <Filename Value="unitchooseeaptherapy.pas"/>
+        <Caret Line="91" TopLine="77"/>
+      </Position1>
+      <Position2>
+        <Filename Value="unitchooseeaptherapy.pas"/>
+        <Caret Line="91" TopLine="77"/>
+      </Position2>
+      <Position3>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="330" TopLine="315"/>
+      </Position3>
+      <Position4>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="332" TopLine="315"/>
+      </Position4>
+      <Position5>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="333" TopLine="315"/>
+      </Position5>
+      <Position6>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="326" Column="48" TopLine="315"/>
+      </Position6>
+      <Position7>
+        <Filename Value="unitchooseeaptherapy.pas"/>
+        <Caret Line="91" TopLine="77"/>
+      </Position7>
+      <Position8>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="331" Column="38" TopLine="315"/>
+      </Position8>
+      <Position9>
+        <Filename Value="unitchooseeaptherapy.pas"/>
+        <Caret Line="91" TopLine="77"/>
+      </Position9>
+      <Position10>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="332" Column="17" TopLine="315"/>
+      </Position10>
+      <Position11>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="20" Column="22"/>
+      </Position11>
+      <Position12>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="330" Column="57" TopLine="313"/>
+      </Position12>
+      <Position13>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="111" Column="26" TopLine="92"/>
+      </Position13>
+      <Position14>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="335" Column="56" TopLine="322"/>
+      </Position14>
+      <Position15>
+        <Filename Value="qiWELLNESS.lpr"/>
+        <Caret Line="19" Column="88"/>
+      </Position15>
+      <Position16>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="15" Column="61"/>
+      </Position16>
+      <Position17>
+        <Filename Value="unitupdatelist.pas"/>
+        <Caret Line="9" Column="23"/>
+      </Position17>
+      <Position18>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="331" Column="6" TopLine="322"/>
+      </Position18>
+      <Position19>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="338" Column="31" TopLine="322"/>
+      </Position19>
+      <Position20>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="20" Column="16"/>
+      </Position20>
+      <Position21>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="228" Column="4" TopLine="222"/>
+      </Position21>
+      <Position22>
+        <Filename Value="myfunctions.pas"/>
+        <Caret Line="256" Column="6" TopLine="237"/>
+      </Position22>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes Count="0" ActiveMode=""/>
     </RunParams>
   </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="2">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="unitdownload.pas"/>
+        <Line Value="48"/>
+      </Item1>
+      <Item2>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="C:\lazarus\fpc\3.0.4\source\packages\fcl-web\src\base\fphttpclient.pp"/>
+        <Line Value="1356"/>
+      </Item2>
+    </BreakPoints>
+  </Debugging>
 </CONFIG>

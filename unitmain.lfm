@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 361
+  Left = 342
   Height = 691
-  Top = 148
+  Top = 127
   Width = 1254
   Caption = 'qiWELLNESS'
   ClientHeight = 691
@@ -680,7 +680,7 @@ object frmMain: TfrmMain
       end
       object ImageMaximumScreen: TImage
         Cursor = crHandPoint
-        Left = 215
+        Left = 216
         Height = 51
         Top = 41
         Width = 51
@@ -730,7 +730,7 @@ object frmMain: TfrmMain
       Height = 689
       Top = 1
       Width = 766
-      ActivePage = tabConsole
+      ActivePage = tabElectropunture
       Align = alRight
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
@@ -739,7 +739,7 @@ object frmMain: TfrmMain
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 0
+      TabIndex = 4
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -754,9 +754,9 @@ object frmMain: TfrmMain
         ParentFont = False
         object memoConsole: TMemo
           Left = 0
-          Height = 571
+          Height = 718
           Top = 0
-          Width = 762
+          Width = 950
           Align = alClient
           Color = clBlack
           Font.CharSet = EASTEUROPE_CHARSET
@@ -780,12 +780,12 @@ object frmMain: TfrmMain
         object Panel12: TPanel
           Left = 0
           Height = 68
-          Top = 592
-          Width = 762
+          Top = 761
+          Width = 950
           Align = alBottom
           BevelOuter = bvNone
           ClientHeight = 68
-          ClientWidth = 762
+          ClientWidth = 950
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
           Font.Height = -12
@@ -796,7 +796,7 @@ object frmMain: TfrmMain
           TabOrder = 1
           object edtConsoleCommand: TEdit
             Left = 474
-            Height = 22
+            Height = 28
             Top = 38
             Width = 201
             Font.CharSet = EASTEUROPE_CHARSET
@@ -811,9 +811,9 @@ object frmMain: TfrmMain
           end
           object Label1: TLabel
             Left = 408
-            Height = 13
+            Height = 20
             Top = 44
-            Width = 62
+            Width = 69
             Caption = 'Command'
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
@@ -944,13 +944,13 @@ object frmMain: TfrmMain
         object Panel5: TPanel
           Left = 0
           Height = 21
-          Top = 571
-          Width = 762
+          Top = 723
+          Width = 950
           Align = alBottom
           BevelOuter = bvNone
           Caption = 'Panel5'
           ClientHeight = 21
-          ClientWidth = 762
+          ClientWidth = 950
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
           Font.Height = -12
@@ -961,9 +961,9 @@ object frmMain: TfrmMain
           TabOrder = 2
           object Shape4: TShape
             Left = 0
-            Height = 21
+            Height = 26
             Top = 0
-            Width = 762
+            Width = 950
             Align = alClient
             Brush.Color = 15314554
             Pen.Style = psDash
@@ -971,9 +971,9 @@ object frmMain: TfrmMain
           object LabelLiteratureURL: TLabel
             Cursor = crHandPoint
             Left = 0
-            Height = 21
+            Height = 26
             Top = 0
-            Width = 762
+            Width = 950
             Align = alClient
             Alignment = taCenter
             AutoSize = False
@@ -1294,7 +1294,7 @@ object frmMain: TfrmMain
           TabPosition = tpBottom
           object Chart: TTabSheet
             Caption = 'Chart'
-            ClientHeight = 361
+            ClientHeight = 386
             ClientWidth = 758
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
@@ -1377,7 +1377,7 @@ object frmMain: TfrmMain
           end
           object RightHand: TTabSheet
             Caption = 'Right hand'
-            ClientHeight = 361
+            ClientHeight = 386
             ClientWidth = 758
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
@@ -3540,7 +3540,7 @@ object frmMain: TfrmMain
           end
           object LeftHand: TTabSheet
             Caption = 'Left hand'
-            ClientHeight = 361
+            ClientHeight = 386
             ClientWidth = 758
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
@@ -5704,7 +5704,7 @@ object frmMain: TfrmMain
           end
           object RightFoot: TTabSheet
             Caption = 'Right foot'
-            ClientHeight = 361
+            ClientHeight = 386
             ClientWidth = 758
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
@@ -7983,7 +7983,7 @@ object frmMain: TfrmMain
           end
           object LeftFoot: TTabSheet
             Caption = 'Left foot'
-            ClientHeight = 361
+            ClientHeight = 386
             ClientWidth = 758
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
@@ -10776,7 +10776,7 @@ object frmMain: TfrmMain
           end
           object cboxSeries: TComboBox
             Left = 213
-            Height = 26
+            Height = 28
             Top = 40
             Width = 112
             ItemHeight = 0
@@ -11461,14 +11461,14 @@ object frmMain: TfrmMain
           ParentFont = False
           TabOrder = 1
           object Panel24: TPanel
-            Left = 655
+            Left = 639
             Height = 67
             Top = 1
-            Width = 106
+            Width = 122
             Align = alRight
             BevelOuter = bvNone
             ClientHeight = 67
-            ClientWidth = 106
+            ClientWidth = 122
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
             Font.Height = -12
@@ -11516,11 +11516,11 @@ object frmMain: TfrmMain
             Left = 1
             Height = 67
             Top = 1
-            Width = 654
+            Width = 638
             Align = alClient
             BevelOuter = bvNone
             ClientHeight = 67
-            ClientWidth = 654
+            ClientWidth = 638
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
             Font.Height = -12
@@ -11533,7 +11533,7 @@ object frmMain: TfrmMain
               Left = 0
               Height = 65
               Top = 0
-              Width = 654
+              Width = 638
               AxisList = <              
                 item
                   Visible = False
@@ -11580,7 +11580,7 @@ object frmMain: TfrmMain
               Left = 0
               Height = 69
               Top = 65
-              Width = 654
+              Width = 638
               AxisList = <              
                 item
                   Visible = False

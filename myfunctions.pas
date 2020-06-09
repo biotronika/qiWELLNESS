@@ -12,13 +12,14 @@ unit myFunctions;
 interface
 
 uses
-  Classes, SysUtils, StrUtils, Forms, LCLIntf, HTTPSend, fphttpclient, fpjson, jsonparser, unitDownload;
+  Classes, SysUtils, StrUtils, Forms, LCLIntf, (*HTTPSend,*) fphttpclient, fpjson, jsonparser, unitDownload;
 
 const
-  SOFTWARE_VERSION = '2020-06-08 (alpha)';
+  SOFTWARE_VERSION = '2020-06-09 (alpha)';
 
-  PAGE_URL    = 'https://biotronics.eu';
-  PAGE_URL_PL = 'https://biotronika.pl';
+  PAGE_URL_REST = 'http://biotronics.eu';
+  PAGE_URL_EN   = 'https://biotronics.eu';
+  PAGE_URL_PL   = 'https://biotronika.pl';
 
   ATLAS_FOLDER ='AtlasDB';               //Subfolder (exe file place) for pictures and indexed database text files
 
@@ -90,43 +91,43 @@ const
 
    LISTS_DEF : array[1..5] of TList = (
          (
-          Title : 'Iontophoresis substances'; FileName : 'iontophoresis.txt';
-          Url : PAGE_URL + '/iontophoresis-substances';
-          RestURL :'https://biotronics.eu/iontophoresis-substances/rest?_format=json';
-          FieldCount : 4;
-          FieldNames :    ('Substance','Active electrode','Molar mass','Valence','','','','','','');
+          Title         : 'Iontophoresis substances'; FileName : 'iontophoresis.txt';
+          Url           : PAGE_URL_EN + '/iontophoresis-substances';
+          RestURL       : PAGE_URL_REST + '/iontophoresis-substances/rest?_format=json';
+          FieldCount    : 4;
+          FieldNames    : ('Substance','Active electrode','Molar mass','Valence','','','','','','');
           FieldJsonPath : ('.title[0].value','.field_active_electrode[0].value','field_mol_mass[0].value','field_valence[0].value','','','','','','')
           ),
 
-          (Title : 'Volls Electroacupuncture points'; FileName : 'eav.txt';
-          Url : 'https://biotronics.eu/xxx';
-          RestURL :'https://biotronics.eu/xxx/rest?_format=json';
-          FieldCount : 1;
-          FieldNames :    ('Substance','Active electrode','Molar mass','Valence','','','','','','');
+          (Title        : 'Volls Electroacupuncture points'; FileName : 'eav.txt';
+          Url           : PAGE_URL_EN + '/???';
+          RestURL       : PAGE_URL_REST + '/???/rest?_format=json';
+          FieldCount    : 1;
+          FieldNames    : ('Substance','Active electrode','Molar mass','Valence','','','','','','');
           FieldJsonPath : ('.title[0].value','.field_active_electrode[0].value','field_mol_mass[0].value','field_valence[0].value','','','','','','')
           ),
 
-          (Title : 'EAP therapies'; FileName : 'EAPtherapies.txt';
-          Url : 'https://biotronics.eu/eap-therapies';
-          RestURL :'https://biotronics.eu/eap-therapies/rest?_format=json';
-          FieldCount : 3;
-          FieldNames :    ('EAP therapy name','BAPs','Description','','','','','','','');
+          (Title        : 'EAP therapies'; FileName : 'EAPtherapies.txt';
+          Url           : PAGE_URL_EN + '/eap-therapies';
+          RestURL       : PAGE_URL_REST + '/eap-therapies/rest?_format=json';
+          FieldCount    : 3;
+          FieldNames    : ('EAP therapy name','BAPs','Description','','','','','','','');
           FieldJsonPath : ('.title[0].value','.field_baps[0].value','.body[0].processed','','','','','','','')
           ),
 
           (Title        : 'Atlas'; FileName : 'Atlas.txt';
-          Url           : PAGE_URL + '/atlas';
-          RestURL       : PAGE_URL + '/atlas/rest?_format=json';
+          Url           : PAGE_URL_EN + '/atlas';
+          RestURL       : PAGE_URL_REST + '/atlas/rest?_format=json';
           FieldCount    : 4;
           FieldNames    : ('Points','Meridian','Picture Link','Synonyms','','','','','','');
           FieldJsonPath : ('.title[0].value','.field_meridians[0].value','.field_picture[0].url','.field_synonyms[0].value','','','','','','')
           ),
 
-          (Title : 'Bioresonance Therapy'; FileName : 'bioresonance-therapy.txt';
-          Url : PAGE_URL + '/bioresonance-therapies';
-          RestURL :PAGE_URL + '/bioresonance-therapies/rest?_format=json';
-          FieldCount : 5;
-          FieldNames :    ('Name','+Devices','Therapy script','Node','Description','','','','','');
+          (Title        : 'Bioresonance Therapy'; FileName : 'bioresonance-therapy.txt';
+          Url           : PAGE_URL_EN + '/bioresonance-therapies';
+          RestURL       : PAGE_URL_REST + '/bioresonance-therapies/rest?_format=json';
+          FieldCount    : 5;
+          FieldNames    : ('Name','+Devices','Therapy script','Node','Description','','','','','');
           FieldJsonPath : ('.title[0].value','.field_urzadzenie[%d].value','.field_skrypt[0].value','.nid[0].value','.body[0].value','','','','','')
           )
 
@@ -184,7 +185,7 @@ begin
 end;
 
 
-function DownLoadInternetFile(Source, Dest : String): Boolean;
+function DownLoadInternetFile(Source, Dest : string): Boolean;
 begin
   try
      Application.ProcessMessages;
@@ -224,26 +225,26 @@ end;
 
 function UrlDecode(const EncodedStr: String): String;
 var
-  I: Integer;
+  i: Integer;
 begin
   result := '';
   if Length(EncodedStr) > 0 then
   begin
-    I := 1;
-    while I <= Length(EncodedStr) do
+    i := 1;
+    while i <= Length(EncodedStr) do
     begin
-      if EncodedStr[I] = '%' then
+      if EncodedStr[i] = '%' then
         begin
-          result := result + Chr(HexToInt(EncodedStr[I+1]
-                                       + EncodedStr[I+2]));
-          I := Succ(Succ(I));
+          result := result + Chr(HexToInt(EncodedStr[i+1]
+                                       + EncodedStr[i+2]));
+          i := Succ(Succ(i));
         end
-      else if EncodedStr[I] = '+' then
+      else if EncodedStr[i] = '+' then
         result := result + ' '
       else
-        result := result + EncodedStr[I];
+        result := result + EncodedStr[i];
 
-      I := Succ(I);
+      i := Succ(i);
     end;
   end;
 end;
@@ -252,10 +253,10 @@ end;
 
 
 function GetURLFilename(const FilePath : string; Const Delimiter: string='/'): string;
-    var I: Integer;
+var i: Integer;
 begin
-    I := LastDelimiter(Delimiter, FILEPATH);
-    Result := Copy(FILEPATH, I + 1, MaxInt);
+    i := LastDelimiter(Delimiter, FILEPATH);
+    Result := Copy(FILEPATH, i + 1, MaxInt);
     Result := UrlDecode(Result);
 end;
 
@@ -329,7 +330,9 @@ begin
 
      HTTPClient:=TFPHttpClient.Create(Nil);
 
-     HTTPClient.AddHeader('User-Agent','qiwellness');  //For github only
+     HTTPClient.AllowRedirect := false; //true; //If status 301, but there is no SSL support
+
+     //HTTPClient.AddHeader('User-Agent','qiwellness');
      Content:=HTTPClient.Get( RestURL + '&' + trim(ExtraFilters)  );
 
      result:= Content.Length;
@@ -409,7 +412,7 @@ begin
           if UpperCase(BioresonanceTherapies[i].Langcode ) = 'PL' then
              pageURL := PAGE_URL_PL
           else
-             pageUrl := PAGE_URL;
+             pageUrl := PAGE_URL_REST;
 
           BioresonanceTherapies[i].Url := pageUrl + '/node/' + JSONData.FindPath( '['+IntToStr(i)+'].nid[0].value' ).AsString;
 

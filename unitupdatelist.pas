@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Grids, HTTPSend, fphttpclient, fpjson, jsonparser,  LCLIntf, myFunctions, unitDownload;
+  Grids, (*HTTPSend,*) fphttpclient, fpjson, jsonparser,  LCLIntf, myFunctions, unitDownload;
 
 
 
