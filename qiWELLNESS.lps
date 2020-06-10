@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="11"/>
-    <BuildModes Active="Win32"/>
+    <BuildModes Active="Default"/>
     <Units Count="35">
       <Unit0>
         <Filename Value="qiWELLNESS.lpr"/>
