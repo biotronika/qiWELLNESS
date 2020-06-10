@@ -1209,8 +1209,8 @@ var i : integer;
 begin
   atlasPicturesFilesList := TStringList.Create;
 
-  Caption                := 'qiWELLNESS   ' + SOFTWARE_VERSION;
-  statusBar.SimpleText   := 'qiWELLNESS   ' + SOFTWARE_VERSION;;
+  Caption                := 'qiWELLNESS';
+  statusBar.SimpleText   := 'Software ver.: ' + SOFTWARE_VERSION + '   Compilation: ' + OS_VERSION;
 
   DefaultFormatSettings.DecimalSeparator := '.';
 
@@ -1238,6 +1238,8 @@ begin
 
   if SysUtils.FileExists(DestinationListFile) then
      StringGridIonTherapy.LoadFromCSVFile(DestinationListFile);
+
+  Serial.Device := FIRST_SERIAL_PORT;
 
 
 end;

@@ -1,5 +1,5 @@
 unit myFunctions;
-(* elektros: 2020-06-07
+(* elektros: 2020-06-09
  * Module for definitions, REST interface, converters and physical models
 //TODO: Divide unit to three: constans definitions,  REST interface and physical models
  *
@@ -12,10 +12,10 @@ unit myFunctions;
 interface
 
 uses
-  Classes, SysUtils, StrUtils, Forms, LCLIntf, (*HTTPSend,*) fphttpclient, fpjson, jsonparser, unitDownload;
+  Classes, SysUtils, StrUtils, Forms, LCLIntf, fphttpclient, fpjson, jsonparser, unitDownload;
 
 const
-  SOFTWARE_VERSION = '2020-06-09 (alpha)';
+  SOFTWARE_VERSION = '2020-06-09_2 (alpha)';
 
   PAGE_URL_REST = 'http://biotronics.eu';
   PAGE_URL_EN   = 'https://biotronics.eu';
@@ -27,7 +27,44 @@ const
 
 //MULTIPLATFORM DEFINITIONS
   VK_RETURN = 13;
-  MY_DELIMETER = ',';
+  BIO_DELIMETER = ',';
+
+  {$IFDEF DARWIN}   //{$IFDEF LCLcarbon}
+    OS_VERSION           = 'Mac OS;
+    BIO_FOLDER_DELIMETER = '/';
+    FIRST_SERIAL_PORT    = '/dev/ttyS1';
+  {$ELSE}
+
+
+  {$IFDEF Linux}
+    OS_VERSION           = 'Linux';
+    BIO_FOLDER_DELIMETER = '/';
+    FIRST_SERIAL_PORT    = '/dev/ttyS1';
+  {$ELSE}
+
+
+  {$IFDEF UNIX}
+    OS_VERSION           = 'Unix';
+    BIO_FOLDER_DELIMETER = '/';
+    FIRST_SERIAL_PORT    = '/dev/ttyS1';
+  {$ELSE}
+
+
+  {$IFDEF WINDOWS}
+  {$IFDEF WIN32}
+    OS_VERSION           = 'Windows 32bit';
+  {$ELSE}
+  {$IFDEF WIN64}
+    OS_VERSION           = 'Windows 64bit';
+  {$ENDIF}
+  {$ENDIF}
+
+    BIO_FOLDER_DELIMETER = '\';
+    FIRST_SERIAL_PORT    = 'COM1';
+  {$ENDIF}
+  {$ENDIF}
+  {$ENDIF}
+  {$ENDIF}
 
 
 //EAP therapy
@@ -164,6 +201,8 @@ function HTML2PlainText(S: string): string;
 implementation
 uses Dialogs;
 
+
+
 function HTML2PlainText(S: string): string;
 (* 2020-06-01
  * Source: http://www.festra.com/eng/snip12.htm
@@ -291,7 +330,7 @@ begin
 //TODO Progress bar with downloaded pictures
 
          sourceFile := JSONData.FindPath('['+IntToStr(i)+']'+'.field_picture[0].url').AsString;
-         destinationFile := AppFolder + ATLAS_FOLDER + '\' +GetURLFilename(sourceFile) ;
+         destinationFile := AppFolder + ATLAS_FOLDER + BIO_FOLDER_DELIMETER +GetURLFilename(sourceFile) ;
 
          if not FileExists(destinationFile) then
             if not DownLoadInternetFile(sourceFile, destinationFile) then continue;
@@ -431,77 +470,6 @@ begin
 
 end;
 
-
-/////
-
-(*
-function AtlasCreatePicturesIndex(AtlasSitePicturesList : string) : integer;  //return count of pictures;
-var txtIN,txtOUT : textFile;
-    txtOutFileName : string;
-    txtInIOResult : Word;
-    s,sPictureLink,sPoints : string;
-    PointsStringList, LinksStringList : TStringList;
-    count,i : integer;
-begin
-  result:= -1;
-  try
-    PointsStringList := TStringList.Create;
-    LinksStringList  := TStringList.Create;
-
-    count := 0;
-
-
-    //Create folder
-    txtOutFileName := ExtractFilePath(Application.ExeName) + ATLAS_FOLDER;
-    if not DirectoryExists(txtOutFileName ) then CreateDir(txtOutFileName);
-
-    txtOutFileName+= '\' + ATLAS_PICTURES_FILE;
-
-    AssignFile(txtIN,AtlasSitePicturesList);
-    AssignFile(txtOUT,txtOutFileName);
-
-    {$I-}
-    Reset(txtIN);
-    {$I+}
-
-    if IOResult<>0 then begin
-//TODO : Error handling
-      ShowMessage( 'Error: Cannot process atlas index file: '+ AtlasSitePicturesList);
-      Exit;
-    end;
-
-
-    while not Eof(txtIn) do begin
-
-      readln(txtIn,s);
-      inc(count);
-
-      //First line contains titles
-      if count=1 then Continue;
-
-      i:= Pos(MY_DELIMETER,s);
-      sPoints:=LeftBStr(s,i-1);
-
-      //Picture links index
-      sPictureLink:=Trim(RightBStr(s,Length(s)-i));
-      LinksStringList.Add(sPictureLink);
-
-
-   end;
-
-     LinksStringList.SaveToFile(txtOutFileName);
-
-
-  finally
-    PointsStringList.Free;
-    LinksStringList.Free;
-    CloseFile(txtIn);
-  end;
-
-  result:=count;
-
-end;
-*)
 
 
 

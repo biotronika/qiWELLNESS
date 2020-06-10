@@ -10,7 +10,7 @@ unit unitDownload;
 interface
 
 uses
-  Classes, SysUtils, Forms, Dialogs, fphttpclient, ssockets, sslsockets, fpopenssl;
+  Classes, SysUtils, Forms, Dialogs, fphttpclient(*, ssockets, sslsockets, fpopenssl*);
 
 type
 
@@ -23,7 +23,7 @@ type
 
      function Download(AFrom, ATo: String): Boolean;
      procedure DataReceived(Sender : TObject; const ContentLength, CurrentPos : Int64);
-     procedure GetSocketHandler(Sender : TObject; const {%H-}UseSSL : Boolean; Out AHandler : TSocketHandler);
+     procedure GetSocketHandler(Sender : TObject; const {%H-}UseSSL : Boolean(*; Out AHandler : TSocketHandler*));
 
   public
     function DownloadInternetFile(Src, Dst: String): Boolean;
@@ -41,15 +41,16 @@ begin
      Application.ProcessMessages;
 end;
 
-procedure TDownloadFrInternet.GetSocketHandler(Sender: TObject; const UseSSL: Boolean; out
-  AHandler: TSocketHandler);
+procedure TDownloadFrInternet.GetSocketHandler(Sender: TObject; const UseSSL: Boolean(*; out
+  AHandler: TSocketHandler*));
 begin
-  AHandler := TSSLSocketHandler.Create;
-  TSSLSocketHandler(AHandler).SSLType := stTLSv1_2;
+  //AHandler := TSSLSocketHandler.Create;
+  //TSSLSocketHandler(AHandler).SSLType := stTLSv1_2;
 
 end;
 
-function TDownloadFrInternet.Download(AFrom, ATo: String): Boolean; var
+function TDownloadFrInternet.Download(AFrom, ATo: String): Boolean;
+var
   HTTPClient: TFPHTTPClient;
 begin
   Result := False;
@@ -73,7 +74,8 @@ begin
   end;
 end;
 
-function TDownloadFrInternet.DownloadInternetFile(Src, Dst: String): Boolean; begin
+function TDownloadFrInternet.DownloadInternetFile(Src, Dst: String): Boolean;
+begin
   try
      Application.ProcessMessages;
      Result := Download (Src, Dst);
