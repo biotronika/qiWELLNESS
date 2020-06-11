@@ -12442,19 +12442,19 @@ object frmMain: TfrmMain
               ParentFont = False
               TabOrder = 1
             end
-            object ButtonUpdate: TButton
+            object ButtonChooseIONSunstance: TButton
               Left = 12
               Height = 110
               Top = 268
               Width = 140
-              Caption = 'Update window'
+              Caption = 'Choose'
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
               Font.Height = -18
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
-              OnClick = ButtonUpdateClick
+              OnClick = ButtonChooseIONSunstanceClick
               ParentFont = False
               TabOrder = 2
             end
@@ -12466,7 +12466,6 @@ object frmMain: TfrmMain
             Width = 788
             Align = alClient
             BevelOuter = bvNone
-            Caption = 'Panel19'
             ClientHeight = 457
             ClientWidth = 788
             Font.CharSet = EASTEUROPE_CHARSET
@@ -12638,60 +12637,6 @@ object frmMain: TfrmMain
                 ParentColor = False
                 ParentFont = False
               end
-            end
-            object StringGridIonTherapy: TStringGrid
-              Left = 0
-              Height = 345
-              Top = 112
-              Width = 788
-              Align = alClient
-              AutoEdit = False
-              ColCount = 4
-              FixedCols = 0
-              Font.CharSet = EASTEUROPE_CHARSET
-              Font.Color = clBlack
-              Font.Height = -18
-              Font.Name = 'Segoe UI'
-              Font.Pitch = fpVariable
-              Font.Quality = fqDraft
-              Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goAutoAddRows, goRowSelect, goRelaxedRowSelect, goSmoothScroll, goRowHighlight]
-              ParentFont = False
-              RowCount = 1
-              ScrollBars = ssVertical
-              TabOrder = 1
-              TitleFont.CharSet = EASTEUROPE_CHARSET
-              TitleFont.Color = clBlack
-              TitleFont.Height = -12
-              TitleFont.Name = 'Segoe UI'
-              TitleFont.Pitch = fpVariable
-              TitleFont.Quality = fqDraft
-              TitleFont.Style = [fsBold]
-              OnSelection = StringGridIonTherapySelection
-              OnSelectCell = StringGridEAPTherapySelectCell
-              ColWidths = (
-                356
-                135
-                122
-                78
-              )
-              RowHeights = (
-                28
-              )
-              Cells = (
-                4
-                0
-                0
-                'Substance'
-                1
-                0
-                'Active electrode'
-                2
-                0
-                'Molar mass'
-                3
-                0
-                'Valence'
-              )
             end
           end
         end

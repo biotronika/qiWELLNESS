@@ -74,12 +74,16 @@ end;
 
 type TBioresonanceTherapies = array of TBioresonanceTherapy;
 
-type TIonSubstance = record
+// Iontophoresis substances
+type TIONSubstance = record
      Name            : string;
      ActiveElectrode : string;
      Valence         : integer;
      MolarMass       : double;
 end;
+
+type TIONSubstances = array of TIONSubstance;
+
 
   // Auxilary functions
   function HTML2PlainText(s: string): string;
@@ -93,8 +97,8 @@ end;
   function GetContentFromREST(var Content : string; RestURL : string; ExtraFilters : string = '') : integer; //Return string Content with JSON
 
   function GetEAPTherapiesFromContent( Content : string; var EAPTherapies : TEAPTherapies) : integer;
-
   function GetBioresonanceTherapiesFromContent( Content : string; var BioresonanceTherapies : TBioresonanceTherapies) : integer;
+  function GetIONSubstancesFromContent( Content : string; var IONSubstances : TIONSubstances) : integer;
 
 
 implementation
@@ -108,6 +112,7 @@ function HTML2PlainText(s: string): string;
 var
   TagBegin, TagEnd, TagLength: integer;
 begin
+
   TagBegin := Pos( '<', s);
 
   while (TagBegin > 0) do begin
@@ -118,6 +123,7 @@ begin
   end;
 
   result := s;
+
 end;
 
 //ATLAS
@@ -377,6 +383,40 @@ begin
             BioresonanceTherapies[i].Devices      := trim( BioresonanceTherapies[i].Devices + ' '+JSONData.FindPath( s ).AsString);
 
           end;
+
+        end;
+
+     finally
+          JSONData.Free;
+     end;
+
+end;
+
+function GetIONSubstancesFromContent( Content : string; var IONSubstances : TIONSubstances) : integer;
+const LIST_TYPE = LIST_ION_SUBSTANCES;
+var
+    i,count : integer;
+    JSONData : TJSONData; //Do not use create
+
+begin
+
+     result:=0;
+     SetLength(IONSubstances,0);
+
+     try
+
+        JSONData:=GetJSON(content);
+
+        count:= JSONData.Count;
+
+        SetLength(IONSubstances, count);
+
+        for i := 0 to count - 1 do begin
+
+          IONSubstances[i].Name            := JSONData.FindPath( '['+IntToStr(i)+'].title[0].value'                  ).AsString;
+          IONSubstances[i].ActiveElectrode := JSONData.FindPath( '['+IntToStr(i)+'].field_active_electrode[0].value' ).AsString;
+          IONSubstances[i].MolarMass       := JSONData.FindPath( '['+IntToStr(i)+'].field_mol_mass[0].value'         ).AsFloat;
+          IONSubstances[i].Valence         := JSONData.FindPath( '['+IntToStr(i)+'].field_valence[0].value'          ).AsInteger;
 
         end;
 

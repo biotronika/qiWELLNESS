@@ -14,7 +14,7 @@ uses
   Classes, SysUtils, StrUtils, Forms, LCLIntf, fphttpclient, fpjson, jsonparser;
 
 const
-  SOFTWARE_VERSION = '2020-06-11_1 (alpha)';
+  SOFTWARE_VERSION = '2020-06-11_2 (alpha)';
 
 
 
@@ -120,8 +120,6 @@ const
          MODE_VEG = 2;
          MODE_RYO = 3; //Ryodoraku
          MODE_ION = 4; //Ionophoreses & zapper
-
-
 
 
 

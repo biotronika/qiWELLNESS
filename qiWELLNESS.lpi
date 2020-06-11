@@ -151,12 +151,12 @@
         <UnitName Value="unitUpdateList"/>
       </Unit4>
       <Unit5>
-        <Filename Value="unitchooseeaptherapy.pas"/>
+        <Filename Value="unitchooselist.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormChooseEAPTherapy"/>
+        <ComponentName Value="FormChooseList"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="unitChooseEAPTherapy"/>
+        <UnitName Value="unitChooseList"/>
       </Unit5>
       <Unit6>
         <Filename Value="biorest.pas"/>

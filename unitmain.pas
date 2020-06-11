@@ -22,7 +22,7 @@ type
     ButtonChooseEAPTherapy: TButton;
     ButtonIonOn: TButton;
     ButtonIonOff: TButton;
-    ButtonUpdate: TButton;
+    ButtonChooseIONSunstance: TButton;
     ButtonIon: TButton;
     ButtonVegatestSaveAs1: TButton;
     ButtonSavePath: TButton;
@@ -180,7 +180,6 @@ type
     statusBar: TStatusBar;
     gridRyodoraku: TStringGrid;
     StringGridEAPTherapy: TStringGrid;
-    StringGridIonTherapy: TStringGrid;
     StringGridEAV: TStringGrid;
     tabConsole: TTabSheet;
     tabRyodoraku: TTabSheet;
@@ -202,7 +201,7 @@ type
     procedure btnCloseClick(Sender: TObject);
     procedure ButtonChooseEAPTherapyClick(Sender: TObject);
 
-    procedure btnEapSaveClick(Sender: TObject);
+    //procedure btnEapSaveClick(Sender: TObject);
     //procedure btnVegatestDeleteClick(Sender: TObject);
     //procedure btnVegatestNewClick(Sender: TObject);
     //procedure btnVegatestNewGroupClick(Sender: TObject);
@@ -212,7 +211,7 @@ type
     procedure ButtonHideAtlasClick(Sender: TObject);
     procedure ButtonIonOnClick(Sender: TObject);
     procedure ButtonIonOffClick(Sender: TObject);
-    procedure ButtonUpdateClick(Sender: TObject);
+    procedure ButtonChooseIONSunstanceClick(Sender: TObject);
     procedure ButtonCalibrateClick(Sender: TObject);
 
     procedure ButtonEapClick(Sender: TObject);
@@ -269,10 +268,6 @@ type
     procedure StringGridEAPTherapySelectCell(Sender: TObject; aCol,
       aRow: Integer; var CanSelect: Boolean);
     procedure StringGridEAVDblClick(Sender: TObject);
-    procedure StringGridIonTherapySelection(Sender: TObject; aCol, aRow: Integer
-      );
-    //procedure serialStatus(Sender: TObject; Reason: THookSerialReason;
-    //const Value: string);
     procedure tabEAVShow(Sender: TObject);
     procedure tabElectropuntureShow(Sender: TObject);
     procedure tabIonophoreseShow(Sender: TObject);
@@ -301,15 +296,6 @@ type
     procedure AtlasSearchBAP(pointSymbol: string);
 
   private
-    (*
-    const
-         MODE_UNK = -1; //unknown
-         MODE_EAP = 0;
-         MODE_EAV = 1;
-         MODE_VEG = 2;
-         MODE_RYO = 3; //Ryodoraku
-         MODE_ION = 4; //Ionophoreses & zapper
-    *)
 
     const
       MAX_SERIES_NUMBER = 50;
@@ -371,7 +357,7 @@ var
 
 implementation
 
-uses unitVegatestSelector, bioFunctions, unitUpdateList, unitChooseEAPTherapy;
+uses unitVegatestSelector, bioFunctions, unitUpdateList, unitChooseList;
 
 var
   atlasPictureCurrent : integer = 0;
@@ -628,7 +614,7 @@ var //TherapyIdx : integer;
 begin
 
   //Open Choose window
-  EAPTherapy := FormChooseEAPTherapy.ChooseEAPTherapy('');
+  EAPTherapy := FormChooseList.ChooseEAPTherapy('');
 
   if EAPTherapy.Name <>'' then begin;
 
@@ -672,15 +658,6 @@ begin
   end;
 
 end;
-
-
-
-procedure TfrmMain.btnEapSaveClick(Sender: TObject);
-begin
-
-end;
-
-
 
 
 
@@ -760,22 +737,31 @@ begin
    sleep(200);
 end;
 
-procedure TfrmMain.ButtonUpdateClick(Sender: TObject);
-var DestinationListFile : string;
+procedure TfrmMain.ButtonChooseIONSunstanceClick(Sender: TObject);
+var
+    IONSubstance: TIONSubstance;
+    i : integer;
 begin
- (*
-  DestinationListFile := ExtractFilePath(Application.ExeName) + LISTS_DEF[LIST_ION_SUBSTANCES].FileName;
 
-  if SysUtils.FileExists(DestinationListFile) then
-     StringGridIonTherapy.LoadFromCSVFile(DestinationListFile)
-  else
-     StringGridIonTherapy.SaveToCSVFile(DestinationListFile);
+  //Open Choose window
+  IONSubstance := FormChooseList.ChooseIONSubstance('');
 
-    FormUpdateList.OpenWindowUpdateList( LIST_ION_SUBSTANCES );
+  if IONSubstance.Name <>'' then begin
 
-  if SysUtils.FileExists(DestinationListFile) then
-     StringGridIonTherapy.LoadFromCSVFile(DestinationListFile);
-  *)
+    EditSubstance_ION.Text        := IONSubstance.Name;
+    EditActiveElectrode_ION.Text  := IONSubstance.ActiveElectrode;
+    EditMolarMass_ION.Text        := format('%0.2f',[IONSubstance.MolarMass]);
+    EditValence_ION.Text          := IntToStr(IONSubstance.Valence);
+
+  end else begin
+
+    EditSubstance_ION.Text        := '';
+    EditActiveElectrode_ION.Text  := '';
+    EditMolarMass_ION.Text        := '';
+    EditValence_ION.Text          := '';
+
+  end;
+
 end;
 
 procedure TfrmMain.ButtonCalibrateClick(Sender: TObject);
@@ -867,8 +853,6 @@ begin
    //chartIndex := FRyodorakuChart;
    chartIndex := FRyodorakuChart div 2;
    rightChartIndex :=  FRyodorakuChart mod 2;
-
-
 
 
    i:= cboxSeries.Items.Add(s);
@@ -1243,11 +1227,6 @@ begin
   firstTime_ION        := True;
 
 
-  //Iontophoresis tab
-  DestinationListFile  := ExtractFilePath(Application.ExeName) + 'iontophoresis.txt'; // LISTS_DEF[LIST_ION_SUBSTANCES].FileName;
-
-  if SysUtils.FileExists(DestinationListFile) then
-     StringGridIonTherapy.LoadFromCSVFile(DestinationListFile);
 
   Serial.Device := FIRST_SERIAL_PORT;
 
@@ -1839,10 +1818,7 @@ begin
             mySeries.AddXY( myTime ,StrToIntDef(eventCmd,0)/10.0  );
 
         end;
-
-
      end;
-
 
 end;
 
@@ -1883,14 +1859,6 @@ begin
   AtlasSearchBAP(strGrid);
 end;
 
-procedure TfrmMain.StringGridIonTherapySelection(Sender: TObject; aCol,
-  aRow: Integer);
-begin
-  EditSubstance_ION.Text       := StringGridIonTherapy.Cells[0,aRow];
-  EditActiveElectrode_ION.Text := StringGridIonTherapy.Cells[1,aRow];
-  EditMolarMass_ION.Text       := StringGridIonTherapy.Cells[2,aRow];
-  EditValence_ION.Text         := StringGridIonTherapy.Cells[3,aRow];
-end;
 
 
 procedure TfrmMain.tabEAVShow(Sender: TObject);
