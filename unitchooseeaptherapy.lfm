@@ -1,42 +1,43 @@
 object FormChooseEAPTherapy: TFormChooseEAPTherapy
-  Left = 533
-  Height = 402
-  Top = 307
-  Width = 733
+  Left = 795
+  Height = 502
+  Top = 155
+  Width = 916
   BorderStyle = bsToolWindow
   Caption = 'Search Electroacupuncture Therapy'
-  ClientHeight = 402
-  ClientWidth = 733
+  ClientHeight = 502
+  ClientWidth = 916
+  DesignTimePPI = 120
   FormStyle = fsStayOnTop
   OnShow = FormShow
   Position = poMainFormCenter
   LCLVersion = '2.0.6.0'
   object Panel1: TPanel
     Left = 0
-    Height = 102
+    Height = 128
     Top = 0
-    Width = 733
+    Width = 916
     Align = alTop
-    ClientHeight = 102
-    ClientWidth = 733
+    ClientHeight = 128
+    ClientWidth = 916
     ParentFont = False
     TabOrder = 0
     object ButtonSearch: TButton
-      Left = 326
-      Height = 42
-      Top = 19
-      Width = 115
+      Left = 408
+      Height = 52
+      Top = 24
+      Width = 144
       Caption = 'Search'
       OnClick = ButtonSearchClick
       ParentFont = False
       TabOrder = 0
     end
     object EditSearchString: TEdit
-      Left = 19
-      Height = 38
-      Top = 19
-      Width = 291
-      Font.Height = -26
+      Left = 24
+      Height = 53
+      Top = 24
+      Width = 364
+      Font.Height = -33
       OnChange = EditSearchStringChange
       OnKeyPress = EditSearchStringKeyPress
       ParentFont = False
@@ -44,36 +45,36 @@ object FormChooseEAPTherapy: TFormChooseEAPTherapy
     end
     object Panel2: TPanel
       Left = 1
-      Height = 21
-      Top = 80
-      Width = 731
+      Height = 26
+      Top = 101
+      Width = 914
       Align = alBottom
       Caption = 'Panel2'
-      ClientHeight = 21
-      ClientWidth = 731
+      ClientHeight = 26
+      ClientWidth = 914
       ParentFont = False
       TabOrder = 2
       object Shape3: TShape
         Left = 1
-        Height = 19
+        Height = 24
         Top = 1
-        Width = 729
+        Width = 912
         Align = alClient
         Brush.Color = 8454016
         Pen.Style = psDash
       end
       object Label24: TLabel
         Left = 1
-        Height = 19
+        Height = 24
         Top = 1
-        Width = 729
+        Width = 912
         Align = alClient
         Alignment = taCenter
         AutoSize = False
         Caption = 'Write any text and prees ENTER to search EAP therapies. Use pager to see more than 20 results.'
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clGreen
-        Font.Height = -14
+        Font.Height = -18
         Font.Name = 'Segoe UI'
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
@@ -84,10 +85,10 @@ object FormChooseEAPTherapy: TFormChooseEAPTherapy
     end
     object ImageNext: TImage
       Cursor = crHandPoint
-      Left = 688
-      Height = 38
-      Top = 18
-      Width = 35
+      Left = 860
+      Height = 48
+      Top = 29
+      Width = 44
       Anchors = [akRight]
       DragCursor = crHandPoint
       OnClick = ImageNextClick
@@ -139,10 +140,10 @@ object FormChooseEAPTherapy: TFormChooseEAPTherapy
     end
     object ImageBack: TImage
       Cursor = crHandPoint
-      Left = 615
-      Height = 38
-      Top = 18
-      Width = 34
+      Left = 769
+      Height = 48
+      Top = 29
+      Width = 42
       Anchors = [akRight]
       DragCursor = crHandPoint
       OnClick = ImageBackClick
@@ -201,20 +202,20 @@ object FormChooseEAPTherapy: TFormChooseEAPTherapy
       Stretch = True
     end
     object ButtonChoose: TButton
-      Left = 461
-      Height = 42
-      Top = 19
-      Width = 122
+      Left = 576
+      Height = 52
+      Top = 24
+      Width = 152
       Caption = 'Choose && Close'
       OnClick = ButtonChooseClick
       ParentFont = False
       TabOrder = 3
     end
     object Label1: TLabel
-      Left = 646
-      Height = 16
-      Top = 16
-      Width = 45
+      Left = 808
+      Height = 20
+      Top = 20
+      Width = 56
       Alignment = taCenter
       AutoSize = False
       Caption = 'page'
@@ -224,17 +225,17 @@ object FormChooseEAPTherapy: TFormChooseEAPTherapy
       ParentFont = False
     end
     object LabelPage: TLabel
-      Left = 646
-      Height = 25
-      Top = 29
-      Width = 45
+      Left = 808
+      Height = 31
+      Top = 40
+      Width = 56
       Alignment = taCenter
       Anchors = [akRight]
       AutoSize = False
       BidiMode = bdRightToLeftReadingOnly
       Caption = '0'
       Font.Color = 12615680
-      Font.Height = -18
+      Font.Height = -23
       Font.Style = [fsBold]
       ParentBidiMode = False
       ParentColor = False
@@ -243,20 +244,34 @@ object FormChooseEAPTherapy: TFormChooseEAPTherapy
   end
   object StringGrid: TStringGrid
     Left = 0
-    Height = 300
-    Top = 102
-    Width = 733
+    Height = 374
+    Top = 128
+    Width = 916
     Align = alClient
     AutoEdit = False
     ColCount = 3
+    Columns = <    
+      item
+        Color = clInfoBk
+        Title.Caption = 'Columns[0]'
+        Width = 350
+      end    
+      item
+        Title.Caption = 'Columns[1]'
+        Width = 350
+      end    
+      item
+        Title.Caption = 'Columns[2]'
+        Width = 500
+      end>
     FixedCols = 0
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Color = clBlack
-    Font.Height = -12
+    Font.Height = -15
     Font.Name = 'Segoe UI'
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goEditing, goAutoAddRows, goRowSelect, goRelaxedRowSelect, goDblClickAutoSize, goSmoothScroll, goRowHighlight]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goEditing, goRowSelect, goRelaxedRowSelect, goDblClickAutoSize, goSmoothScroll, goRowHighlight]
     ParentFont = False
     RowCount = 1
     ScrollBars = ssVertical
@@ -270,21 +285,9 @@ object FormChooseEAPTherapy: TFormChooseEAPTherapy
     TitleFont.Style = [fsBold]
     OnDblClick = ButtonChooseClick
     ColWidths = (
-      154
-      433
-      711
-    )
-    Cells = (
-      3
-      0
-      0
-      'EAP therapy name'
-      1
-      0
-      'BAP(s)'
-      2
-      0
-      'Description'
+      350
+      350
+      500
     )
   end
 end

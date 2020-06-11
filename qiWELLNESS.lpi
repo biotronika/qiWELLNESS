@@ -17,7 +17,7 @@
       </XPManifest>
       <Icon Value="0"/>
     </General>
-    <BuildModes Count="3">
+    <BuildModes Count="4">
       <Item1 Name="Default" Default="True"/>
       <Item2 Name="Win32">
         <CompilerOptions>
@@ -73,6 +73,26 @@
           </Linking>
         </CompilerOptions>
       </Item3>
+      <Item4 Name="Win64 debug">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="bin\$(TargetOS)\qiWELLNESS"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Linking>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+        </CompilerOptions>
+      </Item4>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -96,7 +116,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="8">
+    <Units Count="7">
       <Unit0>
         <Filename Value="qiWELLNESS.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -118,9 +138,9 @@
         <UnitName Value="unitVegatestSelector"/>
       </Unit2>
       <Unit3>
-        <Filename Value="myfunctions.pas"/>
+        <Filename Value="biofunctions.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="myFunctions"/>
+        <UnitName Value="bioFunctions"/>
       </Unit3>
       <Unit4>
         <Filename Value="unitupdatelist.pas"/>
@@ -139,14 +159,10 @@
         <UnitName Value="unitChooseEAPTherapy"/>
       </Unit5>
       <Unit6>
-        <Filename Value="unitdownload.pas"/>
+        <Filename Value="biorest.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="unitDownload"/>
+        <UnitName Value="bioREST"/>
       </Unit6>
-      <Unit7>
-        <Filename Value="ssl_openssl_lib.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit7>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

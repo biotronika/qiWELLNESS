@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
   ComCtrls, CheckLst, Grids, ColorBox, LazSerial, TAGraph, TASeries,
-  TALegendPanel, TASources,(* TAChartCombos, *) Types , LCLType,  lclintf, Spin;
+  TALegendPanel, TASources,(* TAChartCombos, *) Types , LCLType,  lclintf, Spin, bioREST,fileutil;
 
 type
 
@@ -91,7 +91,6 @@ type
     Label22: TLabel;
     Label23: TLabel;
     Label24: TLabel;
-    Label25: TLabel;
     LabelEAPName: TLabel;
     LabelLiteratureURL: TLabel;
     Label9: TLabel;
@@ -121,7 +120,7 @@ type
     Panel23: TPanel;
     Panel24: TPanel;
     Panel25: TPanel;
-    Panel26: TPanel;
+    PanelEAPTherapyName: TPanel;
     Panel4: TPanel;
     Panel5: TPanel;
     Panel8: TPanel;
@@ -372,7 +371,7 @@ var
 
 implementation
 
-uses unitVegatestSelector, myFunctions, unitUpdateList, unitChooseEAPTherapy;
+uses unitVegatestSelector, bioFunctions, unitUpdateList, unitChooseEAPTherapy;
 
 var
   atlasPictureCurrent : integer = 0;
@@ -629,37 +628,48 @@ var //TherapyIdx : integer;
 begin
 
   //Open Choose window
-  EAPTherapy := FormChooseEAPTherapy.Choose('');
+  EAPTherapy := FormChooseEAPTherapy.ChooseEAPTherapy('');
 
-  StringGridEAPTherapy.RowCount  := 1; //Clear fields, but not change grid size
-  StringGridEAPTherapy.RowCount  := Length(EAPTherapy.Points)+1;
-  MemoDescription.Lines.Add(        HTML2PlainText( EAPTherapy.Description )    );
-  LabelEAPName.Caption           := EAPTherapy.Name;
+  if EAPTherapy.Name <>'' then begin;
 
-  for i:= 1 to Length(EAPTherapy.Points) do begin
-      with StringGridEAPTherapy do begin
+    StringGridEAPTherapy.RowCount  := 1; //Clear fields, but not change grid size
+    StringGridEAPTherapy.RowCount  := Length(EAPTherapy.Points)+1;
+    MemoDescription.Lines.Clear;
+    MemoDescription.Lines.Add(        HTML2PlainText( EAPTherapy.Description )    );
+    LabelEAPName.Caption           := EAPTherapy.Name;
 
-          Cells[EAP_POINT_GRID_COL,i]   := EAPTherapy.Points[i-1].Point;
-          Cells[EAP_SIDE_GRID_COL,i]    := EAPTherapy.Points[i-1].Side;
-          Cells[EAP_PROFILE_GRID_COL,i] := PROFILES[EAPTherapy.Points[i-1].Profile];
-          Cells[EAP_TIME_GRID_COL,i]    := IntToStr( EAPTherapy.Points[i-1].Time);
+    for i:= 1 to Length(EAPTherapy.Points) do begin
+        with StringGridEAPTherapy do begin
 
-      end;
+            Cells[EAP_POINT_GRID_COL,i]   := EAPTherapy.Points[i-1].Point;
+            Cells[EAP_SIDE_GRID_COL,i]    := EAPTherapy.Points[i-1].Side;
+            Cells[EAP_PROFILE_GRID_COL,i] := PROFILES[EAPTherapy.Points[i-1].Profile];
+            Cells[EAP_TIME_GRID_COL,i]    := IntToStr( EAPTherapy.Points[i-1].Time);
+
+        end;
+    end;
+
+    //Collumn names
+    with StringGridEAPTherapy do begin
+
+            Cells[EAP_POINT_GRID_COL,0]   := 'BAP(s)';
+            Cells[EAP_SIDE_GRID_COL,0]    := 'Side';
+            Cells[EAP_PROFILE_GRID_COL,0] := 'Profile';
+            Cells[EAP_TIME_GRID_COL,0]    := 'Time [s]';
+            Cells[EAP_ELAPSED_GRID_COL,0] := 'Elapsed';
+            Cells[EAP_PROGRESS_GRID_COL,0]:= 'Progress';
+    end;
+
+    PanelEAPTherapyName.Height:= 100;
+
+  end else begin
+
+    LabelEAPName.Caption           := '...';
+    PanelEAPTherapyName.Height     := 28;
+    StringGridEAPTherapy.RowCount  := 1; //Clear fields, but not change grid size
+    MemoDescription.Lines.Clear;
+
   end;
-
-  //Collumn names
-  with StringGridEAPTherapy do begin
-
-          Cells[EAP_POINT_GRID_COL,0]   := 'BAP(s)';
-          Cells[EAP_SIDE_GRID_COL,0]    := 'Side';
-          Cells[EAP_PROFILE_GRID_COL,0] := 'Profile';
-          Cells[EAP_TIME_GRID_COL,0]    := 'Time [s]';
-          Cells[EAP_ELAPSED_GRID_COL,0] := 'Elapsed';
-          Cells[EAP_PROGRESS_GRID_COL,0]:= 'Progress';
-  end;
-
-  Panel26.Height:= 100;
-
 
 end;
 
@@ -695,7 +705,7 @@ var f : textFile;
     s: string;
 begin
      memoConsole.Clear;
-      s:=ExtractFilePath(Application.ExeName)+'\qiWELLNESS.port';
+      s := ExtractFileNameWithoutExt(Application.ExeName) + '.port';
 
       AssignFile(f,s);
       {$I-}
@@ -715,7 +725,7 @@ begin
            {$I-}
            Writeln(f,Serial.Device);
            {$I+}
-           statusBar.SimpleText:='Serial port: '+ Serial.Device+' is open.';
+           statusBar.SimpleText:='Serial port: ' + Serial.Device + ' is open.';
 
       end;
       CloseFile(f);
@@ -753,7 +763,7 @@ end;
 procedure TfrmMain.ButtonUpdateClick(Sender: TObject);
 var DestinationListFile : string;
 begin
-
+ (*
   DestinationListFile := ExtractFilePath(Application.ExeName) + LISTS_DEF[LIST_ION_SUBSTANCES].FileName;
 
   if SysUtils.FileExists(DestinationListFile) then
@@ -765,7 +775,7 @@ begin
 
   if SysUtils.FileExists(DestinationListFile) then
      StringGridIonTherapy.LoadFromCSVFile(DestinationListFile);
-
+  *)
 end;
 
 procedure TfrmMain.ButtonCalibrateClick(Sender: TObject);
@@ -1234,7 +1244,7 @@ begin
 
 
   //Iontophoresis tab
-  DestinationListFile  := ExtractFilePath(Application.ExeName) + LISTS_DEF[LIST_ION_SUBSTANCES].FileName;
+  DestinationListFile  := ExtractFilePath(Application.ExeName) + 'iontophoresis.txt'; // LISTS_DEF[LIST_ION_SUBSTANCES].FileName;
 
   if SysUtils.FileExists(DestinationListFile) then
      StringGridIonTherapy.LoadFromCSVFile(DestinationListFile);

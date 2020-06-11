@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Grids, (*HTTPSend,*) fphttpclient, fpjson, jsonparser,  LCLIntf, myFunctions, unitDownload;
+  Grids, fphttpclient, fpjson, jsonparser,  LCLIntf, bioFunctions;
 
 
 
@@ -65,7 +65,7 @@ var s : string;
 
 begin
   s:='';
-
+  (*
   for col:=1 to LISTS_DEF[ TypeOfList ].FieldCount do begin
 
     s := s + '"' +LISTS_DEF[ TypeOfList ].FieldNames[col] + '"' ;
@@ -99,7 +99,7 @@ begin
      //do nothing;
 
   end;
-
+     *)
   result := s;
 end;
 
@@ -124,7 +124,7 @@ end;
 
 procedure TFormUpdateList.OpenWindowUpdateList( TypeOfList : Integer; FilterOptions : string );
 begin
-
+  (*
   StringGrid.Clear;
 
   Self.Caption := LISTS_DEF[TypeOfList].Title;
@@ -144,6 +144,7 @@ begin
 
   StringGrid.AutoSizeColumns;
   Self.ShowModal();
+  *)
 
 end;
 
@@ -154,7 +155,7 @@ procedure TFormUpdateList.ButtonUpdateClick(Sender: TObject);
 var s : string;
     f : TextFile;
 begin
-
+  (*
   ConnectRESTInterface(LISTS_DEF[ListType].RestURL);
 
   s:=JSON2String( ListType, JSONData);
@@ -177,14 +178,16 @@ begin
   StringGrid.LoadFromCSVFile(TemporaryListFile);
   StringGrid.AutoSizeColumns;
 
-
+  *)
 
 end;
 
 procedure TFormUpdateList.ButtonEditClick(Sender: TObject);
 begin
+  (*
   // Open list site
   OpenUrl(LISTS_DEF[ListType].Url);
+  *)
 end;
 
 procedure TFormUpdateList.ButtonCancelClick(Sender: TObject);
