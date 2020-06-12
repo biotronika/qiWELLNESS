@@ -13,14 +13,14 @@ interface
 uses
   Classes, SysUtils, StrUtils, Forms, LCLIntf, fphttpclient, fpjson, jsonparser;
 
-const
-  SOFTWARE_VERSION = '2020-06-11_2 (alpha)';
 
+const
+    SOFTWARE_VERSION = '2020-06-12 (alpha)';
 
 
 // MULTIPLATFORM DEFINITIONS
-  VK_RETURN = 13;
-  BIO_DELIMETER = ',';
+    VK_RETURN = 13;
+    BIO_DELIMETER = ',';
 
   {$IFDEF DARWIN}
     OS_VERSION           = 'Mac OS;
@@ -60,66 +60,19 @@ const
   {$ENDIF}
 
 
-   DEFAULT_EAP_THERAPY_TIME = 120; // 120 seconds
-   PROFILES : array[0..6] of string = ( 'User', 'Common', 'Stimulation', 'Sedation', 'DC-', 'DC+', 'DC change');
+     DEFAULT_EAP_THERAPY_TIME = 120; // 120 seconds
+     PROFILES : array[0..6] of string = ( 'User', 'Common', 'Stimulation', 'Sedation', 'DC-', 'DC+', 'DC change');
 
 
-(* DEPRECATED
+     TEMPORARY_FILE = '~temp.txt';
 
-   LISTS_DEF : array[1..5] of TList = (
-         (
-          Title         : 'Iontophoresis substances'; FileName : 'iontophoresis.txt';
-          Url           : PAGE_URL_EN + '/iontophoresis-substances';
-          RestURL       : PAGE_URL_REST + '/iontophoresis-substances/rest?_format=json';
-          FieldCount    : 4;
-          FieldNames    : ('Substance','Active electrode','Molar mass','Valence','','','','','','');
-          FieldJsonPath : ('.title[0].value','.field_active_electrode[0].value','field_mol_mass[0].value','field_valence[0].value','','','','','','')
-          ),
 
-          (Title        : 'Volls Electroacupuncture points'; FileName : 'eav.txt';
-          Url           : PAGE_URL_EN + '/???';
-          RestURL       : PAGE_URL_REST + '/???/rest?_format=json';
-          FieldCount    : 1;
-          FieldNames    : ('Substance','Active electrode','Molar mass','Valence','','','','','','');
-          FieldJsonPath : ('.title[0].value','.field_active_electrode[0].value','field_mol_mass[0].value','field_valence[0].value','','','','','','')
-          ),
-
-          (Title        : 'EAP therapies'; FileName : 'EAPtherapies.txt';
-          Url           : PAGE_URL_EN + '/eap-therapies';
-          RestURL       : PAGE_URL_REST + '/eap-therapies/rest?_format=json';
-          FieldCount    : 3;
-          FieldNames    : ('EAP therapy name','BAPs','Description','','','','','','','');
-          FieldJsonPath : ('.title[0].value','.field_baps[0].value','.body[0].processed','','','','','','','')
-          ),
-
-          (Title        : 'Atlas'; FileName : 'Atlas.txt';
-          Url           : PAGE_URL_EN + '/atlas';
-          RestURL       : PAGE_URL_REST + '/atlas/rest?_format=json';
-          FieldCount    : 4;
-          FieldNames    : ('Points','Meridian','Picture Link','Synonyms','','','','','','');
-          FieldJsonPath : ('.title[0].value','.field_meridians[0].value','.field_picture[0].url','.field_synonyms[0].value','','','','','','')
-          ),
-
-          (Title        : 'Bioresonance Therapy'; FileName : 'bioresonance-therapy.txt';
-          Url           : PAGE_URL_EN + '/bioresonance-therapies';
-          RestURL       : PAGE_URL_REST + '/bioresonance-therapies/rest?_format=json';
-          FieldCount    : 5;
-          FieldNames    : ('Name','+Devices','Therapy script','Node','Description','','','','','');
-          FieldJsonPath : ('.title[0].value','.field_urzadzenie[%d].value','.field_skrypt[0].value','.nid[0].value','.body[0].value','','','','','')
-          )
-
-   ) ;
-*)
-
-  TEMPORARY_FILE = '~temp.txt';
-
-  const
-         MODE_UNK =-1; //unknown
-         MODE_EAP = 0;
-         MODE_EAV = 1;
-         MODE_VEG = 2;
-         MODE_RYO = 3; //Ryodoraku
-         MODE_ION = 4; //Ionophoreses & zapper
+     MODE_UNK =-1; //unknown
+     MODE_EAP = 0;
+     MODE_EAV = 1;
+     MODE_VEG = 2;
+     MODE_RYO = 3; //Ryodoraku
+     MODE_ION = 4; //Ionophoreses & zapper
 
 
 
