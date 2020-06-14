@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 91
+  Left = 267
   Height = 864
-  Top = 128
+  Top = -1060
   Width = 1601
   Caption = 'qiWELLNESS'
   ClientHeight = 864
@@ -735,7 +735,7 @@ object frmMain: TfrmMain
       Height = 862
       Top = 1
       Width = 958
-      ActivePage = tabIonophorese
+      ActivePage = tabEAV
       Align = alRight
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
@@ -744,7 +744,7 @@ object frmMain: TfrmMain
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 5
+      TabIndex = 2
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -10456,8 +10456,8 @@ object frmMain: TfrmMain
       end
       object tabEAV: TTabSheet
         Caption = 'EAV'
-        ClientHeight = 660
-        ClientWidth = 762
+        ClientHeight = 829
+        ClientWidth = 950
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clBlack
         Font.Height = -15
@@ -10466,15 +10466,15 @@ object frmMain: TfrmMain
         Font.Quality = fqDraft
         OnShow = tabEAVShow
         ParentFont = False
-        object Panel9: TPanel
-          Left = 776
-          Height = 713
-          Top = 116
-          Width = 174
-          Align = alRight
+        object Panel15: TPanel
+          Left = 0
+          Height = 683
+          Top = 120
+          Width = 950
+          Align = alClient
           BevelOuter = bvNone
-          ClientHeight = 713
-          ClientWidth = 174
+          ClientHeight = 683
+          ClientWidth = 950
           Font.CharSet = EASTEUROPE_CHARSET
           Font.Color = clBlack
           Font.Height = -15
@@ -10483,218 +10483,16 @@ object frmMain: TfrmMain
           Font.Quality = fqDraft
           ParentFont = False
           TabOrder = 0
-          object btnSaveAs: TButton
-            Left = 9
-            Height = 92
-            Top = 200
-            Width = 160
-            Caption = 'Save'
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Color = clBlack
-            Font.Height = -20
-            Font.Name = 'Segoe UI Semibold'
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            Font.Style = [fsBold]
-            OnClick = btnSaveAsClick
-            ParentFont = False
-            TabOrder = 0
-          end
-          object ButtonSavePath: TButton
-            Left = 9
-            Height = 52
-            Top = 130
-            Width = 160
-            Caption = 'Save path'
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Color = clBlack
-            Font.Height = -15
-            Font.Name = 'Segoe UI'
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            OnClick = ButtonSavePathClick
-            ParentFont = False
-            TabOrder = 1
-          end
-          object ButtonLoadPath: TButton
-            Left = 9
-            Height = 50
-            Top = 10
-            Width = 160
-            Caption = 'Load path'
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Color = clBlack
-            Font.Height = -20
-            Font.Name = 'Segoe UI Semibold'
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            Font.Style = [fsBold]
-            OnClick = ButtonLoadPathClick
-            ParentFont = False
-            TabOrder = 2
-          end
-          object ToggleBoxEdit: TToggleBox
-            Left = 9
-            Height = 50
-            Top = 70
-            Width = 160
-            Caption = 'Edit BAPs'
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Color = clBlack
-            Font.Height = -15
-            Font.Name = 'Segoe UI'
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            OnChange = ToggleBoxEditChange
-            ParentFont = False
-            TabOrder = 3
-          end
-        end
-        object Panel15: TPanel
-          Left = 0
-          Height = 713
-          Top = 116
-          Width = 776
-          Align = alClient
-          BevelOuter = bvNone
-          ClientHeight = 713
-          ClientWidth = 776
-          Font.CharSet = EASTEUROPE_CHARSET
-          Font.Color = clBlack
-          Font.Height = -15
-          Font.Name = 'Segoe UI'
-          Font.Pitch = fpVariable
-          Font.Quality = fqDraft
-          ParentFont = False
-          TabOrder = 1
-          object StringGridEAV: TStringGrid
-            Left = 0
-            Height = 673
-            Hint = 'Click to edit Bilogicly Active Points in the grid below'
-            Top = 40
-            Width = 776
-            Align = alClient
-            ColCount = 3
-            FixedCols = 0
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Color = clBlack
-            Font.Height = -15
-            Font.Name = 'Segoe UI'
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect, goRelaxedRowSelect, goSmoothScroll, goRowHighlight]
-            ParentFont = False
-            RowCount = 9
-            ScrollBars = ssVertical
-            TabOrder = 0
-            TitleFont.CharSet = EASTEUROPE_CHARSET
-            TitleFont.Color = clBlack
-            TitleFont.Height = -12
-            TitleFont.Name = 'Segoe UI'
-            TitleFont.Pitch = fpVariable
-            TitleFont.Quality = fqDraft
-            TitleFont.Style = [fsBold]
-            OnDblClick = StringGridEAVDblClick
-            OnSelectCell = StringGridEAPTherapySelectCell
-            ColWidths = (
-              148
-              102
-              348
-            )
-            Cells = (
-              27
-              0
-              0
-              'Point(s)'
-              0
-              1
-              'LI1'
-              0
-              2
-              'LI1a'
-              0
-              3
-              'LI1b'
-              0
-              4
-              'LI1c'
-              0
-              5
-              'LI2'
-              0
-              6
-              'LI3'
-              0
-              7
-              'LI4'
-              0
-              8
-              'LI5'
-              1
-              0
-              'Atlas'
-              1
-              1
-              '1'
-              1
-              2
-              '1'
-              1
-              3
-              '1'
-              1
-              4
-              '1'
-              1
-              5
-              '1'
-              1
-              6
-              '1'
-              1
-              7
-              '1'
-              1
-              8
-              '1'
-              2
-              0
-              'Body part'
-              2
-              1
-              'Transverse Colon'
-              2
-              2
-              'Superior Hypogastric Plexus'
-              2
-              3
-              'Right Side of Large Intestine (Vegatest MDP)'
-              2
-              4
-              'Peritoneum'
-              2
-              5
-              'Hepatic Flexure'
-              2
-              6
-              'Ascending Colon'
-              2
-              7
-              'Cecum'
-              2
-              8
-              'Wrist Joint'
-            )
-          end
           object Panel16: TPanel
             Left = 0
-            Height = 40
+            Height = 683
             Top = 0
-            Width = 776
-            Align = alTop
+            Width = 950
+            Align = alClient
+            BevelInner = bvRaised
             BevelOuter = bvNone
-            ClientHeight = 40
-            ClientWidth = 776
+            ClientHeight = 683
+            ClientWidth = 950
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
             Font.Height = -15
@@ -10702,28 +10500,127 @@ object frmMain: TfrmMain
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             ParentFont = False
-            TabOrder = 1
-            object rbEavLeft: TRadioButton
-              Left = 280
-              Height = 29
-              Top = 0
-              Width = 53
-              Caption = 'Left'
+            TabOrder = 0
+            object StringGridEAV: TStringGrid
+              Left = 1
+              Height = 681
+              Hint = 'Click to edit Bilogicly Active Points in the grid below'
+              Top = 1
+              Width = 948
+              Align = alClient
+              ColCount = 4
+              Columns = <              
+                item
+                  Color = clInfoBk
+                  Font.CharSet = EASTEUROPE_CHARSET
+                  Font.Color = clBlack
+                  Font.Height = -15
+                  Font.Name = 'Segoe UI'
+                  Font.Pitch = fpVariable
+                  Font.Quality = fqDraft
+                  Font.Style = [fsBold]
+                  Title.Color = clBtnFace
+                  Title.Caption = 'BAPs'
+                  Width = 120
+                end              
+                item
+                  Title.Caption = 'Target'
+                  Width = 300
+                end              
+                item
+                  Alignment = taRightJustify
+                  Color = clGradientInactiveCaption
+                  Title.Alignment = taRightJustify
+                  Title.Caption = ''
+                  Width = 250
+                end              
+                item
+                  Color = clGradientInactiveCaption
+                  Title.Caption = ''
+                  Width = 250
+                end>
+              FixedCols = 0
               Font.CharSet = EASTEUROPE_CHARSET
               Font.Color = clBlack
-              Font.Height = -18
+              Font.Height = -15
               Font.Name = 'Segoe UI'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
-              OnChange = rbRyodorakuLeftChange
+              Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect, goRelaxedRowSelect, goSmoothScroll, goRowHighlight]
               ParentFont = False
-              TabOrder = 0
+              RowCount = 9
+              ScrollBars = ssVertical
+              TabOrder = 2
+              TitleFont.CharSet = EASTEUROPE_CHARSET
+              TitleFont.Color = clBlack
+              TitleFont.Height = -12
+              TitleFont.Name = 'Segoe UI'
+              TitleFont.Pitch = fpVariable
+              TitleFont.Quality = fqDraft
+              TitleFont.Style = [fsBold]
+              OnDblClick = StringGridEAVDblClick
+              OnSelectCell = StringGridEAPTherapySelectCell
+              ColWidths = (
+                120
+                300
+                250
+                250
+              )
+              Cells = (
+                15
+                0
+                0
+                'Point(s)'
+                0
+                1
+                'LI1'
+                0
+                2
+                'LI1a'
+                0
+                3
+                'LI1b'
+                0
+                4
+                'LI1c'
+                0
+                5
+                'LI2'
+                0
+                6
+                'LI3'
+                0
+                7
+                'LI4'
+                0
+                8
+                'LI5'
+                2
+                1
+                '||||||||||||||||||||||||||||||'
+                2
+                2
+                '||||||||||||||||||||||||||||||'
+                2
+                3
+                '||||||||||||||||||||||||'
+                3
+                1
+                '||||||||||||||'
+                3
+                2
+                '||||||||||||||||||'
+                3
+                3
+                '||||||||||||||||||||||||||'
+              )
             end
             object rbEavRight: TRadioButton
-              Left = 450
-              Height = 22
+              Left = 688
+              Height = 26
               Top = 2
               Width = 78
+              Anchors = [akTop, akRight]
               AutoSize = False
               Caption = 'Right'
               Checked = True
@@ -10738,19 +10635,38 @@ object frmMain: TfrmMain
               TabOrder = 1
               TabStop = True
             end
+            object rbEavLeft: TRadioButton
+              Left = 598
+              Height = 26
+              Top = 2
+              Width = 53
+              Alignment = taLeftJustify
+              Anchors = [akTop, akRight]
+              AutoSize = False
+              Caption = 'Left'
+              Font.CharSet = EASTEUROPE_CHARSET
+              Font.Color = clBlack
+              Font.Height = -18
+              Font.Name = 'Segoe UI'
+              Font.Pitch = fpVariable
+              Font.Quality = fqDraft
+              OnChange = rbRyodorakuLeftChange
+              ParentFont = False
+              TabOrder = 0
+            end
           end
         end
         object PanelButtons: TPanel
           Left = 0
-          Height = 90
+          Height = 120
           Top = 0
           Width = 950
           Align = alTop
           BevelOuter = bvNone
-          ClientHeight = 90
+          ClientHeight = 120
           ClientWidth = 950
           ParentFont = False
-          TabOrder = 2
+          TabOrder = 1
           object btnDeleteAll: TButton
             Left = 106
             Height = 75
@@ -10795,31 +10711,96 @@ object frmMain: TfrmMain
             TabOrder = 3
             Text = 'Working'
           end
-        end
-        object Label22: TLabel
-          Left = 56
-          Height = 20
-          Top = 531
-          Width = 836
-          Alignment = taCenter
-          AutoSize = False
-          Caption = 'Double click the point symbol to view its location in the Atlas'
-          Font.CharSet = EASTEUROPE_CHARSET
-          Font.Color = clGreen
-          Font.Height = -18
-          Font.Name = 'Segoe UI'
-          Font.Pitch = fpVariable
-          Font.Quality = fqDraft
-          Font.Style = [fsBold]
-          ParentColor = False
-          ParentFont = False
+          object ButtonEAVChoose: TButton
+            Left = 416
+            Height = 100
+            Top = 8
+            Width = 160
+            Caption = 'Choose'
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -20
+            Font.Name = 'Segoe UI Semibold'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Font.Style = [fsBold]
+            OnClick = ButtonEAVChooseClick
+            ParentFont = False
+            TabOrder = 4
+          end
+          object ToggleBoxEdit: TToggleBox
+            Left = 592
+            Height = 50
+            Top = 8
+            Width = 96
+            Caption = 'Edit BAPs'
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -15
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            OnChange = ToggleBoxEditChange
+            ParentFont = False
+            TabOrder = 5
+          end
+          object ButtonLoadPath: TButton
+            Left = 704
+            Height = 50
+            Top = 8
+            Width = 160
+            Caption = 'Load path'
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -20
+            Font.Name = 'Segoe UI Semibold'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Font.Style = [fsBold]
+            OnClick = ButtonLoadPathClick
+            ParentFont = False
+            TabOrder = 6
+          end
+          object ButtonSavePath: TButton
+            Left = 592
+            Height = 52
+            Top = 56
+            Width = 96
+            Caption = 'Save path'
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -15
+            Font.Name = 'Segoe UI'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            OnClick = ButtonSavePathClick
+            ParentFont = False
+            TabOrder = 7
+          end
+          object btnSaveAs: TButton
+            Left = 704
+            Height = 52
+            Top = 56
+            Width = 160
+            Caption = 'Save'
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Color = clBlack
+            Font.Height = -20
+            Font.Name = 'Segoe UI Semibold'
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Font.Style = [fsBold]
+            OnClick = btnSaveAsClick
+            ParentFont = False
+            TabOrder = 8
+          end
         end
         object Panel2: TPanel
           Left = 0
           Height = 26
-          Top = 90
+          Top = 803
           Width = 950
-          Align = alTop
+          Align = alBottom
           Caption = 'Panel2'
           ClientHeight = 26
           ClientWidth = 950
@@ -10830,7 +10811,7 @@ object frmMain: TfrmMain
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
           ParentFont = False
-          TabOrder = 3
+          TabOrder = 2
           object Shape2: TShape
             Left = 1
             Height = 24

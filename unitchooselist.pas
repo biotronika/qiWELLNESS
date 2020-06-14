@@ -34,11 +34,16 @@ type
     procedure ImageBackClick(Sender: TObject);
     procedure ImageNextClick(Sender: TObject);
 
-    function  ChooseEAPTherapy(SearchString: string)  :TEAPTherapy;
-    function  ChooseIONSubstance(SearchString: string) : TIonSubstance;
+    //function  ChooseEAPTherapy(SearchString: string)  :TEAPTherapy;
+    //function  ChooseIONSubstance(SearchString: string) : TIonSubstance;
 
-    procedure FillGridOfTherapies(EAPTherapies:TEAPTherapies);
-    procedure FillGridOfTherapies(IONSubstances:TIONSubstances);
+    function  GetItemFromList( var EAPTherapy   : TEAPTherapy;   SearchString: string = '' ) : boolean ; overload;
+    function  GetItemFromList( var IonSubstance : TIonSubstance; SearchString: string = '' ) : boolean ; overload;
+    function  GetItemFromList( var EAVPath      : TEAVPath;      SearchString: string = '' ) : boolean ; overload;
+
+    procedure FillGridOfTherapies( EAPTherapies  : TEAPTherapies  );
+    procedure FillGridOfTherapies( IONSubstances : TIONSubstances );
+    procedure FillGridOfTherapies( EAVPaths      : TEAVPaths      );
     procedure Search (SearchString : string; ListType : integer);
 
   private
@@ -48,6 +53,9 @@ type
 
     F_IONSubstance : TIONSubstance;
     F_IONSubstances : TIONSubstances;
+
+    F_EAVPath : TEAVPath;
+    F_EAVPaths : TEAVPaths;
 
     F_CurrentList  : integer;
     F_Page : integer;
@@ -63,9 +71,40 @@ implementation
 
 {$R *.lfm}
 
-uses unitUpdateList;
+//uses unitUpdateList;
 
 { TFormChooseList }
+
+procedure TFormChooseList.FillGridOfTherapies(EAVPaths : TEAVPaths);
+var i : integer;
+begin
+
+
+  with StringGrid do begin
+
+    Clear;
+    RowCount   := 1;
+
+    Columns[0].Width := 350;
+    Columns[1].Width := 450;
+    Columns[2].Width := 600;
+
+    Columns[0].Title.Caption := 'EAV path';
+    Columns[1].Title.Caption := 'BAP(s)';
+    Columns[2].Title.Caption := 'Description';
+
+  end;
+
+  StringGrid.RowCount := Length(EAVPaths) + 1;
+
+  for i:= 0 to Length(EAVPaths)-1 do
+    with StringGrid do begin
+        Cells[0,i+1] := EAVPaths[i].Name;
+        Cells[1,i+1] := EAVPaths[i].StrBAPs;
+        Cells[2,i+1] := EAVPaths[i].Description;
+    end;
+
+end;
 
 
 procedure TFormChooseList.FillGridOfTherapies(EAPTherapies:TEAPTherapies);
@@ -163,19 +202,33 @@ begin
           FillGridOfTherapies(F_IONSubstances);
       end;
 
+       LIST_EAV_PATHS : begin
+          F_EAVPath.Name:='';
+
+
+          s := 'eav_path_name=' + trim(SearchString) ;
+          if F_Page > 0 then s := s + '&page=' + IntToStr(F_Page);
+
+          GetContentFromREST( content,  LIST_REST_URLS[LIST_EAV_PATHS] , s );
+          GetEAVPathsFromContent( content, F_EAVPaths);
+          FillGridOfTherapies(F_EAVPaths);
+
+       end;
+
   end;
 
 end;
 
 
-function  TFormChooseList.ChooseEAPTherapy(SearchString: string):TEAPTherapy;
-(* elektros 2020-05-25
+
+function  TFormChooseList.GetItemFromList(var EAPTherapy: TEAPTherapy; SearchString: string ='' ) : boolean ; overload;
+(* elektros 2020-06-14
  * Open choose window to select an EAP therapy from portal (via REST/JSON)
  *   SearchString - Search text contained in title
- *   result - comlex chosen therapy
+ *   result - true=was choosen
  *)
 begin
-
+  result := false;
   F_CurrentList := LIST_EAP_THERAPY;
 
   Caption := 'Search electroacupuncture therapy';
@@ -184,13 +237,20 @@ begin
   Search(EditSearchString.Text, F_CurrentList);
   Self.ShowModal;
 
-  result:= F_EAPTherapy;
+  EAPTherapy:= F_EAPTherapy;
+  result := ( EAPTherapy.Name <> '' );
 
 end;
 
-function  TFormChooseList.ChooseIONSubstance(SearchString: string) : TIONSubstance;
+function  TFormChooseList.GetItemFromList(var IonSubstance: TIonSubstance; SearchString: string ='') : boolean ; overload;
+(* elektros 2020-06-14
+ * Open choose window to select an ION substance from portal (via REST/JSON)
+ *   SearchString - Search text contained in title
+ *   result - true=was choosen
+ *)
 begin
 
+  result:= false;
   F_CurrentList := LIST_ION_SUBSTANCES;
 
   Caption := 'Search ionotophoresis substance';
@@ -199,10 +259,33 @@ begin
   Search(EditSearchString.Text, F_CurrentList);
   Self.ShowModal;
 
-  result:= F_IONSubstance;
-
+  IonSubstance:= F_IONSubstance;
+  result := ( IonSubstance.Name <> '' );
 
 end;
+
+function  TFormChooseList.GetItemFromList(var EAVPath : TEAVPath; SearchString: string ='') : boolean ; overload;
+(* elektros 2020-06-14
+ * Open choose window to select an EAV Paths from portal (via REST/JSON)
+ *   SearchString - Search text contained in title
+ *   result - true=was choosen
+ *)
+begin
+
+  result:= false;
+  F_CurrentList := LIST_EAV_PATHS;
+
+  Caption := 'Search EAV Paths';
+
+  F_Page := 0;
+  Search(EditSearchString.Text, F_CurrentList);
+  Self.ShowModal;
+
+  EAVPath := F_EAVPath;
+  result := ( EAVPath.Name <> '' );
+
+end;
+
 
 procedure TFormChooseList.ButtonChooseClick(Sender: TObject);
 var idx : integer;
@@ -215,6 +298,7 @@ begin
 
           LIST_EAP_THERAPY:    F_EAPTherapy   := F_EAPTherapies[idx-1];
           LIST_ION_SUBSTANCES: F_IONSubstance := F_IONSubstances[idx-1];
+          LIST_EAV_PATHS:      F_EAVPath      := F_EAVPaths[idx-1];
 
      end;
 

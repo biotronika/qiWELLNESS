@@ -31,7 +31,7 @@ const
 
    LIST_REST_URLS : array[1..5] of string = (
      PAGE_URL_REST + '/iontophoresis-substances/rest?_format=json',
-     PAGE_URL_REST + '/???/rest?_format=json',
+     PAGE_URL_REST + '/eav-paths/rest?_format=json',
      PAGE_URL_REST + '/eap-therapies/rest?_format=json',
      PAGE_URL_REST + '/atlas/rest?_format=json',
      PAGE_URL_REST + '/bioresonance-therapies/rest?_format=json'
@@ -84,21 +84,40 @@ end;
 
 type TIONSubstances = array of TIONSubstance;
 
+// EAV paths
+type TEAVPoint = record
+     Point           : string[20];
+     Target          : string;
+end;
+
+type TEAVPoints = array of TEAVPoint;
+
+type TEAVPath = record
+     Name            : string;
+     BAPs            : TEAVPoints;
+     StrBAPs         : string;
+     Description     : string;
+end;
+
+type TEAVPaths = array of TEAVPath;
+
 
   // Auxilary functions
   function HTML2PlainText(s: string): string;
   function HexToInt(HexStr: string): Int64;
   function UrlDecode(const EncodedStr: string): string;
 
+  function StringToEAPTherapy( s : string ) : TEAPPoints;
+  function StringToEAVPoints ( s : string ) : TEAVPoints;
 
-  function StringToEAPTherapy(s : string) : TEAPPoints;
-  function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return picture URLs if PictureFilesList
+  function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return picture URLs of PictureFilesList
 
-  function GetContentFromREST(var Content : string; RestURL : string; ExtraFilters : string = '') : integer; //Return string Content with JSON
+  function GetContentFromREST(var Content : string; RestURL : string; ExtraFilters : string = '') : integer; //Return Content string with JSON
 
-  function GetEAPTherapiesFromContent( Content : string; var EAPTherapies : TEAPTherapies) : integer;
+  function GetEAPTherapiesFromContent         ( Content : string; var EAPTherapies : TEAPTherapies) : integer;
   function GetBioresonanceTherapiesFromContent( Content : string; var BioresonanceTherapies : TBioresonanceTherapies) : integer;
-  function GetIONSubstancesFromContent( Content : string; var IONSubstances : TIONSubstances) : integer;
+  function GetIONSubstancesFromContent        ( Content : string; var IONSubstances : TIONSubstances) : integer;
+  function GetEAVPathsFromContent             ( Content : string; var EAVPaths : TEAVPaths) : integer;
 
 
 implementation
@@ -342,7 +361,47 @@ begin
 
 end;
 
-//////
+
+function GetEAVPathsFromContent( Content : string; var EAVPaths : TEAVPaths) : integer;
+(* elektros 2020-06-14
+ * EAV paths
+ *)
+const LIST_TYPE = LIST_EAV_PATHS;
+var
+    i,j : integer;
+    s : string;
+    JSONData : TJSONData;
+
+begin
+
+     result:=0;
+     SetLength(EAVPaths,0);
+
+     try
+
+        JSONData:=GetJSON(content);
+
+        j:= JSONData.Count;
+        SetLength(EAVPaths, j);
+
+        for i := 0 to j - 1 do begin
+
+          EAVPaths[i].Name             := JSONData.FindPath( '['+IntToStr(i)+']' + '.title[0].value'                 ).AsString;
+          EAVPaths[i].Description      := JSONData.FindPath( '['+IntToStr(i)+']' + '.field_eav_description[0].value' ).AsString;
+          s                            := JSONData.FindPath( '['+IntToStr(i)+']' + '.field_eav_baps[0].value'        ).AsString;
+          EAVPaths[i].BAPs             := StringToEAVPoints( s );
+          EAVPaths[i].StrBAPs          := s;
+
+        end;
+
+     finally
+          JSONData.Free;
+     end;
+
+end;
+
+
+
 function GetBioresonanceTherapiesFromContent( Content : string; var BioresonanceTherapies : TBioresonanceTherapies) : integer;
 const LIST_TYPE = LIST_BIORESONANCE_THERAPY;
 var
@@ -520,6 +579,57 @@ begin
 
 end;
 
+function StringToEAVPoints ( s : string ) : TEAVPoints;
+var strList : TStringList;
+    Points : TEAVPoints;
+    i,spacePos, endPos : integer;
+    PointStr,TargetStr : string;
+begin
+
+  //strList := TStringList.Create;
+
+  //try
+     //strList.Add(s);
+
+     //for i := 0 to strList.Count-1 do begin;
+         //OnePointStr := trim( strList[i] );
+
+     //end;
+     spacePos := 1;
+     endPos := 1;
+     SetLength(Points,0);
+     i:=0;
+
+  repeat
+     spacePos := PosEx(' ', s, endPos);
+     PointStr := trim( copy(s,endPos,spacePos-endPos));
+     endPos   := PosEx(#10, s, endPos + 1) ;
+     if endPos = 0 then endPos := Length(s);
+     TargetStr:= trim( copy(s, spacePos, endPos -spacePos));
+
+
+
+     if PointStr<>'' then begin
+
+       SetLength(Points, Length( Points )+1);
+
+       Points[i].Point  := PointStr;
+       Points[i].Target := TargetStr;
+       i:=i+1;
+     end;
+
+  until (endPos >= length(s)) or (spacePos = 0);
+
+
+  result:= Points;
+
+
+
+
+
+
+
+end;
 
 end.
 

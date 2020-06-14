@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
   ComCtrls, CheckLst, Grids, ColorBox, LazSerial, TAGraph, TASeries,
-  TALegendPanel, TASources,(* TAChartCombos, *) Types , LCLType,  lclintf, Spin, bioREST,fileutil;
+  TALegendPanel, TASources,(* TAChartCombos, *) Types , LCLType,  lclintf, Spin, bioREST, lazfileutils;
 
 type
 
@@ -19,6 +19,7 @@ type
     btnDeleteAll: TButton;
     btnDelete: TButton;
     btnSaveAs: TButton;
+    ButtonEAVChoose: TButton;
     ButtonChooseEAPTherapy: TButton;
     ButtonIonOn: TButton;
     ButtonIonOff: TButton;
@@ -88,7 +89,6 @@ type
     Label19: TLabel;
     Label20: TLabel;
     Label21: TLabel;
-    Label22: TLabel;
     Label23: TLabel;
     Label24: TLabel;
     LabelEAPName: TLabel;
@@ -141,7 +141,6 @@ type
     Panel12: TPanel;
     Panel13: TPanel;
     Panel14: TPanel;
-    Panel9: TPanel;
     rbNegativeElectrode: TRadioButton;
     rbDCpositive: TRadioButton;
     rbDCchangeDirections: TRadioButton;
@@ -208,7 +207,8 @@ type
     procedure btnResetClick(Sender: TObject);
     procedure btnConnectClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
-    procedure ButtonHideAtlasClick(Sender: TObject);
+    procedure ButtonEAVChooseClick(Sender: TObject);
+
     procedure ButtonIonOnClick(Sender: TObject);
     procedure ButtonIonOffClick(Sender: TObject);
     procedure ButtonChooseIONSunstanceClick(Sender: TObject);
@@ -614,9 +614,8 @@ var //TherapyIdx : integer;
 begin
 
   //Open Choose window
-  EAPTherapy := FormChooseList.ChooseEAPTherapy('');
 
-  if EAPTherapy.Name <>'' then begin;
+  if FormChooseList.GetItemFromList(EAPTherapy) then begin;
 
     StringGridEAPTherapy.RowCount  := 1; //Clear fields, but not change grid size
     StringGridEAPTherapy.RowCount  := Length(EAPTherapy.Points)+1;
@@ -719,9 +718,30 @@ begin
    frmMain.SaveEav;
 end;
 
-procedure TfrmMain.ButtonHideAtlasClick(Sender: TObject);
+procedure TfrmMain.ButtonEAVChooseClick(Sender: TObject);
+var EAVPath : TEAVPath;
+  i : integer;
 begin
 
+  StringGridEAV.Clear;
+
+  if FormChooseList.GetItemFromList(EAVPath) then begin
+
+      StringGridEAV.RowCount  := Length(EAVPath.BAPs)+1;
+  //MemoDescription.Lines.Clear;
+  //MemoDescription.Lines.Add(        HTML2PlainText( EAPTherapy.Description )    );
+  //LabelEAPName.Caption           := EAPTherapy.Name;
+
+      for i:= 1 to Length(EAVPath.BAPs) do begin
+          with StringGridEAV do begin
+
+              Cells[0,i]   := EAVPath.BAPs[i-1].Point;
+              Cells[1,i]   := EAVPath.BAPs[i-1].Target;
+
+          end;
+      end;
+
+  end;
 end;
 
 procedure TfrmMain.ButtonIonOnClick(Sender: TObject);
@@ -744,9 +764,9 @@ var
 begin
 
   //Open Choose window
-  IONSubstance := FormChooseList.ChooseIONSubstance('');
+  ;
 
-  if IONSubstance.Name <>'' then begin
+  if FormChooseList.GetItemFromList(IONSubstance) then begin
 
     EditSubstance_ION.Text        := IONSubstance.Name;
     EditActiveElectrode_ION.Text  := IONSubstance.ActiveElectrode;

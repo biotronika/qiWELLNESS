@@ -15,7 +15,7 @@ uses
 
 
 const
-    SOFTWARE_VERSION = '2020-06-12 (alpha)';
+    SOFTWARE_VERSION = '2020-06-14 (alpha)';
 
 
 // MULTIPLATFORM DEFINITIONS
