@@ -14,13 +14,13 @@ uses
   Classes, SysUtils, StrUtils, Forms, LCLIntf, fphttpclient, fpjson, jsonparser, Dialogs, bioFunctions;
 
 const
-  PAGE_URL_REST   = 'http://biotronics.eu';
-  PAGE_URL_EN     = 'https://biotronics.eu';
-  PAGE_URL_PL     = 'https://biotronika.pl';
+  PAGE_URL_REST     = 'http://biotronics.eu';
+  PAGE_URL_EN       = 'https://biotronics.eu';
+  PAGE_URL_PL       = 'https://biotronika.pl';
 
-  ATLAS_SUBFOLDER = 'atlas';   // Subfolder of exe file where be placed pictures
-
-  USER_AGENT      = 'qiwellness';
+  ATLAS_SUBFOLDER   = 'atlas';   // Subfolder of exe file where be placed pictures
+  USER_AGENT        = 'qiwellness';
+  REST_FORMAT_PARAM = '_format=json';
 
    //Types of REST lists
    LIST_ION_SUBSTANCES       = 1;
@@ -30,11 +30,19 @@ const
    LIST_BIORESONANCE_THERAPY = 5;  // freePEMF and multiZAP
 
    LIST_REST_URLS : array[1..5] of string = (
-     PAGE_URL_REST + '/iontophoresis-substances/rest?_format=json',
-     PAGE_URL_REST + '/eav-paths/rest?_format=json',
-     PAGE_URL_REST + '/eap-therapies/rest?_format=json',
-     PAGE_URL_REST + '/atlas/rest?_format=json',
-     PAGE_URL_REST + '/bioresonance-therapies/rest?_format=json'
+     PAGE_URL_REST + '/iontophoresis-substances/rest',
+     PAGE_URL_REST + '/eav-paths/rest',
+     PAGE_URL_REST + '/eap-therapies/rest',
+     PAGE_URL_REST + '/atlas/rest',
+     PAGE_URL_REST + '/bioresonance-therapies/rest'
+   );
+
+   LIST_FILE_LIKED : array[1..5] of string = (
+     PAGE_URL_REST + 'iontophoresis-substances.liked',
+     PAGE_URL_REST + 'eav-paths.liked',
+     PAGE_URL_REST + 'eap-therapies.liked',
+     PAGE_URL_REST + ATLAS_SUBFOLDER,
+     PAGE_URL_REST + 'bioresonance-therapies.liked'
    );
 
 
@@ -57,6 +65,9 @@ type TEAPTherapy = record
      Points          : TEAPPoints;
      Url             : string;
      Langcode        : string;
+     Liked           : string;
+     nid             : string;
+
 end;
 
 type TEAPTherapies = array of TEAPTherapy;
@@ -70,6 +81,8 @@ type TBioresonanceTherapy = record
      Devices         : string;   //freePEMF, multiZAP etc.
      Url             : string;
      Langcode        : string;
+     Liked           : string;
+     nid             : string;
 end;
 
 type TBioresonanceTherapies = array of TBioresonanceTherapy;
@@ -80,6 +93,8 @@ type TIONSubstance = record
      ActiveElectrode : string;
      Valence         : integer;
      MolarMass       : double;
+     Liked           : string;
+     nid             : string;
 end;
 
 type TIONSubstances = array of TIONSubstance;
@@ -97,6 +112,8 @@ type TEAVPath = record
      BAPs            : TEAVPoints;
      StrBAPs         : string;
      Description     : string;
+     Liked           : string;
+     nid             : string;
 end;
 
 type TEAVPaths = array of TEAVPath;
@@ -112,12 +129,14 @@ type TEAVPaths = array of TEAVPath;
 
   function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return picture URLs of PictureFilesList
 
-  function GetContentFromREST(var Content : string; RestURL : string; ExtraFilters : string = '') : integer; //Return Content string with JSON
+  function GetContentFromREST(var Content : string; RestURL : string; ExtraFilters : string = ''; LikedStr : string ='') : integer; //Return Content string with JSON
 
   function GetEAPTherapiesFromContent         ( Content : string; var EAPTherapies : TEAPTherapies) : integer;
   function GetBioresonanceTherapiesFromContent( Content : string; var BioresonanceTherapies : TBioresonanceTherapies) : integer;
   function GetIONSubstancesFromContent        ( Content : string; var IONSubstances : TIONSubstances) : integer;
   function GetEAVPathsFromContent             ( Content : string; var EAVPaths : TEAVPaths) : integer;
+
+  function GetLikedItems( ListType : integer ) : string;
 
 
 implementation
@@ -290,7 +309,31 @@ begin
 
 end;
 
-function GetContentFromREST(var Content : string; RestURL : string ; ExtraFilters : string = '') : integer;
+function GetLikedItems( ListType : integer ) : string;
+(* elektros 2020-06-16
+ * Reads string with nid identificators from text local file like 0+1456+345+3213+0
+  *)
+var F : textFile;
+    destinationFile: string;
+begin
+
+  result := '';
+  destinationFile := ExtractFilePath(Application.ExeName) + LIST_FILE_LIKED[ListType];
+
+  if FileExists(destinationFile) then begin
+
+      Assign (F,destinationFile);
+      {$I-}
+      Reset (F);
+      if not EOF(F) then readLn( result );
+      {$I+}
+      CloseFile (F);
+
+  end;
+
+end;
+
+function GetContentFromREST(var Content : string; RestURL : string ; ExtraFilters : string = ''; LikedStr : string ='' ) : integer;
 (* elektros 2020-05-25
  *
  * REST/JSON interface. Can connect http and https.
@@ -301,10 +344,16 @@ function GetContentFromREST(var Content : string; RestURL : string ; ExtraFilter
  *)
 var
     HTTPClient: TFPHttpClient;
+    URL : string;
 
 begin
 
   result := -1;
+
+  if LikedStr = '' then
+     URL :=  RestURL + '?' + REST_FORMAT_PARAM + '&' + trim(ExtraFilters)
+  else
+     URL :=  RestURL + '/' + LikedStr + '?' + REST_FORMAT_PARAM + '&' + trim(ExtraFilters);
 
   try
 
@@ -314,7 +363,7 @@ begin
      HTTPClient.AddHeader('User-Agent', USER_AGENT);
 
      try
-        Content:=HTTPClient.Get( RestURL + '&' + trim(ExtraFilters)  );
+        Content:=HTTPClient.Get( URL );
         result:= Content.Length;
      except
        on E: Exception do
@@ -349,9 +398,11 @@ begin
 
           EAPTherapies[i].Name         := JSONData.FindPath( '['+IntToStr(i)+']' + '.title[0].value'      ).AsString;
           EAPTherapies[i].Description  := JSONData.FindPath( '['+IntToStr(i)+']' + '.body[0].processed'   ).AsString;
+          EAPTherapies[i].nid          := JSONData.FindPath( '['+IntToStr(i)+']' + '.nid[0].value'   ).AsString;
           s                            := JSONData.FindPath( '['+IntToStr(i)+']' + '.field_baps[0].value' ).AsString;
           EAPTherapies[i].Points       := StringToEAPTherapy( s );
           EAPTherapies[i].StrPoints    := s;
+          EAPTherapies[i].Liked        := 'no';
 
         end;
 
@@ -391,6 +442,7 @@ begin
           s                            := JSONData.FindPath( '['+IntToStr(i)+']' + '.field_eav_baps[0].value'        ).AsString;
           EAVPaths[i].BAPs             := StringToEAVPoints( s );
           EAVPaths[i].StrBAPs          := s;
+          EAVPaths[i].Liked            := 'no';
 
         end;
 
@@ -428,6 +480,7 @@ begin
           BioresonanceTherapies[i].TherapyScript:= JSONData.FindPath( '['+IntToStr(i)+'].field_skrypt[0].value' ).AsString;
           BioresonanceTherapies[i].Description  := JSONData.FindPath( '['+IntToStr(i)+'].body[0].value'         ).AsString;
           BioresonanceTherapies[i].Langcode     := JSONData.FindPath( '['+IntToStr(i)+'].langcode[0].value'     ).AsString;
+          BioresonanceTherapies[i].Liked        := 'no';
 
           if UpperCase(BioresonanceTherapies[i].Langcode ) = 'PL' then
              pageURL := PAGE_URL_PL
@@ -476,6 +529,7 @@ begin
           IONSubstances[i].ActiveElectrode := JSONData.FindPath( '['+IntToStr(i)+'].field_active_electrode[0].value' ).AsString;
           IONSubstances[i].MolarMass       := JSONData.FindPath( '['+IntToStr(i)+'].field_mol_mass[0].value'         ).AsFloat;
           IONSubstances[i].Valence         := JSONData.FindPath( '['+IntToStr(i)+'].field_valence[0].value'          ).AsInteger;
+          IONSubstances[i].Liked           := 'no';
 
         end;
 

@@ -15,7 +15,7 @@ uses
 
 
 const
-    SOFTWARE_VERSION = '2020-06-14 (alpha)';
+    SOFTWARE_VERSION = '2020-06-16 (alpha)';
 
 
 // MULTIPLATFORM DEFINITIONS
@@ -73,6 +73,11 @@ const
      MODE_VEG = 2;
      MODE_RYO = 3; //Ryodoraku
      MODE_ION = 4; //Ionophoreses & zapper
+
+     INFOBOX_BACKGROUND_COLOR   = $0080FF80;
+     //INFOBOX_FONT_COLOR         = clGreen;
+     CLICKBOX_BACKGROUND_COLOR  = $00E9AE7A;
+     CLICKBOX_FONT_COLOR        = $007D5500;
 
 
 

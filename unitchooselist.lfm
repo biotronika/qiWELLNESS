@@ -1,31 +1,32 @@
 object FormChooseList: TFormChooseList
-  Left = 795
-  Height = 502
-  Top = 155
-  Width = 916
+  Left = 639
+  Height = 680
+  Top = -1039
+  Width = 1108
   BorderStyle = bsToolWindow
   Caption = 'Search Electroacupuncture Therapy'
-  ClientHeight = 502
-  ClientWidth = 916
+  ClientHeight = 680
+  ClientWidth = 1108
   DesignTimePPI = 120
   FormStyle = fsStayOnTop
+  OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
   LCLVersion = '2.0.6.0'
   object Panel1: TPanel
     Left = 0
-    Height = 128
+    Height = 88
     Top = 0
-    Width = 916
+    Width = 1108
     Align = alTop
-    ClientHeight = 128
-    ClientWidth = 916
+    ClientHeight = 88
+    ClientWidth = 1108
     ParentFont = False
     TabOrder = 0
     object ButtonSearch: TButton
-      Left = 408
+      Left = 536
       Height = 52
-      Top = 24
+      Top = 16
       Width = 144
       Caption = 'Search'
       OnClick = ButtonSearchClick
@@ -33,9 +34,9 @@ object FormChooseList: TFormChooseList
       TabOrder = 0
     end
     object EditSearchString: TEdit
-      Left = 24
+      Left = 152
       Height = 53
-      Top = 24
+      Top = 16
       Width = 364
       Font.Height = -33
       OnChange = EditSearchStringChange
@@ -43,53 +44,13 @@ object FormChooseList: TFormChooseList
       ParentFont = False
       TabOrder = 1
     end
-    object Panel2: TPanel
-      Left = 1
-      Height = 26
-      Top = 101
-      Width = 914
-      Align = alBottom
-      Caption = 'Panel2'
-      ClientHeight = 26
-      ClientWidth = 914
-      ParentFont = False
-      TabOrder = 2
-      object Shape3: TShape
-        Left = 1
-        Height = 24
-        Top = 1
-        Width = 912
-        Align = alClient
-        Brush.Color = 8454016
-        Pen.Style = psDash
-      end
-      object Label24: TLabel
-        Left = 1
-        Height = 24
-        Top = 1
-        Width = 912
-        Align = alClient
-        Alignment = taCenter
-        AutoSize = False
-        Caption = 'Write any text and prees ENTER to search EAP therapies. Use pager to see more than 20 results.'
-        Font.CharSet = EASTEUROPE_CHARSET
-        Font.Color = clGreen
-        Font.Height = -18
-        Font.Name = 'Segoe UI'
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        Font.Style = [fsBold]
-        ParentColor = False
-        ParentFont = False
-      end
-    end
     object ImageNext: TImage
       Cursor = crHandPoint
-      Left = 860
+      Left = 1052
       Height = 48
-      Top = 29
+      Top = 22
       Width = 44
-      Anchors = [akRight]
+      Anchors = [akTop, akRight]
       DragCursor = crHandPoint
       OnClick = ImageNextClick
       Picture.Data = {
@@ -140,11 +101,11 @@ object FormChooseList: TFormChooseList
     end
     object ImageBack: TImage
       Cursor = crHandPoint
-      Left = 769
+      Left = 961
       Height = 48
-      Top = 29
+      Top = 22
       Width = 42
-      Anchors = [akRight]
+      Anchors = [akTop, akRight]
       DragCursor = crHandPoint
       OnClick = ImageBackClick
       Picture.Data = {
@@ -202,21 +163,22 @@ object FormChooseList: TFormChooseList
       Stretch = True
     end
     object ButtonChoose: TButton
-      Left = 576
+      Left = 704
       Height = 52
-      Top = 24
+      Top = 17
       Width = 152
       Caption = 'Choose && Close'
       OnClick = ButtonChooseClick
       ParentFont = False
-      TabOrder = 3
+      TabOrder = 2
     end
     object Label1: TLabel
-      Left = 808
+      Left = 999
       Height = 20
-      Top = 20
+      Top = 13
       Width = 56
       Alignment = taCenter
+      Anchors = [akTop, akRight]
       AutoSize = False
       Caption = 'page'
       Font.Color = 12615680
@@ -225,12 +187,12 @@ object FormChooseList: TFormChooseList
       ParentFont = False
     end
     object LabelPage: TLabel
-      Left = 808
+      Left = 1000
       Height = 31
-      Top = 40
+      Top = 33
       Width = 56
       Alignment = taCenter
-      Anchors = [akRight]
+      Anchors = [akTop, akRight]
       AutoSize = False
       BidiMode = bdRightToLeftReadingOnly
       Caption = '0'
@@ -241,26 +203,58 @@ object FormChooseList: TFormChooseList
       ParentColor = False
       ParentFont = False
     end
+    object RadioButtonShowAll: TRadioButton
+      Left = 21
+      Height = 24
+      Top = 17
+      Width = 80
+      Caption = 'Show all'
+      Checked = True
+      TabOrder = 4
+      TabStop = True
+    end
+    object RadioButtonShowMeLiked: TRadioButton
+      Left = 21
+      Height = 24
+      Top = 45
+      Width = 121
+      Caption = 'Show me liked'
+      OnChange = RadioButtonShowMeLikedChange
+      TabOrder = 3
+    end
   end
   object StringGrid: TStringGrid
     Left = 0
-    Height = 374
-    Top = 128
-    Width = 916
+    Height = 534
+    Top = 88
+    Width = 1108
     Align = alClient
-    AutoEdit = False
-    ColCount = 3
+    ColCount = 4
     Columns = <    
       item
+        ButtonStyle = cbsCheckboxColumn
+        Color = clWindow
+        PickList.Strings = (
+          ''
+        )
+        Title.Caption = 'Liked'
+        Width = 50
+        ValueChecked = 'yes'
+        ValueUnchecked = 'no'
+      end    
+      item
         Color = clInfoBk
+        ReadOnly = True
         Title.Caption = 'Columns[0]'
         Width = 350
       end    
       item
+        ReadOnly = True
         Title.Caption = 'Columns[1]'
         Width = 350
       end    
       item
+        ReadOnly = True
         Title.Caption = 'Columns[2]'
         Width = 500
       end>
@@ -273,7 +267,6 @@ object FormChooseList: TFormChooseList
     Font.Quality = fqDraft
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goEditing, goRowSelect, goRelaxedRowSelect, goDblClickAutoSize, goSmoothScroll, goRowHighlight]
     ParentFont = False
-    RowCount = 1
     ScrollBars = ssVertical
     TabOrder = 1
     TitleFont.CharSet = EASTEUROPE_CHARSET
@@ -283,11 +276,112 @@ object FormChooseList: TFormChooseList
     TitleFont.Pitch = fpVariable
     TitleFont.Quality = fqDraft
     TitleFont.Style = [fsBold]
+    OnCheckboxToggled = StringGridCheckboxToggled
     OnDblClick = ButtonChooseClick
     ColWidths = (
+      50
       350
       350
       500
     )
+    Cells = (
+      4
+      0
+      1
+      '1'
+      0
+      2
+      '0'
+      0
+      3
+      '0'
+      0
+      4
+      '0'
+    )
+  end
+  object PanelClick: TPanel
+    Left = 0
+    Height = 29
+    Top = 651
+    Width = 1108
+    Align = alBottom
+    Caption = 'PanelClick'
+    ClientHeight = 29
+    ClientWidth = 1108
+    ParentFont = False
+    TabOrder = 2
+    Visible = False
+    object ShapeClick: TShape
+      Left = 1
+      Height = 27
+      Top = 1
+      Width = 1106
+      Align = alClient
+      Brush.Color = 15314554
+      Pen.Style = psDash
+    end
+    object LabelClick: TLabel
+      Cursor = crHandPoint
+      Left = 1
+      Height = 27
+      Top = 1
+      Width = 1106
+      Align = alClient
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Click here if you want to add your item to the list. Remember to mark it as liked later.'
+      DragCursor = crDefault
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Color = 8213760
+      Font.Height = -18
+      Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      OnClick = LabelClickClick
+    end
+  end
+  object PanelInfo: TPanel
+    Left = 0
+    Height = 29
+    Top = 622
+    Width = 1108
+    Align = alBottom
+    Caption = 'PanelInfo'
+    ClientHeight = 29
+    ClientWidth = 1108
+    ParentFont = False
+    TabOrder = 3
+    object ShapeInfo: TShape
+      Left = 1
+      Height = 27
+      Top = 1
+      Width = 1106
+      Align = alClient
+      Brush.Color = 8454016
+      Pen.Style = psDash
+    end
+    object LabelInfo: TLabel
+      Left = 1
+      Height = 27
+      Top = 1
+      Width = 1106
+      Align = alClient
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Write any text and prees ENTER to search EAP therapies. Use pager to see more than 20 results.'
+      Font.CharSet = EASTEUROPE_CHARSET
+      Font.Color = clGreen
+      Font.Height = -18
+      Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
   end
 end

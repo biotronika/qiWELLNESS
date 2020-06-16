@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 267
+  Left = 383
   Height = 864
-  Top = -1060
+  Top = -1103
   Width = 1601
   Caption = 'qiWELLNESS'
   ClientHeight = 864
@@ -735,7 +735,7 @@ object frmMain: TfrmMain
       Height = 862
       Top = 1
       Width = 958
-      ActivePage = tabEAV
+      ActivePage = tabElectropunture
       Align = alRight
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
@@ -744,7 +744,7 @@ object frmMain: TfrmMain
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 2
+      TabIndex = 4
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -998,8 +998,8 @@ object frmMain: TfrmMain
       end
       object tabRyodoraku: TTabSheet
         Caption = 'Ryodoraku'
-        ClientHeight = 660
-        ClientWidth = 762
+        ClientHeight = 829
+        ClientWidth = 950
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Color = clBlack
         Font.Height = -15
@@ -1382,8 +1382,8 @@ object frmMain: TfrmMain
           end
           object RightHand: TTabSheet
             Caption = 'Right hand'
-            ClientHeight = 386
-            ClientWidth = 946
+            ClientHeight = 455
+            ClientWidth = 942
             Font.CharSet = EASTEUROPE_CHARSET
             Font.Color = clBlack
             Font.Height = -15
@@ -10519,7 +10519,6 @@ object frmMain: TfrmMain
                   Font.Pitch = fpVariable
                   Font.Quality = fqDraft
                   Font.Style = [fsBold]
-                  Title.Color = clBtnFace
                   Title.Caption = 'BAPs'
                   Width = 120
                 end              

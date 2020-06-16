@@ -386,7 +386,7 @@ begin
                 //TrackBarAtlas.Visible:= false;
                 //ShapeLeft.Visible:= true;
                 //ShapeRight.Visible:= true;
-                PanelButtons.Visible:= false;
+                //PanelButtons.Visible:= false;
 
                 //buttons
                 ImageCloseAtlas.Visible:= true;
@@ -414,7 +414,7 @@ begin
                 //TrackBarAtlas.Visible:= false;
                 //ShapeLeft.Visible:= true;
                 //ShapeRight.Visible:= true;
-                PanelButtons.Visible:= false;
+                //PanelButtons.Visible:= false;
 
                 //buttons
                 ImageCloseAtlas.Visible:= true;
@@ -443,7 +443,7 @@ begin
 
                 //ShapeLeft.Visible:= false;
                 //ShapeRight.Visible:= false;
-                PanelButtons.Visible:= true;
+                //PanelButtons.Visible:= true;
 
                 //buttons
                 ImageCloseAtlas.Visible:= false;

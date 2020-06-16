@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Grids, bioFunctions, bioREST;
+  Grids, bioFunctions, bioREST, LCLIntf;
 
 type
 
@@ -19,17 +19,23 @@ type
     ImageBack: TImage;
     ImageNext: TImage;
     Label1: TLabel;
+    LabelClick: TLabel;
     LabelPage: TLabel;
-    Label24: TLabel;
+    LabelInfo: TLabel;
     Panel1: TPanel;
-    Panel2: TPanel;
-    Shape3: TShape;
+    PanelInfo: TPanel;
+    PanelClick: TPanel;
+    RadioButtonShowMeLiked: TRadioButton;
+    RadioButtonShowAll: TRadioButton;
+    ShapeInfo: TShape;
+    ShapeClick: TShape;
     StringGrid: TStringGrid;
 
     procedure ButtonChooseClick(Sender: TObject);
     procedure ButtonSearchClick(Sender: TObject);
     procedure EditSearchStringChange(Sender: TObject);
     procedure EditSearchStringKeyPress(Sender: TObject; var Key: char);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ImageBackClick(Sender: TObject);
     procedure ImageNextClick(Sender: TObject);
@@ -44,7 +50,11 @@ type
     procedure FillGridOfTherapies( EAPTherapies  : TEAPTherapies  );
     procedure FillGridOfTherapies( IONSubstances : TIONSubstances );
     procedure FillGridOfTherapies( EAVPaths      : TEAVPaths      );
+    procedure LabelClickClick(Sender: TObject);
+    procedure RadioButtonShowMeLikedChange(Sender: TObject);
     procedure Search (SearchString : string; ListType : integer);
+    procedure StringGridCheckboxToggled(sender: TObject; aCol, aRow: Integer;
+      aState: TCheckboxState);
 
   private
 
@@ -59,6 +69,8 @@ type
 
     F_CurrentList  : integer;
     F_Page : integer;
+
+    F_idx : integer;
 
   public
 
@@ -85,13 +97,13 @@ begin
     Clear;
     RowCount   := 1;
 
-    Columns[0].Width := 350;
-    Columns[1].Width := 450;
-    Columns[2].Width := 600;
+    Columns[1].Width := 350;
+    Columns[2].Width := 450;
+    Columns[3].Width := 600;
 
-    Columns[0].Title.Caption := 'EAV path';
-    Columns[1].Title.Caption := 'BAP(s)';
-    Columns[2].Title.Caption := 'Description';
+    Columns[1].Title.Caption := 'EAV path';
+    Columns[2].Title.Caption := 'BAP(s)';
+    Columns[3].Title.Caption := 'Description';
 
   end;
 
@@ -99,11 +111,23 @@ begin
 
   for i:= 0 to Length(EAVPaths)-1 do
     with StringGrid do begin
-        Cells[0,i+1] := EAVPaths[i].Name;
-        Cells[1,i+1] := EAVPaths[i].StrBAPs;
-        Cells[2,i+1] := EAVPaths[i].Description;
+        Cells[0,i+1] := EAVPaths[i].Liked;
+        Cells[1,i+1] := EAVPaths[i].Name;
+        Cells[2,i+1] := EAVPaths[i].StrBAPs;
+        Cells[3,i+1] := EAVPaths[i].Description;
     end;
 
+end;
+
+procedure TFormChooseList.LabelClickClick(Sender: TObject);
+begin
+  OpenURL('https://biotronics.eu/add-new');
+end;
+
+procedure TFormChooseList.RadioButtonShowMeLikedChange(Sender: TObject);
+begin
+  PanelClick.Visible := RadioButtonShowMeLiked.Checked;
+  PanelInfo.Visible  := RadioButtonShowAll.Checked;
 end;
 
 
@@ -117,13 +141,13 @@ begin
     Clear;
     RowCount   := 1;
 
-    Columns[0].Width := 350;
     Columns[1].Width := 350;
-    Columns[2].Width := 600;
+    Columns[2].Width := 350;
+    Columns[3].Width := 600;
 
-    Columns[0].Title.Caption := 'EAP therapy name';
-    Columns[1].Title.Caption := 'BAP(s)';
-    Columns[2].Title.Caption := 'Description';
+    Columns[1].Title.Caption := 'EAP therapy name';
+    Columns[2].Title.Caption := 'BAP(s)';
+    Columns[3].Title.Caption := 'Description';
 
   end;
 
@@ -131,9 +155,10 @@ begin
 
   for i:= 0 to Length(EAPTherapies)-1 do
     with StringGrid do begin
-        Cells[0,i+1] := EAPTherapies[i].Name;
-        Cells[1,i+1] := EAPTherapies[i].StrPoints;
-        Cells[2,i+1] := EAPTherapies[i].Description;
+        Cells[0,i+1] := EAPTherapies[i].Liked;
+        Cells[1,i+1] := EAPTherapies[i].Name;
+        Cells[2,i+1] := EAPTherapies[i].StrPoints;
+        Cells[3,i+1] := EAPTherapies[i].Description;
     end;
 
 end;
@@ -148,13 +173,13 @@ begin
     Clear;
     RowCount   := 1;
 
-    Columns[0].Width := 400;
-    Columns[1].Width := 150;
+    Columns[1].Width := 400;
     Columns[2].Width := 150;
+    Columns[3].Width := 150;
 
-    Columns[0].Title.Caption := 'Substance';
-    Columns[1].Title.Caption := 'Active electrode';
-    Columns[2].Title.Caption := 'Molar mass';
+    Columns[1].Title.Caption := 'Substance';
+    Columns[2].Title.Caption := 'Active electrode';
+    Columns[3].Title.Caption := 'Molar mass';
 
   end;
 
@@ -162,9 +187,10 @@ begin
 
   for i:= 0 to Length(IONSubstances)-1 do
     with StringGrid do begin
-        Cells[0,i+1] := IONSubstances[i].Name;
-        Cells[1,i+1] := IONSubstances[i].ActiveElectrode;
-        Cells[2,i+1] := format( '%0.2f',[IONSubstances[i].MolarMass]);
+        Cells[0,i+1] := IONSubstances[i].Liked;
+        Cells[1,i+1] := IONSubstances[i].Name;
+        Cells[2,i+1] := IONSubstances[i].ActiveElectrode;
+        Cells[3,i+1] := format( '%0.2f',[IONSubstances[i].MolarMass]);
     end;
 
 end;
@@ -185,7 +211,7 @@ begin
           s := 'title=' + trim(SearchString) ;
           if F_Page > 0 then s := s + '&page=' + IntToStr(F_Page);
 
-          GetContentFromREST( content,  LIST_REST_URLS[LIST_EAP_THERAPY] , s );
+          GetContentFromREST( content,  LIST_REST_URLS[LIST_EAP_THERAPY]  , s , GetLikedItems( ListType )  );
           GetEAPTherapiesFromContent( content, F_EAPTherapies);
           FillGridOfTherapies(F_EAPTherapies);
       end;
@@ -197,7 +223,7 @@ begin
           s := 'title=' + trim(SearchString) ;
           if F_Page > 0 then s := s + '&page=' + IntToStr(F_Page);
 
-          GetContentFromREST( content,  LIST_REST_URLS[LIST_ION_SUBSTANCES] , s );
+          GetContentFromREST( content,  LIST_REST_URLS[LIST_ION_SUBSTANCES]  , s , GetLikedItems( ListType ) );
           GetIONSubstancesFromContent( content, F_IONSubstances);
           FillGridOfTherapies(F_IONSubstances);
       end;
@@ -209,13 +235,37 @@ begin
           s := 'eav_path_name=' + trim(SearchString) ;
           if F_Page > 0 then s := s + '&page=' + IntToStr(F_Page);
 
-          GetContentFromREST( content,  LIST_REST_URLS[LIST_EAV_PATHS] , s );
+          GetContentFromREST( content,  LIST_REST_URLS[LIST_EAV_PATHS] , s , GetLikedItems( ListType ) );
           GetEAVPathsFromContent( content, F_EAVPaths);
           FillGridOfTherapies(F_EAVPaths);
 
        end;
 
   end;
+
+end;
+
+procedure TFormChooseList.StringGridCheckboxToggled(sender: TObject; aCol,
+  aRow: Integer; aState: TCheckboxState);
+var state : string;
+begin
+  F_idx := aRow -1;
+
+  if aState=cbChecked then state := 'yes' else state := 'no';
+
+  if F_idx >=0 then
+     case F_CurrentList of
+
+          LIST_EAP_THERAPY:   begin
+             F_EAPTherapies[F_idx].Liked := state;
+
+          end;
+          LIST_ION_SUBSTANCES: F_IONSubstances[F_idx].Liked := state;
+          LIST_EAV_PATHS:      F_EAVPaths[F_idx].Liked := state;
+
+     end;
+
+
 
 end;
 
@@ -288,17 +338,17 @@ end;
 
 
 procedure TFormChooseList.ButtonChooseClick(Sender: TObject);
-var idx : integer;
+
 begin
 
-  idx := StringGrid.Row;
+  F_idx := StringGrid.Row-1;
 
-  if idx >0 then
+  if F_idx >=0 then
      case F_CurrentList of
 
-          LIST_EAP_THERAPY:    F_EAPTherapy   := F_EAPTherapies[idx-1];
-          LIST_ION_SUBSTANCES: F_IONSubstance := F_IONSubstances[idx-1];
-          LIST_EAV_PATHS:      F_EAVPath      := F_EAVPaths[idx-1];
+          LIST_EAP_THERAPY:    F_EAPTherapy   := F_EAPTherapies[F_idx];
+          LIST_ION_SUBSTANCES: F_IONSubstance := F_IONSubstances[F_idx];
+          LIST_EAV_PATHS:      F_EAVPath      := F_EAVPaths[F_idx];
 
      end;
 
@@ -335,6 +385,12 @@ begin
   end;
 
 end;
+
+procedure TFormChooseList.FormCreate(Sender: TObject);
+begin
+ F_idx := 0;
+end;
+
 
 
 procedure TFormChooseList.FormShow(Sender: TObject);
