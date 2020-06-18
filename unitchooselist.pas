@@ -51,8 +51,9 @@ type
     procedure FillGridOfTherapies( IONSubstances : TIONSubstances );
     procedure FillGridOfTherapies( EAVPaths      : TEAVPaths      );
     procedure LabelClickClick(Sender: TObject);
+    procedure RadioButtonShowAllChange(Sender: TObject);
     procedure RadioButtonShowMeLikedChange(Sender: TObject);
-    procedure Search (SearchString : string; ListType : integer);
+    procedure Search (SearchString : string; OnlyLiked : boolean = true);
     procedure StringGridCheckboxToggled(sender: TObject; aCol, aRow: Integer;
       aState: TCheckboxState);
 
@@ -67,10 +68,11 @@ type
     F_EAVPath : TEAVPath;
     F_EAVPaths : TEAVPaths;
 
-    F_CurrentList  : integer;
+    F_CurrentListType  : integer;
     F_Page : integer;
 
     F_idx : integer;
+    F_LikedStr : string;
 
   public
 
@@ -122,6 +124,13 @@ end;
 procedure TFormChooseList.LabelClickClick(Sender: TObject);
 begin
   OpenURL('https://biotronics.eu/add-new');
+end;
+
+procedure TFormChooseList.RadioButtonShowAllChange(Sender: TObject);
+begin
+  F_page := 0;
+  LabelPage.Caption := IntToStr(F_Page);
+  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked);
 end;
 
 procedure TFormChooseList.RadioButtonShowMeLikedChange(Sender: TObject);
@@ -196,47 +205,44 @@ begin
 end;
 
 
-procedure TFormChooseList.Search (SearchString : string; ListType : integer);
+procedure TFormChooseList.Search (SearchString : string; OnlyLiked : boolean = true);
 var content : string;
           s : string;
+   likedStr : string;
+
 begin
 
-  case ListType of
+
+  s := 'title=' + trim(SearchString) ;
+  if F_Page > 0 then s := s + '&page=' + IntToStr(F_Page);
+
+  F_LikedStr :=  GetLikedItems( F_CurrentListType );
+
+  if OnlyLiked then likedStr := F_likedStr else likedStr := '';
+  GetContentFromREST( content,  LIST_REST_URLS[F_CurrentListType]  , s ,  likedStr  );
+
+  case F_CurrentListType of
       LIST_EAP_THERAPY : begin
           F_EAPTherapy.Name:='';
           setlength(F_EAPTherapy.Points,0);
           F_EAPTherapy.StrPoints:='';
           F_EAPTherapy.Description:='';
 
-          s := 'title=' + trim(SearchString) ;
-          if F_Page > 0 then s := s + '&page=' + IntToStr(F_Page);
-
-          GetContentFromREST( content,  LIST_REST_URLS[LIST_EAP_THERAPY]  , s , GetLikedItems( ListType )  );
-          GetEAPTherapiesFromContent( content, F_EAPTherapies);
+          GetEAPTherapiesFromContent( content, F_EAPTherapies, F_LikedStr);
           FillGridOfTherapies(F_EAPTherapies);
       end;
 
        LIST_ION_SUBSTANCES : begin
           F_IONSubstance.Name:='';
 
-
-          s := 'title=' + trim(SearchString) ;
-          if F_Page > 0 then s := s + '&page=' + IntToStr(F_Page);
-
-          GetContentFromREST( content,  LIST_REST_URLS[LIST_ION_SUBSTANCES]  , s , GetLikedItems( ListType ) );
-          GetIONSubstancesFromContent( content, F_IONSubstances);
+          GetIONSubstancesFromContent( content, F_IONSubstances, F_LikedStr);
           FillGridOfTherapies(F_IONSubstances);
       end;
 
        LIST_EAV_PATHS : begin
           F_EAVPath.Name:='';
 
-
-          s := 'eav_path_name=' + trim(SearchString) ;
-          if F_Page > 0 then s := s + '&page=' + IntToStr(F_Page);
-
-          GetContentFromREST( content,  LIST_REST_URLS[LIST_EAV_PATHS] , s , GetLikedItems( ListType ) );
-          GetEAVPathsFromContent( content, F_EAVPaths);
+          GetEAVPathsFromContent( content, F_EAVPaths, F_LikedStr);
           FillGridOfTherapies(F_EAVPaths);
 
        end;
@@ -245,23 +251,33 @@ begin
 
 end;
 
+
 procedure TFormChooseList.StringGridCheckboxToggled(sender: TObject; aCol,
   aRow: Integer; aState: TCheckboxState);
 var state : string;
 begin
   F_idx := aRow -1;
 
-  if aState=cbChecked then state := 'yes' else state := 'no';
+  if aState = cbChecked then state := LIKED_YES else state := LIKED_NO;
 
   if F_idx >=0 then
-     case F_CurrentList of
+     case F_CurrentListType of
 
           LIST_EAP_THERAPY:   begin
              F_EAPTherapies[F_idx].Liked := state;
+             ModifyLikedStr (F_LikedStr, F_CurrentListType, F_EAPTherapies[F_idx].nid, state);
 
           end;
-          LIST_ION_SUBSTANCES: F_IONSubstances[F_idx].Liked := state;
-          LIST_EAV_PATHS:      F_EAVPaths[F_idx].Liked := state;
+          LIST_ION_SUBSTANCES: begin
+             F_IONSubstances[F_idx].Liked := state;
+             ModifyLikedStr (F_LikedStr, F_CurrentListType, F_IONSubstances[F_idx].nid, state);
+
+          end;
+          LIST_EAV_PATHS:      begin
+             F_EAVPaths[F_idx].Liked := state;
+             ModifyLikedStr (F_LikedStr, F_CurrentListType, F_EAVPaths[F_idx].nid, state);
+
+          end;
 
      end;
 
@@ -279,12 +295,20 @@ function  TFormChooseList.GetItemFromList(var EAPTherapy: TEAPTherapy; SearchStr
  *)
 begin
   result := false;
-  F_CurrentList := LIST_EAP_THERAPY;
+  F_CurrentListType := LIST_EAP_THERAPY;
 
   Caption := 'Search electroacupuncture therapy';
 
   F_Page := 0;
-  Search(EditSearchString.Text, F_CurrentList);
+
+  F_LikedStr:=GetLikedItems( F_CurrentListType );
+
+  //Select right case of radio buttons
+  RadioButtonShowAll.Checked := (F_LikedStr = '');
+  RadioButtonShowMeLiked.Checked := not (F_LikedStr = '');
+
+  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked);
+
   Self.ShowModal;
 
   EAPTherapy:= F_EAPTherapy;
@@ -301,12 +325,19 @@ function  TFormChooseList.GetItemFromList(var IonSubstance: TIonSubstance; Searc
 begin
 
   result:= false;
-  F_CurrentList := LIST_ION_SUBSTANCES;
+  F_CurrentListType := LIST_ION_SUBSTANCES;
 
   Caption := 'Search ionotophoresis substance';
 
   F_Page := 0;
-  Search(EditSearchString.Text, F_CurrentList);
+
+  F_LikedStr:=GetLikedItems( F_CurrentListType );
+
+  //Select right case of radio buttons
+  RadioButtonShowAll.Checked := (F_LikedStr = '');
+  RadioButtonShowMeLiked.Checked := not (F_LikedStr = '');
+
+  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked);
   Self.ShowModal;
 
   IonSubstance:= F_IONSubstance;
@@ -323,12 +354,19 @@ function  TFormChooseList.GetItemFromList(var EAVPath : TEAVPath; SearchString: 
 begin
 
   result:= false;
-  F_CurrentList := LIST_EAV_PATHS;
+  F_CurrentListType := LIST_EAV_PATHS;
 
   Caption := 'Search EAV Paths';
 
   F_Page := 0;
-  Search(EditSearchString.Text, F_CurrentList);
+
+  F_LikedStr:=GetLikedItems( F_CurrentListType );
+
+  //Select right case of radio buttons
+  RadioButtonShowAll.Checked := (F_LikedStr = '');
+  RadioButtonShowMeLiked.Checked := not (F_LikedStr = '');
+
+  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked);
   Self.ShowModal;
 
   EAVPath := F_EAVPath;
@@ -344,7 +382,7 @@ begin
   F_idx := StringGrid.Row-1;
 
   if F_idx >=0 then
-     case F_CurrentList of
+     case F_CurrentListType of
 
           LIST_EAP_THERAPY:    F_EAPTherapy   := F_EAPTherapies[F_idx];
           LIST_ION_SUBSTANCES: F_IONSubstance := F_IONSubstances[F_idx];
@@ -361,7 +399,9 @@ end;
 procedure TFormChooseList.ButtonSearchClick(Sender: TObject);
 begin
 
-  Search(EditSearchString.Text, F_CurrentList);
+  //if RadioButtonShowAll.Checked then F_LikedStr := '' else GetLikedItems( F_CurrentListType );
+
+  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked);
 
 end;
 
@@ -389,6 +429,7 @@ end;
 procedure TFormChooseList.FormCreate(Sender: TObject);
 begin
  F_idx := 0;
+ F_LikedStr := '';
 end;
 
 
@@ -401,6 +442,8 @@ begin
 end;
 
 
+
+
 procedure TFormChooseList.ImageBackClick(Sender: TObject);
 begin
 
@@ -409,7 +452,7 @@ begin
   if F_Page < 0 then F_Page := 0;
   LabelPage.Caption := IntToStr(F_Page);
 
-  Search(EditSearchString.Text, F_CurrentList);
+  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked);
 
 end;
 
@@ -421,7 +464,7 @@ begin
 
   LabelPage.Caption := IntToStr(F_Page);
 
-  Search(EditSearchString.Text, F_CurrentList);
+  Search(EditSearchString.Text,RadioButtonShowMeLiked.Checked);
 
 end;
 

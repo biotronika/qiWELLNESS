@@ -735,7 +735,7 @@ object frmMain: TfrmMain
       Height = 862
       Top = 1
       Width = 958
-      ActivePage = tabElectropunture
+      ActivePage = tabEAV
       Align = alRight
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
@@ -744,7 +744,7 @@ object frmMain: TfrmMain
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 4
+      TabIndex = 2
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'

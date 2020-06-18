@@ -22,6 +22,9 @@ const
   USER_AGENT        = 'qiwellness';
   REST_FORMAT_PARAM = '_format=json';
 
+  LIKED_YES         = 'yes';
+  LIKED_NO          = 'no';
+
    //Types of REST lists
    LIST_ION_SUBSTANCES       = 1;
    LIST_EAV_PATHS            = 2;
@@ -38,11 +41,11 @@ const
    );
 
    LIST_FILE_LIKED : array[1..5] of string = (
-     PAGE_URL_REST + 'iontophoresis-substances.liked',
-     PAGE_URL_REST + 'eav-paths.liked',
-     PAGE_URL_REST + 'eap-therapies.liked',
-     PAGE_URL_REST + ATLAS_SUBFOLDER,
-     PAGE_URL_REST + 'bioresonance-therapies.liked'
+     'iontophoresis-substances.liked',
+     'eav-paths.liked',
+     'eap-therapies.liked',
+     ATLAS_SUBFOLDER,
+     'bioresonance-therapies.liked'
    );
 
 
@@ -131,12 +134,18 @@ type TEAVPaths = array of TEAVPath;
 
   function GetContentFromREST(var Content : string; RestURL : string; ExtraFilters : string = ''; LikedStr : string ='') : integer; //Return Content string with JSON
 
-  function GetEAPTherapiesFromContent         ( Content : string; var EAPTherapies : TEAPTherapies) : integer;
-  function GetBioresonanceTherapiesFromContent( Content : string; var BioresonanceTherapies : TBioresonanceTherapies) : integer;
-  function GetIONSubstancesFromContent        ( Content : string; var IONSubstances : TIONSubstances) : integer;
-  function GetEAVPathsFromContent             ( Content : string; var EAVPaths : TEAVPaths) : integer;
+  function GetEAPTherapiesFromContent         ( Content : string; var EAPTherapies : TEAPTherapies;  LikedStr : string ='' ) : integer;
+  function GetBioresonanceTherapiesFromContent( Content : string; var BioresonanceTherapies : TBioresonanceTherapies; LikedStr : string ='') : integer;
+  function GetIONSubstancesFromContent        ( Content : string; var IONSubstances : TIONSubstances; LikedStr : string ='') : integer;
+  function GetEAVPathsFromContent             ( Content : string; var EAVPaths : TEAVPaths; LikedStr : string ='') : integer;
 
   function GetLikedItems( ListType : integer ) : string;
+  function FindItemInLikedStr( nid : string; LikedStr : string ) : string;
+
+  procedure SaveLikedStr( ListType : integer; LikedStr : string);
+  procedure RemoveNidFromLikedStr (var LikedStr : string; newNid : string);
+  procedure AddNidToLikedStr (var LikedStr : string; newNid : string);
+  procedure ModifyLikedStr (var LikedStr : string; ListType : integer; newNid : string; state : string);
 
 
 implementation
@@ -250,12 +259,24 @@ begin
   end;
 end;
 
+function CheckSizeOfFile(destinationFile : string) : integer;
+var     F : file;
+begin
+  //Check size of file
+  Assign (F,destinationFile);
+  {$I-}
+  Reset (F);
+  {$I+}
+  result := FileSize( F );
+  Close (F);
+end;
+
 function SearchBAP(BAP : string; PictureFilesList : TStringList) : integer; //Return number of pictures
 var i,j,fSize : integer;
     appFolder, sourceFile, destinationFile: string;
     JSONData : TJSONData; //Do not use create
     content : string;
-    F : file;
+
 
 begin
 
@@ -281,21 +302,16 @@ begin
          sourceFile := JSONData.FindPath('['+IntToStr(i)+']'+'.field_picture[0].url').AsString;
          destinationFile := AppFolder + ATLAS_SUBFOLDER + BIO_FOLDER_DELIMETER +GetURLFilename(sourceFile) ;
 
-//TODO: Download also file if exists but its size is 0B
          if not FileExists(destinationFile) then begin
-            if not DownLoadInternetFile(sourceFile, destinationFile) then continue;
+
+           if not DownLoadInternetFile(sourceFile, destinationFile) then continue;
+
          end else begin
-             Assign (F,destinationFile);
-             {$I-}
-             Reset (F);
-             {$I+}
-             fSize := FileSize( F );
-             Close (F);
-           if fSize = 0 then
+
+           if CheckSizeOfFile(destinationFile) = 0 then  //if exists but its size is 0B
              if not DownLoadInternetFile(sourceFile, destinationFile) then continue;
 
          end;
-
 
          PictureFilesList.Add(destinationFile);
 
@@ -311,7 +327,7 @@ end;
 
 function GetLikedItems( ListType : integer ) : string;
 (* elektros 2020-06-16
- * Reads string with nid identificators from text local file like 0+1456+345+3213+0
+ * Reads string with nid identificators from text local file like 0+1456+345+3213+
   *)
 var F : textFile;
     destinationFile: string;
@@ -325,11 +341,72 @@ begin
       Assign (F,destinationFile);
       {$I-}
       Reset (F);
-      if not EOF(F) then readLn( result );
+      if not EOF(F) then readLn(F, result );   //There is only one line like 0+123+523+234+.....+
+      Close (F);
       {$I+}
-      CloseFile (F);
 
   end;
+
+end;
+
+procedure ModifyLikedStr (var LikedStr : string; ListType : integer; newNid : string; state : string);
+begin
+
+  if state = LIKED_YES then
+    AddNidToLikedStr ( LikedStr, newNid)
+  else
+    RemoveNidFromLikedStr ( LikedStr, newNid);
+
+  SaveLikedStr( ListType, LikedStr );
+
+end;
+
+procedure AddNidToLikedStr (var LikedStr : string; newNid : string);
+begin
+
+  if length(LikedStr) = 0 then LikedStr := '0+';
+
+  if Pos('+' + trim(newNid) + '+', LikedStr) = 0 then begin
+      if LikedStr[ length(LikedStr) ] <> '+' then LikedStr :=LikedStr + '+';
+      LikedStr := LikedStr + trim(newNid) + '+'
+  end;
+
+end;
+
+procedure RemoveNidFromLikedStr (var LikedStr : string; newNid : string);
+var i,j : integer;
+begin
+  i := Pos('+' + trim(newNid) + '+', LikedStr);
+  if i > 0 then begin
+    j :=  i + length( trim(newNid) ) + 1;
+    LikedStr := copy(LikedStr,1,i-1) + copy(LikedStr, j, length(LikedStr) );
+  end;
+end;
+
+procedure SaveLikedStr( ListType : integer; LikedStr : string);
+var F : textFile;
+    destinationFile: string;
+begin
+
+  destinationFile := ExtractFilePath(Application.ExeName) + LIST_FILE_LIKED[ListType];
+
+  if length(likedStr) < 4 then begin
+    {$I-}
+    DeleteFile( destinationFile);
+    {$I+}
+    Exit;
+
+  end;
+
+  Assign (F,destinationFile);
+  {$I-}
+    Rewrite (F);
+    Writeln (F, LikedStr);   //There is only one line like 0+123+523+234+newNid+
+    Close (F);
+  {$I+}
+
+
+
 
 end;
 
@@ -340,20 +417,21 @@ function GetContentFromREST(var Content : string; RestURL : string ; ExtraFilter
  *   RestURL - e.g.: https://biotronics.eu/eap-therapies/rest?_format=json
  *   ExtraFilters - e.g.: &title=anorexia
  *   Content - JSON content data
+ *   LikedStr - string like 0+234+1234+1657+ (list of nids)
  *   result - Length of Content, -1=error
  *)
 var
     HTTPClient: TFPHttpClient;
-    URL : string;
+    url : string;
 
 begin
 
   result := -1;
 
   if LikedStr = '' then
-     URL :=  RestURL + '?' + REST_FORMAT_PARAM + '&' + trim(ExtraFilters)
+     url :=  RestURL + '?' + REST_FORMAT_PARAM + '&' + trim(ExtraFilters)
   else
-     URL :=  RestURL + '/' + LikedStr + '?' + REST_FORMAT_PARAM + '&' + trim(ExtraFilters);
+     url :=  RestURL + '/' + LikedStr + '0?' + REST_FORMAT_PARAM + '&' + trim(ExtraFilters);
 
   try
 
@@ -363,7 +441,7 @@ begin
      HTTPClient.AddHeader('User-Agent', USER_AGENT);
 
      try
-        Content:=HTTPClient.Get( URL );
+        Content:=HTTPClient.Get( url );
         result:= Content.Length;
      except
        on E: Exception do
@@ -375,7 +453,15 @@ begin
 
 end;
 
-function GetEAPTherapiesFromContent( Content : string; var EAPTherapies : TEAPTherapies) : integer;
+function FindItemInLikedStr( nid : string; LikedStr : string ) : string;
+begin
+  if POS( '+' + trim(nid) + '+' , LikedStr) > 0 then
+    result := LIKED_YES
+  else
+    result := LIKED_NO;
+end;
+
+function GetEAPTherapiesFromContent( Content : string; var EAPTherapies : TEAPTherapies; LikedStr : string ='') : integer;
 const LIST_TYPE = LIST_EAP_THERAPY;
 var
     i,j : integer;
@@ -402,7 +488,7 @@ begin
           s                            := JSONData.FindPath( '['+IntToStr(i)+']' + '.field_baps[0].value' ).AsString;
           EAPTherapies[i].Points       := StringToEAPTherapy( s );
           EAPTherapies[i].StrPoints    := s;
-          EAPTherapies[i].Liked        := 'no';
+          EAPTherapies[i].Liked        := FindItemInLikedStr(EAPTherapies[i].nid,LikedStr);
 
         end;
 
@@ -413,7 +499,7 @@ begin
 end;
 
 
-function GetEAVPathsFromContent( Content : string; var EAVPaths : TEAVPaths) : integer;
+function GetEAVPathsFromContent( Content : string; var EAVPaths : TEAVPaths; LikedStr : string ='') : integer;
 (* elektros 2020-06-14
  * EAV paths
  *)
@@ -437,12 +523,13 @@ begin
 
         for i := 0 to j - 1 do begin
 
-          EAVPaths[i].Name             := JSONData.FindPath( '['+IntToStr(i)+']' + '.title[0].value'                 ).AsString;
-          EAVPaths[i].Description      := JSONData.FindPath( '['+IntToStr(i)+']' + '.field_eav_description[0].value' ).AsString;
-          s                            := JSONData.FindPath( '['+IntToStr(i)+']' + '.field_eav_baps[0].value'        ).AsString;
+          EAVPaths[i].Name             := JSONData.FindPath( '['+IntToStr(i)+'].title[0].value'                 ).AsString;
+          EAVPaths[i].Description      := JSONData.FindPath( '['+IntToStr(i)+'].field_eav_description[0].value' ).AsString;
+          EAVPaths[i].nid              := JSONData.FindPath( '['+IntToStr(i)+'].nid[0].value'                   ).AsString;
+          s                            := JSONData.FindPath( '['+IntToStr(i)+'].field_eav_baps[0].value'        ).AsString;
           EAVPaths[i].BAPs             := StringToEAVPoints( s );
           EAVPaths[i].StrBAPs          := s;
-          EAVPaths[i].Liked            := 'no';
+          EAVPaths[i].Liked            := FindItemInLikedStr( EAVPaths[i].nid , LikedStr );
 
         end;
 
@@ -454,7 +541,7 @@ end;
 
 
 
-function GetBioresonanceTherapiesFromContent( Content : string; var BioresonanceTherapies : TBioresonanceTherapies) : integer;
+function GetBioresonanceTherapiesFromContent( Content : string; var BioresonanceTherapies : TBioresonanceTherapies; LikedStr : string ='') : integer;
 const LIST_TYPE = LIST_BIORESONANCE_THERAPY;
 var
     i,count,j : integer;
@@ -480,7 +567,8 @@ begin
           BioresonanceTherapies[i].TherapyScript:= JSONData.FindPath( '['+IntToStr(i)+'].field_skrypt[0].value' ).AsString;
           BioresonanceTherapies[i].Description  := JSONData.FindPath( '['+IntToStr(i)+'].body[0].value'         ).AsString;
           BioresonanceTherapies[i].Langcode     := JSONData.FindPath( '['+IntToStr(i)+'].langcode[0].value'     ).AsString;
-          BioresonanceTherapies[i].Liked        := 'no';
+          BioresonanceTherapies[i].nid          := JSONData.FindPath( '['+IntToStr(i)+'].nid[0].value'          ).AsString;
+          BioresonanceTherapies[i].Liked        := FindItemInLikedStr( BioresonanceTherapies[i].nid  , LikedStr );
 
           if UpperCase(BioresonanceTherapies[i].Langcode ) = 'PL' then
              pageURL := PAGE_URL_PL
@@ -504,7 +592,7 @@ begin
 
 end;
 
-function GetIONSubstancesFromContent( Content : string; var IONSubstances : TIONSubstances) : integer;
+function GetIONSubstancesFromContent( Content : string; var IONSubstances : TIONSubstances; LikedStr : string ='') : integer;
 const LIST_TYPE = LIST_ION_SUBSTANCES;
 var
     i,count : integer;
@@ -529,7 +617,8 @@ begin
           IONSubstances[i].ActiveElectrode := JSONData.FindPath( '['+IntToStr(i)+'].field_active_electrode[0].value' ).AsString;
           IONSubstances[i].MolarMass       := JSONData.FindPath( '['+IntToStr(i)+'].field_mol_mass[0].value'         ).AsFloat;
           IONSubstances[i].Valence         := JSONData.FindPath( '['+IntToStr(i)+'].field_valence[0].value'          ).AsInteger;
-          IONSubstances[i].Liked           := 'no';
+          IONSubstances[i].nid             := JSONData.FindPath( '['+IntToStr(i)+'].nid[0].value'                    ).AsString;
+          IONSubstances[i].Liked           := FindItemInLikedStr( IONSubstances[i].nid  , LikedStr );
 
         end;
 

@@ -728,9 +728,6 @@ begin
   if FormChooseList.GetItemFromList(EAVPath) then begin
 
       StringGridEAV.RowCount  := Length(EAVPath.BAPs)+1;
-  //MemoDescription.Lines.Clear;
-  //MemoDescription.Lines.Add(        HTML2PlainText( EAPTherapy.Description )    );
-  //LabelEAPName.Caption           := EAPTherapy.Name;
 
       for i:= 1 to Length(EAVPath.BAPs) do begin
           with StringGridEAV do begin

@@ -1,13 +1,12 @@
 object FormChooseList: TFormChooseList
-  Left = 639
-  Height = 680
-  Top = -1039
-  Width = 1108
+  Left = 628
+  Height = 544
+  Top = 129
+  Width = 886
   BorderStyle = bsToolWindow
   Caption = 'Search Electroacupuncture Therapy'
-  ClientHeight = 680
-  ClientWidth = 1108
-  DesignTimePPI = 120
+  ClientHeight = 544
+  ClientWidth = 886
   FormStyle = fsStayOnTop
   OnCreate = FormCreate
   OnShow = FormShow
@@ -15,30 +14,30 @@ object FormChooseList: TFormChooseList
   LCLVersion = '2.0.6.0'
   object Panel1: TPanel
     Left = 0
-    Height = 88
+    Height = 70
     Top = 0
-    Width = 1108
+    Width = 886
     Align = alTop
-    ClientHeight = 88
-    ClientWidth = 1108
+    ClientHeight = 70
+    ClientWidth = 886
     ParentFont = False
     TabOrder = 0
     object ButtonSearch: TButton
-      Left = 536
-      Height = 52
-      Top = 16
-      Width = 144
+      Left = 429
+      Height = 42
+      Top = 13
+      Width = 115
       Caption = 'Search'
       OnClick = ButtonSearchClick
       ParentFont = False
       TabOrder = 0
     end
     object EditSearchString: TEdit
-      Left = 152
-      Height = 53
-      Top = 16
-      Width = 364
-      Font.Height = -33
+      Left = 122
+      Height = 38
+      Top = 13
+      Width = 291
+      Font.Height = -26
       OnChange = EditSearchStringChange
       OnKeyPress = EditSearchStringKeyPress
       ParentFont = False
@@ -46,10 +45,10 @@ object FormChooseList: TFormChooseList
     end
     object ImageNext: TImage
       Cursor = crHandPoint
-      Left = 1052
-      Height = 48
-      Top = 22
-      Width = 44
+      Left = 841
+      Height = 38
+      Top = 18
+      Width = 35
       Anchors = [akTop, akRight]
       DragCursor = crHandPoint
       OnClick = ImageNextClick
@@ -101,10 +100,10 @@ object FormChooseList: TFormChooseList
     end
     object ImageBack: TImage
       Cursor = crHandPoint
-      Left = 961
-      Height = 48
-      Top = 22
-      Width = 42
+      Left = 768
+      Height = 38
+      Top = 18
+      Width = 34
       Anchors = [akTop, akRight]
       DragCursor = crHandPoint
       OnClick = ImageBackClick
@@ -163,20 +162,20 @@ object FormChooseList: TFormChooseList
       Stretch = True
     end
     object ButtonChoose: TButton
-      Left = 704
-      Height = 52
-      Top = 17
-      Width = 152
+      Left = 563
+      Height = 42
+      Top = 14
+      Width = 122
       Caption = 'Choose && Close'
       OnClick = ButtonChooseClick
       ParentFont = False
       TabOrder = 2
     end
     object Label1: TLabel
-      Left = 999
-      Height = 20
-      Top = 13
-      Width = 56
+      Left = 799
+      Height = 16
+      Top = 10
+      Width = 45
       Alignment = taCenter
       Anchors = [akTop, akRight]
       AutoSize = False
@@ -187,81 +186,91 @@ object FormChooseList: TFormChooseList
       ParentFont = False
     end
     object LabelPage: TLabel
-      Left = 1000
-      Height = 31
-      Top = 33
-      Width = 56
+      Left = 799
+      Height = 25
+      Top = 26
+      Width = 45
       Alignment = taCenter
       Anchors = [akTop, akRight]
       AutoSize = False
       BidiMode = bdRightToLeftReadingOnly
       Caption = '0'
       Font.Color = 12615680
-      Font.Height = -23
+      Font.Height = -18
       Font.Style = [fsBold]
       ParentBidiMode = False
       ParentColor = False
       ParentFont = False
     end
     object RadioButtonShowAll: TRadioButton
-      Left = 21
-      Height = 24
-      Top = 17
-      Width = 80
+      Left = 17
+      Height = 21
+      Top = 14
+      Width = 78
       Caption = 'Show all'
       Checked = True
+      OnChange = RadioButtonShowAllChange
+      ParentFont = False
       TabOrder = 4
       TabStop = True
     end
     object RadioButtonShowMeLiked: TRadioButton
-      Left = 21
-      Height = 24
-      Top = 45
-      Width = 121
+      Left = 17
+      Height = 21
+      Top = 36
+      Width = 118
       Caption = 'Show me liked'
       OnChange = RadioButtonShowMeLikedChange
+      ParentFont = False
       TabOrder = 3
     end
   end
   object StringGrid: TStringGrid
     Left = 0
-    Height = 534
-    Top = 88
-    Width = 1108
+    Height = 428
+    Top = 70
+    Width = 886
     Align = alClient
     ColCount = 4
     Columns = <    
       item
         ButtonStyle = cbsCheckboxColumn
-        Color = clWindow
+        MinSize = 8
+        MaxSize = 160
         PickList.Strings = (
           ''
         )
         Title.Caption = 'Liked'
-        Width = 50
+        Width = 40
         ValueChecked = 'yes'
         ValueUnchecked = 'no'
       end    
       item
         Color = clInfoBk
+        MinSize = 8
+        MaxSize = 160
         ReadOnly = True
         Title.Caption = 'Columns[0]'
-        Width = 350
+        Width = 280
       end    
       item
+        MinSize = 8
+        MaxSize = 160
         ReadOnly = True
         Title.Caption = 'Columns[1]'
-        Width = 350
+        Width = 280
       end    
       item
+        MinSize = 8
+        MaxSize = 160
         ReadOnly = True
         Title.Caption = 'Columns[2]'
-        Width = 500
+        Width = 400
       end>
     FixedCols = 0
     Font.CharSet = EASTEUROPE_CHARSET
     Font.Color = clBlack
-    Font.Height = -15
+    Font.Height = -12
     Font.Name = 'Segoe UI'
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
@@ -279,10 +288,10 @@ object FormChooseList: TFormChooseList
     OnCheckboxToggled = StringGridCheckboxToggled
     OnDblClick = ButtonChooseClick
     ColWidths = (
-      50
-      350
-      350
-      500
+      40
+      280
+      280
+      400
     )
     Cells = (
       4
@@ -302,21 +311,21 @@ object FormChooseList: TFormChooseList
   end
   object PanelClick: TPanel
     Left = 0
-    Height = 29
-    Top = 651
-    Width = 1108
+    Height = 23
+    Top = 521
+    Width = 886
     Align = alBottom
     Caption = 'PanelClick'
-    ClientHeight = 29
-    ClientWidth = 1108
+    ClientHeight = 23
+    ClientWidth = 886
     ParentFont = False
     TabOrder = 2
     Visible = False
     object ShapeClick: TShape
       Left = 1
-      Height = 27
+      Height = 21
       Top = 1
-      Width = 1106
+      Width = 884
       Align = alClient
       Brush.Color = 15314554
       Pen.Style = psDash
@@ -324,9 +333,9 @@ object FormChooseList: TFormChooseList
     object LabelClick: TLabel
       Cursor = crHandPoint
       Left = 1
-      Height = 27
+      Height = 21
       Top = 1
-      Width = 1106
+      Width = 884
       Align = alClient
       Alignment = taCenter
       AutoSize = False
@@ -334,7 +343,7 @@ object FormChooseList: TFormChooseList
       DragCursor = crDefault
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = 8213760
-      Font.Height = -18
+      Font.Height = -14
       Font.Name = 'Segoe UI'
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
@@ -346,36 +355,36 @@ object FormChooseList: TFormChooseList
   end
   object PanelInfo: TPanel
     Left = 0
-    Height = 29
-    Top = 622
-    Width = 1108
+    Height = 23
+    Top = 498
+    Width = 886
     Align = alBottom
     Caption = 'PanelInfo'
-    ClientHeight = 29
-    ClientWidth = 1108
+    ClientHeight = 23
+    ClientWidth = 886
     ParentFont = False
     TabOrder = 3
     object ShapeInfo: TShape
       Left = 1
-      Height = 27
+      Height = 21
       Top = 1
-      Width = 1106
+      Width = 884
       Align = alClient
       Brush.Color = 8454016
       Pen.Style = psDash
     end
     object LabelInfo: TLabel
       Left = 1
-      Height = 27
+      Height = 21
       Top = 1
-      Width = 1106
+      Width = 884
       Align = alClient
       Alignment = taCenter
       AutoSize = False
       Caption = 'Write any text and prees ENTER to search EAP therapies. Use pager to see more than 20 results.'
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clGreen
-      Font.Height = -18
+      Font.Height = -14
       Font.Name = 'Segoe UI'
       Font.Pitch = fpVariable
       Font.Quality = fqDraft

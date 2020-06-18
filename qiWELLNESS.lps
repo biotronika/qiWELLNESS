@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="11"/>
-    <BuildModes Active="Win64"/>
+    <BuildModes Active="Default"/>
     <Units Count="22">
       <Unit0>
         <Filename Value="qiWELLNESS.lpr"/>
@@ -19,13 +19,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitMain"/>
-        <TopLine Value="432"/>
-        <CursorPos X="19" Y="446"/>
+        <TopLine Value="1275"/>
+        <CursorPos X="65" Y="1279"/>
         <UsageCount Value="265"/>
         <Bookmarks Count="3">
-          <Item0 X="23" Y="1615" ID="6"/>
+          <Item0 X="23" Y="1612" ID="6"/>
           <Item1 X="23" Y="616" ID="3"/>
-          <Item2 X="3" Y="767" ID="4"/>
+          <Item2 X="3" Y="764" ID="4"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -46,9 +46,8 @@
         <Filename Value="biofunctions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="bioFunctions"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="65"/>
-        <CursorPos X="8" Y="78"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="35" Y="18"/>
         <UsageCount Value="265"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -59,11 +58,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitUpdateList"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="158"/>
         <CursorPos X="6" Y="168"/>
         <UsageCount Value="265"/>
-        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="unitchooselist.pas"/>
@@ -72,10 +70,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitChooseList"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="203"/>
-        <CursorPos Y="214"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="198"/>
+        <CursorPos Y="216"/>
         <UsageCount Value="225"/>
+        <Bookmarks Count="1">
+          <Item0 X="40" Y="365" ID="2"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
@@ -84,13 +85,9 @@
         <UnitName Value="bioREST"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="341"/>
-        <CursorPos Y="353"/>
-        <UsageCount Value="146"/>
-        <Bookmarks Count="2">
-          <Item0 X="25" Y="285" ID="1"/>
-          <Item1 X="28" Y="321" ID="2"/>
-        </Bookmarks>
+        <TopLine Value="418"/>
+        <CursorPos Y="431"/>
+        <UsageCount Value="205"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
@@ -98,20 +95,20 @@
         <UnitName Value="unitDownload"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="5" Y="4"/>
-        <UsageCount Value="136"/>
+        <UsageCount Value="130"/>
       </Unit7>
       <Unit8>
         <Filename Value="ssl_openssl_lib.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="180"/>
         <CursorPos X="3" Y="107"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="34"/>
       </Unit8>
       <Unit9>
         <Filename Value="C:\lazarus\lcl\include\control.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="2901"/>
-        <CursorPos Y="2917"/>
+        <TopLine Value="1563"/>
+        <CursorPos Y="1578"/>
         <UsageCount Value="11"/>
       </Unit9>
       <Unit10>
@@ -120,21 +117,21 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="703"/>
         <CursorPos X="35" Y="719"/>
-        <UsageCount Value="167"/>
+        <UsageCount Value="161"/>
       </Unit10>
       <Unit11>
         <Filename Value="C:\lazarus\lcl\include\buttoncontrol.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="41"/>
         <CursorPos Y="56"/>
-        <UsageCount Value="95"/>
+        <UsageCount Value="89"/>
       </Unit11>
       <Unit12>
         <Filename Value="C:\lazarus\lcl\include\buttons.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="155"/>
         <CursorPos Y="170"/>
-        <UsageCount Value="95"/>
+        <UsageCount Value="89"/>
       </Unit12>
       <Unit13>
         <Filename Value="C:\lazarus\lcl\forms.pp"/>
@@ -142,14 +139,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1834"/>
         <CursorPos X="3" Y="1849"/>
-        <UsageCount Value="309"/>
+        <UsageCount Value="303"/>
       </Unit13>
       <Unit14>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\classes\classesh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="386"/>
         <CursorPos X="11" Y="607"/>
-        <UsageCount Value="274"/>
+        <UsageCount Value="268"/>
       </Unit14>
       <Unit15>
         <Filename Value="..\RESTtool\unit1.pas"/>
@@ -157,175 +154,174 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="91"/>
         <CursorPos X="3" Y="98"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="21"/>
       </Unit15>
       <Unit16>
-        <Filename Value="C:\lazarus\lcl\lclmessageglue.pas"/>
-        <UnitName Value="LCLMessageGlue"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="101"/>
-        <CursorPos Y="116"/>
-        <UsageCount Value="1"/>
-      </Unit16>
-      <Unit17>
         <Filename Value="C:\lazarus\lcl\grids.pas"/>
         <UnitName Value="Grids"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="9886"/>
-        <CursorPos X="36" Y="9897"/>
-        <UsageCount Value="1"/>
-      </Unit17>
-      <Unit18>
-        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\fcl-web\src\base\fphttpclient.pp"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="171"/>
-        <CursorPos X="15" Y="184"/>
-        <UsageCount Value="1"/>
-      </Unit18>
-      <Unit19>
-        <Filename Value="C:\Users\kczoba\AppData\Local\lazarus\onlinepackagemanager\packages\synapse40.1\ssl_openssl_lib.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="127"/>
-        <CursorPos Y="159"/>
-        <UsageCount Value="1"/>
-      </Unit19>
-      <Unit20>
-        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\rtl-objpas\src\inc\strutils.pp"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="86"/>
-        <CursorPos X="10" Y="100"/>
-        <UsageCount Value="6"/>
-      </Unit20>
-      <Unit21>
+        <TopLine Value="10942"/>
+        <CursorPos Y="10955"/>
+        <UsageCount Value="11"/>
+      </Unit16>
+      <Unit17>
         <Filename Value="C:\lazarus\lcl\lclintf.pas"/>
         <UnitName Value="LCLIntf"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="69"/>
         <CursorPos X="10" Y="82"/>
-        <UsageCount Value="18"/>
+        <UsageCount Value="50"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\inc\systemh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1120"/>
+        <CursorPos X="11" Y="1133"/>
+        <UsageCount Value="4"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="C:\lazarus\lcl\include\customcheckbox.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="120"/>
+        <CursorPos Y="134"/>
+        <UsageCount Value="11"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="C:\lazarus\lcl\include\customform.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3018"/>
+        <CursorPos Y="3030"/>
+        <UsageCount Value="11"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="..\..\..\..\usr\lib\lazarus\2.0.6\lcl\include\customcheckbox.inc"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="115"/>
+        <CursorPos Y="134"/>
+        <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit21>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="unitmain.pas"/>
-        <Caret Line="1339" Column="3" TopLine="1329"/>
+        <Filename Value="unitchooselist.pas"/>
+        <Caret Line="369" TopLine="347"/>
       </Position1>
       <Position2>
-        <Filename Value="unitmain.pas"/>
-        <Caret Line="296" Column="15" TopLine="284"/>
+        <Filename Value="..\..\..\..\usr\lib\lazarus\2.0.6\lcl\include\customcheckbox.inc"/>
+        <Caret Line="133" TopLine="115"/>
       </Position2>
       <Position3>
-        <Filename Value="unitmain.pas"/>
-        <Caret Line="1325" Column="20" TopLine="1310"/>
+        <Filename Value="unitchooselist.pas"/>
+        <Caret Line="369" TopLine="347"/>
       </Position3>
       <Position4>
-        <Filename Value="unitmain.pas"/>
-        <Caret Line="294" Column="15" TopLine="281"/>
+        <Filename Value="unitchooselist.pas"/>
+        <Caret Line="56" Column="15" TopLine="39"/>
       </Position4>
       <Position5>
-        <Filename Value="biorest.pas"/>
-        <Caret Line="128" Column="21" TopLine="115"/>
+        <Filename Value="unitchooselist.pas"/>
+        <Caret Line="216" TopLine="207"/>
       </Position5>
       <Position6>
-        <Filename Value="biorest.pas"/>
-        <Caret Line="306" Column="107" TopLine="303"/>
+        <Filename Value="unitchooselist.pas"/>
+        <Caret Line="357" TopLine="339"/>
       </Position6>
       <Position7>
-        <Filename Value="biorest.pas"/>
-        <Caret Line="128" Column="107" TopLine="115"/>
+        <Filename Value="unitchooselist.pas"/>
+        <Caret Line="216" TopLine="198"/>
       </Position7>
       <Position8>
-        <Filename Value="biorest.pas"/>
-        <Caret Line="32" Column="18" TopLine="12"/>
+        <Filename Value="unitchooselist.pas"/>
+        <Caret Line="217" TopLine="198"/>
       </Position8>
       <Position9>
-        <Filename Value="biorest.pas"/>
-        <Caret Line="318" Column="17" TopLine="299"/>
+        <Filename Value="unitchooselist.pas"/>
+        <Caret Line="219" TopLine="198"/>
       </Position9>
       <Position10>
-        <Filename Value="biorest.pas"/>
-        <Caret Line="312" Column="85" TopLine="299"/>
+        <Filename Value="unitchooselist.pas"/>
+        <Caret Line="221" TopLine="198"/>
       </Position10>
       <Position11>
-        <Filename Value="biorest.pas"/>
-        <Caret Line="351" Column="51" TopLine="337"/>
+        <Filename Value="unitchooselist.pas"/>
+        <Caret Line="222" TopLine="198"/>
       </Position11>
       <Position12>
-        <Filename Value="unitchooselist.pas"/>
-        <Caret Line="235" Column="104" TopLine="220"/>
+        <Filename Value="biorest.pas"/>
+        <Caret Line="135" Column="12" TopLine="117"/>
       </Position12>
       <Position13>
-        <Filename Value="unitchooselist.pas"/>
-        <Caret Line="247" Column="6" TopLine="220"/>
+        <Filename Value="biorest.pas"/>
+        <Caret Line="431" TopLine="417"/>
       </Position13>
       <Position14>
         <Filename Value="unitchooselist.pas"/>
-        <Caret Line="245" Column="18" TopLine="233"/>
+        <Caret Line="216" TopLine="198"/>
       </Position14>
       <Position15>
-        <Filename Value="unitchooselist.pas"/>
-        <Caret Line="320" Column="10" TopLine="307"/>
+        <Filename Value="biorest.pas"/>
+        <Caret Line="431" TopLine="417"/>
       </Position15>
       <Position16>
-        <Filename Value="unitchooselist.pas"/>
-        <Caret Line="73" Column="5" TopLine="54"/>
+        <Filename Value="biorest.pas"/>
+        <Caret Line="432" TopLine="417"/>
       </Position16>
       <Position17>
-        <Filename Value="unitchooselist.pas"/>
-        <Caret Line="373" Column="12" TopLine="370"/>
+        <Filename Value="biorest.pas"/>
+        <Caret Line="436" TopLine="418"/>
       </Position17>
       <Position18>
-        <Filename Value="unitchooselist.pas"/>
-        <Caret Line="252" Column="3" TopLine="239"/>
+        <Filename Value="biorest.pas"/>
+        <Caret Line="438" TopLine="418"/>
       </Position18>
       <Position19>
-        <Filename Value="unitchooselist.pas"/>
-        <Caret Line="258" Column="32" TopLine="239"/>
+        <Filename Value="biorest.pas"/>
+        <Caret Line="440" TopLine="418"/>
       </Position19>
       <Position20>
-        <Filename Value="unitchooselist.pas"/>
-        <Caret Line="262" Column="48" TopLine="243"/>
+        <Filename Value="biorest.pas"/>
+        <Caret Line="441" TopLine="418"/>
       </Position20>
       <Position21>
-        <Filename Value="unitchooselist.pas"/>
-        <Caret Line="255" Column="119" TopLine="244"/>
+        <Filename Value="biorest.pas"/>
+        <Caret Line="443" TopLine="418"/>
       </Position21>
       <Position22>
         <Filename Value="biorest.pas"/>
-        <Caret Line="43" Column="23" TopLine="25"/>
+        <Caret Line="444" TopLine="418"/>
       </Position22>
       <Position23>
-        <Filename Value="unitchooselist.pas"/>
-        <Caret Line="214" TopLine="203"/>
+        <Filename Value="biorest.pas"/>
+        <Caret Line="431" TopLine="418"/>
       </Position23>
       <Position24>
-        <Filename Value="unitchooselist.pas"/>
-        <Caret Line="217" Column="89" TopLine="203"/>
+        <Filename Value="biorest.pas"/>
+        <Caret Line="432" TopLine="418"/>
       </Position24>
       <Position25>
         <Filename Value="biorest.pas"/>
-        <Caret Line="139" Column="12" TopLine="127"/>
+        <Caret Line="436" TopLine="418"/>
       </Position25>
       <Position26>
         <Filename Value="biorest.pas"/>
-        <Caret Line="321" TopLine="312"/>
+        <Caret Line="438" TopLine="418"/>
       </Position26>
       <Position27>
-        <Filename Value="unitchooselist.pas"/>
-        <Caret Line="214" TopLine="203"/>
+        <Filename Value="biorest.pas"/>
+        <Caret Line="440" TopLine="418"/>
       </Position27>
       <Position28>
         <Filename Value="biorest.pas"/>
-        <Caret Line="321" Column="76" TopLine="312"/>
+        <Caret Line="441" TopLine="418"/>
       </Position28>
       <Position29>
-        <Filename Value="unitchooselist.pas"/>
-        <Caret Line="214" TopLine="203"/>
+        <Filename Value="biorest.pas"/>
+        <Caret Line="443" TopLine="418"/>
       </Position29>
       <Position30>
         <Filename Value="biorest.pas"/>
-        <Caret Line="321" TopLine="312"/>
+        <Caret Line="436" Column="77" TopLine="418"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -334,7 +330,7 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="5">
+    <BreakPoints Count="1">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
@@ -342,34 +338,6 @@
         <Source Value="C:\lazarus\fpc\3.0.4\source\packages\fcl-web\src\base\fphttpclient.pp"/>
         <Line Value="1356"/>
       </Item1>
-      <Item2>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="unitchooselist.pas"/>
-        <Line Value="260"/>
-      </Item2>
-      <Item3>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="biorest.pas"/>
-        <Line Value="353"/>
-      </Item3>
-      <Item4>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="unitchooselist.pas"/>
-        <Line Value="214"/>
-      </Item4>
-      <Item5>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="biorest.pas"/>
-        <Line Value="321"/>
-      </Item5>
     </BreakPoints>
   </Debugging>
 </CONFIG>
