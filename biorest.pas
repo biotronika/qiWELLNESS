@@ -33,11 +33,11 @@ const
    LIST_BIORESONANCE_THERAPY = 5;  // freePEMF and multiZAP
 
    LIST_REST_URLS : array[1..5] of string = (
-     PAGE_URL_REST + '/iontophoresis-substances/rest',
-     PAGE_URL_REST + '/eav-paths/rest',
-     PAGE_URL_REST + '/eap-therapies/rest',
-     PAGE_URL_REST + '/atlas/rest',
-     PAGE_URL_REST + '/bioresonance-therapies/rest'
+     PAGE_URL_REST + '/rest/iontophoresis-substances',
+     PAGE_URL_REST + '/rest/eav-paths',
+     PAGE_URL_REST + '/rest/eap-therapies',
+     PAGE_URL_REST + '/rest/atlas',
+     PAGE_URL_REST + '/rest/bioresonance-therapies'
    );
 
    LIST_FILE_LIKED : array[1..5] of string = (
