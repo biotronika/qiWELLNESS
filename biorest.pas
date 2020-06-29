@@ -1,7 +1,8 @@
 unit bioREST;
-(* elektros: 2020-06-10
+(* elektros: 2020-06-23
  *   Module for REST/JSON interface and web
  *   Multiplatform module, works with REST/JSON on hhtp protocol only (does not support SSL)
+ *   REST interface details: https://biotronics.eu/node/1670
  *
  *   Copyleft 2020 by elektros, Chris Czoba krzysiek@biotronika.pl.
  *   See: biotronics.eu
@@ -19,7 +20,7 @@ const
   PAGE_URL_PL       = 'https://biotronika.pl';
 
   ATLAS_SUBFOLDER   = 'atlas';   // Subfolder of exe file where be placed pictures
-  USER_AGENT        = 'qiwellness';
+  USER_AGENT        = 'biotronics';
   REST_FORMAT_PARAM = '_format=json';
 
   LIKED_YES         = 'yes';
@@ -48,14 +49,13 @@ const
      'bioresonance-therapies.liked'
    );
 
-
 // EAP therapy
 type TEAPPoint = record
-     Point : string[20];
-     Side : string [20];
-     Profile : integer;
-     Time : integer;
-     Elapsed : integer;
+     PointName       : string;
+     Side            : string;
+     Profile         : integer;
+     Time            : integer;
+     Elapsed         : integer;
 end;
 
 type TEAPPoints = array of TEAPPoint;
@@ -70,7 +70,6 @@ type TEAPTherapy = record
      Langcode        : string;
      Liked           : string;
      nid             : string;
-
 end;
 
 type TEAPTherapies = array of TEAPTherapy;
@@ -334,7 +333,7 @@ var F : textFile;
 begin
 
   result := '';
-  destinationFile := ExtractFilePath(Application.ExeName) + LIST_FILE_LIKED[ListType];
+  destinationFile := ExtractFilePath(Application.ExeName) + BIO_HIDDEN_FILE_PREFIX +  LIST_FILE_LIKED[ListType];
 
   if FileExists(destinationFile) then begin
 
@@ -388,7 +387,7 @@ var F : textFile;
     destinationFile: string;
 begin
 
-  destinationFile := ExtractFilePath(Application.ExeName) + LIST_FILE_LIKED[ListType];
+  destinationFile := ExtractFilePath(Application.ExeName) + BIO_HIDDEN_FILE_PREFIX + LIST_FILE_LIKED[ListType];
 
   if length(likedStr) < 4 then begin
     {$I-}
@@ -702,9 +701,9 @@ begin
        n:= Length(Points)-1;
 
        //Important is an order
-       Points[n].Time := GetTimeFromOnePointString(OnePointString);
-       Points[n].Side := GetSideFromOnePointString(OnePointString);
-       Points[n].Point := OnePointString;
+       Points[n].Time      := GetTimeFromOnePointString(OnePointString);
+       Points[n].Side      := GetSideFromOnePointString(OnePointString);
+       Points[n].PointName := OnePointString;
 
        Points[n].Profile:= 0;   //Profile User
 

@@ -17,7 +17,7 @@
       </XPManifest>
       <Icon Value="0"/>
     </General>
-    <BuildModes Count="5">
+    <BuildModes Count="6">
       <Item1 Name="Default" Default="True"/>
       <Item2 Name="Win32">
         <CompilerOptions>
@@ -113,6 +113,33 @@
           </Linking>
         </CompilerOptions>
       </Item5>
+      <Item6 Name="Darwin">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="bin\$(TargetOS)\qiWELLNESS"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <TargetCPU Value="i386"/>
+            <TargetOS Value="darwin"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+            </Debugging>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+        </CompilerOptions>
+      </Item6>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -136,7 +163,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="7">
+    <Units Count="8">
       <Unit0>
         <Filename Value="qiWELLNESS.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -183,6 +210,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="bioREST"/>
       </Unit6>
+      <Unit7>
+        <Filename Value="bioreadings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="bioReadings"/>
+      </Unit7>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

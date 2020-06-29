@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 383
+  Left = 282
   Height = 864
-  Top = -1103
+  Top = 127
   Width = 1601
   Caption = 'qiWELLNESS'
   ClientHeight = 864
@@ -67,6 +67,10 @@ object frmMain: TfrmMain
         AxisIndexX = 1
         AxisIndexY = 0
         LinePen.Color = clRed
+        LinePen.Width = 3
+      end
+      object ChartMeasureShadowLineSeries: TLineSeries
+        LinePen.Color = clMedGray
         LinePen.Width = 3
       end
     end
@@ -735,7 +739,7 @@ object frmMain: TfrmMain
       Height = 862
       Top = 1
       Width = 958
-      ActivePage = tabEAV
+      ActivePage = tabRyodoraku
       Align = alRight
       Font.CharSet = EASTEUROPE_CHARSET
       Font.Color = clBlack
@@ -744,7 +748,7 @@ object frmMain: TfrmMain
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       ParentFont = False
-      TabIndex = 2
+      TabIndex = 1
       TabOrder = 0
       object tabConsole: TTabSheet
         Caption = 'Console'
@@ -10557,7 +10561,10 @@ object frmMain: TfrmMain
               TitleFont.Pitch = fpVariable
               TitleFont.Quality = fqDraft
               TitleFont.Style = [fsBold]
+              OnClick = StringGridEAVClick
               OnDblClick = StringGridEAVDblClick
+              OnMouseDown = StringGridEAVMouseDown
+              OnSelection = StringGridEAVSelection
               OnSelectCell = StringGridEAPTherapySelectCell
               ColWidths = (
                 120
@@ -10566,7 +10573,7 @@ object frmMain: TfrmMain
                 250
               )
               Cells = (
-                15
+                18
                 0
                 0
                 'Point(s)'
@@ -10594,24 +10601,33 @@ object frmMain: TfrmMain
                 0
                 8
                 'LI5'
-                2
                 1
-                '||||||||||||||||||||||||||||||'
-                2
-                2
-                '||||||||||||||||||||||||||||||'
-                2
-                3
-                '||||||||||||||||||||||||'
-                3
+                0
+                'Target'
                 1
-                '||||||||||||||'
-                3
+                1
+                'Transverse Colon'
+                1
                 2
-                '||||||||||||||||||'
+                'Superior Hypogastric Plexus'
+                1
                 3
-                3
-                '||||||||||||||||||||||||||'
+                '*Right Side of the Large Intestine Array'
+                1
+                4
+                'Peritoneum , Large Intestine'
+                1
+                5
+                'Hepatic Flexure, Colon'
+                1
+                6
+                'Ascending Colon'
+                1
+                7
+                'Cecum'
+                1
+                8
+                'Wrist Joint'
               )
             end
             object rbEavRight: TRadioButton
@@ -10666,35 +10682,6 @@ object frmMain: TfrmMain
           ClientWidth = 950
           ParentFont = False
           TabOrder = 1
-          object btnDeleteAll: TButton
-            Left = 106
-            Height = 75
-            Top = 8
-            Width = 78
-            Caption = 'Delete all'
-            OnClick = btnDeleteAllClick
-            ParentFont = False
-            TabOrder = 0
-          end
-          object btnDelete: TButton
-            Left = 186
-            Height = 75
-            Top = 8
-            Width = 72
-            Caption = 'Delete'
-            OnClick = btnDeleteClick
-            ParentFont = False
-            TabOrder = 1
-          end
-          object ButtonSaveReport: TButton
-            Left = 16
-            Height = 75
-            Top = 8
-            Width = 88
-            Caption = 'Save report'
-            ParentFont = False
-            TabOrder = 2
-          end
           object cboxSeries: TComboBox
             Left = 266
             Height = 28
@@ -10707,7 +10694,7 @@ object frmMain: TfrmMain
             )
             OnChange = cboxSeriesChange
             ParentFont = False
-            TabOrder = 3
+            TabOrder = 0
             Text = 'Working'
           end
           object ButtonEAVChoose: TButton
@@ -10725,7 +10712,7 @@ object frmMain: TfrmMain
             Font.Style = [fsBold]
             OnClick = ButtonEAVChooseClick
             ParentFont = False
-            TabOrder = 4
+            TabOrder = 1
           end
           object ToggleBoxEdit: TToggleBox
             Left = 592
@@ -10741,45 +10728,12 @@ object frmMain: TfrmMain
             Font.Quality = fqDraft
             OnChange = ToggleBoxEditChange
             ParentFont = False
-            TabOrder = 5
-          end
-          object ButtonLoadPath: TButton
-            Left = 704
-            Height = 50
-            Top = 8
-            Width = 160
-            Caption = 'Load path'
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Color = clBlack
-            Font.Height = -20
-            Font.Name = 'Segoe UI Semibold'
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            Font.Style = [fsBold]
-            OnClick = ButtonLoadPathClick
-            ParentFont = False
-            TabOrder = 6
-          end
-          object ButtonSavePath: TButton
-            Left = 592
-            Height = 52
-            Top = 56
-            Width = 96
-            Caption = 'Save path'
-            Font.CharSet = EASTEUROPE_CHARSET
-            Font.Color = clBlack
-            Font.Height = -15
-            Font.Name = 'Segoe UI'
-            Font.Pitch = fpVariable
-            Font.Quality = fqDraft
-            OnClick = ButtonSavePathClick
-            ParentFont = False
-            TabOrder = 7
+            TabOrder = 2
           end
           object btnSaveAs: TButton
             Left = 704
             Height = 52
-            Top = 56
+            Top = 8
             Width = 160
             Caption = 'Save'
             Font.CharSet = EASTEUROPE_CHARSET
@@ -10791,7 +10745,16 @@ object frmMain: TfrmMain
             Font.Style = [fsBold]
             OnClick = btnSaveAsClick
             ParentFont = False
-            TabOrder = 8
+            TabOrder = 3
+          end
+          object ButtonSaveReport: TButton
+            Left = 32
+            Height = 75
+            Top = 16
+            Width = 88
+            Caption = '(test)'
+            ParentFont = False
+            TabOrder = 4
           end
         end
         object Panel2: TPanel

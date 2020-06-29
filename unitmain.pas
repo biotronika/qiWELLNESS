@@ -7,7 +7,11 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
   ComCtrls, CheckLst, Grids, ColorBox, LazSerial, TAGraph, TASeries,
-  TALegendPanel, TASources,(* TAChartCombos, *) Types , LCLType,  lclintf, Spin, bioREST, lazfileutils;
+  TALegendPanel, TASources,(* TAChartCombos, *) Types , LCLType,  lclintf, Spin,
+  lazfileutils, bioREST, bioReadings, TADrawUtils, TACustomSeries;
+
+const
+  SOFTWARE_VERSION = '2020-06-29 (alpha)';
 
 type
 
@@ -16,8 +20,6 @@ type
   TfrmMain = class(TForm)
     btnClose: TButton;
     btnConnect: TButton;
-    btnDeleteAll: TButton;
-    btnDelete: TButton;
     btnSaveAs: TButton;
     ButtonEAVChoose: TButton;
     ButtonChooseEAPTherapy: TButton;
@@ -25,21 +27,20 @@ type
     ButtonIonOff: TButton;
     ButtonChooseIONSunstance: TButton;
     ButtonIon: TButton;
+    ButtonSaveReport: TButton;
     ButtonVegatestSaveAs1: TButton;
-    ButtonSavePath: TButton;
-    ButtonLoadPath: TButton;
     ButtonSaveReading: TButton;
     ButtonEap: TButton;
     ButtonVeg: TButton;
     ButtonEav: TButton;
     ButtonCalibrate: TButton;
     ButtonVegatestEdit: TButton;
-    ButtonSaveReport: TButton;
     btnConsoleExecute: TButton;
     ButtonRyodorakuAnalize: TButton;
     ButtonRyodorakuSendToEAP: TButton;
     cboxSeries: TComboBox;
     chartCurrent: TChart;
+    ChartMeasureShadowLineSeries: TLineSeries;
     chartRMS: TChart;
     chartRMSBarSeries1: TBarSeries;
     chartRMS_ION: TChart;
@@ -198,6 +199,7 @@ type
     procedure btnDeleteAllClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure ButtonChooseEAPTherapyClick(Sender: TObject);
 
     //procedure btnEapSaveClick(Sender: TObject);
@@ -220,12 +222,12 @@ type
     procedure ButtonLoadPathClick(Sender: TObject);
     procedure ButtonSavePathClick(Sender: TObject);
     procedure ButtonSaveReadingClick(Sender: TObject);
-    //procedure btnVegatestSaveClick(Sender: TObject);
-    //procedure ButtonSaveReportClick(Sender: TObject);
+
+
     procedure ButtonVegatestEditClick(Sender: TObject);
     procedure ButtonVegatestSaveAs1Click(Sender: TObject);
     procedure ButtonVegClick(Sender: TObject);
-    procedure cbEAVOnChange(Sender: TObject);
+
     procedure cbElectropunctueOnChange(Sender: TObject);
     procedure cboxChangeDirectionsChange(Sender: TObject);
     procedure cboxSeriesChange(Sender: TObject);
@@ -267,7 +269,11 @@ type
     procedure StringGridEAPTherapyDblClick(Sender: TObject);
     procedure StringGridEAPTherapySelectCell(Sender: TObject; aCol,
       aRow: Integer; var CanSelect: Boolean);
+    procedure StringGridEAVClick(Sender: TObject);
     procedure StringGridEAVDblClick(Sender: TObject);
+    procedure StringGridEAVMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure StringGridEAVSelection(Sender: TObject; aCol, aRow: Integer);
     procedure tabEAVShow(Sender: TObject);
     procedure tabElectropuntureShow(Sender: TObject);
     procedure tabIonophoreseShow(Sender: TObject);
@@ -319,21 +325,27 @@ type
 
 
     var
-      CurrentMode : integer;
+
+
       FLastCol : integer;
       FLastLeftSide : boolean;
-      FCurrentPointName : string;
+
+
       FRyodorakuChart : integer;
+
       FReadBuffer : string;  //Buufer for incoming stream
-      //step : Cardinal;
       startTime : Double;
-      mySeries : TLineSeries;
+
+
+//TODO : To remove
       seriesArray : array[1..MAX_SERIES_NUMBER] of TLineSeries; //No dynamic array of all used series
-      //EAPDoneTimeArray : array[1..MAX_EAP_POINTS_NUMBER] of Double;
 
 
       EAPProgressTime : Double;
+
+//TODO : to remove
       myTime : Double;
+
       FElapsedTimeDbl : Double;
       firstTime_ION : boolean;
       Charge_ION : Double;
@@ -346,9 +358,14 @@ type
 
 
   public
-     var
+     var                     //12pts/L,R / before,after
         ryodorakuPoint : array[0..11,0..1] of Double; //[0..23]
 
+
+        //Current operations
+        CurrentMode : integer;
+        CurrentPointName : string;
+        CurrentSeries, ShadowSeries : TLineSeries;
 
   end;
 
@@ -546,16 +563,6 @@ procedure TfrmMain.btnDeleteAllClick(Sender: TObject);
 var i : integer;
 begin
    Charge_ION := 0;
-
-   for i:=1 to High(seriesArray) do begin
-       cboxSeries.Items.Delete(1);
-       seriesArray[i].Clear;
-       seriesArray[i].LinePen.Style:=psDash;
-       seriesArray[i].SeriesColor:=clWhite; //clGray;
-       seriesArray[i].Title:='';
-   end;
-   ChartMeasureCurrentLineSeries.Clear;
-   //step:=0;
 end;
 
 procedure TfrmMain.btnConsoleExecuteClick(Sender: TObject);
@@ -571,7 +578,7 @@ procedure TfrmMain.btnDeleteClick(Sender: TObject);
 var i,a : integer;
 begin
   Charge_ION := 0;
-
+  (*
   if cboxSeries.Items.Count>1 then  begin
     i:= cboxSeries.ItemIndex;
 
@@ -594,6 +601,7 @@ begin
       //step:=0;
       //ShowMessage('Can not delete working chart');
   end;
+  *)
 
 end;
 
@@ -604,6 +612,10 @@ begin
     statusBar.SimpleText:='Serial connection was closed';
   end;
 end;
+
+procedure TfrmMain.Button1Click(Sender: TObject);
+begin
+  end;
 
 
 
@@ -626,7 +638,7 @@ begin
     for i:= 1 to Length(EAPTherapy.Points) do begin
         with StringGridEAPTherapy do begin
 
-            Cells[EAP_POINT_GRID_COL,i]   := EAPTherapy.Points[i-1].Point;
+            Cells[EAP_POINT_GRID_COL,i]   := EAPTherapy.Points[i-1].PointName;
             Cells[EAP_SIDE_GRID_COL,i]    := EAPTherapy.Points[i-1].Side;
             Cells[EAP_PROFILE_GRID_COL,i] := PROFILES[EAPTherapy.Points[i-1].Profile];
             Cells[EAP_TIME_GRID_COL,i]    := IntToStr( EAPTherapy.Points[i-1].Time);
@@ -814,14 +826,12 @@ end;
 
 procedure TfrmMain.ButtonLoadPathClick(Sender: TObject);
 begin
-  if OpenDialog.Execute then
-    StringGridEAV.LoadFromCSVFile(OpenDialog.FileName);
+
 end;
 
 procedure TfrmMain.ButtonSavePathClick(Sender: TObject);
 begin
-  if SaveDialog.Execute then
-     StringGridEAV.SaveToCSVFile(SaveDialog.FileName);
+
 
 end;
 
@@ -832,10 +842,10 @@ var s : string;
     sum,d : Double;
     chartIndex: integer;
     rightChartIndex : integer;
-    currentPointName : string;
+    //CurrentPointName : string;
 begin
 
-  if CurrentMode=MODE_RYO then begin
+  if CurrentMode = MODE_RYO then begin
 
    chartIndex      := -1;
    rightChartIndex := -1;
@@ -972,7 +982,7 @@ end;
 procedure TfrmMain.SaveVeg;
 //Save reading in EAV mode
 var
-    currentPointName: string;
+    //currentPointName: string;
     i : integer;
 
 begin
@@ -988,8 +998,8 @@ begin
    end;
 
    // Setup EAV point name
-   if FCurrentPointName<>'' then begin
-        currentPointName:= FCurrentPointName;
+   if CurrentPointName<>'' then begin
+        currentPointName:= CurrentPointName;
      end else begin
         currentPointName:=InputBox('Vegatest sample name', 'Name of that sample', 'New ' + IntToStr(cboxSeries.Items.Count));
      end;
@@ -1016,7 +1026,7 @@ end;
 procedure TfrmMain.SaveEav;
 //Save reading in EAV mode
 var
-    currentPointName: string;
+    //currentPointName: string;
     i : integer;
 
 begin
@@ -1063,7 +1073,11 @@ procedure TfrmMain.ButtonSaveReadingClick(Sender: TObject);
 
 begin
 
-  if gridRyodoraku.col > 0 then begin;
+  if gridRyodoraku.col = 0 then
+
+      ShowMessage('Choose Point name first')
+
+  else begin
 
      // Before save point remember last point
      FLastCol:=gridRyodoraku.col;
@@ -1115,6 +1129,7 @@ begin
 end;
 
 
+
 procedure TfrmMain.ButtonVegatestEditClick(Sender: TObject);
 begin
   FormVegatestSelector.ShowModal;
@@ -1130,10 +1145,6 @@ begin
   frmMain.ChangeMode(MODE_VEG);
 end;
 
-procedure TfrmMain.cbEAVOnChange(Sender: TObject);
-begin
-
-end;
 
 procedure TfrmMain.cbElectropunctueOnChange(Sender: TObject);
 //var b : boolean;
@@ -1191,7 +1202,7 @@ begin
     if rbPulse.Checked then
       Serial.WriteData('freq '+ IntToStr(trunc(StrToFloatDef(edtFreq.Text,10)*100)) +' '+edtDutyCycle.Text+#13#10)
     else
-      Serial.WriteData('dc');   //DC current
+      Serial.WriteData('dc'#13#10);   //DC current
 
     sleep(200);
 
@@ -1220,6 +1231,9 @@ var i : integer;
 begin
   atlasPicturesFilesList := TStringList.Create;
 
+  CurrentReadPoint  := TReadPoint.Create();
+  CurrentReadPoints := TReadPointsCollection.Create;
+
   Caption                := 'qiWELLNESS';
   statusBar.SimpleText   := 'Software ver.: ' + SOFTWARE_VERSION + '   Compilation: ' + OS_VERSION;
 
@@ -1232,7 +1246,10 @@ begin
     ChartMeasure.AddSeries(  seriesArray[i]  );
   end;
 
-  mySeries             := ChartMeasureCurrentLineSeries;
+
+  //Bound with series
+  CurrentSeries             := ChartMeasureCurrentLineSeries;
+  ShadowSeries              := ChartMeasureShadowLineSeries;
 
   startTime            := 0;
   FElapsedTimeDbl      := 0;
@@ -1367,7 +1384,7 @@ end;
 procedure TfrmMain.gridRyodorakuDrawCell(Sender: TObject; aCol, aRow: Integer;
   aRect: TRect; aState: TGridDrawState);
 begin
-  (*
+
   if (ACol = 0) and (ARow = 0) then
     with TStringGrid(Sender) do begin
       //Paint the background
@@ -1375,7 +1392,7 @@ begin
       Canvas.FillRect(aRect);
       Canvas.TextOut(aRect.Left+2,aRect.Top+2,Cells[ACol, ARow]);
     end;
-    *)
+
 
 end;
 
@@ -1406,9 +1423,9 @@ begin
      FRyodorakuChart:=(aCol-1)*2;
 
      if rbRyodorakuLeft.Checked then begin
-        FCurrentPointName:=gridRyodoraku.Cells[aCol,0]+' Left';
+        CurrentPointName:=gridRyodoraku.Cells[aCol,0]+' Left';
      end else begin
-        FCurrentPointName:=gridRyodoraku.Cells[aCol,0]+' Right';
+        CurrentPointName:=gridRyodoraku.Cells[aCol,0]+' Right';
 
         //Ryodoraku bar chart index - change left to right side
         FRyodorakuChart+=1;
@@ -1616,6 +1633,7 @@ var bufferCmd,eventCmd,valueCmd  : string;
     valueDbl,dutyCycleDbl : Double ;
 
 
+
 begin
 
   bufferCmd := Serial.ReadData;
@@ -1639,29 +1657,35 @@ begin
           // Vegatest starts
           CurrentMode := MODE_VEG;
 
-          mySeries.Clear;
+          CurrentSeries.Clear;
           ChartMeasure.BottomAxis.Range.Max  := 7;         // 7 sec.
           ChartMeasure.LeftAxis.Range.Max    := 100;       // 100%
           ChartMeasure.LeftAxis.Range.UseMax := True;
-          mySeries.SeriesColor               := $000080FF;
-          mySeries.AddXY( 0.03,0 );                        // Add first point
+          CurrentSeries.SeriesColor          := $000080FF;
+          CurrentSeries.AddXY( 0.03,0 );                        // Add first point
 
           startTime:=Now()-0.03/(24*60*60);
 
 
         end else if (eventCmd=':estart') then begin
 
-          // EAV starts
-          CurrentMode := MODE_EAV;
+          // EAV or RYODARAKU starts
+          //CurrentMode := MODE_EAV;
+          //CurrentMode := MODE_RYO;
 
-          mySeries.Clear;
+          CurrentSeries.Clear;
+          //CurrentSeries.AddXY(0.03,0);
+          CurrentSeries.SeriesColor           := clRed;
+
+          CurrentReadPoint.ToSeries( ShadowSeries );
+
+          CurrentReadPoint.Clear( CurrentMode );
+          CurrentReadPoint.Add( 0, CurrentSeries );        // Add first point
+          CurrentReadPoint.PointName          := CurrentPointName;
+
           ChartMeasure.BottomAxis.Range.Max   := 7;        // 7 sec.
           ChartMeasure.LeftAxis.Range.Max     := 100;      // 100%
           ChartMeasure.LeftAxis.Range.UseMax  := True;
-          mySeries.SeriesColor                := clRed;
-          mySeries.AddXY( 0.03,0 );                        // Add first point
-
-          startTime:=Now()-0.03/(24*60*60);
 
 
         end else if (eventCmd=':cstart') then begin
@@ -1670,12 +1694,12 @@ begin
           CurrentMode := MODE_EAP;
           F_EAPProgressGridRow := EAPProgressGridRow;
 
-          mySeries.Clear;
+          CurrentSeries.Clear;
           ChartMeasure.LeftAxis.Range.Max      := 500;     // 500uA
-          mySeries.SeriesColor                 := clGreen;
+          CurrentSeries.SeriesColor                 := clGreen;
           ChartMeasure.LeftAxis.Range.UseMax   := True;
           ChartMeasure.BottomAxis.Range.Max    := 30;      // 30sec. or more
-          mySeries.AddXY( 0.03,0 );                        // Add first point
+          CurrentSeries.AddXY( 0.03,0 );                        // Add first point
 
           startTime:=Now()-0.03/(24*60*60);
 
@@ -1693,14 +1717,14 @@ begin
 
           if firstTime_ION then begin
 
-            mySeries.Clear;
+            CurrentSeries.Clear;
             firstTime_ION := False;
 
             ChartMeasure.LeftAxis.Range.Max    := 12;        // 12mA
-            mySeries.SeriesColor               := clGreen;
+            CurrentSeries.SeriesColor               := clGreen;
             ChartMeasure.LeftAxis.Range.UseMax := True;
             ChartMeasure.BottomAxis.Range.Max  := 120;       // 2min. or more
-            mySeries.AddXY( 0.03,0 );                        // Add first point
+            CurrentSeries.AddXY( 0.03,0 );                        // Add first point
 
             startTime:=Now()-0.03/(24*60*60);
 
@@ -1710,7 +1734,7 @@ begin
             myTime := ( Now() - startTime )*(24*60*60);
             if myTime > 120 then ChartMeasure.LeftAxis.Range.UseMax := False;
 
-            mySeries.AddXY( myTime ,0);                      // Add first point in the end of last chart
+            CurrentSeries.AddXY( myTime ,0);                      // Add first point in the end of last chart
 
           end;
 
@@ -1722,7 +1746,7 @@ begin
           case CurrentMode of
             MODE_ION : begin
 
-                         mySeries.AddXY( myTime ,0);
+                         CurrentSeries.AddXY( myTime ,0);
                          chartSourceRMS_ION.SetYValue(0,0);
 
                        end;
@@ -1732,6 +1756,11 @@ begin
                          chartSourceCurrent.SetYValue(0,0);
                          chartSourceRMS.SetYValue(0,0);
                        end;
+            MODE_EAV, MODE_VEG, MODE_RYO : begin
+                         CurrentReadPoint.Remove(10);
+                         CurrentReadPoint.ToSeries(CurrentSeries);
+                         CurrentReadPoints.Add(CurrentReadPoint);
+            end;
 
           end;  // case
 
@@ -1765,7 +1794,7 @@ begin
            end;
 
            //Set graphic components
-           mySeries.AddXY( myTime, valueDbl * dutyCycleDbl / 100);
+           CurrentSeries.AddXY( myTime, valueDbl * dutyCycleDbl / 100);
            chartSourceCurrent.SetYValue(0, valueDbl / 1000);
            chartSourceRMS.SetYValue(0, valueDbl * dutyCycleDbl / 100);
 
@@ -1814,7 +1843,7 @@ begin
 
               memoConsole.Lines.Add(trim(FReadBuffer));
 
-              mySeries.AddXY( myTime ,j*d/100000);
+              CurrentSeries.AddXY( myTime ,j*d/100000);
               Charge_ION := Charge_ION + abs((j*d/100000) (*mA*) * (myTime - FElapsedTimeDbl) (*s*) / 3600);
               LabelCharge.Caption := FormatFloat('0.000',Charge_ION);
               LabelMass.Caption:= FormatFloat('0.000', calculateMass( StrToFloat(EditMolarMass_ION.Caption), StrToFloat(EditValence_ION.Caption), Charge_ION(*mAh*)));
@@ -1828,13 +1857,32 @@ begin
            //FElapsedTimeDbl := myTime;
 
 
-        end else  if( copy(eventCmd,1,2)= ':v') or (copy(eventCmd,1,2)= ':e') then begin // Veagtest and  EAV have the same scale
-            eventCmd:=copy(eventCmd,3,Length(eventCmd));
-            myTime:= (Now()- startTime)*(24*60*60);
 
-            mySeries.AddXY( myTime ,StrToIntDef(eventCmd,0)/10.0  );
+        end else begin
+            // Veagtest and  EAV have the same scale
+            CurrentReadPoint.Add(eventCmd, CurrentSeries);
+            case CurrentMode of
+              MODE_EAV : begin
+                  if rbEavRight.Checked then begin
+                     //CurrentReadPoint.Side:='Right';
+                     StringGridEAV.Cells[3,StringGridEAV.Row]:= StringOfChar( char('|'),Trunc(CurrentReadPoint.EAVvalue/2));
+                  end else begin
+                      //CurrentReadPoint.Side:='Left';
+                      StringGridEAV.Cells[2,StringGridEAV.Row]:= StringOfChar( char('|'),Trunc(CurrentReadPoint.EAVvalue/2));
+                  end;
+
+              end;
+              MODE_RYO : begin
+
+
+              end;
+
+
+
+            end;
 
         end;
+
      end;
 
 end;
@@ -1869,11 +1917,34 @@ begin
 
 end;
 
+procedure TfrmMain.StringGridEAVClick(Sender: TObject);
+begin
+  CurrentPointName:= trim(StringGridEAV.Cells[0, StringGridEAV.Row ]);
+end;
+
 procedure TfrmMain.StringGridEAVDblClick(Sender: TObject);
 var strGrid: string;
 begin
-  strGrid:=StringGridEAV.Cells[0, StringGridEAV.Row ];
-  AtlasSearchBAP(strGrid);
+  if StringGridEAV.Row>0 then begin
+      strGrid:=StringGridEAV.Cells[0, StringGridEAV.Row ];
+      AtlasSearchBAP(strGrid);
+
+  end;
+end;
+
+procedure TfrmMain.StringGridEAVMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+
+end;
+
+procedure TfrmMain.StringGridEAVSelection(Sender: TObject; aCol, aRow: Integer);
+begin
+  if aCol in [2,3] then begin
+    rbEavRight.Checked := (aCol = 3);
+    rbEavLeft.Checked  := (aCol = 2);
+  end;
+  FLastCol := aCol;
 end;
 
 
@@ -1940,7 +2011,7 @@ end;
 
 procedure TfrmMain.TreeViewSelectorSelectionChanged(Sender: TObject);
 begin
-  FCurrentPointName:=TreeViewSelector.Selected.Text;
+  CurrentPointName:=TreeViewSelector.Selected.Text;
 
 end;
 

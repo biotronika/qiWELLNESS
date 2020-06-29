@@ -8,7 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, LazSerialPort, tachartlazaruspkg, unitMain, unitVegatestSelector,
-  unitUpdateList, unitChooseList, bioREST;
+  unitUpdateList, unitChooseList, bioREST, bioReadings;
 
 {$R *.res}
 

@@ -15,10 +15,12 @@ type
   TFormChooseList = class(TForm)
     ButtonChoose: TButton;
     ButtonSearch: TButton;
+    ComboBoxLanguage: TComboBox;
     EditSearchString: TEdit;
     ImageBack: TImage;
     ImageNext: TImage;
     Label1: TLabel;
+    LabelLanguage: TLabel;
     LabelClick: TLabel;
     LabelPage: TLabel;
     LabelInfo: TLabel;
@@ -33,8 +35,10 @@ type
 
     procedure ButtonChooseClick(Sender: TObject);
     procedure ButtonSearchClick(Sender: TObject);
+    procedure ComboBoxLanguageChange(Sender: TObject);
     procedure EditSearchStringChange(Sender: TObject);
     procedure EditSearchStringKeyPress(Sender: TObject; var Key: char);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ImageBackClick(Sender: TObject);
@@ -43,17 +47,21 @@ type
     //function  ChooseEAPTherapy(SearchString: string)  :TEAPTherapy;
     //function  ChooseIONSubstance(SearchString: string) : TIonSubstance;
 
-    function  GetItemFromList( var EAPTherapy   : TEAPTherapy;   SearchString: string = '' ) : boolean ; overload;
-    function  GetItemFromList( var IonSubstance : TIonSubstance; SearchString: string = '' ) : boolean ; overload;
-    function  GetItemFromList( var EAVPath      : TEAVPath;      SearchString: string = '' ) : boolean ; overload;
+    function  GetItemFromList( var Item : TEAPTherapy;          SearchString: string =''; Lang: string ='' ) : boolean ; overload;
+    function  GetItemFromList( var Item : TIonSubstance;        SearchString: string =''; Lang: string ='' ) : boolean ; overload;
+    function  GetItemFromList( var Item : TEAVPath;             SearchString: string =''; Lang: string ='' ) : boolean ; overload;
+    function  GetItemFromList( var Item : TBioresonanceTherapy; SearchString: string =''; Lang: string ='' ) : boolean ; overload;
 
-    procedure FillGridOfTherapies( EAPTherapies  : TEAPTherapies  );
-    procedure FillGridOfTherapies( IONSubstances : TIONSubstances );
-    procedure FillGridOfTherapies( EAVPaths      : TEAVPaths      );
+
+    procedure FillGridOfTherapies( Items : TEAPTherapies          ); overload;
+    procedure FillGridOfTherapies( Items : TIONSubstances         ); overload;
+    procedure FillGridOfTherapies( Items : TEAVPaths              ); overload;
+    procedure FillGridOfTherapies( Items : TBioresonanceTherapies ); overload;
+
     procedure LabelClickClick(Sender: TObject);
     procedure RadioButtonShowAllChange(Sender: TObject);
     procedure RadioButtonShowMeLikedChange(Sender: TObject);
-    procedure Search (SearchString : string; OnlyLiked : boolean = true);
+    procedure Search (SearchString : string; OnlyLiked : boolean = true; Lang: string ='');
     procedure StringGridCheckboxToggled(sender: TObject; aCol, aRow: Integer;
       aState: TCheckboxState);
 
@@ -68,11 +76,15 @@ type
     F_EAVPath : TEAVPath;
     F_EAVPaths : TEAVPaths;
 
+    F_BioresonanceTherapy : TBioresonanceTherapy;
+    F_BioresonanceTherapies : TBioresonanceTherapies;
+
     F_CurrentListType  : integer;
     F_Page : integer;
 
     F_idx : integer;
     F_LikedStr : string;
+    F_LangFilter : boolean;
 
   public
 
@@ -89,7 +101,39 @@ implementation
 
 { TFormChooseList }
 
-procedure TFormChooseList.FillGridOfTherapies(EAVPaths : TEAVPaths);
+procedure TFormChooseList.FillGridOfTherapies(Items : TBioresonanceTherapies);
+var i : integer;
+begin
+
+
+  with StringGrid do begin
+
+    Clear;
+    RowCount   := 1;
+
+    Columns[1].Width := 550;
+    Columns[2].Width := 500;
+    Columns[3].Width := 200;
+
+    Columns[1].Title.Caption := 'Therapy name';
+    Columns[2].Title.Caption := 'Therapy script';
+    Columns[3].Title.Caption := 'Devices';
+
+  end;
+
+  StringGrid.RowCount := Length(Items) + 1;
+
+  for i:= 0 to Length(Items)-1 do
+    with StringGrid do begin
+        Cells[0,i+1] := Items[i].Liked;
+        Cells[1,i+1] := Items[i].Name;
+        Cells[2,i+1] := Items[i].TherapyScript;
+        Cells[3,i+1] := Items[i].Devices;
+    end;
+
+end;
+
+procedure TFormChooseList.FillGridOfTherapies( Items : TEAVPaths );
 var i : integer;
 begin
 
@@ -109,17 +153,19 @@ begin
 
   end;
 
-  StringGrid.RowCount := Length(EAVPaths) + 1;
+  StringGrid.RowCount := Length(Items) + 1;
 
-  for i:= 0 to Length(EAVPaths)-1 do
+  for i:= 0 to Length(Items)-1 do
     with StringGrid do begin
-        Cells[0,i+1] := EAVPaths[i].Liked;
-        Cells[1,i+1] := EAVPaths[i].Name;
-        Cells[2,i+1] := EAVPaths[i].StrBAPs;
-        Cells[3,i+1] := EAVPaths[i].Description;
+        Cells[0,i+1] := Items[i].Liked;
+        Cells[1,i+1] := Items[i].Name;
+        Cells[2,i+1] := Items[i].StrBAPs;
+        Cells[3,i+1] := Items[i].Description;
     end;
 
 end;
+
+
 
 procedure TFormChooseList.LabelClickClick(Sender: TObject);
 begin
@@ -130,7 +176,7 @@ procedure TFormChooseList.RadioButtonShowAllChange(Sender: TObject);
 begin
   F_page := 0;
   LabelPage.Caption := IntToStr(F_Page);
-  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked);
+  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked, ComboBoxLanguage.Text);
 end;
 
 procedure TFormChooseList.RadioButtonShowMeLikedChange(Sender: TObject);
@@ -140,7 +186,7 @@ begin
 end;
 
 
-procedure TFormChooseList.FillGridOfTherapies(EAPTherapies:TEAPTherapies);
+procedure TFormChooseList.FillGridOfTherapies(Items:TEAPTherapies);
 var i : integer;
 begin
 
@@ -160,19 +206,19 @@ begin
 
   end;
 
-  StringGrid.RowCount := Length(EAPTherapies) + 1;
+  StringGrid.RowCount := Length(Items) + 1;
 
-  for i:= 0 to Length(EAPTherapies)-1 do
+  for i:= 0 to Length(Items)-1 do
     with StringGrid do begin
-        Cells[0,i+1] := EAPTherapies[i].Liked;
-        Cells[1,i+1] := EAPTherapies[i].Name;
-        Cells[2,i+1] := EAPTherapies[i].StrPoints;
-        Cells[3,i+1] := EAPTherapies[i].Description;
+        Cells[0,i+1] := Items[i].Liked;
+        Cells[1,i+1] := Items[i].Name;
+        Cells[2,i+1] := Items[i].StrPoints;
+        Cells[3,i+1] := Items[i].Description;
     end;
 
 end;
 
-procedure TFormChooseList.FillGridOfTherapies(IONSubstances:TIONSubstances);
+procedure TFormChooseList.FillGridOfTherapies(Items:TIONSubstances);
 var i : integer;
 begin
 
@@ -192,20 +238,20 @@ begin
 
   end;
 
-  StringGrid.RowCount := Length(IONSubstances) + 1;
+  StringGrid.RowCount := Length(Items) + 1;
 
-  for i:= 0 to Length(IONSubstances)-1 do
+  for i:= 0 to Length(Items)-1 do
     with StringGrid do begin
-        Cells[0,i+1] := IONSubstances[i].Liked;
-        Cells[1,i+1] := IONSubstances[i].Name;
-        Cells[2,i+1] := IONSubstances[i].ActiveElectrode;
-        Cells[3,i+1] := format( '%0.2f',[IONSubstances[i].MolarMass]);
+        Cells[0,i+1] := Items[i].Liked;
+        Cells[1,i+1] := Items[i].Name;
+        Cells[2,i+1] := Items[i].ActiveElectrode;
+        Cells[3,i+1] := format( '%0.2f',[Items[i].MolarMass]);
     end;
 
 end;
 
 
-procedure TFormChooseList.Search (SearchString : string; OnlyLiked : boolean = true);
+procedure TFormChooseList.Search (SearchString : string; OnlyLiked : boolean = true; Lang: string ='');
 var content : string;
           s : string;
    likedStr : string;
@@ -213,40 +259,78 @@ var content : string;
 begin
 
 
-  s := 'title=' + trim(SearchString) ;
-  if F_Page > 0 then s := s + '&page=' + IntToStr(F_Page);
+  try
 
-  F_LikedStr :=  GetLikedItems( F_CurrentListType );
+    Screen.Cursor := crHourGlass;
+    Application.ProcessMessages;
 
-  if OnlyLiked then likedStr := F_likedStr else likedStr := '';
-  GetContentFromREST( content,  LIST_REST_URLS[F_CurrentListType]  , s ,  likedStr  );
+    s := 'title=' + trim(SearchString) ;
 
-  case F_CurrentListType of
-      LIST_EAP_THERAPY : begin
-          F_EAPTherapy.Name:='';
-          setlength(F_EAPTherapy.Points,0);
-          F_EAPTherapy.StrPoints:='';
-          F_EAPTherapy.Description:='';
+    //Add language filter
+    if F_LangFilter then begin
+       s := s + '&langcode=' + trim(Lang);
 
-          GetEAPTherapiesFromContent( content, F_EAPTherapies, F_LikedStr);
-          FillGridOfTherapies(F_EAPTherapies);
-      end;
+       EditSearchString.Width   := 364;
+       LabelLanguage.Visible    := true;
+       ComboBoxLanguage.Visible := true;
+       ComboBoxLanguage.Text    := Lang;
+       F_LangFilter             := true;
 
-       LIST_ION_SUBSTANCES : begin
-          F_IONSubstance.Name:='';
+    end else begin
+       EditSearchString.Width   := 450;
+       LabelLanguage.Visible    := false;
+       ComboBoxLanguage.Visible := false;
+       ComboBoxLanguage.Text    := 'All';
+       F_LangFilter             := false;
 
-          GetIONSubstancesFromContent( content, F_IONSubstances, F_LikedStr);
-          FillGridOfTherapies(F_IONSubstances);
-      end;
+    end;
 
-       LIST_EAV_PATHS : begin
-          F_EAVPath.Name:='';
+    if F_Page > 0 then s := s + '&page=' + IntToStr(F_Page);
 
-          GetEAVPathsFromContent( content, F_EAVPaths, F_LikedStr);
-          FillGridOfTherapies(F_EAVPaths);
+    F_LikedStr :=  GetLikedItems( F_CurrentListType );
 
-       end;
+    if OnlyLiked then likedStr := F_likedStr else likedStr := '';
+    GetContentFromREST( content,  LIST_REST_URLS[F_CurrentListType]  , s ,  likedStr  );
 
+    case F_CurrentListType of
+        LIST_EAP_THERAPY : begin
+            F_EAPTherapy.Name:='';
+            setlength(F_EAPTherapy.Points,0);
+            F_EAPTherapy.StrPoints:='';
+            F_EAPTherapy.Description:='';
+
+            GetEAPTherapiesFromContent( content, F_EAPTherapies, F_LikedStr);
+            FillGridOfTherapies(F_EAPTherapies);
+        end;
+
+         LIST_ION_SUBSTANCES : begin
+            F_IONSubstance.Name:='';
+
+            GetIONSubstancesFromContent( content, F_IONSubstances, F_LikedStr);
+            FillGridOfTherapies(F_IONSubstances);
+        end;
+
+         LIST_EAV_PATHS : begin
+            F_EAVPath.Name:='';
+
+            GetEAVPathsFromContent( content, F_EAVPaths, F_LikedStr);
+            FillGridOfTherapies(F_EAVPaths);
+
+         end;
+
+         LIST_BIORESONANCE_THERAPY : begin
+            F_BioresonanceTherapy.Name:='';
+
+            GetBioresonanceTherapiesFromContent( content, F_BioresonanceTherapies, F_LikedStr);
+            FillGridOfTherapies(F_BioresonanceTherapies);
+
+         end;
+
+    end;
+
+  finally
+    Screen.Cursor := crDefault;
+    Application.ProcessMessages;
   end;
 
 end;
@@ -279,6 +363,12 @@ begin
 
           end;
 
+          LIST_BIORESONANCE_THERAPY:      begin
+             F_BioresonanceTherapies[F_idx].Liked := state;
+             ModifyLikedStr (F_LikedStr, F_CurrentListType, F_BioresonanceTherapies[F_idx].nid, state);
+
+          end;
+
      end;
 
 
@@ -287,8 +377,8 @@ end;
 
 
 
-function  TFormChooseList.GetItemFromList(var EAPTherapy: TEAPTherapy; SearchString: string ='' ) : boolean ; overload;
-(* elektros 2020-06-14
+function  TFormChooseList.GetItemFromList(var Item: TEAPTherapy; SearchString: string =''; Lang: string ='' ) : boolean ; overload;
+(* elektros 2020-06-20
  * Open choose window to select an EAP therapy from portal (via REST/JSON)
  *   SearchString - Search text contained in title
  *   result - true=was choosen
@@ -307,17 +397,17 @@ begin
   RadioButtonShowAll.Checked := (F_LikedStr = '');
   RadioButtonShowMeLiked.Checked := not (F_LikedStr = '');
 
-  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked);
+  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked, Lang);
 
   Self.ShowModal;
 
-  EAPTherapy:= F_EAPTherapy;
-  result := ( EAPTherapy.Name <> '' );
+  Item:= F_EAPTherapy;
+  result := ( Item.Name <> '' );
 
 end;
 
-function  TFormChooseList.GetItemFromList(var IonSubstance: TIonSubstance; SearchString: string ='') : boolean ; overload;
-(* elektros 2020-06-14
+function  TFormChooseList.GetItemFromList(var Item: TIonSubstance; SearchString: string =''; Lang: string ='') : boolean ; overload;
+(* elektros 2020-06-20
  * Open choose window to select an ION substance from portal (via REST/JSON)
  *   SearchString - Search text contained in title
  *   result - true=was choosen
@@ -337,16 +427,16 @@ begin
   RadioButtonShowAll.Checked := (F_LikedStr = '');
   RadioButtonShowMeLiked.Checked := not (F_LikedStr = '');
 
-  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked);
+  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked, Lang);
   Self.ShowModal;
 
-  IonSubstance:= F_IONSubstance;
-  result := ( IonSubstance.Name <> '' );
+  Item:= F_IONSubstance;
+  result := ( Item.Name <> '' );
 
 end;
 
-function  TFormChooseList.GetItemFromList(var EAVPath : TEAVPath; SearchString: string ='') : boolean ; overload;
-(* elektros 2020-06-14
+function  TFormChooseList.GetItemFromList(var Item : TEAVPath; SearchString: string =''; Lang: string ='') : boolean ; overload;
+(* elektros 2020-06-20
  * Open choose window to select an EAV Paths from portal (via REST/JSON)
  *   SearchString - Search text contained in title
  *   result - true=was choosen
@@ -366,13 +456,44 @@ begin
   RadioButtonShowAll.Checked := (F_LikedStr = '');
   RadioButtonShowMeLiked.Checked := not (F_LikedStr = '');
 
-  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked);
+  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked, Lang);
   Self.ShowModal;
 
-  EAVPath := F_EAVPath;
-  result := ( EAVPath.Name <> '' );
+  Item := F_EAVPath;
+  result := ( Item.Name <> '' );
 
 end;
+
+function  TFormChooseList.GetItemFromList(var Item : TBioresonanceTherapy; SearchString: string =''; Lang: string ='') : boolean ; overload;
+(* elektros 2020-06-20
+ * Open choose window to select an Bioresonance Therapy from portal (via REST/JSON)
+ *   SearchString - Search text contained in title
+ *   result - true=was choosen
+ *)
+begin
+
+  result:= false;
+  F_CurrentListType := LIST_BIORESONANCE_THERAPY;
+
+  Caption := 'Search EAV Paths';
+
+  F_Page := 0;
+
+  F_LikedStr:=GetLikedItems( F_CurrentListType );
+
+  //Select right case of radio buttons
+  RadioButtonShowAll.Checked := (F_LikedStr = '');
+  RadioButtonShowMeLiked.Checked := not (F_LikedStr = '');
+
+  F_LangFilter:= true;
+  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked, Lang);
+  Self.ShowModal;
+
+  Item := F_BioresonanceTherapy;
+  result := ( Item.Name <> '' );
+
+end;
+
 
 
 procedure TFormChooseList.ButtonChooseClick(Sender: TObject);
@@ -401,7 +522,12 @@ begin
 
   //if RadioButtonShowAll.Checked then F_LikedStr := '' else GetLikedItems( F_CurrentListType );
 
-  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked);
+  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked, ComboBoxLanguage.Text);
+
+end;
+
+procedure TFormChooseList.ComboBoxLanguageChange(Sender: TObject);
+begin
 
 end;
 
@@ -426,10 +552,19 @@ begin
 
 end;
 
+procedure TFormChooseList.FormClose(Sender: TObject;
+  var CloseAction: TCloseAction);
+begin
+  F_LangFilter := false;
+end;
+
 procedure TFormChooseList.FormCreate(Sender: TObject);
 begin
- F_idx := 0;
- F_LikedStr := '';
+
+ F_idx         := 0;
+ F_LikedStr    := '';
+ F_LangFilter := false;
+
 end;
 
 
@@ -452,7 +587,7 @@ begin
   if F_Page < 0 then F_Page := 0;
   LabelPage.Caption := IntToStr(F_Page);
 
-  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked);
+  Search(EditSearchString.Text, RadioButtonShowMeLiked.Checked, ComboBoxLanguage.Text );
 
 end;
 
@@ -464,7 +599,7 @@ begin
 
   LabelPage.Caption := IntToStr(F_Page);
 
-  Search(EditSearchString.Text,RadioButtonShowMeLiked.Checked);
+  Search(EditSearchString.Text,RadioButtonShowMeLiked.Checked, ComboBoxLanguage.Text);
 
 end;
 
