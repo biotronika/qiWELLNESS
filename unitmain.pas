@@ -11,7 +11,7 @@ uses
   lazfileutils, bioREST, bioReadings, TADrawUtils, TACustomSeries;
 
 const
-  SOFTWARE_VERSION = '2020-06-29 (alpha)';
+  SOFTWARE_VERSION = '2020-07-03 (alpha)';
 
 type
 
@@ -222,6 +222,7 @@ type
     procedure ButtonLoadPathClick(Sender: TObject);
     procedure ButtonSavePathClick(Sender: TObject);
     procedure ButtonSaveReadingClick(Sender: TObject);
+
 
 
     procedure ButtonVegatestEditClick(Sender: TObject);
